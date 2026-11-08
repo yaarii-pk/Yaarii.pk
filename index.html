@@ -1,0 +1,106 @@
+<html>
+        <head><title>Downloaded HTML</title></head>
+        <body>
+            <pre style="white-space: pre-wrap; word-wrap: break-word;"><!DOCTYPE html>
+<html lang="ur">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yaarii-PK 👑 - Awaz Wala</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:#000;color:#fff;padding-top:112px;padding-bottom:90px}
+.top{position:fixed;top:0;left:0;right:0;height:62px;background:#0a0a0a;border-bottom:2px solid #FFD700;padding:8px;text-align:center;z-index:100}
+.top h1{color:#FFD700;font-size:24px;line-height:26px}.top h1 span{color:#fff}
+.top p{font-size:11px;color:#aaa}
+.nav{position:fixed;top:62px;left:0;right:0;height:50px;display:flex;overflow-x:auto;background:#111;border-bottom:1px solid #FFD700;z-index:99}
+.nav button{flex:1;white-space:nowrap;background:none;border:none;color:#ccc;padding:12px 6px;font-weight:bold;cursor:pointer;position:relative}
+.nav button.active{color:#000;background:#FFD700}
+.card{background:#111;border:1.5px solid #FFD700;border-radius:14px;margin:10px;padding:12px}
+input,select,textarea{width:100%;background:#000;color:#fff;border:1.5px solid #FFD700;border-radius:10px;padding:11px;margin:6px 0;outline:none}
+button.btn{background:#FFD700;color:#000;border:none;padding:11px;border-radius:10px;font-weight:bold;width:100%;cursor:pointer;margin-top:6px}
+button.btn2{background:#222;color:#FFD700;border:1px solid #FFD700;padding:8px 10px;border-radius:20px;cursor:pointer;margin:2px}
+.small{font-size:12px;color:#aaa}
+.dp{width:52px;height:52px;border-radius:50%;border:2px solid #FFD700;display:flex;align-items:center;justify-content:center;font-size:26px;background:#222;overflow:hidden;flex-shrink:0}
+.dp img{width:100%;height:100%;object-fit:cover}
+.dp-leader{border:3px solid #FFD700;box-shadow:0 0 0 3px #000,0 0 15px #FFD700,0 0 30px #FFD700;animation:lightning 1.2s infinite}
+@keyframes lightning{0%,100%{box-shadow:0 0 5px #FFD700,0 0 15px #FFD700}50%{box-shadow:0 0 20px #fff,0 0 40px #FFD700}}
+.leader-frame{border:2px solid #FFD700;box-shadow:0 0 20px #FFD700}
+.flex{display:flex;gap:10px;align-items:center}.badge{background:#FFD700;color:#000;font-size:11px;padding:2px 7px;border-radius:20px;font-weight:bold}.online{width:10px;height:10px;background:#00ff00;border-radius:50%;display:inline-block}
+.chip{display:inline-block;background:#000;border:1px solid #FFD700;color:#FFD700;padding:6px 10px;border-radius:20px;margin:3px;font-size:12px;cursor:pointer}.chip.active{background:#FFD700;color:#000}
+.bottom{position:fixed;bottom:0;left:0;right:0;background:#0a0a0a;border-top:2px solid #FFD700;display:flex;z-index:100}.bottom button{flex:1;background:none;border:none;color:#FFD700;padding:10px 2px;font-size:12px;cursor:pointer;position:relative}.bottom button b{display:block;font-size:18px}
+.hidden{display:none}.post-img{width:100%;border-radius:10px;margin-top:8px;border:1px solid #FFD700;max-height:300px;object-fit:cover}.msg{background:#000;border:1px solid #333;border-radius:10px;padding:8px;margin:5px 0}
+.notif-dot{position:absolute;top:2px;right:8px;background:red;color:#fff;font-size:11px;padding:1px 6px;border-radius:50%;font-weight:bold;z-index:5}
+.notif-box{background:#220000;border:1px solid red;border-radius:10px;padding:10px;margin:10px;margin-top:0}
+.mehfil-card{background:#1a1500;border:1.5px solid #FFD700;border-radius:14px;padding:12px;margin:10px 0;cursor:pointer}
+.mehfil-room{background:#0a0a0a;border:2px solid #FFD700;border-radius:14px;padding:12px;margin:10px}
+.chat-bubble{background:#111;border:1px solid #333;border-radius:12px;padding:10px;margin:6px 0}
+.chat-bubble.me{background:#2a2000;border-color:#FFD700}
+.member-row{display:flex;align-items:center;gap:8px;background:#000;border:1px solid #333;border-radius:20px;padding:6px 10px;margin:4px 0}
+.story-bar{display:flex;gap:10px;overflow-x:auto;padding:5px 0}
+.story-item{text-align:center;min-width:70px;cursor:pointer}
+.story-item .dp{width:60px;height:60px;border:3px solid #ff00aa;margin:auto}
+.gift-box{background:#2a1000;border:1px solid #ff8800;border-radius:10px;padding:8px;margin:5px 0}
+.poll-box{background:#001a00;border:1px solid #00ff00;border-radius:10px;padding:10px;margin:8px 0}
+.rank-1{background:#FFD700;color:#000;border-radius:10px;padding:8px;margin:5px 0;font-weight:bold}
+.sound-btn{background:#FFD700;color:#000;border:none;padding:4px 10px;border-radius:20px;font-weight:bold;cursor:pointer;font-size:12px}
+</style>
+</head>
+<body>
+<div class="top"><h1>YAARII<span>-PK</span> 👑</h1><p>🟢 <span id="onlineCount">0 Online</span> • <span id="conn">Connecting...</span> • 🏆 <span id="kingName">King: -</span> • <button class="sound-btn" id="soundBtn" onclick="toggleSound()">🔊 AWAZ ON</button></p></div>
+<div id="notifArea" style="position:fixed;top:112px;left:0;right:0;z-index:90"></div>
+
+<div id="authBox" class="card">
+<h2 style="color:#FFD700">Yaarii-PK Mehfil</h2>
+<div id="loginForm"><input id="lUser" placeholder="Username" value="Leader"><input id="lPass" type="password" placeholder="Password"><button class="btn" onclick="login()">LOGIN →</button><p class="small" style="text-align:center;margin-top:8px">Naya ho? <a href="#" onclick="showSignup()">Signup karo</a></p></div>
+<div id="signupForm" class="hidden">
+<input id="sUser" placeholder="Username"><input id="sPass" type="password" placeholder="Password"><input id="sAge" type="number" placeholder="Age">
+<select id="sCity"><option>Lahore</option><option>Karachi</option><option>Islamabad</option><option>Rawalpindi</option><option>Multan</option><option>Faisalabad</option><option>Hyderabad</option><option>Peshawar</option><option>Quetta</option><option>Sialkot</option><option>Gujranwala</option><option>Bahawalpur</option><option>Other</option></select>
+<select id="sStar"><option>Aries ♈</option><option>Taurus ♉</option><option>Gemini ♊</option><option>Cancer ♋</option><option>Leo ♌</option><option>Virgo ♍</option><option>Libra ♎</option><option>Scorpio ♏</option><option>Sagittarius ♐</option><option>Capricorn ♑</option><option>Aquarius ♒</option><option>Pisces ♓</option></select>
+<p class="small" style="color:#FFD700">👇 DP - Apni Marzi Ki Photo</p>
+<input type="file" id="sDpFile" accept="image/*" onchange="previewDp(this,'sDpPreview')"><div class="dp" id="sDpPreview" style="margin:auto">😎</div>
+<select id="sDP"><option value="😎">😎 DP</option><option value="👑">👑 DP</option><option value="👸">👸 DP</option><option value="😈">😈 DP</option><option value="🦁">🦁 DP</option><option value="🌹">🌹 DP</option><option value="💎">💎 DP</option><option value="🔥">🔥 DP</option></select>
+<input id="sBio" placeholder="Bio"><button class="btn" onclick="signup()">SIGNUP 🎉</button><p class="small" style="text-align:center"><a href="#" onclick="showLogin()">Login pe wapas</a></p></div>
+</div>
+
+<div id="app" class="hidden">
+<div class="nav">
+<button class="active" onclick="showTab('home',this)">🏠 HOME</button>
+<button onclick="showTab('mehfil',this)">🎭 MEHFIL</button>
+<button onclick="showTab('trending',this)">🔥 TRENDING</button>
+<button onclick="showTab('inbox',this)">💬 INBOX <span id="inboxBadgeTop" class="notif-dot hidden">0</span></button>
+<button onclick="showTab('online',this)">🟢 ONLINE</button>
+<button onclick="showTab('profile',this)">👤 PROFILE</button>
+</div>
+
+<div id="tab-home">
+<div class="card" style="border-color:#ff00aa"><h3>📸 Stories - 24 Ghante Wali</h3><div class="story-bar" id="storyBar"></div><input id="storyText" placeholder="Apni Story likho..."><button class="btn2" onclick="addStory()">Story Lagao 📸</button></div>
+<div class="card" style="background:#2a2000"><h3>🎁 Rozana Inam - Daily Bonus</h3><p class="small">Roz ek dafa click karo, +10 ⭐ free milenge</p><button class="btn" onclick="claimDaily()">🎁 AAJ KA INAM LO +10 ⭐</button><p class="small" id="dailyStatus"></p></div>
+<div class="card"><h3>🏆 Leaderboard - King of Yaarii</h3><div id="leaderboard"></div></div>
+<div class="card"><div class="flex"><div class="dp" id="myDpMini">😎</div><div><b id="myNameShow"></b><br><span class="small" id="myCityShow"></span></div><span class="badge" id="myPoints">0 ⭐</span></div>
+<div style="margin-top:10px"><span class="chip active" onclick="setFilter('all',this)">🏠 HOME - Sab</span><span class="chip" onclick="setFilter('text',this)">📝 TEXT</span><span class="chip" onclick="setFilter('pic',this)">🖼️ PICS</span></div>
+<textarea id="postText" placeholder="Mehfil me kuch likho... @kisi ko mention karo"></textarea><input type="file" id="postPic" accept="image/*"><select id="postCat"><option>Poetry</option><option>Funny Jokes</option><option>Sad Poetry</option><option>Attitude Status</option><option>Boys vs Girls</option><option>Love</option></select><button class="btn" onclick="addPost()">POST KARO → +1 ⭐</button></div>
+<div class="card"><h3>📊 Poll Banao - Voting</h3><input id="pollQ" placeholder="Sawal - jaise Kon Best hai?"><input id="pollA" placeholder="Option 1"><input id="pollB" placeholder="Option 2"><button class="btn" onclick="createPoll()">POLL BANAO 📊</button><div id="pollList"></div></div>
+<div id="postsList"></div></div>
+
+<div id="tab-mehfil" class="hidden">
+<div class="card"><h3 style="color:#FFD700">🎭 Mehfil Banao - Apni Khud Ki</h3><input id="newMehfilName" placeholder="Mehfil ka naam"><input id="newMehfilDesc" placeholder="Mehfil kis bare me hai?"><button class="btn" onclick="createMehfil()">MEHFIL BANAO +</button></div>
+<div id="mehfilRoom" class="hidden"><div class="mehfil-room"><div class="flex"><button class="btn2" onclick="closeMehfil()">⬅ Wapas</button><div><h3 id="roomTitle" style="color:#FFD700">Mehfil</h3><p class="small" id="roomDesc"></p></div></div>
+<div class="card" style="margin:10px 0"><h4>👥 Is Mehfil Ke Members</h4><div id="roomMembers"></div></div>
+<div class="card" style="margin:10px 0"><h4>💬 Mehfil Ki Gupshup</h4><div id="roomChat" style="max-height:350px;overflow-y:auto"></div><input id="roomChatInput" placeholder="Is mehfil me kuch likho..."><button class="btn" onclick="sendRoomChat()">SEND IN MEHFIL 💬</button></div></div></div>
+<div id="mehfilListWrap"><div class="card"><h3>🎭 Saari Mehfilen - Click Karke Andar Jao</h3><div id="mehfilList"></div></div></div>
+<div class="card"><h3>🎭 Explore Mehfil</h3><div id="cats"></div></div><div id="mehfilPosts"></div></div>
+
+<div id="tab-trending" class="hidden"><div class="card"><h3>🔥 Trending - Sab Se Zyada Like Wali</h3></div><div id="trendingList"></div></div>
+
+<div id="tab-inbox" class="hidden"><div class="card"><h3>💬 Inbox <span id="inboxBadgeIn" class="badge hidden" style="background:red;color:#fff">0 New</span></h3><p class="small">Sirf Username aayega - City nahi aayegi</p><select id="inboxTo"></select><input id="inboxMsg" placeholder="Message likho..."><button class="btn" onclick="sendMsg()">SEND</button><div id="inboxList"></div><div class="card"><h4>🎁 Gift Bhejo</h4><select id="giftTo"></select><select id="giftType"><option>🌹 Gulab - 5 ⭐</option><option>💎 Heera - 10 ⭐</option><option>👑 Taj - 20 ⭐</option><option>🔥 Fire - 15 ⭐</option></select><button class="btn" onclick="sendGift()">GIFT BHEJO 🎁</button><div id="giftList"></div></div></div></div>
+
+<div id="tab-online" class="hidden"><div class="card"><h3>🟢 Online Users</h3><div id="onlineList"></div></div></div>
+
+<div id="tab-profile" class="hidden">
+<div class="card" style="text-align:center" id="profileCard"><p class="small" style="color:#FFD700">👤 PROFILE • DP</p><div class="dp" style="width:100px;height:100px;font-size:50px;margin:auto" id="pDp">😎</div><h2 id="pName"></h2><p class="small"><span id="pAge"></span> • <span id="pCity"></span> • <span id="pStar"></span></p><p id="pBio" class="small"></p><p><span class="badge" id="pPoints"></span> <span class="badge" id="pPosts"></span> <span class="badge" id="pRole"></span> <span class="badge" id="pRank"></span></p>
+<p class="small" style="color:#FFD700;margin-top:10px">👇 Apni DP Change Karo</p><input type="file" id="changeDpFile" accept="image/*"><button class="btn2" onclick="changeDp()">📸 DP Change Karo</button><br><br>
+<select id="editCity"><option>Lahore</option><option>Karachi</option><option>Islamabad</option><option>Rawalpindi</option><option>Multan</option><option>Faisalabad</option><option>Hyderabad</option><option>Peshawar</option><option>Quetta</option><option>Sialkot</option><option>Gujranwala</option><option>Bahawalpur</option></select>
+<select id="editStar"><option>Aries ♈</option><option>Taurus ♉</option><option>Gemini ♊</option><option>Cancer ♋</option><option>Leo ♌</option><option>Virgo ♍</option><option>Libra ♎</option><option>Scorpio ♏</option><option>Sagittarius ♐</option><option>Capricorn</pre>
+        </body>
+    </html>
