@@ -65,9 +65,7 @@ button.main{background:#d4af37;color:#000;border:none;padding:11px;border-radius
 <button class="main" onclick="addPost()">Post Karo</button>
 </div>
 <div id="posts"></div>
-</div>
-
-<script>
+  </div><script>
 var firebaseConfig = {
   apiKey: "AIzaSyDK8_8TXQE5IJ6dVfm3_yFd99IpxbfidRk",
   authDomain: "yaari-pk.firebaseapp.com",
@@ -81,9 +79,7 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 var db = firebase.database();
 var currentUser=null, currentProfile=null, currentFilter='All', allPosts={};
-
 function togglePass(){ var p=document.getElementById('password'); p.type=p.type==='password'?'text':'password'; }
-
 function signup(){
   document.getElementById('authMsg').innerText="Signup dab gaya... wait karo...";
   var u=document.getElementById('username').value.trim();
@@ -110,7 +106,7 @@ function login(){
   var id=u.toLowerCase().replace(/\s+/g,'_');
   db.ref('users/'+id).get().then(function(snap){
     if(!snap.exists()){ document.getElementById('authMsg').innerText="Account nahi mila, pehle Signup karo"; return; }
-    var data=snap.val();
+        var data=snap.val();
     if(data.password!==p){ document.getElementById('authMsg').innerText="Password galat hai"; return; }
     currentUser=id; currentProfile=data;
     localStorage.setItem("yaarii_login",id);
