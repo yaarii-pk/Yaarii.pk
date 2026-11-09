@@ -25,34 +25,30 @@ button.main{background:#d4af37;color:#000;border:none;padding:11px;border-radius
 .like{cursor:pointer;color:#d4af37}
 .hidden{display:none}
 .pass-wrap{position:relative}
-.eye{position:absolute;right:10px;top:18px;cursor:pointer;font-size:20px}
+.eye{position:absolute;right:10px;top:18px;cursor:pointer;font-size:20px;z-index:2}
 </style>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 </head>
 <body>
-<header>
-<h1>👑 YAARII-PK</h1>
-<p>Apni Mehfil - Apni Yaari</p>
-</header>
+<header><h1>👑 YAARII-PK</h1><p>Apni Mehfil - Apni Yaari</p></header>
 <nav>
-<button onclick="filterTopic('All')" class="active">All</button>
-<button onclick="filterTopic('Poetry')">Poetry</button>
-<button onclick="filterTopic('Jokes')">Funny Jokes</button>
-<button onclick="filterTopic('Sad')">Sad Poetry</button>
-<button onclick="filterTopic('Mehfil')">Mehfil</button>
+<button onclick="filterTopic('All',this)" class="active">All</button>
+<button onclick="filterTopic('Poetry',this)">Poetry</button>
+<button onclick="filterTopic('Funny Jokes',this)">Funny Jokes</button>
+<button onclick="filterTopic('Sad Poetry',this)">Sad Poetry</button>
+<button onclick="filterTopic('Mehfil',this)">Mehfil</button>
 <button onclick="showProfile()">My Profile</button>
 </nav>
 <div class="container">
-<div class="card" id="authCard">
+<div class="card">
 <h3 style="color:#d4af37;margin:0">Login / Signup</h3>
 <input id="username" placeholder="Username likho - jaise Leader NM">
-<div class="pass-wrap">
-<input id="password" type="password" placeholder="Password likho">
-<span class="eye" onclick="togglePass()">👁️</span>
-</div>
+<div class="pass-wrap"><input id="password" type="password" placeholder="Password likho"><span class="eye" onclick="togglePass()">👁️</span></div>
 <button class="main" onclick="signup()">Signup Karo</button>
 <button class="main" style="background:#222;color:#d4af37;border:1px solid #d4af37" onclick="login()">Login Karo</button>
 <button class="main" style="background:#222;color:#fff" onclick="logout()">Logout</button>
-<p class="small" id="authMsg"></p>
+<p class="small" id="authMsg">Status: Ready...</p>
 </div>
 <div class="card hidden" id="profileCard">
 <h3 style="color:#d4af37;margin:0">Profile Update</h3>
@@ -70,11 +66,9 @@ button.main{background:#d4af37;color:#000;border:none;padding:11px;border-radius
 </div>
 <div id="posts"></div>
 </div>
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, query, orderBy, doc, setDoc, getDoc, updateDoc, deleteDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-const firebaseConfig = {
+<script>
+var firebaseConfig = {
   apiKey: "AIzaSyDK8_8TXQE5IJ6dVfm3_yFd99IpxbfidRk",
   authDomain: "yaari-pk.firebaseapp.com",
   databaseURL: "https://yaari-pk-default-rtdb.firebaseio.com",
@@ -84,98 +78,87 @@ const firebaseConfig = {
   appId: "1:1043598133610:web:c5e2b5953d76d2601dbd13",
   measurementId: "G-8HLV166GGR"
 };
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-let currentUser=null, currentProfile=null, currentFilter='All';
+firebase.initializeApp(firebaseConfig);
+var db = firebase.database();
+var currentUser=null, currentProfile=null, currentFilter='All', allPosts={};
 
-window.togglePass = ()=>{
-  let p = document.getElementById('password');
-  p.type = p.type==='password' ? 'text' : 'password';
-}
+function togglePass(){ var p=document.getElementById('password'); p.type=p.type==='password'?'text':'password'; }
 
-// USERNAME + PASSWORD SYSTEM - NO EMAIL
-window.signup = async()=>{
-  let u = username.value.trim();
-  let p = password.value.trim();
-  if(!u || !p) return authMsg.innerText="Username aur Password dono likho";
-  if(p.length < 4) return authMsg.innerText="Password kam se kam 4 ka rakho";
-  let id = u.toLowerCase().replace(/\s+/g,'_');
-  let snap = await getDoc(doc(db,"users",id));
-  if(snap.exists()) return authMsg.innerText="Ye username pehle se hai, koi aur rakho";
-  let isAdmin = (u === "Leader NM");
-  await setDoc(doc(db,"users",id),{username:u, password:p, bio:"", pic:"", isAdmin:isAdmin});
-  localStorage.setItem("yaarii_user", id);
-  currentProfile={username:u, password:p, bio:"", pic:"", isAdmin:isAdmin};
-  currentUser=id;
-  showLoggedIn();
-  authMsg.innerText="Signup ho gaya! Welcome "+u;
-}
-window.login = async()=>{
-  let u = username.value.trim();
-  let p = password.value.trim();
-  if(!u || !p) return authMsg.innerText="Username aur Password likho";
-  let id = u.toLowerCase().replace(/\s+/g,'_');
-  let snap = await getDoc(doc(db,"users",id));
-  if(!snap.exists()) return authMsg.innerText="Ye account nahi mila, pehle Signup karo";
-  let data = snap.data();
-  if(data.password !== p) return authMsg.innerText="Password galat hai";
-  localStorage.setItem("yaarii_user", id);
-  currentUser=id; currentProfile=data;
-  showLoggedIn();
-  authMsg.innerText="Welcome back "+data.username+"!";
-}
-window.logout = ()=>{ localStorage.removeItem("yaarii_user"); location.reload(); }
-
-function showLoggedIn(){
-  profileCard.classList.remove('hidden');
-  myName.innerHTML = currentProfile.username + (currentProfile.isAdmin ? ' 👑 <span class=badge>LEADER</span>' : '');
-  myBioShow.innerText = currentProfile.bio||"";
-  if(currentProfile.pic) myPic.src=currentProfile.pic;
-  loadPosts();
-}
-window.updateProfile = async()=>{
-  if(!currentUser) return alert("Pehle login karo");
-  await updateDoc(doc(db,"users",currentUser),{bio:bio.value, pic:picUrl.value});
-  alert("Profile update ho gaya!"); location.reload();
-}
-window.addPost = async()=>{
-  if(!currentUser) return alert("Pehle login karo jani");
-  if(!postText.value) return alert("Kuch likho to sahi");
-  await addDoc(collection(db,"posts"),{text:postText.value, img:postImg.value, topic:topic.value, uid:currentUser, username:currentProfile?.username||"User", pic:currentProfile?.pic||"", isAdmin:currentProfile?.isAdmin||false, likes:0, time:serverTimestamp()});
-  postText.value=""; postImg.value=""; loadPosts();
-}
-window.filterTopic = (t)=>{ currentFilter=t; document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active')); event.target.classList.add('active'); loadPosts(); }
-window.showProfile = ()=>{ profileCard.classList.remove('hidden'); window.scrollTo(0,0); }
-window.likePost = async(id,likes)=>{ await updateDoc(doc(db,"posts",id),{likes:likes+1}); loadPosts(); }
-window.deletePost = async(id)=>{
-  if(!currentProfile?.isAdmin) return alert("Sirf Admin delete kar sakta hai");
-  if(confirm("Delete kar dun?")){ await deleteDoc(doc(db,"posts",id)); loadPosts(); }
-}
-async function loadPosts(){
-  try{
-    const q = query(collection(db,"posts"), orderBy("time","desc"));
-    const snap = await getDocs(q);
-    let html="";
-    snap.forEach(d=>{
-      const p=d.data();
-      if(currentFilter!=='All' && !p.topic.includes(currentFilter) && p.topic!==currentFilter) return;
-      const crown = p.isAdmin ? ' 👑 <span class=badge>LEADER • ADMIN</span>' : '';
-      const delBtn = currentProfile?.isAdmin ? `<button onclick="deletePost('${d.id}')" style="background:red;color:#fff;border:none;padding:5px 10px;border-radius:8px;margin-top:8px">Delete (Admin)</button>` : '';
-      html+=`<div class="card"><div class="flex"><img class="avatar" src="${p.pic||'https://via.placeholder.com/100'}"><div><b>${p.username}</b>${crown}<br><span class="small">${p.topic}</span></div></div><p>${p.text}</p>${p.img?`<img class="post-img" src="${p.img}">`:''}<div style="margin-top:10px"><span class="like" onclick="likePost('${d.id}',${p.likes||0})">❤️ ${p.likes||0} Like</span> &nbsp; 💬 Comment</div>${delBtn}</div>`;
+function signup(){
+  document.getElementById('authMsg').innerText="Signup dab gaya... wait karo...";
+  var u=document.getElementById('username').value.trim();
+  var p=document.getElementById('password').value.trim();
+  if(!u||!p){ document.getElementById('authMsg').innerText="Username aur Password dono likho"; return; }
+  var id=u.toLowerCase().replace(/\s+/g,'_');
+  db.ref('users/'+id).get().then(function(snap){
+    if(snap.exists()){ document.getElementById('authMsg').innerText="Ye username pehle se hai"; return; }
+    var isAdmin=(u==="Leader NM");
+    var data={username:u,password:p,bio:"",pic:"",isAdmin:isAdmin};
+    db.ref('users/'+id).set(data).then(function(){
+      currentUser=id; currentProfile=data;
+      localStorage.setItem("yaarii_login",id);
+      document.getElementById('authMsg').innerText="Signup ho gaya! Welcome "+u+" 👑";
+      showLoggedIn();
     });
-    posts.innerHTML = html || "<p style='text-align:center;color:#888'>Abhi koi post nahi, pehli post tum karo!</p>";
-  }catch(e){ posts.innerHTML="<p style='text-align:center;color:#ff6b6b'>Firestore Database abhi bana nahi. Firebase me ja ke Firestore Database > Create Database > Test mode kar do.</p>"; }
+  }).catch(function(e){ document.getElementById('authMsg').innerText="Error: "+e.message; });
 }
-async function checkLogin(){
-  let saved = localStorage.getItem("yaarii_user");
-  if(saved){
-    let snap = await getDoc(doc(db,"users",saved));
-    if(snap.exists()){ currentUser=saved; currentProfile=snap.data(); showLoggedIn(); return; }
-  }
-  loadPosts();
+function login(){
+  document.getElementById('authMsg').innerText="Login dab gaya... wait karo...";
+  var u=document.getElementById('username').value.trim();
+  var p=document.getElementById('password').value.trim();
+  if(!u||!p){ document.getElementById('authMsg').innerText="Username aur Password likho"; return; }
+  var id=u.toLowerCase().replace(/\s+/g,'_');
+  db.ref('users/'+id).get().then(function(snap){
+    if(!snap.exists()){ document.getElementById('authMsg').innerText="Account nahi mila, pehle Signup karo"; return; }
+    var data=snap.val();
+    if(data.password!==p){ document.getElementById('authMsg').innerText="Password galat hai"; return; }
+    currentUser=id; currentProfile=data;
+    localStorage.setItem("yaarii_login",id);
+    document.getElementById('authMsg').innerText="Welcome back "+data.username+"!";
+    showLoggedIn();
+  }).catch(function(e){ document.getElementById('authMsg').innerText="Error: "+e.message; });
 }
-checkLogin();
-window.loadPosts=loadPosts;
+function logout(){ localStorage.removeItem("yaarii_login"); location.reload(); }
+function showLoggedIn(){
+  if(!currentProfile) return;
+  document.getElementById('profileCard').classList.remove('hidden');
+  document.getElementById('myName').innerHTML=currentProfile.username+(currentProfile.isAdmin?' 👑 <span class="badge">LEADER</span>':'');
+  document.getElementById('myBioShow').innerText=currentProfile.bio||"";
+  if(currentProfile.pic) document.getElementById('myPic').src=currentProfile.pic;
+  renderPosts();
+}
+function updateProfile(){
+  if(!currentUser) return alert("Pehle login karo");
+  db.ref('users/'+currentUser).update({bio:document.getElementById('bio').value,pic:document.getElementById('picUrl').value}).then(function(){ alert("Profile update ho gaya!"); location.reload(); });
+}
+function addPost(){
+  if(!currentUser) return alert("Pehle login karo jani");
+  if(!document.getElementById('postText').value.trim()) return alert("Kuch likho to sahi");
+  db.ref('posts').push({text:document.getElementById('postText').value,img:document.getElementById('postImg').value,topic:document.getElementById('topic').value,username:currentProfile.username,pic:currentProfile.pic||"",isAdmin:currentProfile.isAdmin||false,likes:0,time:Date.now()});
+  document.getElementById('postText').value=""; document.getElementById('postImg').value="";
+}
+function filterTopic(t,btn){ currentFilter=t; document.querySelectorAll('nav button').forEach(function(b){b.classList.remove('active')}); if(btn) btn.classList.add('active'); renderPosts(); }
+function showProfile(){ document.getElementById('profileCard').classList.remove('hidden'); window.scrollTo(0,0); }
+function likePost(id){ var cur=(allPosts[id]&&allPosts[id].likes)||0; db.ref('posts/'+id).update({likes:cur+1}); }
+function deletePost(id){
+  if(!currentProfile||!currentProfile.isAdmin) return alert("Sirf Admin delete kar sakta hai");
+  if(confirm("Delete kar dun?")) db.ref('posts/'+id).remove();
+}
+function renderPosts(){
+  var list=Object.entries(allPosts).sort(function(a,b){ return (b[1].time||0)-(a[1].time||0) });
+  var html="";
+  list.forEach(function(item){
+    var id=item[0]; var p=item[1];
+    if(currentFilter!=='All' && p.topic!==currentFilter) return;
+    var crown=p.isAdmin?' 👑 <span class="badge">LEADER • ADMIN</span>':'';
+    var delBtn=(currentProfile&&currentProfile.isAdmin)?'<button onclick="deletePost(\''+id+'\')" style="background:red;color:#fff;border:none;padding:5px 10px;border-radius:8px;margin-top:8px">Delete (Admin)</button>':'';
+    html+='<div class="card"><div class="flex"><img class="avatar" src="'+(p.pic||'https://via.placeholder.com/100')+'"><div><b>'+p.username+'</b>'+crown+'<br><span class="small">'+p.topic+'</span></div></div><p>'+p.text+'</p>'+(p.img?'<img class="post-img" src="'+p.img+'">':'')+'<div style="margin-top:10px"><span class="like" onclick="likePost(\''+id+'\')">❤️ '+(p.likes||0)+' Like</span></div>'+delBtn+'</div>';
+  });
+  document.getElementById('posts').innerHTML=html||"<p style='text-align:center;color:#888'>Abhi koi post nahi, pehli post tum karo!</p>";
+}
+db.ref('posts').on('value', function(snap){ allPosts=snap.val()||{}; renderPosts(); });
+var saved=localStorage.getItem("yaarii_login");
+if(saved){ db.ref('users/'+saved).get().then(function(snap){ if(snap.exists()){ currentUser=saved; currentProfile=snap.val(); showLoggedIn(); } }); }
 </script>
 </body>
 </html>
