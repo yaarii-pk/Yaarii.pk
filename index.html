@@ -6,7 +6,7 @@
 <title>Yaarii-PK 👑</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#000;color:#fff;font-family:Arial;padding-bottom:80px;padding-top:50px}
+body{background:#000;color:#fff;font-family:Arial;padding-bottom:80px;padding-top:52px}
 a{color:#FFD700}
 .top{position:fixed;top:0;left:0;right:0;z-index:99;background:#000;padding:11px 12px;display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #FFD700}
 .top b{color:#FFD700;font-size:22px}
@@ -66,106 +66,122 @@ input,select,textarea{width:100%;padding:12px;margin:6px 0;background:#1a1a1a;bo
 </div>
 
 <div id="page-share" class="hidden">
-<div class="card" style="text-align:center"><h2 style="color:#FFD700">پوسٹ بناؤ</h2><p class="small">ٹیکسٹ یا تصویر شیئر کرو</p></div>
-<div class="card"><h3>کیٹیگری</h3><select id="postCat"></select><h3>تصویر</h3><input type="file" id="postPic" accept="image/*"><h3>کیپشن</h3><textarea id="postText" placeholder="اس تصویر کے بارے میں لکھو..."></textarea><button type="button" class="btnGold" onclick="addPost()">پوسٹ کرو 🚀 ( +1 پوائنٹ )</button></div>
+<div class="card" style="text-align:center"><h2 style="color:#FFD700">پوسٹ بناؤ</h2><p class="small">ٹیکسٹ یا تصویر شیئر کرو - یہ 100% کام کرے گا</p></div>
+<div class="card"><h3>کیٹیگری</h3><select id="postCat"></select><h3>تصویر</h3><input type="file" id="postPic" accept="image/*"><h3>کیپشن</h3><textarea id="postText" placeholder="اس تصویر کے بارے میں لکھو..."></textarea><button type="button" class="btnGold" onclick="addPost()">پوسٹ کرو 🚀 ( +1 پوائنٹ )</button><button type="button" class="btnBlack" onclick="showPage('home')">ہوم پر واپس جاؤ</button></div>
 </div>
 
-<div id="page-trending" class="hidden"><div class="card" style="text-align:center"><h2 style="color:#FFD700">ٹرینڈنگ 🔥</h2></div><button type="button" class="btnGold" onclick="showPage('leader')">⭐ ٹاپ 10 سٹارز دیکھو</button><div id="trendFeed"></div></div>
-<div id="page-inbox" class="hidden"><div class="card"><h2 style="color:#FFD700">میسجز</h2><input id="dmTo" placeholder="کس کو بھیجنا ہے؟ نام"><input id="dmText" placeholder="میسج..."><button type="button" class="btnGold" onclick="sendDM()">بھیجو 📩</button><div id="dmList" style="margin-top:10px"></div></div></div>
-<div id="page-1on1" class="hidden"><div class="card"><h2 style="color:#FFD700">محفل چیٹ 💬</h2></div><div id="chatBox"></div><div class="card"><input id="chatText" placeholder="کچھ لکھو... @نام"><button type="button" class="btnGold" onclick="sendChat()">بھیجو 💬</button></div></div>
+<div id="page-trending" class="hidden"><div class="card" style="text-align:center"><h2 style="color:#FFD700">ٹرینڈنگ 🔥</h2><p class="small">سب سے زیادہ لائک والی پوسٹس</p></div><button type="button" class="btnGold" onclick="showPage('leader')">⭐ ٹاپ 10 سٹارز دیکھو</button><div id="trendFeed"></div></div>
+
+<div id="page-inbox" class="hidden">
+<div class="card"><h2 style="color:#FFD700">میسجز / ان باکس</h2><p class="small">کسی کو بھی میسج بھیجو، وہ اس کے ان باکس میں جائے گا</p><input id="dmTo" placeholder="کس کو بھیجنا ہے؟ نام لکھو - جیسے Ali"><input id="dmText" placeholder="میسج لکھو..."><button type="button" class="btnGold" onclick="sendDM()">بھیجو 📩</button><div id="dmList" style="margin-top:10px"></div></div>
+<div class="card"><h3>📩 میرے میسجز</h3><button type="button" class="btnBlack" onclick="loadInbox()">میسجز ریفریش کرو 🔄</button><div id="inboxList" style="margin-top:10px"></div></div>
+</div>
+
+<div id="page-1on1" class="hidden">
+<div class="card"><h2 style="color:#FFD700">محفل چیٹ 💬 - <span id="mehfilNameTop">سب کی محفل</span></h2><p class="small">@نام لکھ کر مینشن کرو</p></div><div id="chatBox"></div>
+<div class="card"><input id="chatText" placeholder="کچھ لکھو... @نام"><button type="button" class="btnGold" onclick="sendChat()">بھیجو 💬</button></div>
+</div>
 
 <div id="page-profile" class="hidden">
 <div class="card" style="text-align:center"><p class="small">میری پروفائل</p><div class="dpBig" id="pDpBox">👤</div><h2 id="pName">-</h2><p id="pMeta" style="color:#FFD700"></p><p class="small" id="pBio"></p><p id="pPowerLine" style="color:#FFD700;font-weight:bold;margin-top:6px"></p></div>
-<div class="card"><h3>✏️ پروفائل اپڈیٹ کرو</h3><p class="small">اپنی ڈی پی بدلو</p><input type="file" id="dpFile" accept="image/*" onchange="changeDP()"><input id="eBio" placeholder="بائیو..."><input id="eAge" type="number" placeholder="عمر"><select id="eCity"><option>Lahore</option><option>Karachi</option><option>Islamabad</option><option>Rawalpindi</option><option>Faisalabad</option><option>Multan</option><option>Other</option></select><select id="eStar"><option>Aries ♈</option><option>Taurus ♉</option><option>Gemini ♊</option><option>Cancer ♋</option><option>Leo ♌</option><option>Virgo ♍</option><option>Libra ♎</option><option>Scorpio ♏</option><option>Sagittarius ♐</option><option>Capricorn ♑</option><option>Aquarius ♒</option><option>Pisces ♓</option></select><button type="button" class="btnGold" onclick="saveProfile()">سیو کرو ✅</button></div>
+<div class="card"><h3>✏️ پروفائل اپڈیٹ کرو</h3><p class="small">اپنی ڈی پی بدلو - تصویر لگاؤ</p><input type="file" id="dpFile" accept="image/*" onchange="changeDP()"><input id="eBio" placeholder="بائیو..."><input id="eAge" type="number" placeholder="عمر"><select id="eCity"><option>Lahore</option><option>Karachi</option><option>Islamabad</option><option>Rawalpindi</option><option>Faisalabad</option><option>Multan</option><option>Other</option></select><select id="eStar"><option>Aries ♈</option><option>Taurus ♉</option><option>Gemini ♊</option><option>Cancer ♋</option><option>Leo ♌</option><option>Virgo ♍</option><option>Libra ♎</option><option>Scorpio ♏</option><option>Sagittarius ♐</option><option>Capricorn ♑</option><option>Aquarius ♒</option><option>Pisces ♓</option></select><button type="button" class="btnGold" onclick="saveProfile()">سیو کرو ✅</button></div>
 <div class="card"><h3>📝 میری پوسٹس</h3><div id="myPosts"></div></div>
 <div id="adminPanel"></div>
 </div>
 
-<div id="page-mehfil" class="hidden"><div class="card" style="background:#FFD700;color:#000"><h2>ٹاپ محفلیں</h2></div><div class="card"><h3>💬 اپنی محفل بناؤ</h3><input id="newMehfil" placeholder="نئی محفل کا نام..."><button type="button" class="btnGold" onclick="createMehfil()">محفل بناؤ ➕</button></div><div id="mehfilList"></div></div>
+<div id="page-mehfil" class="hidden"><div class="card" style="background:#FFD700;color:#000"><h2>ٹاپ محفلیں</h2><p>جوائن کر کے چیٹ کرو</p></div><div class="card"><h3>💬 اپنی محفل بناؤ</h3><input id="newMehfil" placeholder="نئی محفل کا نام..."><button type="button" class="btnGold" onclick="createMehfil()">محفل بناؤ ➕</button></div><div id="mehfilList"></div></div>
+
 <div id="page-fun" class="hidden"><div class="card"><h2>😂 گیمز - فن زون</h2></div><div class="card"><h3>🤣 لطیفہ مشین</h3><p id="jokeText">دباؤ تو لطیفہ آئے گا...</p><button type="button" class="btnGold" onclick="newJoke()">نیا لطیفہ 🤣</button></div><div class="card"><h3>🎲 قسمت</h3><p id="diceText" style="text-align:center;font-size:36px">🎲</p><button type="button" class="btnBlack" onclick="rollDice()">ڈائس پھینکو 🎲</button></div><div class="card"><h3>👏 تالی</h3><button type="button" class="btnGold" onclick="clapPractice()">👏 تالی مارو</button><p id="clapMsg" style="text-align:center;margin-top:8px;color:#FFD700"></p></div><div class="card"><h3>🔊 آواز بورڈ</h3><div style="display:flex;gap:6px"><button type="button" class="btnBlack" onclick="playPop()">👍 پھا</button><button type="button" class="btnBlack" onclick="playSlap()">👋 چپیڑ</button><button type="button" class="btnBlack" onclick="playDing()">🔔 ٹنگ</button></div></div></div>
-<div id="page-leader" class="hidden"><div class="card"><h2 style="color:#FFD700">🏆 لیڈر بورڈ</h2><div id="leaderList"></div></div></div>
-<div id="page-more" class="hidden"><div class="card" style="text-align:center"><h2 style="color:#FFD700">مزید</h2></div><button type="button" class="bigBtn" onclick="showPage('mehfil')">👥 محفل</button><button type="button" class="bigBtn" onclick="showPage('fun')">🎮 گیمز</button><button type="button" class="bigBtn" onclick="showPage('leader')">🏆 لیڈر بورڈ</button><button type="button" class="bigBtn" onclick="showPage('rules')">📜 رولز</button><button type="button" class="bigBtn" onclick="showPage('about')">ℹ️ ہمارے بارے میں</button><button type="button" class="bigBtn" style="background:#ff2d55;color:#fff" onclick="logout()">🚪 لاگ آؤٹ</button></div>
-<div id="page-rules" class="hidden"><div class="card"><h2 style="color:#FFD700">رولز</h2><p>1. گالی نہیں۔<br>2. گندی تصویر نہیں۔<br>3. کسی کی پرائیویٹ تصویر نہیں۔</p></div></div>
-<div id="page-about" class="hidden"><div class="card"><h2 style="color:#FFD700">Yaarii-PK کے بارے میں</h2><p>پاکستان کے یاروں کے لیے۔ 100% فری۔ ❤️ 🇵🇰</p></div></div>
+
+<div id="page-leader" class="hidden"><div class="card"><h2 style="color:#FFD700">🏆 لیڈر بورڈ</h2><p class="small">ٹاپ 10 - سب سے زیادہ پوائنٹس والے</p><div id="leaderList"></div></div></div>
+
+<div id="page-more" class="hidden"><div class="card" style="text-align:center"><h2 style="color:#FFD700">مزید</h2><p class="small">سب کچھ یہاں سے کھلتا ہے</p></div><button type="button" class="bigBtn" onclick="showPage('home')">🏠 ہوم</button><button type="button" class="bigBtn" onclick="showPage('share')">➕ شیئر / پوسٹ</button><button type="button" class="bigBtn" onclick="showPage('trending')">🔥 ٹرینڈنگ</button><button type="button" class="bigBtn" onclick="showPage('inbox')">📩 ان باکس / میسج</button><button type="button" class="bigBtn" onclick="showPage('1on1')">💬 محفل چیٹ</button><button type="button" class="bigBtn" onclick="showPage('mehfil')">👥 محفلیں</button><button type="button" class="bigBtn" onclick="showPage('profile')">👤 پروفائل</button><button type="button" class="bigBtn" onclick="showPage('fun')">🎮 گیمز</button><button type="button" class="bigBtn" onclick="showPage('leader')">🏆 لیڈر بورڈ</button><button type="button" class="bigBtn" onclick="showPage('rules')">📜 رولز</button><button type="button" class="bigBtn" onclick="showPage('about')">ℹ️ ہمارے بارے میں</button><button type="button" class="bigBtn" style="background:#ff2d55;color:#fff" onclick="logout()">🚪 لاگ آؤٹ</button></div>
+
+<div id="page-rules" class="hidden"><div class="card"><h2 style="color:#FFD700">رولز</h2><p>1. گالی نہیں۔<br>2. گندی تصویر نہیں۔<br>3. کسی کی پرائیویٹ تصویر نہیں۔</p><button type="button" class="btnGold" onclick="showPage('home')">ہوم پر واپس جاؤ</button></div></div>
+<div id="page-about" class="hidden"><div class="card"><h2 style="color:#FFD700">Yaarii-PK کے بارے میں</h2><p>پاکستان کے یاروں کے لیے۔ 100% فری۔ ❤️ 🇵🇰</p><button type="button" class="btnGold" onclick="showPage('home')">ہوم پر واپس جاؤ</button></div></div>
 
 <div class="bottom" id="bottomBar" style="display:none">
 <button type="button" onclick="showPage('home')" id="bn-home">🏠<br>ہوم</button>
 <button type="button" onclick="showPage('share')" id="bn-share">➕<br>شیئر</button>
 <button type="button" onclick="showPage('trending')" id="bn-trending">🔥<br>ٹرینڈنگ</button>
+<button type="button" onclick="showPage('inbox')" id="bn-inbox">📩<br>ان باکس</button>
 <button type="button" onclick="showPage('1on1')" id="bn-1on1">💬<br>محفل</button>
 <button type="button" onclick="showPage('profile')" id="bn-profile">👤<br>پروفائل</button>
 <button type="button" onclick="showPage('more')" id="bn-more">⋯<br>مزید</button>
 </div>
 
 <script>
-// ===== صرف لاگ اِن / سائن اپ - یہ کبھی بند نہیں ہوگا =====
+// ===== سب کچھ ایک ہی جگہ - اب کوئی بٹن خالی نہیں جائے گا =====
+var cur = localStorage.getItem('y_cur') || '';
+var curMehfil = 'سب کی محفل';
+var feedData = [];
+var cats = ["General","Aseel","Cricket","Poetry","Sad Poetry","Love Poetry","Islamic Poetry","Attitude Poetry","Funny Poetry","Punjabi Poetry","DP Competition","Memes","Gaming","Music","Movies","Photography","Travel","Food","Fashion","Fitness","Tech","AI","Coding","Education","Business","Crypto","Science"];
+
 function showMsg(t){ var m=document.getElementById('msgBox'); m.classList.remove('hidden'); m.innerText=t; setTimeout(function(){m.classList.add('hidden')},3000); }
 function showAuth(t){ document.getElementById('auth-signup').classList.toggle('hidden',t!=='signup'); document.getElementById('auth-login').classList.toggle('hidden',t!=='login'); }
+
 function showHomeNow(){
   document.getElementById('page-auth').classList.add('hidden');
   document.getElementById('bottomBar').style.display='flex';
   document.getElementById('page-home').classList.remove('hidden');
-  if(typeof loadFeed==='function') loadFeed();
-  if(typeof renderOnline==='function') renderOnline();
-  if(typeof renderStories==='function') renderStories();
-  if(typeof updatePowerBox==='function') updatePowerBox();
+  loadFeed(); renderOnline(); renderStories(); updatePowerBox();
 }
-function signup(){
-  try{
-    var u=document.getElementById('sUser').value.trim();
-    var p=document.getElementById('sPass').value;
-    if(!u||!p){ showMsg('پہلے نام + پاس ورڈ لکھو'); return; }
-    if(u.length<3){ showMsg('نام تھوڑا بڑا رکھو'); return; }
-    if(!document.getElementById('agree').checked){ showMsg('پہلے رولز سے اتفاق کرو'); return; }
-    var users={}; try{ users=JSON.parse(localStorage.getItem('y_users')||'{}'); }catch(e){ users={}; }
-    if(users[u]){ showMsg('یہ نام پہلے سے ہے - لاگ اِن کرو'); return; }
-    var isFirst=Object.keys(users).length===0;
-    users[u]={u:u,p:p,age:'?',city:'Lahore',star:'Leo',bio:'Yaarii-PK کا یار',dp:'😎',points:0,power:0,lastSeen:Date.now(),id:Math.floor(1000+Math.random()*9000),role:isFirst?'ADMIN':'USER'};
-    localStorage.setItem('y_users',JSON.stringify(users));
-    localStorage.setItem('y_cur',u);
-    showMsg('سائن اپ ہو گیا '+u+'! ہوم کھل رہا ہے...');
-    showHomeNow();
-  }catch(e){ showMsg('ایرر: '+e.message); }
+function showPage(p){
+  var pages=['home','share','trending','inbox','1on1','profile','mehfil','fun','leader','more','rules','about'];
+  for(var i=0;i<pages.length;i++){ var el=document.getElementById('page-'+pages[i]); if(el) el.classList.add('hidden'); }
+  document.getElementById('page-auth').classList.add('hidden');
+  var t=document.getElementById('page-'+p); if(t) t.classList.remove('hidden');
+  var btns=['home','share','trending','inbox','1on1','profile','more'];
+  for(var j=0;j<btns.length;j++){ var b=document.getElementById('bn-'+btns[j]); if(b) b.classList.remove('on'); }
+  var bn=document.getElementById('bn-'+p); if(bn) bn.classList.add('on');
+  if(p==='home'){ loadFeed(); renderOnline(); renderStories(); updatePowerBox(); }
+  if(p==='trending') loadTrend();
+  if(p==='profile') loadProfile();
+  if(p==='mehfil') loadMehfil();
+  if(p==='leader') showLeader();
+  if(p==='1on1') loadChat();
+  if(p==='inbox') loadInbox();
+  window.scrollTo(0,0);
 }
-function login(){
-  try{
-    var u=document.getElementById('lUser').value.trim();
-    var p=document.getElementById('lPass').value;
-    if(!u||!p){ showMsg('نام + پاس ورڈ لکھو'); return; }
-    var users={}; try{ users=JSON.parse(localStorage.getItem('y_users')||'{}'); }catch(e){ users={}; }
-    var d=users[u];
-    if(!d){ showMsg('یوزر نہیں ملا - پہلے سائن اپ کرو'); return; }
-    if(d.p!==p){ showMsg('غلط پاس ورڈ ہے'); return; }
-    d.lastSeen=Date.now();
-    localStorage.setItem('y_users',JSON.stringify(users));
-    localStorage.setItem('y_cur',u);
-    showMsg('لاگ اِن ہو گیا! خوش آمدید '+u);
-    showHomeNow();
-  }catch(e){ showMsg('ایرر: '+e.message); }
-}
-function logout(){ try{ var users=JSON.parse(localStorage.getItem('y_users')||'{}'); var c=localStorage.getItem('y_cur'); if(users[c]){users[c].lastSeen=0; localStorage.setItem('y_users',JSON.stringify(users));} }catch(e){} localStorage.removeItem('y_cur'); location.reload(); }
-document.getElementById('btnSignup').addEventListener('click',signup);
-document.getElementById('btnLogin').addEventListener('click',login);
-</script>
-
-<script>
-// ===== باقی سارے فیچرز =====
-var cur = localStorage.getItem('y_cur') || '';
 function getUsers(){ try{return JSON.parse(localStorage.getItem('y_users')||'{}')}catch(e){return{}} }
 function saveUsers(u){ localStorage.setItem('y_users',JSON.stringify(u)) }
 function getPosts(){ try{return JSON.parse(localStorage.getItem('y_posts')||'[]')}catch(e){return[]} }
 function getChat(){ try{return JSON.parse(localStorage.getItem('y_chat')||'[]')}catch(e){return[]} }
 function getStories(){ try{return JSON.parse(localStorage.getItem('y_stories')||'[]')}catch(e){return[]} }
 function getMehfils(){ try{return JSON.parse(localStorage.getItem('y_mehfils')||'["سب کی محفل"]')}catch(e){return["سب کی محفل"]} }
-var cats=["General","Aseel","Cricket","Poetry","Sad Poetry","Love Poetry","Islamic Poetry","Attitude Poetry","Funny Poetry","Punjabi Poetry","DP Competition","Memes","Gaming","Music","Movies","Photography","Travel","Food","Fashion","Fitness","Tech","AI","Coding","Education","Business","Crypto","Science"];
-var feedData=[]; var curMehfil='سب کی محفل';
-function showPage(p){ var pages=['home','share','trending','inbox','1on1','profile','mehfil','fun','leader','more','rules','about']; pages.forEach(function(x){ var el=document.getElementById('page-'+x); if(el) el.classList.add('hidden'); }); var t=document.getElementById('page-'+p); if(t) t.classList.remove('hidden'); document.getElementById('page-auth').classList.add('hidden'); ['home','share','trending','1on1','profile','more'].forEach(function(b){ var el=document.getElementById('bn-'+b); if(el) el.classList.remove('on'); }); var bn=document.getElementById('bn-'+p); if(bn) bn.classList.add('on'); if(p==='home'){loadFeed();renderOnline();renderStories();updatePowerBox();} if(p==='trending') loadTrend(); if(p==='profile') loadProfile(); if(p==='mehfil') loadMehfil(); if(p==='leader') showLeader(); if(p==='1on1') loadChat(); if(p==='inbox') loadInbox(); window.scrollTo(0,0); }
+
+function signup(){
+  var u=document.getElementById('sUser').value.trim();
+  var p=document.getElementById('sPass').value;
+  if(!u||!p){ showMsg('پہلے نام + پاس ورڈ لکھو'); return; }
+  if(u.length<3){ showMsg('نام تھوڑا بڑا رکھو'); return; }
+  if(!document.getElementById('agree').checked){ showMsg('پہلے رولز سے اتفاق کرو'); return; }
+  var users=getUsers();
+  if(users[u]){ showMsg('یہ نام پہلے سے ہے - لاگ اِن کرو'); return; }
+  var isFirst=Object.keys(users).length===0;
+  users[u]={u:u,p:p,age:'?',city:'Lahore',star:'Leo',bio:'Yaarii-PK کا یار',dp:'😎',points:0,power:0,lastSeen:Date.now(),id:Math.floor(1000+Math.random()*9000),role:isFirst?'ADMIN':'USER'};
+  saveUsers(users); localStorage.setItem('y_cur',u); cur=u;
+  showMsg('سائن اپ ہو گیا '+u+'! ہوم کھل رہا ہے...');
+  showHomeNow();
+}
+function login(){
+  var u=document.getElementById('lUser').value.trim();
+  var p=document.getElementById('lPass').value;
+  if(!u||!p){ showMsg('نام + پاس ورڈ لکھو'); return; }
+  var users=getUsers(); var d=users[u];
+  if(!d){ showMsg('یوزر نہیں ملا - پہلے سائن اپ کرو'); return; }
+  if(d.p!==p){ showMsg('غلط پاس ورڈ ہے'); return; }
+  d.lastSeen=Date.now(); saveUsers(users); localStorage.setItem('y_cur',u); cur=u;
+  showMsg('لاگ اِن ہو گیا! خوش آمدید '+u);
+  showHomeNow();
+}
+function logout(){ try{ var users=getUsers(); if(users[cur]){users[cur].lastSeen=0; saveUsers(users);} }catch(e){} localStorage.removeItem('y_cur'); location.reload(); }
+document.getElementById('btnSignup').addEventListener('click',signup);
+document.getElementById('btnLogin').addEventListener('click',login);
+
 function markOnline(){ if(!cur) return; var u=getUsers(); if(u[cur]){u[cur].lastSeen=Date.now();saveUsers(u);} }
 function playPop(){ try{ var a=new (window.AudioContext||window.webkitAudioContext)(); var o=a.createOscillator(); var g=a.createGain(); o.connect(g); g.connect(a.destination); o.frequency.setValueAtTime(500,a.currentTime); o.frequency.exponentialRampToValueAtTime(1400,a.currentTime+0.07); g.gain.setValueAtTime(0.4,a.currentTime); g.gain.exponentialRampToValueAtTime(0.001,a.currentTime+0.15); o.start(); o.stop(a.currentTime+0.16); }catch(e){} }
 function playSlap(){ try{ var a=new (window.AudioContext||window.webkitAudioContext)(); var len=a.sampleRate*0.18; var buf=a.createBuffer(1,len,a.sampleRate); var d=buf.getChannelData(0); for(var i=0;i<len;i++){d[i]=(Math.random()*2-1)*Math.pow(1-i/len,2);} var s=a.createBufferSource(); s.buffer=buf; var g=a.createGain(); g.gain.setValueAtTime(0.9,a.currentTime); g.gain.exponentialRampToValueAtTime(0.01,a.currentTime+0.18); s.connect(g); g.connect(a.destination); s.start(); if(navigator.vibrate) navigator.vibrate(80); }catch(e){} }
 function playDing(){ try{ var a=new (window.AudioContext||window.webkitAudioContext)(); var o=a.createOscillator(); var g=a.createGain(); o.connect(g); g.connect(a.destination); o.frequency.setValueAtTime(1200,a.currentTime); g.gain.setValueAtTime(0.4,a.currentTime); g.gain.exponentialRampToValueAtTime(0.001,a.currentTime+0.6); o.start(); o.stop(a.currentTime+0.6); }catch(e){} }
-function getOnlineUsers(){ var users=getUsers(); var now=Date.now(); return Object.values(users).filter(function(u){ return (now-(u.lastSeen||0))<5*60*1000; }).sort(function(a,b){return (b.points||0)-(a.points||0);}); }
-function renderOnline(){ var on=getOnlineUsers(); document.getElementById('onlineCount').innerText=on.length; document.getElementById('onlineBar').innerHTML=on.map(function(u){ var dp=(u.dp&&u.dp.length>10)?'<img src="'+u.dp+'">':(u.dp||'👤'); return '<div class="uCircle"><div>'+dp+'<span class="dot"></span></div><p>'+u.u+'</p><small>⭐ '+(u.points||0)+'</small></div>'; }).join('')||'<p class="small">ابھی کوئی آن لائن نہیں - تم پہلے ہو!</p>'; }
-function openStoryBox(){ document.getElementById('storyBox').classList.toggle('hidden'); }
-function fileToBase64(f,cb){ var rd=new FileReader(); rd.onload=function(){cb(rd.result)}; rd.readAsDataURL(f); }
-function addStory(){ var t=document.getElementById('storyText').value.trim(); var f=document.getElementById('storyPic').files[0]; if(!t&&!f){alert('کچھ لکھو یا تصویر لگاؤ');return;} var
+
+function getOnlineUsers(){ var users=getUsers(); var now=Date.now(); return Object.values(users).filter(function(u){ return (now-(u.lastSeen||0))<5*60*1000; }).sort(function(a,b){return (b.p
