@@ -6,7 +6,7 @@
 <title>Yaarii.pk - Yaaron Ki Mehfil 👑</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#0a0a0a;color:#fff;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;padding-bottom:75px}
+body{background:#0a0a0a;color:#fff;font-family:'Segoe UI',Arial,sans-serif;padding-bottom:75px}
 a{color:#FFD700;text-decoration:none}
 .top{position:fixed;top:0;left:0;right:0;z-index:99;background:#000;padding:12px;display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #FFD700;box-shadow:0 2px 10px rgba(255,215,0,0.2)}
 .top b{font-size:22px;color:#FFD700;letter-spacing:1px}
@@ -22,13 +22,20 @@ a{color:#FFD700;text-decoration:none}
 .btnGold:active{transform:scale(0.98)}
 .btnBlack{background:#1a1a1a;color:#FFD700;border:1px solid #FFD700;padding:12px;width:100%;border-radius:10px;margin-top:8px;font-weight:bold;cursor:pointer}
 .badge{background:#1a1a1a;border:1px solid #FFD700;color:#FFD700;border-radius:20px;padding:4px 10px;font-size:11px;font-weight:bold}
+.onlineBar{display:flex;gap:12px;overflow-x:auto;padding:6px 2px}
+.uCircle{min-width:60px;text-align:center}
+.uCircle div{width:50px;height:50px;border-radius:50%;background:#1a1a1a;display:flex;align-items:center;justify-content:center;font-size:22px;border:2px solid #FFD700;margin:auto;position:relative}
+.uCircle .dot{position:absolute;bottom:0;right:0;width:12px;height:12px;background:#00ff00;border-radius:50%;border:2px solid #000}
+.uCircle p{font-size:11px;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .post{background:#141414;border:1px solid #2a2a2a;border-radius:14px;padding:14px;margin:12px 10px}
+.post img{width:100%;border-radius:10px;margin-top:10px;max-height:300px;object-fit:cover}
 .postHead{display:flex;justify-content:space-between;align-items:center}
-.pBtns{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
-.pBtns button{flex:1;padding:10px 4px;border-radius:8px;border:1px solid #444;background:#1e1e1e;color:#fff;font-size:12px;font-weight:bold;cursor:pointer;transition:0.2s}
+.pBtns{display:flex;gap:5px;flex-wrap:wrap;margin-top:12px}
+.pBtns button{flex:1;padding:8px 2px;border-radius:8px;border:1px solid #444;background:#1e1e1e;color:#fff;font-size:11px;font-weight:bold;cursor:pointer;transition:0.2s}
 .pBtns button.gold{background:#FFD700;color:#000;border:none}
 .pBtns button.red{background:#2a1111;border-color:#ff4d4d;color:#ff6b6b}
-.pBtns button.blue{background:#111a2a;border-color:#4d94ff;color:#6ba4ff}
+.pBtns button.cat{background:#22112a;border-color:#ba4dff;color:#e1b1ff}
+.pBtns button.dog{background:#2a2211;border-color:#ffb84d;color:#ffe0b5}
 .bottom{position:fixed;bottom:0;left:0;right:0;background:#000;display:flex;z-index:99;border-top:2px solid #FFD700}
 .bottom button{flex:1;background:none;border:none;color:#aaa;padding:10px 2px;font-size:11px;cursor:pointer}
 .bottom button.on{color:#FFD700;font-weight:bold}
@@ -70,54 +77,59 @@ input,select,textarea{width:100%;padding:12px;margin:6px 0;background:#1a1a1a;bo
   </div>
 </div>
 
-<!-- MAIN APP PAGES -->
+<!-- HOME PAGE -->
 <div id="page-home" class="hidden">
+  <!-- TOP ONLINE USERS BAR -->
+  <div class="card">
+    <b>🟢 Online Yaar (آج کے ایکٹو دوست)</b>
+    <div class="onlineBar" id="onlineBar"></div>
+  </div>
+
   <div class="powerBox">
     <span style="font-size:18px">👤 <span id="uNameDisp">User</span> (<span id="uRank" class="badge">Naya Yaar 👶</span>)</span><br>
     <span style="font-size:13px;margin-top:4px;display:block">⚡ پاور: <span id="myPower">50</span> | 🎯 پوائنٹس: <span id="myPoints">10</span></span>
   </div>
 
-  <div class="card">
-    <h3 style="color:#FFD700;margin-bottom:8px">✏️ Fast Post Karo</h3>
-    <textarea id="quickText" placeholder="دل کی بات ya koi lateefa likho..."></textarea>
-    <button class="btnGold" type="button" onclick="quickPost()">Post Karo ( +5 Points ) 🚀</button>
-  </div>
-
   <div id="feed"></div>
+</div>
+
+<!-- SHARE PAGE WITH PHOTO -->
+<div id="page-share" class="hidden">
+  <div class="card" style="text-align:center"><h2 style="color:#FFD700">📸 Pic & Post Share Karo</h2><p style="font-size:12px;color:#aaa">Photo + Text sab ke sath share hoga!</p></div>
+  <div class="card">
+    <h3>1. Select Photo (Optional)</h3>
+    <input type="file" id="postPic" accept="image/*">
+    <h3>2. Caption / Dil ki Baat</h3>
+    <textarea id="postText" placeholder="Kuch funny ya shayari likho..."></textarea>
+    <button class="btnGold" type="button" onclick="createPost()">Public Post Bhejo 🚀</button>
+  </div>
 </div>
 
 <!-- FUN ARCADE PAGE -->
 <div id="page-fun" class="hidden">
   <div class="card">
-    <h2 style="color:#FFD700">🔊 Awaz Arcade (Sound Board)</h2>
-    <p style="font-size:12px;color:#aaa;margin-top:4px">Buttons dabao aur funny awaz suno!</p>
+    <h2 style="color:#FFD700">🔊 Funny Sound Arcade</h2>
     <div class="soundGrid">
       <button class="btnBlack" type="button" onclick="playPop()">👍 Faaaaah!</button>
       <button class="btnBlack" type="button" onclick="playSlap()">👋 Chupair!</button>
-      <button class="btnBlack" type="button" onclick="playMagic()">✨ Magic Bell</button>
-      <button class="btnBlack" type="button" onclick="playSiren()">🚨 Alert Siren</button>
+      <button class="btnBlack" type="button" onclick="playCatMeow()">🐱 Cat Meow</button>
+      <button class="btnBlack" type="button" onclick="playDogBark()">🐶 Dog Bark</button>
     </div>
   </div>
 
   <div class="card">
     <h2 style="color:#FFD700">🔮 Kismat Ka Tota</h2>
-    <p id="kismatText" style="margin:12px 0;font-size:15px;color:#fff">Apni kismat jan'ne ke liye button dabayein...</p>
-    <button class="btnGold" type="button" onclick="tellKismat()">Kismat Dekho 🎯</button>
-  </div>
-
-  <div class="card">
-    <h2 style="color:#FFD700">🤣 Lateefa Studio</h2>
-    <p id="jokeText" style="margin:12px 0;font-size:14px;color:#ddd">Button dabayein aur lateefa sunein...</p>
-    <button class="btnBlack" type="button" onclick="newJoke()">Naya Lateefa 🤣</button>
+    <p id="kismatText" style="margin:12px 0;font-size:15px">Button dabao aur kismat dekho...</p>
+    <button class="btnGold" type="button" onclick="tellKismat()">Kismat Check Karo 🎯</button>
   </div>
 </div>
 
-<!-- CHAT ROOM PAGE -->
+<!-- LIVE CHAT PAGE -->
 <div id="page-chat" class="hidden">
-  <div class="card"><h2 style="color:#FFD700">💬 Yaarii Live Chat Room</h2></div>
-  <div class="card" id="chatBox" style="max-height:350px;overflow-y:auto"></div>
+  <div class="card"><h2 style="color:#FFD700">💬 Yaarii Public Mehfil Chat</h2></div>
+  <div class="card" id="chatBox" style="max-height:300px;overflow-y:auto"></div>
   <div class="card">
-    <input id="chatText" placeholder="Mehfil mein kuch bolain...">
+    <input id="chatText" placeholder="Sab ko message bhejo...">
     <button class="btnGold" type="button" onclick="sendChat()">Bhejo 💬</button>
   </div>
 </div>
@@ -125,15 +137,16 @@ input,select,textarea{width:100%;padding:12px;margin:6px 0;background:#1a1a1a;bo
 <!-- BOTTOM NAVIGATION -->
 <div class="bottom" id="bottomBar" style="display:none">
   <button type="button" onclick="showPage('home')" id="bn-home" class="on">🏠<br>HOME</button>
+  <button type="button" onclick="showPage('share')" id="bn-share">➕<br>SHARE</button>
   <button type="button" onclick="showPage('fun')" id="bn-fun">🎮<br>FUN</button>
   <button type="button" onclick="showPage('chat')" id="bn-chat">💬<br>CHAT</button>
   <button type="button" onclick="logout()" id="bn-logout">🚪<br>EXIT</button>
 </div>
 
 <script>
-var curUser = '';
-var userPoints = 10;
-var userPower = 50;
+var curUser = localStorage.getItem('y_cur') || '';
+var userPoints = parseInt(localStorage.getItem('y_pts') || '10');
+var userPower = parseInt(localStorage.getItem('y_pwr') || '50');
 
 function switchAuthTab(t){
   document.getElementById('auth-signup').classList.toggle('hidden', t!=='signup');
@@ -145,9 +158,11 @@ function switchAuthTab(t){
 function handleSignup(){
   var u=document.getElementById('sUser').value.trim();
   var p=document.getElementById('sPass').value;
-  if(!u||!p) return alert('Username aur Password dono zaroori hain!');
+  if(!u||!p) return alert('Username aur Password likhein!');
   curUser = u;
-  alert('Mubarak ho '+u+'! Aap Yaarii.pk par dakhil ho gaye!');
+  saveUserSession();
+  registerOnlineUser(u);
+  alert('Mubarak ho '+u+'! Account ban gaya!');
   startApp();
 }
 
@@ -156,20 +171,40 @@ function handleLogin(){
   var p=document.getElementById('lPass').value;
   if(!u||!p) return alert('Username aur Password likhein!');
   curUser = u;
-  alert('Welcome back '+u+'!');
+  saveUserSession();
+  registerOnlineUser(u);
+  alert('Welcome '+u+'!');
   startApp();
 }
 
+function saveUserSession(){
+  localStorage.setItem('y_cur', curUser);
+  localStorage.setItem('y_pts', userPoints);
+  localStorage.setItem('y_pwr', userPower);
+}
+
+function registerOnlineUser(u){
+  var list = JSON.parse(localStorage.getItem('y_online') || '[]');
+  if(!list.includes(u)){
+    list.push(u);
+    localStorage.setItem('y_online', JSON.stringify(list));
+  }
+}
+
 function startApp(){
+  if(!curUser) return;
   document.getElementById('page-auth').classList.add('hidden');
   document.getElementById('bottomBar').style.display='flex';
   document.getElementById('uNameDisp').innerText = curUser;
   showPage('home');
-  loadSamplePosts();
+  updateStats();
+  renderOnlineBar();
+  loadPosts();
+  loadChat();
 }
 
 function showPage(p){
-  ['home','fun','chat'].forEach(function(x){
+  ['home','share','fun','chat'].forEach(function(x){
     var el=document.getElementById('page-'+x);
     if(el) el.classList.add('hidden');
     var bn=document.getElementById('bn-'+x);
@@ -179,9 +214,11 @@ function showPage(p){
   if(target) target.classList.remove('hidden');
   var activeBn=document.getElementById('bn-'+p);
   if(activeBn) activeBn.classList.add('on');
+  if(p==='home'){ renderOnlineBar(); loadPosts(); }
+  if(p==='chat') loadChat();
 }
 
-/* SOUND EFFECTS (Web Audio API) */
+/* AUDIO EFFECTS */
 function playPop(){
   try{
     var a=new (window.AudioContext||window.webkitAudioContext)();
@@ -210,80 +247,143 @@ function playSlap(){
   }catch(e){}
 }
 
-function playMagic(){
+function playCatMeow(){
   try{
     var a=new (window.AudioContext||window.webkitAudioContext)();
     var o=a.createOscillator(); var g=a.createGain();
     o.connect(g); g.connect(a.destination);
-    o.frequency.setValueAtTime(600,a.currentTime);
-    o.frequency.exponentialRampToValueAtTime(1800,a.currentTime+0.3);
-    g.gain.setValueAtTime(0.3,a.currentTime);
+    o.frequency.setValueAtTime(900,a.currentTime);
+    o.frequency.linearRampToValueAtTime(1400,a.currentTime+0.15);
+    o.frequency.linearRampToValueAtTime(700,a.currentTime+0.3);
+    g.gain.setValueAtTime(0.4,a.currentTime);
     g.gain.exponentialRampToValueAtTime(0.01,a.currentTime+0.3);
     o.start(); o.stop(a.currentTime+0.31);
   }catch(e){}
 }
 
-function playSiren(){
+function playDogBark(){
   try{
     var a=new (window.AudioContext||window.webkitAudioContext)();
     var o=a.createOscillator(); var g=a.createGain();
     o.connect(g); g.connect(a.destination);
-    o.frequency.setValueAtTime(800,a.currentTime);
-    o.frequency.linearRampToValueAtTime(400,a.currentTime+0.2);
-    g.gain.setValueAtTime(0.4,a.currentTime);
-    g.gain.exponentialRampToValueAtTime(0.01,a.currentTime+0.25);
-    o.start(); o.stop(a.currentTime+0.26);
+    o.type = 'sawtooth';
+    o.frequency.setValueAtTime(220,a.currentTime);
+    o.frequency.linearRampToValueAtTime(150,a.currentTime+0.12);
+    g.gain.setValueAtTime(0.6,a.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.01,a.currentTime+0.15);
+    o.start(); o.stop(a.currentTime+0.16);
   }catch(e){}
 }
 
-/* POSTS SYSTEM */
-function quickPost(){
-  var txt=document.getElementById('quickText').value.trim();
-  if(!txt) return alert('Pehle kuch likhein!');
-  userPoints += 5;
-  userPower += 10;
-  updateStats();
-  
-  var feed=document.getElementById('feed');
-  var postHTML='<div class="post">'+
-    '<div class="postHead"><b>'+curUser+'</b><span class="badge">🔥 Abhi Post Kiya</span></div>'+
-    '<p style="margin-top:10px;font-size:15px">'+txt+'</p>'+
-    '<div class="pBtns">'+
-      '<button class="gold" type="button" onclick="playPop()">👍 Faaaaah!</button>'+
-      '<button class="red" type="button" onclick="playSlap()">👋 Chupair!</button>'+
-      '<button class="blue" type="button" onclick="playMagic()">❤️ Dostana</button>'+
-    '</div>'+
-  '</div>';
-  
-  feed.innerHTML = postHTML + feed.innerHTML;
-  document.getElementById('quickText').value='';
+/* ONLINE BAR */
+function renderOnlineBar(){
+  var list = JSON.parse(localStorage.getItem('y_online') || '["Admin", "Fahad", "Ali"]');
+  var bar = document.getElementById('onlineBar');
+  bar.innerHTML = '';
+  list.forEach(function(u){
+    bar.innerHTML += '<div class="uCircle"><div>👤<div class="dot"></div></div><p>'+u+'</p></div>';
+  });
 }
 
-function loadSamplePosts(){
-  var feed=document.getElementById('feed');
-  feed.innerHTML='<div class="post">'+
-    '<div class="postHead"><b>Admin Yaar 👑</b><span class="badge">Official</span></div>'+
-    '<p style="margin-top:10px;font-size:15px">Yaarii.pk par aap sab doston ka khushamdeed! Neeche Faaaaah aur Chupair buttons try karein 🚀</p>'+
-    '<div class="pBtns">'+
-      '<button class="gold" type="button" onclick="playPop()">👍 Faaaaah! (12)</button>'+
-      '<button class="red" type="button" onclick="playSlap()">👋 Chupair! (2)</button>'+
-      '<button class="blue" type="button" onclick="playMagic()">❤️ Dostana (8)</button>'+
-    '</div>'+
-  '</div>' + feed.innerHTML;
+/* POSTS WITH IMAGE & REACTIONS */
+function createPost(){
+  var txt = document.getElementById('postText').value.trim();
+  var fileInput = document.getElementById('postPic');
+  
+  if(!txt && !fileInput.files[0]) return alert('Kuch text ya photo select karein!');
+
+  var reader = new FileReader();
+  reader.onload = function(e){
+    var imgData = e.target.result || '';
+    saveNewPost(txt, imgData);
+  };
+
+  if(fileInput.files && fileInput.files[0]){
+    reader.readAsDataURL(fileInput.files[0]);
+  } else {
+    saveNewPost(txt, '');
+  }
+}
+
+function saveNewPost(txt, imgData){
+  var posts = JSON.parse(localStorage.getItem('y_posts') || '[]');
+  posts.unshift({
+    id: Date.now(),
+    u: curUser,
+    text: txt,
+    pic: imgData,
+    faah: 0,
+    chupair: 0,
+    cat: 0,
+    dog: 0,
+    time: new Date().toLocaleTimeString()
+  });
+  localStorage.setItem('y_posts', JSON.stringify(posts));
+  
+  userPoints += 5;
+  userPower += 10;
+  saveUserSession();
+  updateStats();
+  
+  document.getElementById('postText').value = '';
+  document.getElementById('postPic').value = '';
+  showPage('home');
+}
+
+function loadPosts(){
+  var posts = JSON.parse(localStorage.getItem('y_posts') || '[]');
+  var feed = document.getElementById('feed');
+  feed.innerHTML = '';
+
+  if(posts.length === 0){
+    feed.innerHTML = '<div class="card" style="text-align:center;color:#aaa">Abhi koi post nahi hai. Aap pehli post share karein!</div>';
+    return;
+  }
+
+  posts.forEach(function(p){
+    feed.innerHTML += '<div class="post">'+
+      '<div class="postHead"><b>'+p.u+'</b><span class="badge">'+p.time+'</span></div>'+
+      (p.text ? '<p style="margin-top:10px;font-size:15px">'+p.text+'</p>' : '')+
+      (p.pic ? '<img src="'+p.pic+'">' : '')+
+      '<div class="pBtns">'+
+        '<button class="gold" type="button" onclick="reactPost('+p.id+', \'faah\')">👍 Faaaa! ('+p.faah+')</button>'+
+        '<button class="red" type="button" onclick="reactPost('+p.id+', \'chupair\')">👋 Chupair ('+p.chupair+')</button>'+
+        '<button class="cat" type="button" onclick="reactPost('+p.id+', \'cat\')">🐱 Meow ('+p.cat+')</button>'+
+        '<button class="dog" type="button" onclick="reactPost('+p.id+', \'dog\')">🐶 Bark ('+p.dog+')</button>'+
+      '</div>'+
+    '</div>';
+  });
+}
+
+function reactPost(id, type){
+  if(type==='faah') playPop();
+  if(type==='chupair') playSlap();
+  if(type==='cat') playCatMeow();
+  if(type==='dog') playDogBark();
+
+  var posts = JSON.parse(localStorage.getItem('y_posts') || '[]');
+  var p = posts.find(function(x){ return x.id===id; });
+  if(p){
+    if(type==='faah') p.faah++;
+    if(type==='chupair') p.chupair++;
+    if(type==='cat') p.cat++;
+    if(type==='dog') p.dog++;
+    localStorage.setItem('y_posts', JSON.stringify(posts));
+    loadPosts();
+  }
 }
 
 function updateStats(){
   document.getElementById('myPoints').innerText = userPoints;
   document.getElementById('myPower').innerText = userPower;
-  
   var rank = "Naya Yaar 👶";
-  if(userPoints >= 20) rank = "Jani 🔥";
-  if(userPoints >= 50) rank = "Pro Yaar 👑";
-  if(userPoints >= 100) rank = "Yaarii King 🏆";
+  if(userPoints >= 25) rank = "Jani 🔥";
+  if(userPoints >= 60) rank = "Pro Yaar 👑";
+  if(userPoints >= 120) rank = "Yaarii King 🏆";
   document.getElementById('uRank').innerText = rank;
 }
 
-/* KISMAT TOTA & JOKES */
+/* KISMAT TOTA */
 var kismatList = [
   "Aaj koi aap ko muft mein chai pilayega ☕",
   "Khabardar! Aaj aap ko online chupair par sakti hai 👋",
@@ -291,35 +391,46 @@ var kismatList = [
   "Aaj aap ka purana dost aap ko yaad karega ❤️"
 ];
 function tellKismat(){
-  playMagic();
+  playPop();
   var rand = kismatList[Math.floor(Math.random()*kismatList.length)];
   document.getElementById('kismatText').innerText = rand;
 }
 
-var jokesList = [
-  "Pathan: Yar mera mobile gum ho gaya. Dost: SIM block karwa lo. Pathan: SIM to mere paas hai, mobile gum hua hai! 😂",
-  "Teacher: Pappu, tumhare abba kya karte hain? Pappu: Sir wo jo ammi bolti hain wahi karte hain! 🤣"
-];
-function newJoke(){
-  playPop();
-  var j = jokesList[Math.floor(Math.random()*jokesList.length)];
-  document.getElementById('jokeText').innerText = j;
-}
-
-/* LIVE CHAT */
+/* PUBLIC MEHFIL CHAT */
 function sendChat(){
-  var txt=document.getElementById('chatText').value.trim();
+  var txt = document.getElementById('chatText').value.trim();
   if(!txt) return;
   playPop();
-  var box=document.getElementById('chatBox');
-  box.innerHTML += '<div class="chatMsg"><b>'+curUser+':</b> '+txt+'</div>';
-  document.getElementById('chatText').value='';
-  box.scrollTop=box.scrollHeight;
+  var chats = JSON.parse(localStorage.getItem('y_chats') || '[]');
+  chats.push({u: curUser, text: txt, time: new Date().toLocaleTimeString()});
+  localStorage.setItem('y_chats', JSON.stringify(chats));
+  document.getElementById('chatText').value = '';
+  loadChat();
+}
+
+function loadChat(){
+  var chats = JSON.parse(localStorage.getItem('y_chats') || '[]');
+  var box = document.getElementById('chatBox');
+  box.innerHTML = '';
+  if(chats.length === 0){
+    box.innerHTML = '<p style="color:#aaa;text-align:center">Mehfil khali hai, pehla message aap bhejiye!</p>';
+    return;
+  }
+  chats.forEach(function(c){
+    box.innerHTML += '<div class="chatMsg"><b>'+c.u+':</b> '+c.text+' <span style="font-size:10px;color:#888;float:right">'+c.time+'</span></div>';
+  });
+  box.scrollTop = box.scrollHeight;
 }
 
 function logout(){
+  localStorage.removeItem('y_cur');
   location.reload();
+}
+
+// Auto Login Check
+if(curUser){
+  startApp();
 }
 </script>
 </body>
-  </html>
+    </html>
