@@ -24,6 +24,8 @@ button.main{background:#d4af37;color:#000;border:none;padding:11px;border-radius
 .flex{display:flex;gap:10px;align-items:center}
 .like{cursor:pointer;color:#d4af37}
 .hidden{display:none}
+.pass-wrap{position:relative}
+.eye{position:absolute;right:10px;top:18px;cursor:pointer;font-size:20px}
 </style>
 </head>
 <body>
@@ -42,9 +44,11 @@ button.main{background:#d4af37;color:#000;border:none;padding:11px;border-radius
 <div class="container">
 <div class="card" id="authCard">
 <h3 style="color:#d4af37;margin:0">Login / Signup</h3>
-<input id="email" placeholder="Email likho">
-<input id="password" type="password" placeholder="Password">
-<input id="username" placeholder="Username - jaise Leader NM">
+<input id="username" placeholder="Username likho - jaise Leader NM">
+<div class="pass-wrap">
+<input id="password" type="password" placeholder="Password likho">
+<span class="eye" onclick="togglePass()">👁️</span>
+</div>
 <button class="main" onclick="signup()">Signup Karo</button>
 <button class="main" style="background:#222;color:#d4af37;border:1px solid #d4af37" onclick="login()">Login Karo</button>
 <button class="main" style="background:#222;color:#fff" onclick="logout()">Logout</button>
@@ -68,7 +72,6 @@ button.main{background:#d4af37;color:#000;border:none;padding:11px;border-radius
 </div>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { getFirestore, collection, addDoc, getDocs, query, orderBy, doc, setDoc, getDoc, updateDoc, deleteDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -82,29 +85,63 @@ const firebaseConfig = {
   measurementId: "G-8HLV166GGR"
 };
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
 const db = getFirestore(app);
 let currentUser=null, currentProfile=null, currentFilter='All';
+
+window.togglePass = ()=>{
+  let p = document.getElementById('password');
+  p.type = p.type==='password' ? 'text' : 'password';
+}
+
+// USERNAME + PASSWORD SYSTEM - NO EMAIL
 window.signup = async()=>{
-  try{
-    const cred = await createUserWithEmailAndPassword(auth, email.value, password.value);
-    await setDoc(doc(db,"users",cred.user.uid),{username:username.value||"Yaari User", bio:"", pic:"", email:email.value, isAdmin: username.value==="Leader NM"});
-    authMsg.innerText="Signup ho gaya! Ab post karo";
-  }catch(e){authMsg.innerText=e.message}
+  let u = username.value.trim();
+  let p = password.value.trim();
+  if(!u || !p) return authMsg.innerText="Username aur Password dono likho";
+  if(p.length < 4) return authMsg.innerText="Password kam se kam 4 ka rakho";
+  let id = u.toLowerCase().replace(/\s+/g,'_');
+  let snap = await getDoc(doc(db,"users",id));
+  if(snap.exists()) return authMsg.innerText="Ye username pehle se hai, koi aur rakho";
+  let isAdmin = (u === "Leader NM");
+  await setDoc(doc(db,"users",id),{username:u, password:p, bio:"", pic:"", isAdmin:isAdmin});
+  localStorage.setItem("yaarii_user", id);
+  currentProfile={username:u, password:p, bio:"", pic:"", isAdmin:isAdmin};
+  currentUser=id;
+  showLoggedIn();
+  authMsg.innerText="Signup ho gaya! Welcome "+u;
 }
 window.login = async()=>{
-  try{ await signInWithEmailAndPassword(auth, email.value, password.value); authMsg.innerText="Welcome back!"; }catch(e){authMsg.innerText=e.message}
+  let u = username.value.trim();
+  let p = password.value.trim();
+  if(!u || !p) return authMsg.innerText="Username aur Password likho";
+  let id = u.toLowerCase().replace(/\s+/g,'_');
+  let snap = await getDoc(doc(db,"users",id));
+  if(!snap.exists()) return authMsg.innerText="Ye account nahi mila, pehle Signup karo";
+  let data = snap.data();
+  if(data.password !== p) return authMsg.innerText="Password galat hai";
+  localStorage.setItem("yaarii_user", id);
+  currentUser=id; currentProfile=data;
+  showLoggedIn();
+  authMsg.innerText="Welcome back "+data.username+"!";
 }
-window.logout = async()=>{ await signOut(auth); location.reload(); }
+window.logout = ()=>{ localStorage.removeItem("yaarii_user"); location.reload(); }
+
+function showLoggedIn(){
+  profileCard.classList.remove('hidden');
+  myName.innerHTML = currentProfile.username + (currentProfile.isAdmin ? ' 👑 <span class=badge>LEADER</span>' : '');
+  myBioShow.innerText = currentProfile.bio||"";
+  if(currentProfile.pic) myPic.src=currentProfile.pic;
+  loadPosts();
+}
 window.updateProfile = async()=>{
   if(!currentUser) return alert("Pehle login karo");
-  await updateDoc(doc(db,"users",currentUser.uid),{bio:bio.value, pic:picUrl.value});
-  alert("Profile update ho gaya!"); loadPosts();
+  await updateDoc(doc(db,"users",currentUser),{bio:bio.value, pic:picUrl.value});
+  alert("Profile update ho gaya!"); location.reload();
 }
 window.addPost = async()=>{
   if(!currentUser) return alert("Pehle login karo jani");
   if(!postText.value) return alert("Kuch likho to sahi");
-  await addDoc(collection(db,"posts"),{text:postText.value, img:postImg.value, topic:topic.value, uid:currentUser.uid, username:currentProfile?.username||"User", pic:currentProfile?.pic||"", isAdmin:currentProfile?.isAdmin||false, likes:0, time:serverTimestamp()});
+  await addDoc(collection(db,"posts"),{text:postText.value, img:postImg.value, topic:topic.value, uid:currentUser, username:currentProfile?.username||"User", pic:currentProfile?.pic||"", isAdmin:currentProfile?.isAdmin||false, likes:0, time:serverTimestamp()});
   postText.value=""; postImg.value=""; loadPosts();
 }
 window.filterTopic = (t)=>{ currentFilter=t; document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active')); event.target.classList.add('active'); loadPosts(); }
@@ -114,32 +151,30 @@ window.deletePost = async(id)=>{
   if(!currentProfile?.isAdmin) return alert("Sirf Admin delete kar sakta hai");
   if(confirm("Delete kar dun?")){ await deleteDoc(doc(db,"posts",id)); loadPosts(); }
 }
-onAuthStateChanged(auth, async(user)=>{
-  currentUser=user;
-  if(user){
-    const snap = await getDoc(doc(db,"users",user.uid));
-    currentProfile = snap.data();
-    profileCard.classList.remove('hidden');
-    myName.innerHTML = currentProfile.username + (currentProfile.isAdmin ? ' 👑 <span class=badge>LEADER</span>' : '');
-    myBioShow.innerText = currentProfile.bio||"";
-    if(currentProfile.pic) myPic.src=currentProfile.pic;
-    authMsg.innerText="Logged in: "+currentProfile.username;
+async function loadPosts(){
+  try{
+    const q = query(collection(db,"posts"), orderBy("time","desc"));
+    const snap = await getDocs(q);
+    let html="";
+    snap.forEach(d=>{
+      const p=d.data();
+      if(currentFilter!=='All' && !p.topic.includes(currentFilter) && p.topic!==currentFilter) return;
+      const crown = p.isAdmin ? ' 👑 <span class=badge>LEADER • ADMIN</span>' : '';
+      const delBtn = currentProfile?.isAdmin ? `<button onclick="deletePost('${d.id}')" style="background:red;color:#fff;border:none;padding:5px 10px;border-radius:8px;margin-top:8px">Delete (Admin)</button>` : '';
+      html+=`<div class="card"><div class="flex"><img class="avatar" src="${p.pic||'https://via.placeholder.com/100'}"><div><b>${p.username}</b>${crown}<br><span class="small">${p.topic}</span></div></div><p>${p.text}</p>${p.img?`<img class="post-img" src="${p.img}">`:''}<div style="margin-top:10px"><span class="like" onclick="likePost('${d.id}',${p.likes||0})">❤️ ${p.likes||0} Like</span> &nbsp; 💬 Comment</div>${delBtn}</div>`;
+    });
+    posts.innerHTML = html || "<p style='text-align:center;color:#888'>Abhi koi post nahi, pehli post tum karo!</p>";
+  }catch(e){ posts.innerHTML="<p style='text-align:center;color:#ff6b6b'>Firestore Database abhi bana nahi. Firebase me ja ke Firestore Database > Create Database > Test mode kar do.</p>"; }
+}
+async function checkLogin(){
+  let saved = localStorage.getItem("yaarii_user");
+  if(saved){
+    let snap = await getDoc(doc(db,"users",saved));
+    if(snap.exists()){ currentUser=saved; currentProfile=snap.data(); showLoggedIn(); return; }
   }
   loadPosts();
-});
-async function loadPosts(){
-  const q = query(collection(db,"posts"), orderBy("time","desc"));
-  const snap = await getDocs(q);
-  let html="";
-  snap.forEach(d=>{
-    const p=d.data();
-    if(currentFilter!=='All' && !p.topic.includes(currentFilter) && p.topic!==currentFilter) return;
-    const crown = p.isAdmin ? ' 👑 <span class=badge>LEADER • ADMIN</span>' : '';
-    const delBtn = currentProfile?.isAdmin ? `<button onclick="deletePost('${d.id}')" style="background:red;color:#fff;border:none;padding:5px 10px;border-radius:8px;margin-top:8px">Delete (Admin)</button>` : '';
-    html+=`<div class="card"><div class="flex"><img class="avatar" src="${p.pic||'https://via.placeholder.com/100'}"><div><b>${p.username}</b>${crown}<br><span class="small">${p.topic}</span></div></div><p>${p.text}</p>${p.img?`<img class="post-img" src="${p.img}">`:''}<div style="margin-top:10px"><span class="like" onclick="likePost('${d.id}',${p.likes||0})">❤️ ${p.likes||0} Like</span> &nbsp; 💬 Comment</div>${delBtn}</div>`;
-  });
-  posts.innerHTML = html || "<p style='text-align:center;color:#888'>Abhi koi post nahi, pehli post tum karo!</p>";
 }
+checkLogin();
 window.loadPosts=loadPosts;
 </script>
 </body>
