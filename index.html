@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Yaarii.pk - Damadam Style 👑</title>
+<title>Yaarii.pk - Full Mehfil 👑</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#0a0a0a;color:#fff;font-family:'Segoe UI',Arial,sans-serif;padding-bottom:75px}
@@ -33,13 +33,16 @@ a{color:#FFD700;text-decoration:none}
 .pBtns button{flex:1;padding:10px 4px;border-radius:8px;border:1px solid #444;background:#222;color:#fff;font-size:11px;font-weight:bold;cursor:pointer}
 .pBtns button.gold{background:#FFD700;color:#000;border:none}
 .pBtns button.red{background:#331111;border-color:#ff4d4d;color:#ff6b6b}
+.pBtns button.cat{background:#2a1133;border-color:#ba4dff;color:#e1b1ff}
+.pBtns button.dog{background:#332611;border-color:#ffb84d;color:#ffe0b5}
 .bottom{position:fixed;bottom:0;left:0;right:0;background:#000;display:flex;z-index:99;border-top:2px solid #FFD700}
-.bottom button{flex:1;background:none;border:none;color:#aaa;padding:10px 2px;font-size:11px;cursor:pointer}
+.bottom button{flex:1;background:none;border:none;color:#aaa;padding:10px 2px;font-size:10px;cursor:pointer}
 .bottom button.on{color:#FFD700;font-weight:bold}
 .hidden{display:none !important}
 input,select,textarea{width:100%;padding:12px;margin:6px 0;background:#1e1e1e;border:1px solid #444;color:#fff;border-radius:10px;outline:none}
 .powerBox{background:linear-gradient(90deg,#FFD700,#ffa500);color:#000;border-radius:12px;padding:14px;margin:10px 12px;text-align:center;font-weight:bold;box-shadow:0 4px 15px rgba(255,215,0,0.3)}
 .chatMsg{background:#1e1e1e;border:1px solid #333;border-radius:10px;padding:10px;margin:6px 0;font-size:13px}
+.leadItem{display:flex;justify-content:space-between;padding:10px;border-bottom:1px solid #222}
 </style>
 </head>
 <body>
@@ -57,7 +60,7 @@ input,select,textarea{width:100%;padding:12px;margin:6px 0;background:#1e1e1e;bo
 <div id="page-auth">
   <div id="auth-signup" class="authBox">
     <h1>اکاؤنٹ بنائیں 👑</h1>
-    <p>Damadam + Dostana Style Mehfil</p>
+    <p>پاکستان کی سب سے تفریحی دوستانہ محفل</p>
     <div class="inp">👤&nbsp;<input id="sUser" placeholder="صارف نام (Username)"></div>
     <div class="inp">🔒&nbsp;<input id="sPass" type="password" placeholder="پاس ورڈ (Password)"></div>
     <button class="btnGold" type="button" onclick="handleSignup()">شروع کریں 🚀</button>
@@ -85,45 +88,64 @@ input,select,textarea{width:100%;padding:12px;margin:6px 0;background:#1e1e1e;bo
     <span style="font-size:12px;margin-top:4px;display:block">⚡ پاور: <span id="myPower">50</span> | 🎯 پوائنٹس: <span id="myPoints">10</span></span>
   </div>
 
-  <!-- HOME FAST STATUS / TEXT POST -->
   <div class="card">
-    <h3 style="color:#FFD700;margin-bottom:6px">✍️ Home Par Likho (Post Karo)</h3>
-    <textarea id="homeText" placeholder="آپ کے دل میں کیا ہے؟ یہاں تحریر کریں..."></textarea>
+    <h3 style="color:#FFD700;margin-bottom:6px">✍️ Home Status Post</h3>
+    <select id="postCategory">
+      <option value="General">General GupShup</option>
+      <option value="Jokes">Lateefay / Jokes 🤣</option>
+      <option value="Shairy">Shairy Corner 📜</option>
+      <option value="DP">DP Competition 🖼️</option>
+    </select>
+    <textarea id="homeText" placeholder="آپ کے دل میں کیا ہے؟..."></textarea>
     <button class="btnGold" type="button" onclick="createHomePost()">پوسٹ کریں ( +5 Points ) 🚀</button>
   </div>
 
   <div id="feed"></div>
 </div>
 
-<!-- SHARE PAGE WITH PHOTO -->
+<!-- SHARE PHOTO -->
 <div id="page-share" class="hidden">
-  <div class="card" style="text-align:center"><h2 style="color:#FFD700;font-size:18px">📸 تصویر شیئر کریں</h2></div>
+  <div class="card" style="text-align:center"><h2 style="color:#FFD700;font-size:18px">📸 فوٹو شیئرنگ</h2></div>
   <div class="card">
-    <label style="font-size:12px;color:#aaa">تصویر منتخب کریں:</label>
     <input type="file" id="postPic" accept="image/*">
-    <textarea id="postText" placeholder="تصویر کے بارے میں کچھ لکھیں..."></textarea>
+    <textarea id="postText" placeholder="تصویر کا کیپشن لکھیں..."></textarea>
     <button class="btnGold" type="button" onclick="createPhotoPost()">تصویر پوسٹ کریں 🚀</button>
   </div>
 </div>
 
-<!-- INBOX PAGE -->
+<!-- LEADERBOARD / STARS -->
+<div id="page-stars" class="hidden">
+  <div class="card"><h2 style="color:#FFD700;font-size:18px">🏆 Top 10 Stars (Leaderboard)</h2></div>
+  <div class="card" id="starList"></div>
+</div>
+
+<!-- INBOX -->
 <div id="page-inbox" class="hidden">
   <div class="card">
     <h3 style="color:#FFD700">✉️ Direct Message (DM)</h3>
     <input id="dmTo" placeholder="Recipient Username">
-    <input id="dmText" placeholder="میسج یہاں لکھیں...">
+    <input id="dmText" placeholder="پیغام...">
     <button class="btnGold" type="button" onclick="sendDM()">DM بھیجیں 📩</button>
     <div id="dmList" style="margin-top:14px"></div>
   </div>
 </div>
 
-<!-- CHAT ROOM -->
+<!-- CHAT -->
 <div id="page-chat" class="hidden">
   <div class="card"><h2 style="color:#FFD700;font-size:18px">💬 پبلک محفل چیٹ روم</h2></div>
   <div class="card" id="chatBox" style="max-height:300px;overflow-y:auto"></div>
   <div class="card">
-    <input id="chatText" placeholder="محفل میں پیغام بھیجیں...">
+    <input id="chatText" placeholder="پیغام لکھیں...">
     <button class="btnGold" type="button" onclick="sendChat()">بھیجیں 💬</button>
+  </div>
+</div>
+
+<!-- FUN ARCADE -->
+<div id="page-fun" class="hidden">
+  <div class="card">
+    <h2 style="color:#FFD700;font-size:16px">🔮 قسمت کا طوطا</h2>
+    <p id="kismatText" style="margin:12px 0;font-size:14px">بٹن دبائیں اور آج کی قسمت جانیں...</p>
+    <button class="btnGold" type="button" onclick="tellKismat()">قسمت چیک کریں 🎯</button>
   </div>
 </div>
 
@@ -131,8 +153,10 @@ input,select,textarea{width:100%;padding:12px;margin:6px 0;background:#1e1e1e;bo
 <div class="bottom" id="bottomBar" style="display:none">
   <button type="button" onclick="showPage('home')" id="bn-home" class="on">🏠<br>ہوم</button>
   <button type="button" onclick="showPage('share')" id="bn-share">➕<br>فوٹو</button>
+  <button type="button" onclick="showPage('stars')" id="bn-stars">🏆<br>ٹاپ 10</button>
   <button type="button" onclick="showPage('inbox')" id="bn-inbox">✉️<br>ان باکس</button>
   <button type="button" onclick="showPage('chat')" id="bn-chat">💬<br>چیٹ</button>
+  <button type="button" onclick="showPage('fun')" id="bn-fun">🎮<br>فن</button>
   <button type="button" onclick="logout()" id="bn-logout">🚪<br>خروج</button>
 </div>
 
@@ -141,7 +165,7 @@ var curUser = localStorage.getItem('y_cur') || '';
 var userPoints = parseInt(localStorage.getItem('y_pts') || '10');
 var userPower = parseInt(localStorage.getItem('y_pwr') || '50');
 
-/* AUDIO SYSTEM WITH REAL MEME AUDIO BUFFERS */
+/* TIKTOK STYLE MEME SOUNDS */
 var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
 function playFaahSound(){
@@ -182,6 +206,40 @@ function playChupairSound(){
   }catch(e){}
 }
 
+function playCatMeow(){
+  try{
+    var now = audioCtx.currentTime;
+    var osc = audioCtx.createOscillator();
+    var gain = audioCtx.createGain();
+    osc.frequency.setValueAtTime(850, now);
+    osc.frequency.linearRampToValueAtTime(1350, now + 0.15);
+    osc.frequency.linearRampToValueAtTime(650, now + 0.3);
+    gain.gain.setValueAtTime(0.5, now);
+    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start(now);
+    osc.stop(now + 0.31);
+  }catch(e){}
+}
+
+function playDogBark(){
+  try{
+    var now = audioCtx.currentTime;
+    var osc = audioCtx.createOscillator();
+    var gain = audioCtx.createGain();
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(220, now);
+    osc.frequency.linearRampToValueAtTime(140, now + 0.12);
+    gain.gain.setValueAtTime(0.6, now);
+    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.15);
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start(now);
+    osc.stop(now + 0.16);
+  }catch(e){}
+}
+
 function switchAuthTab(t){
   document.getElementById('auth-signup').classList.toggle('hidden', t!=='signup');
   document.getElementById('auth-login').classList.toggle('hidden', t!=='login');
@@ -192,7 +250,7 @@ function switchAuthTab(t){
 function handleSignup(){
   var u=document.getElementById('sUser').value.trim();
   var p=document.getElementById('sPass').value;
-  if(!u||!p) return alert('Username اور Password دونوں درج کریں!');
+  if(!u||!p) return alert('Username aur Password likhein!');
   curUser = u;
   saveUserSession();
   registerOnlineUser(u);
@@ -239,7 +297,7 @@ function startApp(){
 }
 
 function showPage(p){
-  ['home','share','inbox','chat'].forEach(function(x){
+  ['home','share','stars','inbox','chat','fun'].forEach(function(x){
     var el=document.getElementById('page-'+x);
     if(el) el.classList.add('hidden');
     var bn=document.getElementById('bn-'+x);
@@ -251,12 +309,13 @@ function showPage(p){
   if(activeBn) activeBn.classList.add('on');
 
   if(p==='home'){ renderOnlineBar(); loadPosts(); }
+  if(p==='stars') renderStars();
   if(p==='chat') loadChat();
   if(p==='inbox') loadInbox();
 }
 
 function renderOnlineBar(){
-  var list = JSON.parse(localStorage.getItem('y_online') || '["Admin", "Fahad", "Shabana"]');
+  var list = JSON.parse(localStorage.getItem('y_online') || '["Admin", "Fahad", "Shabana", "Mujtaba"]');
   document.getElementById('onlineCount').innerText = list.length;
   var bar = document.getElementById('onlineBar');
   bar.innerHTML = '';
@@ -265,11 +324,11 @@ function renderOnlineBar(){
   });
 }
 
-/* POST CREATION */
 function createHomePost(){
   var txt = document.getElementById('homeText').value.trim();
+  var cat = document.getElementById('postCategory').value;
   if(!txt) return alert('Pehle text likhein!');
-  savePostData(txt, '');
+  savePostData(txt, '', cat);
   document.getElementById('homeText').value = '';
 }
 
@@ -280,7 +339,7 @@ function createPhotoPost(){
 
   var reader = new FileReader();
   reader.onload = function(e){
-    savePostData(txt, e.target.result || '');
+    savePostData(txt, e.target.result || '', 'Photos');
     document.getElementById('postText').value = '';
     document.getElementById('postPic').value = '';
   };
@@ -288,20 +347,23 @@ function createPhotoPost(){
   if(fileInput.files && fileInput.files[0]){
     reader.readAsDataURL(fileInput.files[0]);
   } else {
-    savePostData(txt, '');
+    savePostData(txt, '', 'Photos');
     document.getElementById('postText').value = '';
   }
 }
 
-function savePostData(txt, imgData){
+function savePostData(txt, imgData, cat){
   var posts = JSON.parse(localStorage.getItem('y_posts') || '[]');
   posts.unshift({
     id: Date.now(),
     u: curUser,
     text: txt,
     pic: imgData,
+    cat: cat || 'General',
     faah: 0,
     chupair: 0,
+    catReact: 0,
+    dogReact: 0,
     time: new Date().toLocaleTimeString()
   });
   localStorage.setItem('y_posts', JSON.stringify(posts));
@@ -324,12 +386,14 @@ function loadPosts(){
 
   posts.forEach(function(p){
     feed.innerHTML += '<div class="post">'+
-      '<div class="postHead"><b>'+p.u+'</b><span class="badge">'+p.time+'</span></div>'+
+      '<div class="postHead"><b>'+p.u+'</b><span class="badge">'+(p.cat||'General')+'</span></div>'+
       (p.text ? '<p style="margin-top:10px;font-size:14px">'+p.text+'</p>' : '')+
       (p.pic ? '<img src="'+p.pic+'">' : '')+
       '<div class="pBtns">'+
         '<button class="gold" type="button" onclick="reactPost('+p.id+', \'faah\')">👍 Faaaa! ('+p.faah+')</button>'+
         '<button class="red" type="button" onclick="reactPost('+p.id+', \'chupair\')">👋 Chupair ('+p.chupair+')</button>'+
+        '<button class="cat" type="button" onclick="reactPost('+p.id+', \'cat\')">🐱 Meow ('+(p.catReact||0)+')</button>'+
+        '<button class="dog" type="button" onclick="reactPost('+p.id+', \'dog\')">🐶 Bark ('+(p.dogReact||0)+')</button>'+
       '</div>'+
     '</div>';
   });
@@ -338,15 +402,28 @@ function loadPosts(){
 function reactPost(id, type){
   if(type==='faah') playFaahSound();
   if(type==='chupair') playChupairSound();
+  if(type==='cat') playCatMeow();
+  if(type==='dog') playDogBark();
 
   var posts = JSON.parse(localStorage.getItem('y_posts') || '[]');
   var p = posts.find(function(x){ return x.id===id; });
   if(p){
     if(type==='faah') p.faah++;
     if(type==='chupair') p.chupair++;
+    if(type==='cat') p.catReact = (p.catReact||0)+1;
+    if(type==='dog') p.dogReact = (p.dogReact||0)+1;
     localStorage.setItem('y_posts', JSON.stringify(posts));
     loadPosts();
   }
+}
+
+function renderStars(){
+  var box = document.getElementById('starList');
+  box.innerHTML = '';
+  var online = JSON.parse(localStorage.getItem('y_online') || '["Admin", "Fahad"]');
+  online.forEach(function(u, idx){
+    box.innerHTML += '<div class="leadItem"><span>#'+(idx+1)+' 👤 <b>'+u+'</b></span><span style="color:#FFD700">★ '+(100 - idx*10)+' Points</span></div>';
+  });
 }
 
 function updateStats(){
@@ -400,19 +477,4 @@ function loadChat(){
   var box = document.getElementById('chatBox');
   box.innerHTML = '';
   chats.forEach(function(c){
-    box.innerHTML += '<div class="chatMsg"><b>'+c.u+':</b> '+c.text+' <span style="font-size:9px;color:#888;float:right">'+c.time+'</span></div>';
-  });
-  box.scrollTop = box.scrollHeight;
-}
-
-function logout(){
-  localStorage.removeItem('y_cur');
-  location.reload();
-}
-
-if(curUser){
-  startApp();
-}
-</script>
-</body>
-                                                                                                                  </html>
+    box.innerHTML += '<div class="chatMsg"><b>'+c.u+':</b> '+c.text+' <span style="font-size:9px;co
