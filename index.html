@@ -3,185 +3,471 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Yaarii-PK 👑</title>
+<title>Yaarii.pk - Pakistan Ki Mehfil 👑</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#000;color:#fff;font-family:Arial;padding-bottom:80px;padding-top:52px}
-a{color:#FFD700}
-.top{position:fixed;top:0;left:0;right:0;z-index:99;background:#000;padding:11px 12px;display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #FFD700}
-.top b{color:#FFD700;font-size:22px}
-.card{background:#0d0d0d;border:1px solid #333;border-radius:14px;padding:12px;margin:10px}
-.authBox{background:#0d0d0d;border:1px solid #FFD700;border-radius:18px;padding:18px;margin:14px;text-align:center}
-.authBox h1{color:#FFD700;font-size:30px}.authBox p{color:#aaa;font-size:13px;margin-bottom:10px}
-.inp{display:flex;align-items:center;background:#1a1a1a;border:1px solid #444;border-radius:10px;padding:12px;margin:8px 0}
+body{background:#0d0d0d;color:#fff;font-family:'Segoe UI',Tahoma,Arial,sans-serif;padding-bottom:75px}
+a{color:#FFD700;text-decoration:none}
+.top{position:fixed;top:0;left:0;right:0;z-index:99;background:#000;padding:12px;display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #FFD700;box-shadow:0 2px 10px rgba(255,215,0,0.3)}
+.top b{font-size:20px;color:#FFD700;letter-spacing:1px}
+.topNav{display:flex;gap:8px;font-size:12px}
+.topNav span{cursor:pointer;color:#ccc;padding:4px 10px;border-radius:14px;border:1px solid #333}
+.topNav .on{color:#000;background:#FFD700;font-weight:bold;border-color:#FFD700}
+.card{background:#141414;border:1px solid #282828;border-radius:14px;padding:14px;margin:10px 12px;box-shadow:0 4px 12px rgba(0,0,0,0.5)}
+.authBox{background:#141414;border:2px solid #FFD700;border-radius:18px;padding:22px;margin:20px 14px;text-align:center}
+.authBox h1{color:#FFD700;font-size:30px;margin-bottom:6px}.authBox p{color:#aaa;font-size:12px;margin-bottom:14px}
+.inp{display:flex;align-items:center;background:#1e1e1e;border:1px solid #444;border-radius:10px;padding:12px;margin:8px 0}
 .inp input{background:none;border:none;outline:none;color:#fff;width:100%;font-size:15px}
-.btnGold{background:#FFD700;color:#000;border:none;width:100%;padding:14px;border-radius:10px;font-size:18px;font-weight:bold;margin-top:8px;cursor:pointer}
-.btnBlack{background:#1a1a1a;color:#FFD700;border:1px solid #FFD700;padding:11px;width:100%;border-radius:10px;margin-top:6px;font-weight:bold;cursor:pointer}
-.onlineBar{display:flex;gap:10px;overflow-x:auto;padding:6px 2px}
-.uCircle{min-width:68px;text-align:center}
-.uCircle div{width:54px;height:54px;border-radius:50%;background:#1a1a1a;display:flex;align-items:center;justify-content:center;font-size:22px;border:2px solid #FFD700;margin:auto;position:relative;overflow:hidden}
-.uCircle div img{width:100%;height:100%;object-fit:cover}
-.uCircle .dot{position:absolute;bottom:2px;right:2px;width:12px;height:12px;background:#00ff00;border-radius:50%;border:2px solid #000}
-.uCircle p{font-size:11px;margin-top:3px}.uCircle small{font-size:10px;color:#FFD700;font-weight:bold}
-.storyRow{display:flex;gap:10px;overflow-x:auto;padding:6px 2px}
-.story{min-width:72px;text-align:center}.story div{width:58px;height:58px;border-radius:50%;background:#1a1a1a;display:flex;align-items:center;justify-content:center;font-size:22px;border:2px solid #FFD700;overflow:hidden}.story div img{width:100%;height:100%;object-fit:cover}
-.post{background:#111;border:1px solid #333;border-radius:12px;padding:11px;margin:10px}.post img{width:100%;border-radius:10px;margin-top:8px}
-.badge{background:#1a1a1a;border:1px solid #FFD700;color:#FFD700;border-radius:20px;padding:3px 8px;font-size:11px}
-.pBtns{display:flex;gap:5px;flex-wrap:wrap;margin-top:10px}.pBtns button{flex:1;min-width:52px;padding:8px 2px;border-radius:8px;border:1px solid #444;background:#1a1a1a;color:#fff;font-size:11px;cursor:pointer}.pBtns button.gold{background:#FFD700;color:#000;font-weight:bold}
-.bottom{position:fixed;bottom:0;left:0;right:0;background:#000;display:flex;z-index:99;border-top:2px solid #FFD700}.bottom button{flex:1;background:none;border:none;color:#ccc;padding:8px 1px;font-size:11px;cursor:pointer}.bottom button.on{color:#FFD700;font-weight:bold}
-.hidden{display:none}
-input,select,textarea{width:100%;padding:12px;margin:6px 0;background:#1a1a1a;border:1px solid #444;color:#fff;border-radius:10px}
-.small{font-size:12px;color:#aaa}.bigBtn{padding:13px;border-radius:12px;border:none;width:100%;margin:6px 0;font-weight:bold;color:#000;background:#FFD700;font-size:15px;cursor:pointer}
-.chip{display:inline-block;background:#1a1a1a;border:1px solid #FFD700;color:#FFD700;padding:6px 10px;border-radius:20px;font-size:12px;margin:3px;cursor:pointer}
-.lead{display:flex;justify-content:space-between;padding:12px;margin:8px 10px;border-radius:12px;background:#1a1a1a;border:1px solid #FFD700;font-weight:bold}
-.powerBox{background:linear-gradient(90deg,#FFD700,#ffaa00);color:#000;border-radius:12px;padding:12px;margin:10px;text-align:center;font-weight:bold}
-.dpBig{width:90px;height:90px;border-radius:50%;background:#FFD700;display:flex;align-items:center;justify-content:center;font-size:40px;margin:10px auto;color:#000;overflow:hidden}.dpBig img{width:100%;height:100%;object-fit:cover}
-#msgBox{background:#1a1a1a;border:1px solid #FFD700;color:#FFD700;padding:10px;border-radius:10px;margin:10px;text-align:center;font-weight:bold}
+.btnGold{background:linear-gradient(45deg,#FFD700,#ffa500);color:#000;border:none;width:100%;padding:13px;border-radius:10px;font-size:16px;font-weight:bold;margin-top:10px;cursor:pointer}
+.btnBlack{background:#1e1e1e;color:#FFD700;border:1px solid #FFD700;padding:11px;width:100%;border-radius:10px;margin-top:8px;font-weight:bold;cursor:pointer}
+.onlineBar{display:flex;gap:12px;overflow-x:auto;padding:6px 2px}
+.uCircle{min-width:60px;text-align:center}
+.uCircle div{width:48px;height:48px;border-radius:50%;background:#1e1e1e;display:flex;align-items:center;justify-content:center;font-size:20px;border:2px solid #FFD700;margin:auto;position:relative}
+.uCircle .dot{position:absolute;bottom:0;right:0;width:11px;height:11px;background:#00ff00;border-radius:50%;border:2px solid #000}
+.uCircle p{font-size:10px;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.post{background:#181818;border:1px solid #2e2e2e;border-radius:14px;padding:14px;margin:12px 10px}
+.post img{width:100%;border-radius:10px;margin-top:10px;max-height:300px;object-fit:cover}
+.postHead{display:flex;justify-content:space-between;align-items:center}
+.badge{background:#1e1e1e;border:1px solid #FFD700;color:#FFD700;border-radius:20px;padding:3px 10px;font-size:11px;font-weight:bold}
+.pBtns{display:flex;gap:5px;flex-wrap:wrap;margin-top:12px}
+.pBtns button{flex:1;padding:9px 2px;border-radius:8px;border:1px solid #444;background:#222;color:#fff;font-size:11px;font-weight:bold;cursor:pointer}
+.pBtns button.gold{background:#FFD700;color:#000;border:none}
+.pBtns button.red{background:#331111;border-color:#ff4d4d;color:#ff6b6b}
+.pBtns button.cat{background:#2a1133;border-color:#ba4dff;color:#e1b1ff}
+.pBtns button.dog{background:#332611;border-color:#ffb84d;color:#ffe0b5}
+.bottom{position:fixed;bottom:0;left:0;right:0;background:#000;display:flex;z-index:99;border-top:2px solid #FFD700}
+.bottom button{flex:1;background:none;border:none;color:#aaa;padding:10px 2px;font-size:11px;cursor:pointer}
+.bottom button.on{color:#FFD700;font-weight:bold}
+.hidden{display:none !important}
+input,select,textarea{width:100%;padding:12px;margin:6px 0;background:#1e1e1e;border:1px solid #444;color:#fff;border-radius:10px;outline:none}
+.powerBox{background:linear-gradient(90deg,#FFD700,#ffa500);color:#000;border-radius:12px;padding:14px;margin:10px 12px;text-align:center;font-weight:bold;box-shadow:0 4px 15px rgba(255,215,0,0.3)}
+.chatMsg{background:#1e1e1e;border:1px solid #333;border-radius:10px;padding:10px;margin:6px 0;font-size:13px}
+.soundGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
 </style>
 </head>
 <body>
-<div class="top"><b>Yaarii-PK 👑</b><div style="display:flex;gap:12px;font-size:12px"><span onclick="showAuth('login')">Login</span><span onclick="showAuth('signup')">Sign Up</span></div></div>
-<div id="msgBox" class="hidden"></div>
 
+<div class="top">
+  <b>Yaarii.pk 👑</b>
+  <div class="topNav">
+    <span id="tab-login" onclick="switchAuthTab('login')">Login</span>
+    <span id="tab-signup" class="on" onclick="switchAuthTab('signup')">Sign Up</span>
+  </div>
+</div>
+<div style="height:54px"></div>
+
+<!-- AUTH CONTAINER -->
 <div id="page-auth">
-<div id="auth-signup" class="authBox"><h1>اکاؤنٹ بنائیں</h1><p>Yaarii-PK فیملی میں شامل ہوں</p>
-<div class="inp">👤&nbsp;<input id="sUser" placeholder="صارف نام"></div>
-<div class="inp">🔒&nbsp;<input id="sPass" type="password" placeholder="پاس ورڈ"></div>
-<label style="font-size:12px;display:flex;gap:6px;align-items:center;margin:8px 0"><input type="checkbox" id="agree" checked style="width:auto"> میں قواعد سے اتفاق کرتا ہوں</label>
-<button type="button" id="btnSignup" class="btnGold">شروع کریں</button>
-<p style="margin-top:12px">پہلے سے اکاؤنٹ ہے؟ <a href="#" onclick="showAuth('login');return false">لاگ اِن کریں</a></p></div>
-<div id="auth-login" class="authBox hidden"><h1>خوش آمدید</h1><p>لاگ اِن کریں</p>
-<div class="inp">👤&nbsp;<input id="lUser" placeholder="صارف نام"></div>
-<div class="inp">🔒&nbsp;<input id="lPass" type="password" placeholder="پاس ورڈ"></div>
-<button type="button" id="btnLogin" class="btnGold">لاگ اِن</button>
-<p style="margin-top:12px">نئے ہیں؟ <a href="#" onclick="showAuth('signup');return false">اکاؤنٹ بنائیں</a></p></div>
+  <div id="auth-signup" class="authBox">
+    <h1>اکاؤنٹ بنائیں 👑</h1>
+    <p>پاکستان کی سب سے مزے دار دوستانہ محفل میں شامل ہوں</p>
+    <div class="inp">👤&nbsp;<input id="sUser" placeholder="صارف نام (Username)"></div>
+    <div class="inp">🔒&nbsp;<input id="sPass" type="password" placeholder="پاس ورڈ (Password)"></div>
+    <button class="btnGold" type="button" onclick="handleSignup()">شروع کریں 🚀</button>
+    <p style="margin-top:16px">پہلے سے اکاؤنٹ ہے؟ <a href="#" onclick="switchAuthTab('login');return false">لاگ اِن کریں</a></p>
+  </div>
+  <div id="auth-login" class="authBox hidden">
+    <h1>خوش آمدید ⚡</h1>
+    <p>اپنے Yaarii اکاؤنٹ میں داخل ہوں</p>
+    <div class="inp">👤&nbsp;<input id="lUser" placeholder="صارف نام"></div>
+    <div class="inp">🔒&nbsp;<input id="lPass" type="password" placeholder="پاس ورڈ"></div>
+    <button class="btnGold" type="button" onclick="handleLogin()">لاگ اِن 🔓</button>
+    <p style="margin-top:16px">نئے ہیں؟ <a href="#" onclick="switchAuthTab('signup');return false">اکاؤنٹ بنائیں</a></p>
+  </div>
 </div>
 
+<!-- HOME PAGE -->
 <div id="page-home" class="hidden">
-<div class="card"><b>🟢 <span id="onlineCount">0</span> ONLINE</b><div class="onlineBar" id="onlineBar"></div><p class="small">صرف وہ جو اس وقت خود آن لائن ہیں۔</p></div>
-<div class="powerBox">⚡ میری پاور: <span id="myPower">0</span> | میرے پوائنٹس: <span id="myPoints">0</span><br><span style="font-size:12px">پوسٹ = +1 | لائک = +5 | ٹرینڈنگ کری ایٹر کا لائک = +5000</span></div>
-<div class="card"><div style="display:flex;justify-content:space-between"><b>سٹوریز</b><span style="color:#FFD700;cursor:pointer" onclick="openStoryBox()">+ سٹوری لگاؤ</span></div><div class="storyRow" id="storyRow"></div><div id="storyBox" class="hidden" style="margin-top:10px"><input id="storyText" placeholder="سٹوری میں کیا لکھنا ہے؟"><input type="file" id="storyPic" accept="image/*"><button type="button" class="btnGold" onclick="addStory()">سٹوری لگاؤ ✅</button></div></div>
-<div class="card" style="display:flex;gap:8px"><input id="quickText" placeholder="دل کی بات لکھو..."><button type="button" onclick="quickPost()" style="background:#FFD700;color:#000;border:none;padding:10px 16px;border-radius:10px;font-weight:bold;cursor:pointer">➤</button></div>
-<div id="feed"></div>
+  <div class="card">
+    <b>🟢 ایکٹو آن لائن ممبرز (<span id="onlineCount">0</span>)</b>
+    <div class="onlineBar" id="onlineBar"></div>
+  </div>
+
+  <div class="powerBox">
+    <span style="font-size:16px">👤 <span id="uNameDisp">User</span> (<span id="uRank" class="badge">Naya Yaar 👶</span>)</span><br>
+    <span style="font-size:12px;margin-top:4px;display:block">⚡ پاور: <span id="myPower">50</span> | 🎯 پوائنٹس: <span id="myPoints">10</span></span>
+  </div>
+
+  <div id="feed"></div>
 </div>
 
+<!-- SHARE PAGE -->
 <div id="page-share" class="hidden">
-<div class="card" style="text-align:center"><h2 style="color:#FFD700">پوسٹ بناؤ</h2><p class="small">ٹیکسٹ یا تصویر شیئر کرو - یہ 100% کام کرے گا</p></div>
-<div class="card"><h3>کیٹیگری</h3><select id="postCat"></select><h3>تصویر</h3><input type="file" id="postPic" accept="image/*"><h3>کیپشن</h3><textarea id="postText" placeholder="اس تصویر کے بارے میں لکھو..."></textarea><button type="button" class="btnGold" onclick="addPost()">پوسٹ کرو 🚀 ( +1 پوائنٹ )</button><button type="button" class="btnBlack" onclick="showPage('home')">ہوم پر واپس جاؤ</button></div>
+  <div class="card" style="text-align:center"><h2 style="color:#FFD700;font-size:18px">📸 نئی پوسٹ یا فوٹو شئیر کریں</h2></div>
+  <div class="card">
+    <label style="font-size:12px;color:#aaa">تصویر منتخب کریں (Optional):</label>
+    <input type="file" id="postPic" accept="image/*">
+    <textarea id="postText" placeholder="دل کی بات، مزاح یا شاعری یہاں لکھیں..."></textarea>
+    <button class="btnGold" type="button" onclick="createPost()">پبلک پوسٹ بھیجیں 🚀</button>
+  </div>
 </div>
 
-<div id="page-trending" class="hidden"><div class="card" style="text-align:center"><h2 style="color:#FFD700">ٹرینڈنگ 🔥</h2><p class="small">سب سے زیادہ لائک والی پوسٹس</p></div><button type="button" class="btnGold" onclick="showPage('leader')">⭐ ٹاپ 10 سٹارز دیکھو</button><div id="trendFeed"></div></div>
-
+<!-- INBOX PAGE -->
 <div id="page-inbox" class="hidden">
-<div class="card"><h2 style="color:#FFD700">میسجز / ان باکس</h2><p class="small">کسی کو بھی میسج بھیجو، وہ اس کے ان باکس میں جائے گا</p><input id="dmTo" placeholder="کس کو بھیجنا ہے؟ نام لکھو - جیسے Ali"><input id="dmText" placeholder="میسج لکھو..."><button type="button" class="btnGold" onclick="sendDM()">بھیجو 📩</button><div id="dmList" style="margin-top:10px"></div></div>
-<div class="card"><h3>📩 میرے میسجز</h3><button type="button" class="btnBlack" onclick="loadInbox()">میسجز ریفریش کرو 🔄</button><div id="inboxList" style="margin-top:10px"></div></div>
+  <div class="card">
+    <h3 style="color:#FFD700">✉️ Direct Message (DM)</h3>
+    <input id="dmTo" placeholder="جسے میسج بھیجنا ہے اس کا Username لکھیں">
+    <input id="dmText" placeholder="پروائویٹ پیغام...">
+    <button class="btnGold" type="button" onclick="sendDM()">DM بھیجیں 📩</button>
+    <div id="dmList" style="margin-top:14px"></div>
+  </div>
 </div>
 
-<div id="page-1on1" class="hidden">
-<div class="card"><h2 style="color:#FFD700">محفل چیٹ 💬 - <span id="mehfilNameTop">سب کی محفل</span></h2><p class="small">@نام لکھ کر مینشن کرو</p></div><div id="chatBox"></div>
-<div class="card"><input id="chatText" placeholder="کچھ لکھو... @نام"><button type="button" class="btnGold" onclick="sendChat()">بھیجو 💬</button></div>
+<!-- CHAT ROOM -->
+<div id="page-chat" class="hidden">
+  <div class="card"><h2 style="color:#FFD700;font-size:18px">💬 پبلک محفل چیٹ روم</h2></div>
+  <div class="card" id="chatBox" style="max-height:300px;overflow-y:auto"></div>
+  <div class="card">
+    <input id="chatText" placeholder="سب کو پبلک میسج لکھیں...">
+    <button class="btnGold" type="button" onclick="sendChat()">بھیجیں 💬</button>
+  </div>
 </div>
 
-<div id="page-profile" class="hidden">
-<div class="card" style="text-align:center"><p class="small">میری پروفائل</p><div class="dpBig" id="pDpBox">👤</div><h2 id="pName">-</h2><p id="pMeta" style="color:#FFD700"></p><p class="small" id="pBio"></p><p id="pPowerLine" style="color:#FFD700;font-weight:bold;margin-top:6px"></p></div>
-<div class="card"><h3>✏️ پروفائل اپڈیٹ کرو</h3><p class="small">اپنی ڈی پی بدلو - تصویر لگاؤ</p><input type="file" id="dpFile" accept="image/*" onchange="changeDP()"><input id="eBio" placeholder="بائیو..."><input id="eAge" type="number" placeholder="عمر"><select id="eCity"><option>Lahore</option><option>Karachi</option><option>Islamabad</option><option>Rawalpindi</option><option>Faisalabad</option><option>Multan</option><option>Other</option></select><select id="eStar"><option>Aries ♈</option><option>Taurus ♉</option><option>Gemini ♊</option><option>Cancer ♋</option><option>Leo ♌</option><option>Virgo ♍</option><option>Libra ♎</option><option>Scorpio ♏</option><option>Sagittarius ♐</option><option>Capricorn ♑</option><option>Aquarius ♒</option><option>Pisces ♓</option></select><button type="button" class="btnGold" onclick="saveProfile()">سیو کرو ✅</button></div>
-<div class="card"><h3>📝 میری پوسٹس</h3><div id="myPosts"></div></div>
-<div id="adminPanel"></div>
+<!-- FUN ARCADE -->
+<div id="page-fun" class="hidden">
+  <div class="card">
+    <h2 style="color:#FFD700;font-size:16px">🔊 ساؤنڈ بورڈ (Funny Sounds)</h2>
+    <div class="soundGrid">
+      <button class="btnBlack" type="button" onclick="playPop()">👍 Faaaaah!</button>
+      <button class="btnBlack" type="button" onclick="playSlap()">👋 Chupair!</button>
+      <button class="btnBlack" type="button" onclick="playCatMeow()">🐱 Cat Meow</button>
+      <button class="btnBlack" type="button" onclick="playDogBark()">🐶 Dog Bark</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2 style="color:#FFD700;font-size:16px">🔮 قسمت کا طوطا</h2>
+    <p id="kismatText" style="margin:12px 0;font-size:14px">بٹن دبائیں اور آج کا ستارہ دیکھیں...</p>
+    <button class="btnGold" type="button" onclick="tellKismat()">قسمت دیکھیں 🎯</button>
+  </div>
 </div>
 
-<div id="page-mehfil" class="hidden"><div class="card" style="background:#FFD700;color:#000"><h2>ٹاپ محفلیں</h2><p>جوائن کر کے چیٹ کرو</p></div><div class="card"><h3>💬 اپنی محفل بناؤ</h3><input id="newMehfil" placeholder="نئی محفل کا نام..."><button type="button" class="btnGold" onclick="createMehfil()">محفل بناؤ ➕</button></div><div id="mehfilList"></div></div>
-
-<div id="page-fun" class="hidden"><div class="card"><h2>😂 گیمز - فن زون</h2></div><div class="card"><h3>🤣 لطیفہ مشین</h3><p id="jokeText">دباؤ تو لطیفہ آئے گا...</p><button type="button" class="btnGold" onclick="newJoke()">نیا لطیفہ 🤣</button></div><div class="card"><h3>🎲 قسمت</h3><p id="diceText" style="text-align:center;font-size:36px">🎲</p><button type="button" class="btnBlack" onclick="rollDice()">ڈائس پھینکو 🎲</button></div><div class="card"><h3>👏 تالی</h3><button type="button" class="btnGold" onclick="clapPractice()">👏 تالی مارو</button><p id="clapMsg" style="text-align:center;margin-top:8px;color:#FFD700"></p></div><div class="card"><h3>🔊 آواز بورڈ</h3><div style="display:flex;gap:6px"><button type="button" class="btnBlack" onclick="playPop()">👍 پھا</button><button type="button" class="btnBlack" onclick="playSlap()">👋 چپیڑ</button><button type="button" class="btnBlack" onclick="playDing()">🔔 ٹنگ</button></div></div></div>
-
-<div id="page-leader" class="hidden"><div class="card"><h2 style="color:#FFD700">🏆 لیڈر بورڈ</h2><p class="small">ٹاپ 10 - سب سے زیادہ پوائنٹس والے</p><div id="leaderList"></div></div></div>
-
-<div id="page-more" class="hidden"><div class="card" style="text-align:center"><h2 style="color:#FFD700">مزید</h2><p class="small">سب کچھ یہاں سے کھلتا ہے</p></div><button type="button" class="bigBtn" onclick="showPage('home')">🏠 ہوم</button><button type="button" class="bigBtn" onclick="showPage('share')">➕ شیئر / پوسٹ</button><button type="button" class="bigBtn" onclick="showPage('trending')">🔥 ٹرینڈنگ</button><button type="button" class="bigBtn" onclick="showPage('inbox')">📩 ان باکس / میسج</button><button type="button" class="bigBtn" onclick="showPage('1on1')">💬 محفل چیٹ</button><button type="button" class="bigBtn" onclick="showPage('mehfil')">👥 محفلیں</button><button type="button" class="bigBtn" onclick="showPage('profile')">👤 پروفائل</button><button type="button" class="bigBtn" onclick="showPage('fun')">🎮 گیمز</button><button type="button" class="bigBtn" onclick="showPage('leader')">🏆 لیڈر بورڈ</button><button type="button" class="bigBtn" onclick="showPage('rules')">📜 رولز</button><button type="button" class="bigBtn" onclick="showPage('about')">ℹ️ ہمارے بارے میں</button><button type="button" class="bigBtn" style="background:#ff2d55;color:#fff" onclick="logout()">🚪 لاگ آؤٹ</button></div>
-
-<div id="page-rules" class="hidden"><div class="card"><h2 style="color:#FFD700">رولز</h2><p>1. گالی نہیں۔<br>2. گندی تصویر نہیں۔<br>3. کسی کی پرائیویٹ تصویر نہیں۔</p><button type="button" class="btnGold" onclick="showPage('home')">ہوم پر واپس جاؤ</button></div></div>
-<div id="page-about" class="hidden"><div class="card"><h2 style="color:#FFD700">Yaarii-PK کے بارے میں</h2><p>پاکستان کے یاروں کے لیے۔ 100% فری۔ ❤️ 🇵🇰</p><button type="button" class="btnGold" onclick="showPage('home')">ہوم پر واپس جاؤ</button></div></div>
-
+<!-- BOTTOM NAVIGATION -->
 <div class="bottom" id="bottomBar" style="display:none">
-<button type="button" onclick="showPage('home')" id="bn-home">🏠<br>ہوم</button>
-<button type="button" onclick="showPage('share')" id="bn-share">➕<br>شیئر</button>
-<button type="button" onclick="showPage('trending')" id="bn-trending">🔥<br>ٹرینڈنگ</button>
-<button type="button" onclick="showPage('inbox')" id="bn-inbox">📩<br>ان باکس</button>
-<button type="button" onclick="showPage('1on1')" id="bn-1on1">💬<br>محفل</button>
-<button type="button" onclick="showPage('profile')" id="bn-profile">👤<br>پروفائل</button>
-<button type="button" onclick="showPage('more')" id="bn-more">⋯<br>مزید</button>
+  <button type="button" onclick="showPage('home')" id="bn-home" class="on">🏠<br>ہوم</button>
+  <button type="button" onclick="showPage('share')" id="bn-share">➕<br>پوسٹ</button>
+  <button type="button" onclick="showPage('inbox')" id="bn-inbox">✉️<br>ان باکس</button>
+  <button type="button" onclick="showPage('chat')" id="bn-chat">💬<br>چیٹ</button>
+  <button type="button" onclick="showPage('fun')" id="bn-fun">🎮<br>فن</button>
+  <button type="button" onclick="logout()" id="bn-logout">🚪<br>خروج</button>
 </div>
 
 <script>
-// ===== سب کچھ ایک ہی جگہ - اب کوئی بٹن خالی نہیں جائے گا =====
-var cur = localStorage.getItem('y_cur') || '';
-var curMehfil = 'سب کی محفل';
-var feedData = [];
-var cats = ["General","Aseel","Cricket","Poetry","Sad Poetry","Love Poetry","Islamic Poetry","Attitude Poetry","Funny Poetry","Punjabi Poetry","DP Competition","Memes","Gaming","Music","Movies","Photography","Travel","Food","Fashion","Fitness","Tech","AI","Coding","Education","Business","Crypto","Science"];
+var curUser = localStorage.getItem('y_cur') || '';
+var userPoints = parseInt(localStorage.getItem('y_pts') || '10');
+var userPower = parseInt(localStorage.getItem('y_pwr') || '50');
 
-function showMsg(t){ var m=document.getElementById('msgBox'); m.classList.remove('hidden'); m.innerText=t; setTimeout(function(){m.classList.add('hidden')},3000); }
-function showAuth(t){ document.getElementById('auth-signup').classList.toggle('hidden',t!=='signup'); document.getElementById('auth-login').classList.toggle('hidden',t!=='login'); }
-
-function showHomeNow(){
-  document.getElementById('page-auth').classList.add('hidden');
-  document.getElementById('bottomBar').style.display='flex';
-  document.getElementById('page-home').classList.remove('hidden');
-  loadFeed(); renderOnline(); renderStories(); updatePowerBox();
+function switchAuthTab(t){
+  document.getElementById('auth-signup').classList.toggle('hidden', t!=='signup');
+  document.getElementById('auth-login').classList.toggle('hidden', t!=='login');
+  document.getElementById('tab-signup').classList.toggle('on', t==='signup');
+  document.getElementById('tab-login').classList.toggle('on', t==='login');
 }
-function showPage(p){
-  var pages=['home','share','trending','inbox','1on1','profile','mehfil','fun','leader','more','rules','about'];
-  for(var i=0;i<pages.length;i++){ var el=document.getElementById('page-'+pages[i]); if(el) el.classList.add('hidden'); }
-  document.getElementById('page-auth').classList.add('hidden');
-  var t=document.getElementById('page-'+p); if(t) t.classList.remove('hidden');
-  var btns=['home','share','trending','inbox','1on1','profile','more'];
-  for(var j=0;j<btns.length;j++){ var b=document.getElementById('bn-'+btns[j]); if(b) b.classList.remove('on'); }
-  var bn=document.getElementById('bn-'+p); if(bn) bn.classList.add('on');
-  if(p==='home'){ loadFeed(); renderOnline(); renderStories(); updatePowerBox(); }
-  if(p==='trending') loadTrend();
-  if(p==='profile') loadProfile();
-  if(p==='mehfil') loadMehfil();
-  if(p==='leader') showLeader();
-  if(p==='1on1') loadChat();
-  if(p==='inbox') loadInbox();
-  window.scrollTo(0,0);
-}
-function getUsers(){ try{return JSON.parse(localStorage.getItem('y_users')||'{}')}catch(e){return{}} }
-function saveUsers(u){ localStorage.setItem('y_users',JSON.stringify(u)) }
-function getPosts(){ try{return JSON.parse(localStorage.getItem('y_posts')||'[]')}catch(e){return[]} }
-function getChat(){ try{return JSON.parse(localStorage.getItem('y_chat')||'[]')}catch(e){return[]} }
-function getStories(){ try{return JSON.parse(localStorage.getItem('y_stories')||'[]')}catch(e){return[]} }
-function getMehfils(){ try{return JSON.parse(localStorage.getItem('y_mehfils')||'["سب کی محفل"]')}catch(e){return["سب کی محفل"]} }
 
-function signup(){
+function handleSignup(){
   var u=document.getElementById('sUser').value.trim();
   var p=document.getElementById('sPass').value;
-  if(!u||!p){ showMsg('پہلے نام + پاس ورڈ لکھو'); return; }
-  if(u.length<3){ showMsg('نام تھوڑا بڑا رکھو'); return; }
-  if(!document.getElementById('agree').checked){ showMsg('پہلے رولز سے اتفاق کرو'); return; }
-  var users=getUsers();
-  if(users[u]){ showMsg('یہ نام پہلے سے ہے - لاگ اِن کرو'); return; }
-  var isFirst=Object.keys(users).length===0;
-  users[u]={u:u,p:p,age:'?',city:'Lahore',star:'Leo',bio:'Yaarii-PK کا یار',dp:'😎',points:0,power:0,lastSeen:Date.now(),id:Math.floor(1000+Math.random()*9000),role:isFirst?'ADMIN':'USER'};
-  saveUsers(users); localStorage.setItem('y_cur',u); cur=u;
-  showMsg('سائن اپ ہو گیا '+u+'! ہوم کھل رہا ہے...');
-  showHomeNow();
+  if(!u||!p) return alert('صارف نام اور پاس ورڈ دونوں درج کریں!');
+  curUser = u;
+  saveUserSession();
+  registerOnlineUser(u);
+  alert('مبارک ہو '+u+'! آپ کا اکاؤنٹ کامیابی سے بن گیا ہے۔');
+  startApp();
 }
-function login(){
-  var u=document.getElementById('lUser').value.trim();
-  var p=document.getElementById('lPass').value;
-  if(!u||!p){ showMsg('نام + پاس ورڈ لکھو'); return; }
-  var users=getUsers(); var d=users[u];
-  if(!d){ showMsg('یوزر نہیں ملا - پہلے سائن اپ کرو'); return; }
-  if(d.p!==p){ showMsg('غلط پاس ورڈ ہے'); return; }
-  d.lastSeen=Date.now(); saveUsers(users); localStorage.setItem('y_cur',u); cur=u;
-  showMsg('لاگ اِن ہو گیا! خوش آمدید '+u);
-  showHomeNow();
+
+function handleLogin(){
+  var u=document.getElementById('sUser')?document.getElementById('sUser').value.trim():'';
+  var lU=document.getElementById('lUser').value.trim();
+  var lP=document.getElementById('lPass').value;
+  if(!lU||!lP) return alert('صارف نام اور پاس ورڈ درج کریں!');
+  curUser = lU;
+  saveUserSession();
+  registerOnlineUser(lU);
+  alert('خوش آمدید '+lU+'!');
+  startApp();
 }
-function logout(){ try{ var users=getUsers(); if(users[cur]){users[cur].lastSeen=0; saveUsers(users);} }catch(e){} localStorage.removeItem('y_cur'); location.reload(); }
-document.getElementById('btnSignup').addEventListener('click',signup);
-document.getElementById('btnLogin').addEventListener('click',login);
 
-function markOnline(){ if(!cur) return; var u=getUsers(); if(u[cur]){u[cur].lastSeen=Date.now();saveUsers(u);} }
-function playPop(){ try{ var a=new (window.AudioContext||window.webkitAudioContext)(); var o=a.createOscillator(); var g=a.createGain(); o.connect(g); g.connect(a.destination); o.frequency.setValueAtTime(500,a.currentTime); o.frequency.exponentialRampToValueAtTime(1400,a.currentTime+0.07); g.gain.setValueAtTime(0.4,a.currentTime); g.gain.exponentialRampToValueAtTime(0.001,a.currentTime+0.15); o.start(); o.stop(a.currentTime+0.16); }catch(e){} }
-function playSlap(){ try{ var a=new (window.AudioContext||window.webkitAudioContext)(); var len=a.sampleRate*0.18; var buf=a.createBuffer(1,len,a.sampleRate); var d=buf.getChannelData(0); for(var i=0;i<len;i++){d[i]=(Math.random()*2-1)*Math.pow(1-i/len,2);} var s=a.createBufferSource(); s.buffer=buf; var g=a.createGain(); g.gain.setValueAtTime(0.9,a.currentTime); g.gain.exponentialRampToValueAtTime(0.01,a.currentTime+0.18); s.connect(g); g.connect(a.destination); s.start(); if(navigator.vibrate) navigator.vibrate(80); }catch(e){} }
-function playDing(){ try{ var a=new (window.AudioContext||window.webkitAudioContext)(); var o=a.createOscillator(); var g=a.createGain(); o.connect(g); g.connect(a.destination); o.frequency.setValueAtTime(1200,a.currentTime); g.gain.setValueAtTime(0.4,a.currentTime); g.gain.exponentialRampToValueAtTime(0.001,a.currentTime+0.6); o.start(); o.stop(a.currentTime+0.6); }catch(e){} }
+function saveUserSession(){
+  localStorage.setItem('y_cur', curUser);
+  localStorage.setItem('y_pts', userPoints);
+  localStorage.setItem('y_pwr', userPower);
+}
 
-function getOnlineUsers(){ var users=getUsers(); var now=Date.now(); return Object.values(users).filter(function(u){ return (now-(u.lastSeen||0))<5*60*1000; }).sort(function(a,b){return (b.p
+function registerOnlineUser(u){
+  var list = JSON.parse(localStorage.getItem('y_online') || '[]');
+  if(!list.includes(u)){
+    list.push(u);
+    localStorage.setItem('y_online', JSON.stringify(list));
+  }
+}
+
+function startApp(){
+  if(!curUser) return;
+  document.getElementById('page-auth').classList.add('hidden');
+  document.getElementById('bottomBar').style.display='flex';
+  document.getElementById('uNameDisp').innerText = curUser;
+  showPage('home');
+  updateStats();
+  renderOnlineBar();
+  loadPosts();
+  loadChat();
+  loadInbox();
+}
+
+function showPage(p){
+  ['home','share','inbox','chat','fun'].forEach(function(x){
+    var el=document.getElementById('page-'+x);
+    if(el) el.classList.add('hidden');
+    var bn=document.getElementById('bn-'+x);
+    if(bn) bn.classList.remove('on');
+  });
+  var target=document.getElementById('page-'+p);
+  if(target) target.classList.remove('hidden');
+  var activeBn=document.getElementById('bn-'+p);
+  if(activeBn) activeBn.classList.add('on');
+
+  if(p==='home'){ renderOnlineBar(); loadPosts(); }
+  if(p==='chat') loadChat();
+  if(p==='inbox') loadInbox();
+}
+
+/* SOUND SYNTHESIZER (WEB AUDIO API) */
+function playPop(){
+  try{
+    var a=new (window.AudioContext||window.webkitAudioContext)();
+    var o=a.createOscillator(); var g=a.createGain();
+    o.connect(g); g.connect(a.destination);
+    o.frequency.setValueAtTime(350,a.currentTime);
+    o.frequency.exponentialRampToValueAtTime(1300,a.currentTime+0.12);
+    g.gain.setValueAtTime(0.5,a.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.01,a.currentTime+0.12);
+    o.start(); o.stop(a.currentTime+0.13);
+  }catch(e){}
+}
+
+function playSlap(){
+  try{
+    var a=new (window.AudioContext||window.webkitAudioContext)();
+    var len=a.sampleRate*0.16; var buf=a.createBuffer(1,len,a.sampleRate);
+    var d=buf.getChannelData(0);
+    for(var i=0;i<len;i++){ d[i]=(Math.random()*2-1)*Math.pow(1-i/len,2); }
+    var s=a.createBufferSource(); s.buffer=buf; var g=a.createGain();
+    g.gain.setValueAtTime(0.9,a.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.01,a.currentTime+0.16);
+    s.connect(g); g.connect(a.destination);
+    s.start();
+    if(navigator.vibrate) navigator.vibrate(70);
+  }catch(e){}
+}
+
+function playCatMeow(){
+  try{
+    var a=new (window.AudioContext||window.webkitAudioContext)();
+    var o=a.createOscillator(); var g=a.createGain();
+    o.connect(g); g.connect(a.destination);
+    o.frequency.setValueAtTime(900,a.currentTime);
+    o.frequency.linearRampToValueAtTime(1400,a.currentTime+0.15);
+    o.frequency.linearRampToValueAtTime(700,a.currentTime+0.3);
+    g.gain.setValueAtTime(0.4,a.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.01,a.currentTime+0.3);
+    o.start(); o.stop(a.currentTime+0.31);
+  }catch(e){}
+}
+
+function playDogBark(){
+  try{
+    var a=new (window.AudioContext||window.webkitAudioContext)();
+    var o=a.createOscillator(); var g=a.createGain();
+    o.connect(g); g.connect(a.destination);
+    o.type = 'sawtooth';
+    o.frequency.setValueAtTime(220,a.currentTime);
+    o.frequency.linearRampToValueAtTime(150,a.currentTime+0.12);
+    g.gain.setValueAtTime(0.6,a.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.01,a.currentTime+0.15);
+    o.start(); o.stop(a.currentTime+0.16);
+  }catch(e){}
+}
+
+/* ONLINE BAR */
+function renderOnlineBar(){
+  var list = JSON.parse(localStorage.getItem('y_online') || '["Admin", "Fahad", "Shabana"]');
+  document.getElementById('onlineCount').innerText = list.length;
+  var bar = document.getElementById('onlineBar');
+  bar.innerHTML = '';
+  list.forEach(function(u){
+    bar.innerHTML += '<div class="uCircle"><div>👤<div class="dot"></div></div><p>'+u+'</p></div>';
+  });
+}
+
+/* POST SYSTEM */
+function createPost(){
+  var txt = document.getElementById('postText').value.trim();
+  var fileInput = document.getElementById('postPic');
+  if(!txt && !fileInput.files[0]) return alert('کچھ تحریر یا تصویر درج کریں!');
+
+  var reader = new FileReader();
+  reader.onload = function(e){
+    savePostData(txt, e.target.result || '');
+  };
+
+  if(fileInput.files && fileInput.files[0]){
+    reader.readAsDataURL(fileInput.files[0]);
+  } else {
+    savePostData(txt, '');
+  }
+}
+
+function savePostData(txt, imgData){
+  var posts = JSON.parse(localStorage.getItem('y_posts') || '[]');
+  posts.unshift({
+    id: Date.now(),
+    u: curUser,
+    text: txt,
+    pic: imgData,
+    faah: 0,
+    chupair: 0,
+    cat: 0,
+    dog: 0,
+    time: new Date().toLocaleTimeString()
+  });
+  localStorage.setItem('y_posts', JSON.stringify(posts));
+  
+  userPoints += 5;
+  userPower += 10;
+  saveUserSession();
+  updateStats();
+  
+  document.getElementById('postText').value = '';
+  document.getElementById('postPic').value = '';
+  showPage('home');
+}
+
+function loadPosts(){
+  var posts = JSON.parse(localStorage.getItem('y_posts') || '[]');
+  var feed = document.getElementById('feed');
+  feed.innerHTML = '';
+
+  if(posts.length === 0){
+    feed.innerHTML = '<div class="card" style="text-align:center;color:#aaa">ابھی کوئی پوسٹ موجود نہیں۔ پہلی پوسٹ آپ کریں!</div>';
+    return;
+  }
+
+  posts.forEach(function(p){
+    feed.innerHTML += '<div class="post">'+
+      '<div class="postHead"><b>'+p.u+'</b><span class="badge">'+p.time+'</span></div>'+
+      (p.text ? '<p style="margin-top:10px;font-size:14px">'+p.text+'</p>' : '')+
+      (p.pic ? '<img src="'+p.pic+'">' : '')+
+      '<div class="pBtns">'+
+        '<button class="gold" type="button" onclick="reactPost('+p.id+', \'faah\')">👍 Faaaa! ('+p.faah+')</button>'+
+        '<button class="red" type="button" onclick="reactPost('+p.id+', \'chupair\')">👋 Chupair ('+p.chupair+')</button>'+
+        '<button class="cat" type="button" onclick="reactPost('+p.id+', \'cat\')">🐱 Meow ('+p.cat+')</button>'+
+        '<button class="dog" type="button" onclick="reactPost('+p.id+', \'dog\')">🐶 Bark ('+p.dog+')</button>'+
+      '</div>'+
+    '</div>';
+  });
+}
+
+function reactPost(id, type){
+  if(type==='faah') playPop();
+  if(type==='chupair') playSlap();
+  if(type==='cat') playCatMeow();
+  if(type==='dog') playDogBark();
+
+  var posts = JSON.parse(localStorage.getItem('y_posts') || '[]');
+  var p = posts.find(function(x){ return x.id===id; });
+  if(p){
+    if(type==='faah') p.faah++;
+    if(type==='chupair') p.chupair++;
+    if(type==='cat') p.cat++;
+    if(type==='dog') p.dog++;
+    localStorage.setItem('y_posts', JSON.stringify(posts));
+    loadPosts();
+  }
+}
+
+function updateStats(){
+  document.getElementById('myPoints').innerText = userPoints;
+  document.getElementById('myPower').innerText = userPower;
+  var rank = "Naya Yaar 👶";
+  if(userPoints >= 25) rank = "Jani 🔥";
+  if(userPoints >= 60) rank = "Pro Yaar 👑";
+  if(userPoints >= 120) rank = "Yaarii King 🏆";
+  document.getElementById('uRank').innerText = rank;
+}
+
+/* DM SYSTEM */
+function sendDM(){
+  var to = document.getElementById('dmTo').value.trim();
+  var txt = document.getElementById('dmText').value.trim();
+  if(!to || !txt) return alert('صارف نام اور پیغام لکھیں!');
+  var dms = JSON.parse(localStorage.getItem('y_dms') || '[]');
+  dms.push({from: curUser, to: to, text: txt, time: new Date().toLocaleTimeString()});
+  localStorage.setItem('y_dms', JSON.stringify(dms));
+  document.getElementById('dmText').value = '';
+  alert('پرائیویٹ پیغام بھیج دیا گیا!');
+  loadInbox();
+}
+
+function loadInbox(){
+  var dms = JSON.parse(localStorage.getItem('y_dms') || '[]').filter(function(d){ return d.to===curUser || d.from===curUser; });
+  var list = document.getElementById('dmList');
+  list.innerHTML = '';
+  if(dms.length === 0){
+    list.innerHTML = '<p style="color:#aaa;text-align:center">کوئی پرائیویٹ پیغام نہیں ہے۔</p>';
+    return;
+  }
+  dms.forEach(function(d){
+    list.innerHTML += '<div class="chatMsg"><b>'+d.from+' ➔ '+d.to+':</b> '+d.text+' <span style="font-size:10px;color:#888;float:right">'+d.time+'</span></div>';
+  });
+}
+
+/* CHAT ROOM */
+function sendChat(){
+  var txt = document.getElementById('chatText').value.trim();
+  if(!txt) return;
+  playPop();
+  var chats = JSON.parse(localStorage.getItem('y_chats') || '[]');
+  chats.push({u: curUser, text: txt, time: new Date().toLocaleTimeString()});
+  localStorage.setItem('y_chats', JSON.stringify(chats));
+  document.getElementById('chatText').value = '';
+  loadChat();
+}
+
+function loadChat(){
+  var chats = JSON.parse(localStorage.getItem('y_chats') || '[]');
+  var box = document.getElementById('chatBox');
+  box.innerHTML = '';
+  if(chats.length === 0){
+    box.innerHTML = '<p style="color:#aaa;text-align:center">محفل خالی ہے، پہلا پیغام آپ لکھیں!</p>';
+    return;
+  }
+  chats.forEach(function(c){
+    box.innerHTML += '<div class="chatMsg"><b>'+c.u+':</b> '+c.text+' <span style="font-size:9px;color:#888;float:right">'+c.time+'</span></div>';
+  });
+  box.scrollTop = box.scrollHeight;
+}
+
+/* KISMAT TOTA */
+var kismatList = [
+  "آج آپ کو مفت میں چائے ملنے والی ہے ☕",
+  "خبردار! امروز آن لائن چھپڑ پڑنے کا خطرہ ہے 👋",
+  "آج آپ کا دن بہت زبردست گزرے گا 🌟",
+  "آج آپ کا کوئی پرانا دوست آپ کو یاد کرے گا ❤️"
+];
+function tellKismat(){
+  playPop();
+  var rand = kismatList[Math.floor(Math.random()*kismatList.length)];
+  document.getElementById('kismatText').innerText = rand;
+}
+
+function logout(){
+  localStorage.removeItem('y_cur');
+  location.reload();
+}
+
+if(curUser){
+  startApp();
+}
+</script>
+</body>
+  </html>
