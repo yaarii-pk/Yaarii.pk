@@ -3,47 +3,43 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Yaarii.pk - Yaaron Ki Mehfil 👑</title>
+<title>Yaarii.pk - Dostana Style Mehfil 👑</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#0a0a0a;color:#fff;font-family:'Segoe UI',Arial,sans-serif;padding-bottom:75px}
+body{background:#0a0a0a;color:#fff;font-family:Arial,sans-serif;padding-bottom:70px}
 a{color:#FFD700;text-decoration:none}
-.top{position:fixed;top:0;left:0;right:0;z-index:99;background:#000;padding:12px;display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #FFD700;box-shadow:0 2px 10px rgba(255,215,0,0.2)}
-.top b{font-size:22px;color:#FFD700;letter-spacing:1px}
-.topNav{display:flex;gap:10px;font-size:13px}
-.topNav span{cursor:pointer;color:#ccc;padding:5px 10px;border-radius:20px;border:1px solid #333}
+.top{position:fixed;top:0;left:0;right:0;z-index:99;background:#000;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #FFD700}
+.top b{font-size:20px;color:#FFD700;letter-spacing:1px}
+.topNav{display:flex;gap:8px;font-size:12px}
+.topNav span{cursor:pointer;color:#ccc;padding:4px 8px;border-radius:12px;border:1px solid #333}
 .topNav .on{color:#000;background:#FFD700;font-weight:bold;border-color:#FFD700}
-.card{background:#121212;border:1px solid #282828;border-radius:14px;padding:14px;margin:10px;box-shadow:0 4px 12px rgba(0,0,0,0.5)}
-.authBox{background:#121212;border:2px solid #FFD700;border-radius:20px;padding:24px;margin:20px 14px;text-align:center}
-.authBox h1{color:#FFD700;font-size:32px;margin-bottom:6px}.authBox p{color:#aaa;font-size:13px;margin-bottom:16px}
-.inp{display:flex;align-items:center;background:#1a1a1a;border:1px solid #444;border-radius:10px;padding:12px;margin:10px 0}
-.inp input{background:none;border:none;outline:none;color:#fff;width:100%;font-size:15px}
-.btnGold{background:linear-gradient(45deg,#FFD700,#ffa500);color:#000;border:none;width:100%;padding:14px;border-radius:10px;font-size:16px;font-weight:bold;margin-top:10px;cursor:pointer;transition:0.2s}
-.btnGold:active{transform:scale(0.98)}
-.btnBlack{background:#1a1a1a;color:#FFD700;border:1px solid #FFD700;padding:12px;width:100%;border-radius:10px;margin-top:8px;font-weight:bold;cursor:pointer}
-.badge{background:#1a1a1a;border:1px solid #FFD700;color:#FFD700;border-radius:20px;padding:4px 10px;font-size:11px;font-weight:bold}
-.onlineBar{display:flex;gap:12px;overflow-x:auto;padding:6px 2px}
-.uCircle{min-width:60px;text-align:center}
-.uCircle div{width:50px;height:50px;border-radius:50%;background:#1a1a1a;display:flex;align-items:center;justify-content:center;font-size:22px;border:2px solid #FFD700;margin:auto;position:relative}
-.uCircle .dot{position:absolute;bottom:0;right:0;width:12px;height:12px;background:#00ff00;border-radius:50%;border:2px solid #000}
-.uCircle p{font-size:11px;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.post{background:#141414;border:1px solid #2a2a2a;border-radius:14px;padding:14px;margin:12px 10px}
-.post img{width:100%;border-radius:10px;margin-top:10px;max-height:300px;object-fit:cover}
+.card{background:#121212;border:1px solid #282828;border-radius:12px;padding:12px;margin:8px 10px}
+.authBox{background:#121212;border:2px solid #FFD700;border-radius:16px;padding:20px;margin:20px 14px;text-align:center}
+.authBox h1{color:#FFD700;font-size:28px;margin-bottom:6px}.authBox p{color:#aaa;font-size:12px;margin-bottom:14px}
+.inp{display:flex;align-items:center;background:#1a1a1a;border:1px solid #444;border-radius:8px;padding:10px;margin:8px 0}
+.inp input{background:none;border:none;outline:none;color:#fff;width:100%;font-size:14px}
+.btnGold{background:#FFD700;color:#000;border:none;width:100%;padding:12px;border-radius:8px;font-size:16px;font-weight:bold;margin-top:8px;cursor:pointer}
+.onlineBar{display:flex;gap:10px;overflow-x:auto;padding:4px 0}
+.uCircle{min-width:55px;text-align:center}
+.uCircle div{width:45px;height:45px;border-radius:50%;background:#1a1a1a;display:flex;align-items:center;justify-content:center;font-size:18px;border:2px solid #FFD700;margin:auto;position:relative}
+.uCircle .dot{position:absolute;bottom:0;right:0;width:10px;height:10px;background:#00ff00;border-radius:50%;border:2px solid #000}
+.uCircle p{font-size:10px;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.post{background:#141414;border:1px solid #2a2a2a;border-radius:12px;padding:12px;margin:10px}
+.post img{width:100%;border-radius:8px;margin-top:8px;max-height:280px;object-fit:cover}
 .postHead{display:flex;justify-content:space-between;align-items:center}
-.pBtns{display:flex;gap:5px;flex-wrap:wrap;margin-top:12px}
-.pBtns button{flex:1;padding:8px 2px;border-radius:8px;border:1px solid #444;background:#1e1e1e;color:#fff;font-size:11px;font-weight:bold;cursor:pointer;transition:0.2s}
+.badge{background:#1a1a1a;border:1px solid #FFD700;color:#FFD700;border-radius:15px;padding:2px 8px;font-size:10px;font-weight:bold}
+.pBtns{display:flex;gap:4px;flex-wrap:wrap;margin-top:10px}
+.pBtns button{flex:1;padding:8px 2px;border-radius:6px;border:1px solid #444;background:#1e1e1e;color:#fff;font-size:10px;font-weight:bold;cursor:pointer}
 .pBtns button.gold{background:#FFD700;color:#000;border:none}
 .pBtns button.red{background:#2a1111;border-color:#ff4d4d;color:#ff6b6b}
 .pBtns button.cat{background:#22112a;border-color:#ba4dff;color:#e1b1ff}
 .pBtns button.dog{background:#2a2211;border-color:#ffb84d;color:#ffe0b5}
 .bottom{position:fixed;bottom:0;left:0;right:0;background:#000;display:flex;z-index:99;border-top:2px solid #FFD700}
-.bottom button{flex:1;background:none;border:none;color:#aaa;padding:10px 2px;font-size:11px;cursor:pointer}
+.bottom button{flex:1;background:none;border:none;color:#aaa;padding:8px 2px;font-size:10px;cursor:pointer}
 .bottom button.on{color:#FFD700;font-weight:bold}
 .hidden{display:none !important}
-input,select,textarea{width:100%;padding:12px;margin:6px 0;background:#1a1a1a;border:1px solid #444;color:#fff;border-radius:10px;outline:none}
-.powerBox{background:linear-gradient(90deg,#FFD700,#ffa500);color:#000;border-radius:12px;padding:14px;margin:10px;text-align:center;font-weight:bold;box-shadow:0 4px 15px rgba(255,215,0,0.3)}
-.chatMsg{background:#1a1a1a;border:1px solid #333;border-radius:10px;padding:10px;margin:6px 0}
-.soundGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+input,select,textarea{width:100%;padding:10px;margin:6px 0;background:#1a1a1a;border:1px solid #444;color:#fff;border-radius:8px;outline:none;font-size:14px}
+.chatMsg{background:#1a1a1a;border:1px solid #333;border-radius:8px;padding:8px;margin:6px 0;font-size:13px}
 </style>
 </head>
 <body>
@@ -55,98 +51,92 @@ input,select,textarea{width:100%;padding:12px;margin:6px 0;background:#1a1a1a;bo
     <span id="tab-signup" class="on" onclick="switchAuthTab('signup')">Sign Up</span>
   </div>
 </div>
-<div style="height:54px"></div>
+<div style="height:50px"></div>
 
-<!-- AUTH CONTAINER -->
+<!-- AUTH -->
 <div id="page-auth">
   <div id="auth-signup" class="authBox">
-    <h1>اکاؤنٹ بنائیں 👑</h1>
-    <p>پاکستان کے سب سے تفریحی پلیٹ فارم میں شامل ہوں</p>
+    <h1>دۆستانہ انداز 👑</h1>
+    <p>Yaarii.pk فیملی میں خوش آمدید</p>
     <div class="inp">👤&nbsp;<input id="sUser" placeholder="صارف نام (Username)"></div>
     <div class="inp">🔒&nbsp;<input id="sPass" type="password" placeholder="پاس ورڈ"></div>
     <button class="btnGold" type="button" onclick="handleSignup()">شروع کریں 🚀</button>
-    <p style="margin-top:16px">پہلے سے اکاؤنٹ ہے؟ <a href="#" onclick="switchAuthTab('login');return false">لاگ اِن کریں</a></p>
+    <p style="margin-top:14px">پہلے سے اکاؤنٹ ہے؟ <a href="#" onclick="switchAuthTab('login');return false">لاگ اِن کریں</a></p>
   </div>
   <div id="auth-login" class="authBox hidden">
     <h1>خوش آمدید ⚡</h1>
-    <p>اپنے Yaarii اکاؤنٹ میں داخل ہوں</p>
+    <p>اپنے اکاؤنٹ میں داخل ہوں</p>
     <div class="inp">👤&nbsp;<input id="lUser" placeholder="صارف نام"></div>
     <div class="inp">🔒&nbsp;<input id="lPass" type="password" placeholder="پاس ورڈ"></div>
     <button class="btnGold" type="button" onclick="handleLogin()">لاگ اِن 🔓</button>
-    <p style="margin-top:16px">نئے ہیں؟ <a href="#" onclick="switchAuthTab('signup');return false">اکاؤنٹ بنائیں</a></p>
+    <p style="margin-top:14px">نئے ہیں؟ <a href="#" onclick="switchAuthTab('signup');return false">اکاؤنٹ بنائیں</a></p>
   </div>
 </div>
 
-<!-- HOME PAGE -->
+<!-- HOME -->
 <div id="page-home" class="hidden">
-  <!-- TOP ONLINE USERS BAR -->
   <div class="card">
-    <b>🟢 Online Yaar (آج کے ایکٹو دوست)</b>
+    <b>🟢 آن لائن دوست (<span id="onlineCount">0</span>)</b>
     <div class="onlineBar" id="onlineBar"></div>
   </div>
 
-  <div class="powerBox">
-    <span style="font-size:18px">👤 <span id="uNameDisp">User</span> (<span id="uRank" class="badge">Naya Yaar 👶</span>)</span><br>
-    <span style="font-size:13px;margin-top:4px;display:block">⚡ پاور: <span id="myPower">50</span> | 🎯 پوائنٹس: <span id="myPoints">10</span></span>
+  <div class="card" style="text-align:center;background:linear-gradient(45deg,#1a1a1a,#111);border-color:#FFD700">
+    <span style="font-size:15px;color:#FFD700">👑 خوش آمدید <b id="uNameDisp">User</b>!</span>
   </div>
 
   <div id="feed"></div>
 </div>
 
-<!-- SHARE PAGE WITH PHOTO -->
+<!-- SHARE -->
 <div id="page-share" class="hidden">
-  <div class="card" style="text-align:center"><h2 style="color:#FFD700">📸 Pic & Post Share Karo</h2><p style="font-size:12px;color:#aaa">Photo + Text sab ke sath share hoga!</p></div>
+  <div class="card" style="text-align:center"><h2 style="color:#FFD700;font-size:18px">➕ نئی پوسٹ یا تصویر شیئر کریں</h2></div>
   <div class="card">
-    <h3>1. Select Photo (Optional)</h3>
+    <p style="font-size:12px;color:#aaa">تصویر منتخب کریں (Optional)</p>
     <input type="file" id="postPic" accept="image/*">
-    <h3>2. Caption / Dil ki Baat</h3>
-    <textarea id="postText" placeholder="Kuch funny ya shayari likho..."></textarea>
-    <button class="btnGold" type="button" onclick="createPost()">Public Post Bhejo 🚀</button>
+    <textarea id="postText" placeholder="دل کی بات یا لطیفہ یہاں لکھیں..."></textarea>
+    <button class="btnGold" type="button" onclick="createPost()">پوسٹ پبلک کریں 🚀</button>
   </div>
 </div>
 
-<!-- FUN ARCADE PAGE -->
+<!-- FUN -->
 <div id="page-fun" class="hidden">
   <div class="card">
-    <h2 style="color:#FFD700">🔊 Funny Sound Arcade</h2>
-    <div class="soundGrid">
-      <button class="btnBlack" type="button" onclick="playPop()">👍 Faaaaah!</button>
-      <button class="btnBlack" type="button" onclick="playSlap()">👋 Chupair!</button>
-      <button class="btnBlack" type="button" onclick="playCatMeow()">🐱 Cat Meow</button>
-      <button class="btnBlack" type="button" onclick="playDogBark()">🐶 Dog Bark</button>
+    <h2 style="color:#FFD700;font-size:16px">🔊 فنی آوازیں (Sound Board)</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px">
+      <button class="btnGold" type="button" onclick="playPop()">👍 Faaaaah!</button>
+      <button class="btnGold" type="button" onclick="playSlap()" style="background:#ff4d4d;color:#fff">👋 Chupair!</button>
+      <button class="btnGold" type="button" onclick="playCatMeow()" style="background:#ba4dff;color:#fff">🐱 Cat Meow</button>
+      <button class="btnGold" type="button" onclick="playDogBark()" style="background:#ffb84d;color:#000">🐶 Dog Bark</button>
     </div>
   </div>
-
   <div class="card">
-    <h2 style="color:#FFD700">🔮 Kismat Ka Tota</h2>
-    <p id="kismatText" style="margin:12px 0;font-size:15px">Button dabao aur kismat dekho...</p>
-    <button class="btnGold" type="button" onclick="tellKismat()">Kismat Check Karo 🎯</button>
+    <h2 style="color:#FFD700;font-size:16px">🔮 آج کی قسمت</h2>
+    <p id="kismatText" style="margin:10px 0;font-size:14px">بٹن دبائیں اور قسمت جانیں...</p>
+    <button class="btnGold" type="button" onclick="tellKismat()">قسمت دیکھو 🎯</button>
   </div>
 </div>
 
-<!-- LIVE CHAT PAGE -->
+<!-- CHAT -->
 <div id="page-chat" class="hidden">
-  <div class="card"><h2 style="color:#FFD700">💬 Yaarii Public Mehfil Chat</h2></div>
-  <div class="card" id="chatBox" style="max-height:300px;overflow-y:auto"></div>
+  <div class="card"><h2 style="color:#FFD700;font-size:18px">💬 عوامی محفل چیٹ</h2></div>
+  <div class="card" id="chatBox" style="max-height:280px;overflow-y:auto"></div>
   <div class="card">
-    <input id="chatText" placeholder="Sab ko message bhejo...">
-    <button class="btnGold" type="button" onclick="sendChat()">Bhejo 💬</button>
+    <input id="chatText" placeholder="محفل میں کچھ کہیے...">
+    <button class="btnGold" type="button" onclick="sendChat()">بھیجیں 💬</button>
   </div>
 </div>
 
-<!-- BOTTOM NAVIGATION -->
+<!-- BOTTOM BAR -->
 <div class="bottom" id="bottomBar" style="display:none">
-  <button type="button" onclick="showPage('home')" id="bn-home" class="on">🏠<br>HOME</button>
-  <button type="button" onclick="showPage('share')" id="bn-share">➕<br>SHARE</button>
-  <button type="button" onclick="showPage('fun')" id="bn-fun">🎮<br>FUN</button>
-  <button type="button" onclick="showPage('chat')" id="bn-chat">💬<br>CHAT</button>
-  <button type="button" onclick="logout()" id="bn-logout">🚪<br>EXIT</button>
+  <button type="button" onclick="showPage('home')" id="bn-home" class="on">🏠<br>ہوم</button>
+  <button type="button" onclick="showPage('share')" id="bn-share">➕<br>شئیر</button>
+  <button type="button" onclick="showPage('fun')" id="bn-fun">🎮<br>فن</button>
+  <button type="button" onclick="showPage('chat')" id="bn-chat">💬<br>چیٹ</button>
+  <button type="button" onclick="logout()" id="bn-logout">🚪<br>باہر</button>
 </div>
 
 <script>
 var curUser = localStorage.getItem('y_cur') || '';
-var userPoints = parseInt(localStorage.getItem('y_pts') || '10');
-var userPower = parseInt(localStorage.getItem('y_pwr') || '50');
 
 function switchAuthTab(t){
   document.getElementById('auth-signup').classList.toggle('hidden', t!=='signup');
@@ -158,32 +148,30 @@ function switchAuthTab(t){
 function handleSignup(){
   var u=document.getElementById('sUser').value.trim();
   var p=document.getElementById('sPass').value;
-  if(!u||!p) return alert('Username aur Password likhein!');
+  if(!u||!p) return alert('نام اور پاس ورڈ لکھیں!');
   curUser = u;
   saveUserSession();
-  registerOnlineUser(u);
-  alert('Mubarak ho '+u+'! Account ban gaya!');
+  registerOnline(u);
+  alert('مبارک ہو '+u+'! اکاؤنٹ بن گیا ہے۔');
   startApp();
 }
 
 function handleLogin(){
   var u=document.getElementById('lUser').value.trim();
   var p=document.getElementById('lPass').value;
-  if(!u||!p) return alert('Username aur Password likhein!');
+  if(!u||!p) return alert('نام اور پاس ورڈ لکھیں!');
   curUser = u;
   saveUserSession();
-  registerOnlineUser(u);
-  alert('Welcome '+u+'!');
+  registerOnline(u);
+  alert('خوش آمدید '+u+'!');
   startApp();
 }
 
 function saveUserSession(){
   localStorage.setItem('y_cur', curUser);
-  localStorage.setItem('y_pts', userPoints);
-  localStorage.setItem('y_pwr', userPower);
 }
 
-function registerOnlineUser(u){
+function registerOnline(u){
   var list = JSON.parse(localStorage.getItem('y_online') || '[]');
   if(!list.includes(u)){
     list.push(u);
@@ -197,7 +185,6 @@ function startApp(){
   document.getElementById('bottomBar').style.display='flex';
   document.getElementById('uNameDisp').innerText = curUser;
   showPage('home');
-  updateStats();
   renderOnlineBar();
   loadPosts();
   loadChat();
@@ -218,7 +205,7 @@ function showPage(p){
   if(p==='chat') loadChat();
 }
 
-/* AUDIO EFFECTS */
+/* AUDIO SYNTHESIZER */
 function playPop(){
   try{
     var a=new (window.AudioContext||window.webkitAudioContext)();
@@ -275,9 +262,9 @@ function playDogBark(){
   }catch(e){}
 }
 
-/* ONLINE BAR */
 function renderOnlineBar(){
   var list = JSON.parse(localStorage.getItem('y_online') || '["Admin", "Fahad", "Ali"]');
+  document.getElementById('onlineCount').innerText = list.length;
   var bar = document.getElementById('onlineBar');
   bar.innerHTML = '';
   list.forEach(function(u){
@@ -285,27 +272,24 @@ function renderOnlineBar(){
   });
 }
 
-/* POSTS WITH IMAGE & REACTIONS */
 function createPost(){
   var txt = document.getElementById('postText').value.trim();
   var fileInput = document.getElementById('postPic');
-  
-  if(!txt && !fileInput.files[0]) return alert('Kuch text ya photo select karein!');
+  if(!txt && !fileInput.files[0]) return alert('کچھ تحریر یا تصویر درج کریں!');
 
   var reader = new FileReader();
   reader.onload = function(e){
-    var imgData = e.target.result || '';
-    saveNewPost(txt, imgData);
+    savePostData(txt, e.target.result || '');
   };
 
   if(fileInput.files && fileInput.files[0]){
     reader.readAsDataURL(fileInput.files[0]);
   } else {
-    saveNewPost(txt, '');
+    savePostData(txt, '');
   }
 }
 
-function saveNewPost(txt, imgData){
+function savePostData(txt, imgData){
   var posts = JSON.parse(localStorage.getItem('y_posts') || '[]');
   posts.unshift({
     id: Date.now(),
@@ -319,12 +303,6 @@ function saveNewPost(txt, imgData){
     time: new Date().toLocaleTimeString()
   });
   localStorage.setItem('y_posts', JSON.stringify(posts));
-  
-  userPoints += 5;
-  userPower += 10;
-  saveUserSession();
-  updateStats();
-  
   document.getElementById('postText').value = '';
   document.getElementById('postPic').value = '';
   showPage('home');
@@ -336,14 +314,14 @@ function loadPosts(){
   feed.innerHTML = '';
 
   if(posts.length === 0){
-    feed.innerHTML = '<div class="card" style="text-align:center;color:#aaa">Abhi koi post nahi hai. Aap pehli post share karein!</div>';
+    feed.innerHTML = '<div class="card" style="text-align:center;color:#aaa">ابھی کوئی پوسٹ موجود نہیں۔ پہلی پوسٹ آپ کریں!</div>';
     return;
   }
 
   posts.forEach(function(p){
     feed.innerHTML += '<div class="post">'+
       '<div class="postHead"><b>'+p.u+'</b><span class="badge">'+p.time+'</span></div>'+
-      (p.text ? '<p style="margin-top:10px;font-size:15px">'+p.text+'</p>' : '')+
+      (p.text ? '<p style="margin-top:8px;font-size:14px">'+p.text+'</p>' : '')+
       (p.pic ? '<img src="'+p.pic+'">' : '')+
       '<div class="pBtns">'+
         '<button class="gold" type="button" onclick="reactPost('+p.id+', \'faah\')">👍 Faaaa! ('+p.faah+')</button>'+
@@ -373,22 +351,11 @@ function reactPost(id, type){
   }
 }
 
-function updateStats(){
-  document.getElementById('myPoints').innerText = userPoints;
-  document.getElementById('myPower').innerText = userPower;
-  var rank = "Naya Yaar 👶";
-  if(userPoints >= 25) rank = "Jani 🔥";
-  if(userPoints >= 60) rank = "Pro Yaar 👑";
-  if(userPoints >= 120) rank = "Yaarii King 🏆";
-  document.getElementById('uRank').innerText = rank;
-}
-
-/* KISMAT TOTA */
 var kismatList = [
-  "Aaj koi aap ko muft mein chai pilayega ☕",
-  "Khabardar! Aaj aap ko online chupair par sakti hai 👋",
-  "Aaj aap ki kismat chamke gi aur 100 bonus power milegi ⚡",
-  "Aaj aap ka purana dost aap ko yaad karega ❤️"
+  "آج آپ کو مفت میں چائے ملنے والی ہے ☕",
+  "خبردار! آج کوئی آپ کو چھپڑ لگا سکتا ہے 👋",
+  "آج آپ کا دن بہت زبردست گزرے گا 🌟",
+  "آج آپ کا کوئی پرانا دوست آپ کو یاد کرے گا ❤️"
 ];
 function tellKismat(){
   playPop();
@@ -396,7 +363,6 @@ function tellKismat(){
   document.getElementById('kismatText').innerText = rand;
 }
 
-/* PUBLIC MEHFIL CHAT */
 function sendChat(){
   var txt = document.getElementById('chatText').value.trim();
   if(!txt) return;
@@ -413,11 +379,11 @@ function loadChat(){
   var box = document.getElementById('chatBox');
   box.innerHTML = '';
   if(chats.length === 0){
-    box.innerHTML = '<p style="color:#aaa;text-align:center">Mehfil khali hai, pehla message aap bhejiye!</p>';
+    box.innerHTML = '<p style="color:#aaa;text-align:center">محفل خالی ہے، پہلا پیغام آپ بھیجیں!</p>';
     return;
   }
   chats.forEach(function(c){
-    box.innerHTML += '<div class="chatMsg"><b>'+c.u+':</b> '+c.text+' <span style="font-size:10px;color:#888;float:right">'+c.time+'</span></div>';
+    box.innerHTML += '<div class="chatMsg"><b>'+c.u+':</b> '+c.text+' <span style="font-size:9px;color:#888;float:right">'+c.time+'</span></div>';
   });
   box.scrollTop = box.scrollHeight;
 }
@@ -427,10 +393,9 @@ function logout(){
   location.reload();
 }
 
-// Auto Login Check
 if(curUser){
   startApp();
 }
 </script>
 </body>
-    </html>
+</html>
