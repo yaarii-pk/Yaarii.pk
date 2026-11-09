@@ -1,118 +1,139 @@
-
 <!DOCTYPE html>
 <html lang="ur">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Yaarii-PK 👑</title>
+<title>Yaarii.pk - Yaaron Ki Mehfil 👑</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#000;color:#fff;font-family:Arial,sans-serif;padding-bottom:72px}
+body{background:#0a0a0a;color:#fff;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;padding-bottom:75px}
 a{color:#FFD700;text-decoration:none}
-.top{position:fixed;top:0;left:0;right:0;z-index:99;background:#000;padding:10px 12px;display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #FFD700}
-.top b{font-size:21px;color:#FFD700}
-.topNav{display:flex;gap:12px;font-size:13px}.topNav span{cursor:pointer;color:#ccc;padding:4px 8px;border-radius:6px}.topNav .on{color:#000;background:#FFD700;font-weight:bold}
-.card{background:#0d0d0d;border:1px solid #333;border-radius:14px;padding:12px;margin:10px}
-.authBox{background:#0d0d0d;border:1px solid #FFD700;border-radius:18px;padding:18px;margin:14px;text-align:center}
-.authBox h1{color:#FFD700;font-size:30px}.authBox p{color:#aaa;font-size:13px;margin-bottom:12px}
-.inp{display:flex;align-items:center;background:#1a1a1a;border:1px solid #444;border-radius:10px;padding:12px;margin:8px 0}
+.top{position:fixed;top:0;left:0;right:0;z-index:99;background:#000;padding:12px;display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #FFD700;box-shadow:0 2px 10px rgba(255,215,0,0.2)}
+.top b{font-size:22px;color:#FFD700;letter-spacing:1px}
+.topNav{display:flex;gap:10px;font-size:13px}
+.topNav span{cursor:pointer;color:#ccc;padding:5px 10px;border-radius:20px;border:1px solid #333}
+.topNav .on{color:#000;background:#FFD700;font-weight:bold;border-color:#FFD700}
+.card{background:#121212;border:1px solid #282828;border-radius:14px;padding:14px;margin:10px;box-shadow:0 4px 12px rgba(0,0,0,0.5)}
+.authBox{background:#121212;border:2px solid #FFD700;border-radius:20px;padding:24px;margin:20px 14px;text-align:center}
+.authBox h1{color:#FFD700;font-size:32px;margin-bottom:6px}.authBox p{color:#aaa;font-size:13px;margin-bottom:16px}
+.inp{display:flex;align-items:center;background:#1a1a1a;border:1px solid #444;border-radius:10px;padding:12px;margin:10px 0}
 .inp input{background:none;border:none;outline:none;color:#fff;width:100%;font-size:15px}
-.btnGold{background:#FFD700;color:#000;border:none;width:100%;padding:14px;border-radius:10px;font-size:18px;font-weight:bold;margin-top:8px;cursor:pointer}
-.btnBlack{background:#1a1a1a;color:#FFD700;border:1px solid #FFD700;padding:11px;width:100%;border-radius:10px;margin-top:6px;font-weight:bold;cursor:pointer}
-.onlineBar{display:flex;gap:10px;overflow-x:auto;padding:6px 2px}
-.uCircle{min-width:68px;text-align:center}
-.uCircle div{width:54px;height:54px;border-radius:50%;background:#1a1a1a;display:flex;align-items:center;justify-content:center;font-size:24px;border:2px solid #FFD700;margin:auto;position:relative;overflow:hidden}
-.uCircle .dot{position:absolute;bottom:2px;right:2px;width:12px;height:12px;background:#00ff00;border-radius:50%;border:2px solid #000}
-.uCircle p{font-size:11px;margin-top:3px;white-space:nowrap;overflow:hidden}
-.storyRow{display:flex;gap:10px;overflow-x:auto;padding:6px 2px}
-.story{min-width:72px;text-align:center;cursor:pointer}.story div{width:58px;height:58px;border-radius:50%;background:#1a1a1a;display:flex;align-items:center;justify-content:center;font-size:24px;border:2px solid #FFD700;overflow:hidden}
-.filter{display:flex;gap:6px;overflow-x:auto;padding:6px 10px}.filter button{white-space:nowrap;padding:8px 14px;border-radius:20px;background:#1a1a1a;border:1px solid #444;color:#fff;cursor:pointer}.filter button.on{background:#FFD700;color:#000;font-weight:bold}
-.post{background:#111;border:1px solid #333;border-radius:12px;padding:11px;margin:10px}.post img{width:100%;border-radius:10px;margin-top:8px}
-.postHead{display:flex;justify-content:space-between;align-items:center}.badge{background:#1a1a1a;border:1px solid #FFD700;color:#FFD700;border-radius:20px;padding:3px 8px;font-size:11px}
-.pBtns{display:flex;gap:5px;flex-wrap:wrap;margin-top:10px}.pBtns button{flex:1;min-width:52px;padding:8px 2px;border-radius:8px;border:1px solid #444;background:#1a1a1a;color:#fff;font-size:11px;cursor:pointer}.pBtns button.gold{background:#FFD700;color:#000;font-weight:bold}.pBtns button.red{border-color:red;color:#ff6b6b}
-.bottom{position:fixed;bottom:0;left:0;right:0;background:#000;display:flex;z-index:99;border-top:2px solid #FFD700}.bottom button{flex:1;background:none;border:none;color:#ccc;padding:8px 1px;font-size:11px;cursor:pointer}.bottom button.on{color:#FFD700;font-weight:bold}
+.btnGold{background:linear-gradient(45deg,#FFD700,#ffa500);color:#000;border:none;width:100%;padding:14px;border-radius:10px;font-size:16px;font-weight:bold;margin-top:10px;cursor:pointer;transition:0.2s}
+.btnGold:active{transform:scale(0.98)}
+.btnBlack{background:#1a1a1a;color:#FFD700;border:1px solid #FFD700;padding:12px;width:100%;border-radius:10px;margin-top:8px;font-weight:bold;cursor:pointer}
+.badge{background:#1a1a1a;border:1px solid #FFD700;color:#FFD700;border-radius:20px;padding:4px 10px;font-size:11px;font-weight:bold}
+.post{background:#141414;border:1px solid #2a2a2a;border-radius:14px;padding:14px;margin:12px 10px}
+.postHead{display:flex;justify-content:space-between;align-items:center}
+.pBtns{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+.pBtns button{flex:1;padding:10px 4px;border-radius:8px;border:1px solid #444;background:#1e1e1e;color:#fff;font-size:12px;font-weight:bold;cursor:pointer;transition:0.2s}
+.pBtns button.gold{background:#FFD700;color:#000;border:none}
+.pBtns button.red{background:#2a1111;border-color:#ff4d4d;color:#ff6b6b}
+.pBtns button.blue{background:#111a2a;border-color:#4d94ff;color:#6ba4ff}
+.bottom{position:fixed;bottom:0;left:0;right:0;background:#000;display:flex;z-index:99;border-top:2px solid #FFD700}
+.bottom button{flex:1;background:none;border:none;color:#aaa;padding:10px 2px;font-size:11px;cursor:pointer}
+.bottom button.on{color:#FFD700;font-weight:bold}
 .hidden{display:none !important}
 input,select,textarea{width:100%;padding:12px;margin:6px 0;background:#1a1a1a;border:1px solid #444;color:#fff;border-radius:10px;outline:none}
-.small{font-size:12px;color:#aaa}.bigBtn{padding:13px;border-radius:12px;border:none;width:100%;margin:6px 0;font-weight:bold;color:#000;background:#FFD700;font-size:15px;cursor:pointer}
-.lead{display:flex;justify-content:space-between;padding:12px;margin:8px 10px;border-radius:12px;background:#1a1a1a;border:1px solid #FFD700;font-weight:bold}
-.powerBox{background:linear-gradient(90deg,#FFD700,#ffaa00);color:#000;border-radius:12px;padding:12px;margin:10px;text-align:center;font-weight:bold}
-.dpBig{width:90px;height:90px;border-radius:50%;background:#FFD700;display:flex;align-items:center;justify-content:center;font-size:42px;margin:10px auto;color:#000;overflow:hidden}
-.chatMsg{background:#1a1a1a;border:1px solid #333;border-radius:10px;padding:8px 12px;margin:6px 0}
+.powerBox{background:linear-gradient(90deg,#FFD700,#ffa500);color:#000;border-radius:12px;padding:14px;margin:10px;text-align:center;font-weight:bold;box-shadow:0 4px 15px rgba(255,215,0,0.3)}
+.chatMsg{background:#1a1a1a;border:1px solid #333;border-radius:10px;padding:10px;margin:6px 0}
+.soundGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
 </style>
 </head>
 <body>
 
 <div class="top">
-  <b>Yaarii-PK 👑</b>
+  <b>Yaarii.pk 👑</b>
   <div class="topNav">
     <span id="tab-login" onclick="switchAuthTab('login')">Login</span>
     <span id="tab-signup" class="on" onclick="switchAuthTab('signup')">Sign Up</span>
   </div>
 </div>
-<div style="height:48px"></div>
+<div style="height:54px"></div>
 
-<!-- ALWAYS VISIBLE AUTH FIRST -->
+<!-- AUTH CONTAINER -->
 <div id="page-auth">
   <div id="auth-signup" class="authBox">
-    <h1>اکاؤنٹ بنائیں</h1>
-    <p>Yaarii-PK فیملی میں شامل ہوں</p>
+    <h1>اکاؤنٹ بنائیں 👑</h1>
+    <p>پاکستان کے سب سے تفریحی پلیٹ فارم میں شامل ہوں</p>
     <div class="inp">👤&nbsp;<input id="sUser" placeholder="صارف نام (Username)"></div>
     <div class="inp">🔒&nbsp;<input id="sPass" type="password" placeholder="پاس ورڈ"></div>
-    <button class="btnGold" type="button" onclick="handleSignup()">شروع کریں</button>
-    <p style="margin-top:12px">پہلے سے اکاؤنٹ ہے؟ <a href="#" onclick="switchAuthTab('login');return false">لاگ اِن کریں</a></p>
+    <button class="btnGold" type="button" onclick="handleSignup()">شروع کریں 🚀</button>
+    <p style="margin-top:16px">پہلے سے اکاؤنٹ ہے؟ <a href="#" onclick="switchAuthTab('login');return false">لاگ اِن کریں</a></p>
   </div>
   <div id="auth-login" class="authBox hidden">
-    <h1>خوش آمدید</h1>
-    <p>لاگ اِن کریں</p>
+    <h1>خوش آمدید ⚡</h1>
+    <p>اپنے Yaarii اکاؤنٹ میں داخل ہوں</p>
     <div class="inp">👤&nbsp;<input id="lUser" placeholder="صارف نام"></div>
     <div class="inp">🔒&nbsp;<input id="lPass" type="password" placeholder="پاس ورڈ"></div>
-    <button class="btnGold" type="button" onclick="handleLogin()">لاگ اِن</button>
-    <p style="margin-top:12px">نئے ہیں؟ <a href="#" onclick="switchAuthTab('signup');return false">اکاؤنٹ بنائیں</a></p>
+    <button class="btnGold" type="button" onclick="handleLogin()">لاگ اِن 🔓</button>
+    <p style="margin-top:16px">نئے ہیں؟ <a href="#" onclick="switchAuthTab('signup');return false">اکاؤنٹ بنائیں</a></p>
   </div>
 </div>
 
 <!-- MAIN APP PAGES -->
 <div id="page-home" class="hidden">
+  <div class="powerBox">
+    <span style="font-size:18px">👤 <span id="uNameDisp">User</span> (<span id="uRank" class="badge">Naya Yaar 👶</span>)</span><br>
+    <span style="font-size:13px;margin-top:4px;display:block">⚡ پاور: <span id="myPower">50</span> | 🎯 پوائنٹس: <span id="myPoints">10</span></span>
+  </div>
+
   <div class="card">
-    <b>🟢 <span id="onlineCount">0</span> ONLINE - ابھی ایکٹو</b>
-    <div class="onlineBar" id="onlineBar"></div>
+    <h3 style="color:#FFD700;margin-bottom:8px">✏️ Fast Post Karo</h3>
+    <textarea id="quickText" placeholder="دل کی بات ya koi lateefa likho..."></textarea>
+    <button class="btnGold" type="button" onclick="quickPost()">Post Karo ( +5 Points ) 🚀</button>
   </div>
-  <div class="powerBox">⚡ پاور: <span id="myPower">50</span> | پوائنٹس: <span id="myPoints">10</span></div>
-  <div class="card" style="display:flex;gap:8px">
-    <input id="quickText" placeholder="Quick thought...">
-    <button type="button" onclick="quickPost()" style="background:#FFD700;color:#000;border:none;padding:10px 16px;border-radius:10px;font-weight:bold;cursor:pointer">➤</button>
-  </div>
+
   <div id="feed"></div>
 </div>
 
-<div id="page-share" class="hidden">
+<!-- FUN ARCADE PAGE -->
+<div id="page-fun" class="hidden">
   <div class="card">
-    <h3>Post Likho</h3>
-    <textarea id="postText" placeholder="دل کی بات لکھو..."></textarea>
-    <button class="btnGold" type="button" onclick="addPost()">Post Karo</button>
+    <h2 style="color:#FFD700">🔊 Awaz Arcade (Sound Board)</h2>
+    <p style="font-size:12px;color:#aaa;margin-top:4px">Buttons dabao aur funny awaz suno!</p>
+    <div class="soundGrid">
+      <button class="btnBlack" type="button" onclick="playPop()">👍 Faaaaah!</button>
+      <button class="btnBlack" type="button" onclick="playSlap()">👋 Chupair!</button>
+      <button class="btnBlack" type="button" onclick="playMagic()">✨ Magic Bell</button>
+      <button class="btnBlack" type="button" onclick="playSiren()">🚨 Alert Siren</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2 style="color:#FFD700">🔮 Kismat Ka Tota</h2>
+    <p id="kismatText" style="margin:12px 0;font-size:15px;color:#fff">Apni kismat jan'ne ke liye button dabayein...</p>
+    <button class="btnGold" type="button" onclick="tellKismat()">Kismat Dekho 🎯</button>
+  </div>
+
+  <div class="card">
+    <h2 style="color:#FFD700">🤣 Lateefa Studio</h2>
+    <p id="jokeText" style="margin:12px 0;font-size:14px;color:#ddd">Button dabayein aur lateefa sunein...</p>
+    <button class="btnBlack" type="button" onclick="newJoke()">Naya Lateefa 🤣</button>
   </div>
 </div>
 
-<div id="page-fun" class="hidden">
+<!-- CHAT ROOM PAGE -->
+<div id="page-chat" class="hidden">
+  <div class="card"><h2 style="color:#FFD700">💬 Yaarii Live Chat Room</h2></div>
+  <div class="card" id="chatBox" style="max-height:350px;overflow-y:auto"></div>
   <div class="card">
-    <h3>🔊 AWAAZ BOARD</h3>
-    <div style="display:flex;gap:6px;margin-top:8px">
-      <button class="btnBlack" type="button" onclick="playPop()">👍 Faaaaah Awaz</button>
-      <button class="btnBlack" type="button" onclick="playSlap()">👋 Chupair Awaz</button>
-    </div>
+    <input id="chatText" placeholder="Mehfil mein kuch bolain...">
+    <button class="btnGold" type="button" onclick="sendChat()">Bhejo 💬</button>
   </div>
 </div>
 
 <!-- BOTTOM NAVIGATION -->
 <div class="bottom" id="bottomBar" style="display:none">
   <button type="button" onclick="showPage('home')" id="bn-home" class="on">🏠<br>HOME</button>
-  <button type="button" onclick="showPage('share')" id="bn-share">➕<br>SHARE</button>
   <button type="button" onclick="showPage('fun')" id="bn-fun">🎮<br>FUN</button>
+  <button type="button" onclick="showPage('chat')" id="bn-chat">💬<br>CHAT</button>
   <button type="button" onclick="logout()" id="bn-logout">🚪<br>EXIT</button>
 </div>
 
 <script>
 var curUser = '';
+var userPoints = 10;
+var userPower = 50;
 
 function switchAuthTab(t){
   document.getElementById('auth-signup').classList.toggle('hidden', t!=='signup');
@@ -124,9 +145,9 @@ function switchAuthTab(t){
 function handleSignup(){
   var u=document.getElementById('sUser').value.trim();
   var p=document.getElementById('sPass').value;
-  if(!u||!p) return alert('Username aur Password likhein!');
+  if(!u||!p) return alert('Username aur Password dono zaroori hain!');
   curUser = u;
-  alert('Mubarak ho '+u+'! Account ban gaya!');
+  alert('Mubarak ho '+u+'! Aap Yaarii.pk par dakhil ho gaye!');
   startApp();
 }
 
@@ -135,32 +156,39 @@ function handleLogin(){
   var p=document.getElementById('lPass').value;
   if(!u||!p) return alert('Username aur Password likhein!');
   curUser = u;
-  alert('Welcome '+u+'!');
+  alert('Welcome back '+u+'!');
   startApp();
 }
 
 function startApp(){
   document.getElementById('page-auth').classList.add('hidden');
   document.getElementById('bottomBar').style.display='flex';
+  document.getElementById('uNameDisp').innerText = curUser;
   showPage('home');
+  loadSamplePosts();
 }
 
 function showPage(p){
-  ['home','share','fun'].forEach(function(x){
+  ['home','fun','chat'].forEach(function(x){
     var el=document.getElementById('page-'+x);
     if(el) el.classList.add('hidden');
+    var bn=document.getElementById('bn-'+x);
+    if(bn) bn.classList.remove('on');
   });
   var target=document.getElementById('page-'+p);
   if(target) target.classList.remove('hidden');
+  var activeBn=document.getElementById('bn-'+p);
+  if(activeBn) activeBn.classList.add('on');
 }
 
+/* SOUND EFFECTS (Web Audio API) */
 function playPop(){
   try{
     var a=new (window.AudioContext||window.webkitAudioContext)();
     var o=a.createOscillator(); var g=a.createGain();
     o.connect(g); g.connect(a.destination);
-    o.frequency.setValueAtTime(300,a.currentTime);
-    o.frequency.exponentialRampToValueAtTime(1200,a.currentTime+0.12);
+    o.frequency.setValueAtTime(350,a.currentTime);
+    o.frequency.exponentialRampToValueAtTime(1300,a.currentTime+0.12);
     g.gain.setValueAtTime(0.5,a.currentTime);
     g.gain.exponentialRampToValueAtTime(0.01,a.currentTime+0.12);
     o.start(); o.stop(a.currentTime+0.13);
@@ -170,32 +198,123 @@ function playPop(){
 function playSlap(){
   try{
     var a=new (window.AudioContext||window.webkitAudioContext)();
-    var len=a.sampleRate*0.15; var buf=a.createBuffer(1,len,a.sampleRate);
+    var len=a.sampleRate*0.16; var buf=a.createBuffer(1,len,a.sampleRate);
     var d=buf.getChannelData(0);
     for(var i=0;i<len;i++){ d[i]=(Math.random()*2-1)*Math.pow(1-i/len,2); }
     var s=a.createBufferSource(); s.buffer=buf; var g=a.createGain();
     g.gain.setValueAtTime(0.9,a.currentTime);
-    g.gain.exponentialRampToValueAtTime(0.01,a.currentTime+0.15);
+    g.gain.exponentialRampToValueAtTime(0.01,a.currentTime+0.16);
     s.connect(g); g.connect(a.destination);
     s.start();
+    if(navigator.vibrate) navigator.vibrate(70);
   }catch(e){}
 }
 
-function addPost(){
-  var txt=document.getElementById('postText').value.trim();
-  if(!txt) return alert('Kuch text likhein!');
-  var feed=document.getElementById('feed');
-  feed.innerHTML='<div class="post"><b>'+curUser+'</b><p style="margin-top:6px">'+txt+'</p><div class="pBtns"><button class="gold" onclick="playPop()">👍 Faaaa!</button><button class="red" onclick="playSlap()">👋 Chupair!</button></div></div>' + feed.innerHTML;
-  document.getElementById('postText').value='';
-  showPage('home');
+function playMagic(){
+  try{
+    var a=new (window.AudioContext||window.webkitAudioContext)();
+    var o=a.createOscillator(); var g=a.createGain();
+    o.connect(g); g.connect(a.destination);
+    o.frequency.setValueAtTime(600,a.currentTime);
+    o.frequency.exponentialRampToValueAtTime(1800,a.currentTime+0.3);
+    g.gain.setValueAtTime(0.3,a.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.01,a.currentTime+0.3);
+    o.start(); o.stop(a.currentTime+0.31);
+  }catch(e){}
 }
 
+function playSiren(){
+  try{
+    var a=new (window.AudioContext||window.webkitAudioContext)();
+    var o=a.createOscillator(); var g=a.createGain();
+    o.connect(g); g.connect(a.destination);
+    o.frequency.setValueAtTime(800,a.currentTime);
+    o.frequency.linearRampToValueAtTime(400,a.currentTime+0.2);
+    g.gain.setValueAtTime(0.4,a.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.01,a.currentTime+0.25);
+    o.start(); o.stop(a.currentTime+0.26);
+  }catch(e){}
+}
+
+/* POSTS SYSTEM */
 function quickPost(){
   var txt=document.getElementById('quickText').value.trim();
-  if(!txt) return;
+  if(!txt) return alert('Pehle kuch likhein!');
+  userPoints += 5;
+  userPower += 10;
+  updateStats();
+  
   var feed=document.getElementById('feed');
-  feed.innerHTML='<div class="post"><b>'+curUser+'</b><p style="margin-top:6px">'+txt+'</p><div class="pBtns"><button class="gold" onclick="playPop()">👍 Faaaa!</button><button class="red" onclick="playSlap()">👋 Chupair!</button></div></div>' + feed.innerHTML;
+  var postHTML='<div class="post">'+
+    '<div class="postHead"><b>'+curUser+'</b><span class="badge">🔥 Abhi Post Kiya</span></div>'+
+    '<p style="margin-top:10px;font-size:15px">'+txt+'</p>'+
+    '<div class="pBtns">'+
+      '<button class="gold" type="button" onclick="playPop()">👍 Faaaaah!</button>'+
+      '<button class="red" type="button" onclick="playSlap()">👋 Chupair!</button>'+
+      '<button class="blue" type="button" onclick="playMagic()">❤️ Dostana</button>'+
+    '</div>'+
+  '</div>';
+  
+  feed.innerHTML = postHTML + feed.innerHTML;
   document.getElementById('quickText').value='';
+}
+
+function loadSamplePosts(){
+  var feed=document.getElementById('feed');
+  feed.innerHTML='<div class="post">'+
+    '<div class="postHead"><b>Admin Yaar 👑</b><span class="badge">Official</span></div>'+
+    '<p style="margin-top:10px;font-size:15px">Yaarii.pk par aap sab doston ka khushamdeed! Neeche Faaaaah aur Chupair buttons try karein 🚀</p>'+
+    '<div class="pBtns">'+
+      '<button class="gold" type="button" onclick="playPop()">👍 Faaaaah! (12)</button>'+
+      '<button class="red" type="button" onclick="playSlap()">👋 Chupair! (2)</button>'+
+      '<button class="blue" type="button" onclick="playMagic()">❤️ Dostana (8)</button>'+
+    '</div>'+
+  '</div>' + feed.innerHTML;
+}
+
+function updateStats(){
+  document.getElementById('myPoints').innerText = userPoints;
+  document.getElementById('myPower').innerText = userPower;
+  
+  var rank = "Naya Yaar 👶";
+  if(userPoints >= 20) rank = "Jani 🔥";
+  if(userPoints >= 50) rank = "Pro Yaar 👑";
+  if(userPoints >= 100) rank = "Yaarii King 🏆";
+  document.getElementById('uRank').innerText = rank;
+}
+
+/* KISMAT TOTA & JOKES */
+var kismatList = [
+  "Aaj koi aap ko muft mein chai pilayega ☕",
+  "Khabardar! Aaj aap ko online chupair par sakti hai 👋",
+  "Aaj aap ki kismat chamke gi aur 100 bonus power milegi ⚡",
+  "Aaj aap ka purana dost aap ko yaad karega ❤️"
+];
+function tellKismat(){
+  playMagic();
+  var rand = kismatList[Math.floor(Math.random()*kismatList.length)];
+  document.getElementById('kismatText').innerText = rand;
+}
+
+var jokesList = [
+  "Pathan: Yar mera mobile gum ho gaya. Dost: SIM block karwa lo. Pathan: SIM to mere paas hai, mobile gum hua hai! 😂",
+  "Teacher: Pappu, tumhare abba kya karte hain? Pappu: Sir wo jo ammi bolti hain wahi karte hain! 🤣"
+];
+function newJoke(){
+  playPop();
+  var j = jokesList[Math.floor(Math.random()*jokesList.length)];
+  document.getElementById('jokeText').innerText = j;
+}
+
+/* LIVE CHAT */
+function sendChat(){
+  var txt=document.getElementById('chatText').value.trim();
+  if(!txt) return;
+  playPop();
+  var box=document.getElementById('chatBox');
+  box.innerHTML += '<div class="chatMsg"><b>'+curUser+':</b> '+txt+'</div>';
+  document.getElementById('chatText').value='';
+  box.scrollTop=box.scrollHeight;
 }
 
 function logout(){
