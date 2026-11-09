@@ -39,107 +39,99 @@ input,select,textarea{width:100%;padding:12px;margin:6px 0;background:#1a1a1a;bo
 .powerBox{background:linear-gradient(90deg,#FFD700,#ffaa00);color:#000;border-radius:12px;padding:12px;margin:10px;text-align:center;font-weight:bold}
 .dpBig{width:90px;height:90px;border-radius:50%;background:#FFD700;display:flex;align-items:center;justify-content:center;font-size:40px;margin:10px auto;color:#000;overflow:hidden}.dpBig img{width:100%;height:100%;object-fit:cover}
 .mehfilItem{background:#111;border:1px solid #333;border-radius:12px;padding:12px;margin:10px;display:flex;gap:10px}
+#msgBox{background:#1a1a1a;border:1px solid #FFD700;color:#FFD700;padding:10px;border-radius:10px;margin:10px;text-align:center;font-weight:bold}
 </style>
 </head>
 <body>
 <div class="top"><b>Yaarii-PK 👑</b><div class="topNav"><span onclick="showPage('rules')">Rules</span><span onclick="showAuth('login')">Login</span><span onclick="showAuth('signup')" class="on">Sign Up</span></div></div>
+<div id="msgBox" class="hidden"></div>
 
 <div id="page-auth">
-<div style="text-align:center;margin-top:8px"><button type="button" onclick="alert('English / Urdu dono chalega')" style="background:#FFD700;color:#000;border:none;padding:8px 22px;border-radius:20px;font-weight:bold;cursor:pointer">English</button></div>
+<div style="text-align:center;margin-top:8px"><button type="button" onclick="alert('English / Urdu')" style="background:#FFD700;color:#000;border:none;padding:8px 22px;border-radius:20px;font-weight:bold;cursor:pointer">English</button></div>
 <div id="auth-signup" class="authBox"><h1>اکاؤنٹ بنائیں</h1><p>Yaarii-PK فیملی میں شامل ہوں</p>
 <div class="inp">👤&nbsp;<input id="sUser" placeholder="صارف نام"></div>
 <div class="inp">🔒&nbsp;<input id="sPass" type="password" placeholder="پاس ورڈ"></div>
 <label style="font-size:12px;display:flex;gap:6px;align-items:center;margin:8px 0"><input type="checkbox" id="agree" checked style="width:auto"> میں ویب سائٹ کے قواعد سے اتفاق کرتا ہوں</label>
-<button type="button" class="btnGold" onclick="signup()">شروع کریں</button>
-<p style="margin-top:12px">پہلے سے اکاؤنٹ ہے؟ <a href="#" onclick="showAuth('login');return false">لاگ اِن کریں</a></p>
-<p><a href="#" onclick="showPage('about');return false">About Us</a> &nbsp; <a href="#" onclick="showPage('rules');return false">Terms</a> &nbsp; <a href="#" onclick="showPage('privacy');return false">Privacy</a></p></div>
+<button type="button" id="btnSignup" class="btnGold">شروع کریں</button>
+<p style="margin-top:12px">پہلے سے اکاؤنٹ ہے؟ <a href="#" onclick="showAuth('login');return false">لاگ اِن کریں</a></p></div>
 <div id="auth-login" class="authBox hidden"><h1>خوش آمدید</h1><p>لاگ اِن کریں</p>
 <div class="inp">👤&nbsp;<input id="lUser" placeholder="صارف نام"></div>
 <div class="inp">🔒&nbsp;<input id="lPass" type="password" placeholder="پاس ورڈ"></div>
-<button type="button" class="btnGold" onclick="login()">لاگ اِن</button>
+<button type="button" id="btnLogin" class="btnGold">لاگ اِن</button>
 <p style="margin-top:12px">نئے ہیں؟ <a href="#" onclick="showAuth('signup');return false">اکاؤنٹ بنائیں</a></p></div>
 </div>
 
 <div id="page-home" class="hidden">
 <div class="card"><div style="display:flex;justify-content:space-between"><b>🟢 <span id="onlineCount">0</span> ONLINE</b><input id="searchOnline" placeholder="Search online users..." style="width:55%;margin:0;padding:8px" oninput="renderOnline()"></div><div class="onlineBar" id="onlineBar"></div><p class="small">Sirf wo jo abhi is waqt khud online hain.</p></div>
-<div class="powerBox">⚡ Meri Power: <span id="myPower">0</span> | Mere Points: <span id="myPoints">0</span><br><span style="font-size:12px">Normal Like = +5 | Trending Creator Like = +5000 | Post = +1</span><br><span style="font-size:12px">Top 10 Trending wale khud hi Trending Creator ban jayenge</span></div>
-<div class="card"><div style="display:flex;justify-content:space-between"><b>Stories</b><span style="color:#FFD700;cursor:pointer" onclick="openStoryBox()">+ Share a story</span></div><div class="storyRow" id="storyRow"></div><div id="storyBox" class="hidden" style="margin-top:10px"><input id="storyText" placeholder="Story me kya likhna hai?"><input type="file" id="storyPic" accept="image/*"><button type="button" class="btnGold" onclick="addStory()">Story Lagao ✅</button></div><p class="small">Story sirf wo dikhegi jo user ne khud lagai hogi.</p></div>
-<div class="filter"><button class="on" onclick="filterCat('All',this)">FOR ME</button><button onclick="filterCat('All',this)">ALL</button><button onclick="filterCat('TEXT',this)">TEXT</button><button onclick="filterCat('PICS',this)">PICS</button><button onclick="filterCat('VIDEOS',this)">VIDEOS</button><button onclick="filterCat('POLLS',this)">POLLS</button><button onclick="filterCat('ANON',this)">ANONYMOUS</button></div>
+<div class="powerBox">⚡ Meri Power: <span id="myPower">0</span> | Mere Points: <span id="myPoints">0</span><br><span style="font-size:12px">Normal Like = +5 | Trending Creator Like = +5000 | Post = +1</span></div>
+<div class="card"><div style="display:flex;justify-content:space-between"><b>Stories</b><span style="color:#FFD700;cursor:pointer" onclick="openStoryBox()">+ Share a story</span></div><div class="storyRow" id="storyRow"></div><div id="storyBox" class="hidden" style="margin-top:10px"><input id="storyText" placeholder="Story me kya likhna hai?"><input type="file" id="storyPic" accept="image/*"><button type="button" class="btnGold" onclick="addStory()">Story Lagao ✅</button></div></div>
+<div class="filter"><button class="on" onclick="filterCat('All',this)">FOR ME</button><button onclick="filterCat('All',this)">ALL</button><button onclick="filterCat('TEXT',this)">TEXT</button><button onclick="filterCat('PICS',this)">PICS</button><button onclick="filterCat('POLLS',this)">POLLS</button></div>
 <div class="card" style="display:flex;gap:8px"><input id="quickText" placeholder="Quick thought..."><button type="button" onclick="quickPost()" style="background:#FFD700;color:#000;border:none;padding:10px 16px;border-radius:10px;font-weight:bold;cursor:pointer">➤</button></div>
 <div id="feed"></div>
 </div>
 
 <div id="page-share" class="hidden">
-<div class="card" style="text-align:center"><h2 style="color:#FFD700">Make a Post</h2><p class="small">Say something to your friends on Yaarii-PK</p></div>
-<div class="card"><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;text-align:center"><div onclick="setShare('pic')" style="background:#1a1a1a;padding:14px;border-radius:10px;border:1px solid #FFD700;cursor:pointer">📷<br>Photo or Video</div><div onclick="setShare('text')" style="background:#1a1a1a;padding:14px;border-radius:10px;border:1px solid #FFD700;cursor:pointer">✍️<br>Text Post</div><div onclick="alert('Voice jald aa raha hai!')" style="background:#1a1a1a;padding:14px;border-radius:10px;border:1px solid #FFD700;cursor:pointer">🎤<br>Voice Message</div><div onclick="setAnon()" style="background:#1a1a1a;padding:14px;border-radius:10px;border:1px solid #FFD700;cursor:pointer">🕵️<br>Anonymous post</div><div onclick="alert('Followers only ON')" style="background:#1a1a1a;padding:14px;border-radius:10px;border:1px solid #FFD700;cursor:pointer">🔒<br>Followers only</div><div onclick="showPage('trending')" style="background:#1a1a1a;padding:14px;border-radius:10px;border:1px solid #FFD700;cursor:pointer">🏆<br>DP Competition</div></div>
-<div onclick="createPoll()" style="background:#1a1a1a;padding:12px;border-radius:10px;margin-top:10px;cursor:pointer">📊 Create a poll <span style="float:right">›</span><br><span class="small">Ask your community and collect votes</span></div></div>
-<div class="card"><h3>1. Category</h3><select id="postCat"></select><h3 style="margin-top:10px">2. Add your photo</h3><input type="file" id="postPic" accept="image/*"><h3>3. Caption</h3><textarea id="postText" placeholder="Likho is tasveer ke baare mein..."></textarea><div style="display:flex;gap:8px"><button type="button" class="btnBlack" onclick="showPage('home')">Cancel</button><button type="button" class="btnGold" onclick="addPost()">Post → ( +1 Point )</button></div></div>
+<div class="card" style="text-align:center"><h2 style="color:#FFD700">Make a Post</h2></div>
+<div class="card"><h3>1. Category</h3><select id="postCat"></select><h3>2. Photo</h3><input type="file" id="postPic" accept="image/*"><h3>3. Caption</h3><textarea id="postText" placeholder="Likho..."></textarea><div style="display:flex;gap:8px"><button type="button" class="btnBlack" onclick="showPage('home')">Cancel</button><button type="button" class="btnGold" onclick="addPost()">Post → ( +1 Point )</button></div></div>
 </div>
 
 <div id="page-trending" class="hidden">
-<div class="card" style="text-align:center"><h2 style="color:#FFD700">Trending Photos</h2><p class="small">🔥 Trending this week - Resets in 1 day - Updated daily</p></div>
-<div class="card" style="background:#FFD700;color:#000"><b>📷 Trending Photos</b><p>Top liked photos this week</p></div>
-<div class="card" style="background:#1a1a1a;border:1px solid #FFD700"><b>📝 Trending Text Posts</b><p>Top liked text posts</p></div>
+<div class="card" style="text-align:center"><h2 style="color:#FFD700">Trending 🔥</h2></div>
 <button type="button" class="btnGold" onclick="showPage('leader')">⭐ See Top 10 Stars</button>
-<div class="card"><b>Search categories</b><input id="searchCat" placeholder="Type a category name..." oninput="searchCats()"><div id="catChips"></div></div>
 <div id="trendFeed"></div>
 </div>
 
 <div id="page-inbox" class="hidden">
 <div class="card"><h2 style="color:#FFD700">Notifications</h2><div id="notifList"></div></div>
-<div class="card"><h2>Messages</h2><p class="small">PENDING</p><div style="border:1px dashed #444;padding:14px;text-align:center;border-radius:10px;margin:8px 0">NO REQUESTS</div><p class="small">ACTIVE</p><div style="border:1px dashed #444;padding:14px;text-align:center;border-radius:10px;margin:8px 0">NO CHATS</div></div>
-<div class="card"><h3>✉️ Direct Message</h3><input id="dmTo" placeholder="Kis ko bhejna hai? Username"><input id="dmText" placeholder="Message..."><button type="button" class="btnGold" onclick="sendDM()">DM BHEJO 📩</button><div id="dmList" style="margin-top:10px"></div></div>
+<div class="card"><h3>✉️ Direct Message</h3><input id="dmTo" placeholder="Username"><input id="dmText" placeholder="Message..."><button type="button" class="btnGold" onclick="sendDM()">DM BHEJO 📩</button><div id="dmList" style="margin-top:10px"></div></div>
 </div>
 
 <div id="page-1on1" class="hidden">
-<div class="card"><h2 style="color:#FFD700">1 ON 1 - Mehfil Chat</h2><p class="small">Sab yaar yahan live baat karte hain - @name likh ke mention karo</p></div>
-<div id="chatBox"></div>
-<div class="card"><input id="chatText" placeholder="Mehfil me kuch likho... @leader"><button type="button" class="btnGold" onclick="sendChat()">BHEJO 💬</button></div>
+<div class="card"><h2 style="color:#FFD700">1 ON 1 - Mehfil Chat</h2></div><div id="chatBox"></div>
+<div class="card"><input id="chatText" placeholder="Kuch likho... @name"><button type="button" class="btnGold" onclick="sendChat()">BHEJO 💬</button></div>
 </div>
 
 <div id="page-profile" class="hidden">
 <div class="card" style="text-align:center"><p class="small">MY PROFILE</p><div class="dpBig" id="pDpBox">👤</div><h2 id="pName">-</h2><p id="pMeta" style="color:#FFD700"></p><p class="small" id="pBio"></p><p id="pPowerLine" style="color:#FFD700;font-weight:bold;margin-top:6px"></p></div>
-<div class="card"><div style="display:flex;gap:6px;overflow-x:auto"><button class="chip">👤 PROFILE</button><button class="chip">📄 POSTS</button><button class="chip">📊 POLLS</button><button class="chip" onclick="showPage('1on1')">🏠 HOME CHAT</button><button class="chip" onclick="showPage('fun')">🎮 GAMES</button><button class="chip" onclick="showPage('mehfil')">🏠 MEHFILS</button><button class="chip">FOLLOWERS (0)</button><button class="chip">FOLLOWING (0)</button><button class="chip">🚫 BLOCKED</button><button class="chip" onclick="showPage('more')">⚙️ SETTINGS</button></div><div id="myPosts" style="margin-top:10px"></div>
-<div style="margin-top:10px"><h3>✏️ Profile Update Karo</h3><p class="small">Apni DP Change Karo - Photo lagao</p><input type="file" id="dpFile" accept="image/*" onchange="changeDP()"><input id="eBio" placeholder="Bio..."><input id="eAge" type="number" placeholder="Age"><select id="eCity"><option>Lahore</option><option>Karachi</option><option>Islamabad</option><option>Rawalpindi</option><option>Faisalabad</option><option>Multan</option><option>Hyderabad</option><option>Peshawar</option><option>Quetta</option><option>Sialkot</option><option>Other</option></select><select id="eStar"><option>Aries ♈</option><option>Taurus ♉</option><option>Gemini ♊</option><option>Cancer ♋</option><option>Leo ♌</option><option>Virgo ♍</option><option>Libra ♎</option><option>Scorpio ♏</option><option>Sagittarius ♐</option><option>Capricorn ♑</option><option>Aquarius ♒</option><option>Pisces ♓</option></select><button type="button" class="btnGold" onclick="saveProfile()">SAVE KARO ✅</button></div></div>
+<div class="card"><h3>✏️ Profile Update Karo</h3><input type="file" id="dpFile" accept="image/*" onchange="changeDP()"><input id="eBio" placeholder="Bio..."><input id="eAge" type="number" placeholder="Age"><select id="eCity"><option>Lahore</option><option>Karachi</option><option>Islamabad</option><option>Other</option></select><select id="eStar"><option>Aries ♈</option><option>Leo ♌</option><option>Virgo ♍</option><option>Pisces ♓</option></select><button type="button" class="btnGold" onclick="saveProfile()">SAVE KARO ✅</button></div>
+<div class="card"><h3>📝 Meri Posts</h3><div id="myPosts"></div></div>
 <div id="adminPanel"></div>
 </div>
 
 <div id="page-mehfil" class="hidden">
-<div class="card" style="background:#FFD700;color:#000"><h2>Top 10 Popular Mehfils</h2><p>Join the conversations that are active this week.</p></div>
+<div class="card" style="background:#FFD700;color:#000"><h2>Top 10 Popular Mehfils</h2></div>
 <div class="card"><h3>💬 Apni Mehfil Banao</h3><input id="newMehfil" placeholder="Nayi Mehfil ka naam..."><button type="button" class="btnGold" onclick="createMehfil()">MEHFIL BANAO ➕</button></div>
 <div id="mehfilList"></div>
 </div>
 
 <div id="page-fun" class="hidden">
-<div class="card"><h2>😂 Games Arcade - Fun Zone</h2><p class="small">Naya Fun - Hasna mana nahi hai!</p></div>
+<div class="card"><h2>😂 Games Arcade</h2></div>
 <div class="card"><h3>🤣 LATEEFA MACHINE</h3><p id="jokeText">Dabao to lateefa aayega...</p><button type="button" class="btnGold" onclick="newJoke()">NAYA LATEEFA 🤣</button></div>
 <div class="card"><h3>🎲 QISMAT</h3><p id="diceText" style="text-align:center;font-size:36px">🎲</p><button type="button" class="btnBlack" onclick="rollDice()">Dice Phenko 🎲</button></div>
-<div class="card"><h3>👏 TALI PRACTICE</h3><p class="small">Normal Like = +5, Trending Creator Like = +5000</p><button type="button" class="btnGold" onclick="clapPractice()">👏 TALI MARO</button><p id="clapMsg" style="text-align:center;margin-top:8px;color:#FFD700"></p></div>
+<div class="card"><h3>👏 TALI PRACTICE</h3><button type="button" class="btnGold" onclick="clapPractice()">👏 TALI MARO</button><p id="clapMsg" style="text-align:center;margin-top:8px;color:#FFD700"></p></div>
 <div class="card"><h3>🔊 AWAAZ BOARD</h3><div style="display:flex;gap:6px"><button type="button" class="btnBlack" onclick="playPop()">👍 Pha</button><button type="button" class="btnBlack" onclick="playSlap()">👋 Chapair</button><button type="button" class="btnBlack" onclick="playDing()">🔔 Ting</button></div></div>
 </div>
 
-<div id="page-leader" class="hidden">
-<div class="card"><h2 style="color:#FFD700">🏆 Leaderboard</h2><div style="display:flex;gap:6px"><button class="chip" onclick="showLeader('score')">🏆 Top Scorers</button><button class="chip" onclick="showLeader('star')">⭐ Top Stars</button></div><div id="leaderList"></div></div>
-</div>
+<div id="page-leader" class="hidden"><div class="card"><h2 style="color:#FFD700">🏆 Leaderboard</h2><div id="leaderList"></div></div></div>
 
 <div id="page-more" class="hidden">
-<div class="card" style="text-align:center"><h2 style="color:#FFD700">MORE</h2><p class="small">Black & Golden Theme</p></div>
+<div class="card" style="text-align:center"><h2 style="color:#FFD700">MORE</h2></div>
 <button type="button" class="bigBtn" onclick="showPage('mehfil')">👥 MEHFIL</button>
 <button type="button" class="bigBtn" onclick="showPage('fun')">🎮 GAMES ARCADE</button>
 <button type="button" class="bigBtn" onclick="showPage('search')">🔍 SEARCH</button>
 <button type="button" class="bigBtn" onclick="showPage('emojis')">😊 EMOJIS</button>
 <button type="button" class="bigBtn" onclick="showPage('rules')">📜 RULES</button>
 <button type="button" class="bigBtn" onclick="showPage('about')">ℹ️ ABOUT US</button>
-<button type="button" class="bigBtn" onclick="showPage('terms')">📄 TERMS & CONDITIONS</button>
-<button type="button" class="bigBtn" onclick="showPage('privacy')">🔒 PRIVACY POLICY</button>
+<button type="button" class="bigBtn" onclick="showPage('terms')">📄 TERMS</button>
+<button type="button" class="bigBtn" onclick="showPage('privacy')">🔒 PRIVACY</button>
 <button type="button" class="bigBtn" style="background:#ff2d55;color:#fff" onclick="logout()">🚪 LOGOUT</button>
 </div>
-<div id="page-search" class="hidden"><div class="card"><h2 style="color:#FFD700">SEARCH</h2><p class="small">What are you looking for?</p><input id="searchQ" placeholder="Try a name, hobby, or post..." oninput="doSearch()"><div id="searchRes"></div></div></div>
-<div id="page-emojis" class="hidden"><div class="card"><h2 style="text-align:center;color:#FFD700">EMOJIS</h2><p class="small" style="text-align:center">Type .c1 anywhere - it will turn into emoji</p><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;text-align:center;margin-top:10px"><div class="card">🧕<br>.c1</div><div class="card">🧑‍🎤<br>.c2</div><div class="card">😮<br>.c3</div><div class="card">😡<br>.d4</div><div class="card">😍<br>.p5</div><div class="card">😎<br>.v3</div></div></div></div>
-<div id="page-rules" class="hidden"><div class="card"><h2 style="color:#FFD700">Rules</h2><p style="line-height:24px">1. No abuse.<br>2. No nude pictures upload.<br>3. No vulgar / sexual pictures upload.<br>4. No bloody / gore pictures upload.<br>5. Don't leak someone's private pictures.</p></div></div>
-<div id="page-about" class="hidden"><div class="card"><h2 style="color:#FFD700">About Yaarii-PK</h2><p style="line-height:22px">Yaarii-PK Pakistan ke yaaron ke liye hai. Urdu posts, chat, photos, mehfil, games sab ek jagah. 100% Free.<br><br>Made with ❤️ in Pakistan 🇵🇰</p></div></div>
-<div id="page-terms" class="hidden"><div class="card"><h2>Terms & Conditions</h2><p style="line-height:22px">1. Eligibility - accurate account.<br>2. Content - you are responsible.<br>3. Account Suspension - breaking rules = ban.<br>4. No Warranty - provided as-is.<br>5. Governing Law - Laws of Pakistan.</p></div></div>
-<div id="page-privacy" class="hidden"><div class="card"><h2>Privacy Policy</h2><p>Tumhara password sirf tumhe pata hota hai. Hum data kisi ko nahi dete.</p></div></div>
+<div id="page-search" class="hidden"><div class="card"><h2 style="color:#FFD700">SEARCH</h2><input id="searchQ" placeholder="Naam likho..." oninput="doSearch()"><div id="searchRes"></div></div></div>
+<div id="page-emojis" class="hidden"><div class="card"><h2 style="text-align:center;color:#FFD700">EMOJIS</h2><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;text-align:center;margin-top:10px"><div class="card">🧕<br>.c1</div><div class="card">🧑‍🎤<br>.c2</div><div class="card">😮<br>.c3</div><div class="card">😡<br>.d4</div><div class="card">😍<br>.p5</div><div class="card">😎<br>.v3</div></div></div></div>
+<div id="page-rules" class="hidden"><div class="card"><h2 style="color:#FFD700">Rules</h2><p>1. No abuse.<br>2. No nude pictures.<br>3. No vulgar pictures.<br>4. No bloody pictures.<br>5. Don't leak private pictures.</p></div></div>
+<div id="page-about" class="hidden"><div class="card"><h2 style="color:#FFD700">About Yaarii-PK</h2><p>Pakistan ke yaaron ke liye. 100% Free. Made with ❤️ in Pakistan 🇵🇰</p></div></div>
+<div id="page-terms" class="hidden"><div class="card"><h2>Terms</h2><p>1. Accurate account.<br>2. You are responsible.<br>3. Breaking rules = ban.<br>4. Laws of Pakistan.</p></div></div>
+<div id="page-privacy" class="hidden"><div class="card"><h2>Privacy</h2><p>Password sirf tumhe pata hota hai.</p></div></div>
 
 <div class="bottom" id="bottomBar" style="display:none">
 <button type="button" onclick="showPage('home')" id="bn-home">🏠<br>HOME</button>
@@ -151,5 +143,56 @@ input,select,textarea{width:100%;padding:12px;margin:6px 0;background:#1a1a1a;bo
 </div>
 
 <script>
+// ===== SCRIPT 1 - SIRF LOGIN / SIGNUP - YE KABHI BAND NAHI HOGA =====
+function showMsg(t){ var m=document.getElementById('msgBox'); m.classList.remove('hidden'); m.innerText=t; setTimeout(function(){m.classList.add('hidden')},3000); }
+function showAuth(t){ document.getElementById('auth-signup').classList.toggle('hidden',t!=='signup'); document.getElementById('auth-login').classList.toggle('hidden',t!=='login'); }
+function signup(){
+  try{
+    var u=document.getElementById('sUser').value.trim();
+    var p=document.getElementById('sPass').value;
+    if(!u||!p){ showMsg('Pehle Username + Password likho'); return; }
+    if(u.length<3){ showMsg('Username thora bara rakho'); return; }
+    if(!document.getElementById('agree').checked){ showMsg('Pehle Rules se agree karo'); return; }
+    var users={}; try{ users=JSON.parse(localStorage.getItem('y_users')||'{}'); }catch(e){ users={}; }
+    if(users[u]){ showMsg('Ye Username pehle se hai - Login karo'); return; }
+    var isFirst=Object.keys(users).length===0;
+    users[u]={u:u,p:p,age:'?',city:'Lahore',star:'Leo',bio:'Yaarii-PK Ka Yaar',dp:'😎',points:0,power:0,lastSeen:Date.now(),id:Math.floor(1000+Math.random()*9000),role:isFirst?'ADMIN':'USER'};
+    localStorage.setItem('y_users',JSON.stringify(users));
+    localStorage.setItem('y_cur',u);
+    showMsg('SIGNUP HO GAYA '+u+'! Ab andar ja rahe hain...');
+    setTimeout(function(){ location.reload(); },800);
+  }catch(e){ showMsg('Error: '+e.message); alert('Error aa gaya: '+e.message); }
+}
+function login(){
+  try{
+    var u=document.getElementById('lUser').value.trim();
+    var p=document.getElementById('lPass').value;
+    if(!u||!p){ showMsg('Username + Password likho'); return; }
+    var users={}; try{ users=JSON.parse(localStorage.getItem('y_users')||'{}'); }catch(e){ users={}; }
+    var d=users[u];
+    if(!d){ showMsg('User nahi mila - Pehle Signup karo'); return; }
+    if(d.p!==p){ showMsg('Galat Password hai'); return; }
+    d.lastSeen=Date.now();
+    localStorage.setItem('y_users',JSON.stringify(users));
+    localStorage.setItem('y_cur',u);
+    showMsg('LOGIN HO GAYA! Welcome '+u);
+    setTimeout(function(){ location.reload(); },800);
+  }catch(e){ showMsg('Error: '+e.message); }
+}
+function logout(){ try{ var users=JSON.parse(localStorage.getItem('y_users')||'{}'); var c=localStorage.getItem('y_cur'); if(users[c]){users[c].lastSeen=0; localStorage.setItem('y_users',JSON.stringify(users));} }catch(e){} localStorage.removeItem('y_cur'); location.reload(); }
+document.getElementById('btnSignup').addEventListener('click',signup);
+document.getElementById('btnLogin').addEventListener('click',login);
+</script>
+
+<script>
+// ===== SCRIPT 2 - BAAQI SARE FEATURES =====
 var cur = localStorage.getItem('y_cur') || '';
-function getUsers(){ try{return JSON.parse(localStorage.getItem('y_users')||'{}')}catch(
+function getUsers(){ try{return JSON.parse(localStorage.getItem('y_users')||'{}')}catch(e){return{}} }
+function saveUsers(u){ localStorage.setItem('y_users',JSON.stringify(u)) }
+function getPosts(){ try{return JSON.parse(localStorage.getItem('y_posts')||'[]')}catch(e){return[]} }
+function getChat(){ try{return JSON.parse(localStorage.getItem('y_chat')||'[]')}catch(e){return[]} }
+function getStories(){ try{return JSON.parse(localStorage.getItem('y_stories')||'[]')}catch(e){return[]} }
+function getMehfils(){ try{return JSON.parse(localStorage.getItem('y_mehfils')||'["Sab Ki Mehfil"]')}catch(e){return["Sab Ki Mehfil"]} }
+var cats=["General","Aseel","Motovlog","News","Sports","Cricket","Football","Automotive","Politics","Religion","History","Psychology","Motivation","Quotes","Weather","Jobs","Local Community","Questions","DP Competition","Entertainment","Gaming","Memes","Movies","Music","Art","Drama","Anime","Bollywood","Hollywood","K-Pop","Comedy","Sad Poetry","Love Poetry","Urdu Ghazal","Sufi Poetry","Deep Lines","Attitude Poetry","Funny Poetry","Punjabi Poetry","Islamic Poetry","Literature","Parveen Shakir","Jaun Elia","Allama Iqbal","Mirza Ghalib","Pashto Poetry","Sindhi Poetry","Books","Photography","Travel","Food","Fashion","Fitness","Vlog","Pets","Gardening","Cooking","Home Decor","Health","Self Care","Beauty","Relationships","Parenting","Tech","AI","Coding","Education","Business","Freelancing","Crypto","Science","Space","Gadgets","Learning Urdu"];
+var curCat='All'; var curFilter='All'; var feedData=[]; var curMehfil='Sab Ki Mehfil';
+function showPage(p){ var pages=['home','share','trending','inbox','1on1','profile','mehfil','fun','leader','more','search','emojis','rules','about','terms','privacy']; pages.forEach(function(x){ var el=document.getElementById('page-'+x); if(el) el.classList.add('hidden'); }); var t=document.getElementById('page-'+p); if(t) t.classList.remove('hidden'); document.getElementById('page-auth').classList.add('hidden'); ['home','share','trending','inbox','1on1','more'].forEach(function(b){ 
