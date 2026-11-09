@@ -23,9 +23,9 @@ a{color:#FFD700;text-decoration:none}
 .uCircle div{width:54px;height:54px;border-radius:50%;background:#1a1a1a;display:flex;align-items:center;justify-content:center;font-size:24px;border:2px solid #FFD700;margin:auto;position:relative;overflow:hidden}
 .uCircle div img{width:100%;height:100%;object-fit:cover}
 .uCircle .dot{position:absolute;bottom:2px;right:2px;width:12px;height:12px;background:#00ff00;border-radius:50%;border:2px solid #000}
-.uCircle p{font-size:11px;margin-top:3px;white-space:nowrap;overflow:hidden}.uCircle small{font-size:10px;color:#FFD700;font-weight:bold}
+.uCircle p{font-size:11px;margin-top:3px;white-space:nowrap;overflow:hidden}
 .storyRow{display:flex;gap:10px;overflow-x:auto;padding:6px 2px}
-.story{min-width:72px;text-align:center;cursor:pointer}.story div{width:58px;height:58px;border-radius:50%;background:#1a1a1a;display:flex;align-items:center;justify-content:center;font-size:24px;border:2px solid #FFD700;overflow:hidden}.story div img{width:100%;height:100%;object-fit:cover}
+.story{min-width:72px;text-align:center;cursor:pointer}.story div{width:58px;height:58px;border-radius:50%;background:#1a1a1a;display:flex;align-items:center;justify-content:center;font-size:24px;border:2px solid #FFD700;overflow:hidden}
 .filter{display:flex;gap:6px;overflow-x:auto;padding:6px 10px}.filter button{white-space:nowrap;padding:8px 14px;border-radius:20px;background:#1a1a1a;border:1px solid #444;color:#fff;cursor:pointer}.filter button.on{background:#FFD700;color:#000;font-weight:bold}
 .post{background:#111;border:1px solid #333;border-radius:12px;padding:11px;margin:10px}.post img{width:100%;border-radius:10px;margin-top:8px}
 .postHead{display:flex;justify-content:space-between;align-items:center}.badge{background:#1a1a1a;border:1px solid #FFD700;color:#FFD700;border-radius:20px;padding:3px 8px;font-size:11px}
@@ -34,10 +34,9 @@ a{color:#FFD700;text-decoration:none}
 .hidden{display:none !important}
 input,select,textarea{width:100%;padding:12px;margin:6px 0;background:#1a1a1a;border:1px solid #444;color:#fff;border-radius:10px;outline:none}
 .small{font-size:12px;color:#aaa}.bigBtn{padding:13px;border-radius:12px;border:none;width:100%;margin:6px 0;font-weight:bold;color:#000;background:#FFD700;font-size:15px;cursor:pointer}
-.mehfilItem{background:#111;border:1px solid #333;border-radius:12px;padding:12px;margin:10px;display:flex;gap:10px;align-items:center}
 .lead{display:flex;justify-content:space-between;padding:12px;margin:8px 10px;border-radius:12px;background:#1a1a1a;border:1px solid #FFD700;font-weight:bold}
 .powerBox{background:linear-gradient(90deg,#FFD700,#ffaa00);color:#000;border-radius:12px;padding:12px;margin:10px;text-align:center;font-weight:bold}
-.dpBig{width:90px;height:90px;border-radius:50%;background:#FFD700;display:flex;align-items:center;justify-content:center;font-size:42px;margin:10px auto;color:#000;overflow:hidden}.dpBig img{width:100%;height:100%;object-fit:cover}
+.dpBig{width:90px;height:90px;border-radius:50%;background:#FFD700;display:flex;align-items:center;justify-content:center;font-size:42px;margin:10px auto;color:#000;overflow:hidden}
 .chatMsg{background:#1a1a1a;border:1px solid #333;border-radius:10px;padding:8px 12px;margin:6px 0}
 </style>
 </head>
@@ -46,14 +45,14 @@ input,select,textarea{width:100%;padding:12px;margin:6px 0;background:#1a1a1a;bo
 <div class="top">
   <b>Yaarii-PK 👑</b>
   <div class="topNav" id="topNavBox">
-    <span onclick="showPage('rules')">Rules</span>
-    <span onclick="showAuth('login')">Login</span>
-    <span onclick="showAuth('signup')" class="on">Sign Up</span>
+    <span onclick="openAuthTab('rules')">Rules</span>
+    <span id="tab-login" onclick="openAuthTab('login')">Login</span>
+    <span id="tab-signup" class="on" onclick="openAuthTab('signup')">Sign Up</span>
   </div>
 </div>
 <div style="height:48px"></div>
 
-<!-- AUTHENTICATION -->
+<!-- AUTH CONTAINER -->
 <div id="page-auth">
   <div id="auth-signup" class="authBox">
     <h1>اکاؤنٹ بنائیں</h1>
@@ -61,16 +60,16 @@ input,select,textarea{width:100%;padding:12px;margin:6px 0;background:#1a1a1a;bo
     <div class="inp">👤&nbsp;<input id="sUser" placeholder="صارف نام (Username)"></div>
     <div class="inp">🔒&nbsp;<input id="sPass" type="password" placeholder="پاس ورڈ"></div>
     <label style="font-size:12px;display:flex;gap:6px;align-items:center;margin:8px 0;justify-content:center"><input type="checkbox" id="agree" checked style="width:auto"> میں قواعد سے اتفاق کرتا ہوں</label>
-    <button class="btnGold" onclick="signup()">شروع کریں</button>
-    <p style="margin-top:12px">پہلے سے اکاؤنٹ ہے؟ <a href="#" onclick="showAuth('login');return false">لاگ اِن کریں</a></p>
+    <button class="btnGold" type="button" onclick="handleSignup()">شروع کریں</button>
+    <p style="margin-top:12px">پہلے سے اکاؤنٹ ہے؟ <a href="#" onclick="openAuthTab('login');return false">لاگ اِن کریں</a></p>
   </div>
   <div id="auth-login" class="authBox hidden">
     <h1>خوش آمدید</h1>
     <p>لاگ اِن کریں</p>
     <div class="inp">👤&nbsp;<input id="lUser" placeholder="صارف نام"></div>
     <div class="inp">🔒&nbsp;<input id="lPass" type="password" placeholder="پاس ورڈ"></div>
-    <button class="btnGold" onclick="login()">لاگ اِن</button>
-    <p style="margin-top:12px">نئے ہیں؟ <a href="#" onclick="showAuth('signup');return false">اکاؤنٹ بنائیں</a></p>
+    <button class="btnGold" type="button" onclick="handleLogin()">لاگ اِن</button>
+    <p style="margin-top:12px">نئے ہیں؟ <a href="#" onclick="openAuthTab('signup');return false">اکاؤنٹ بنائیں</a></p>
   </div>
 </div>
 
@@ -90,13 +89,13 @@ input,select,textarea{width:100%;padding:12px;margin:6px 0;background:#1a1a1a;bo
     <div class="storyRow" id="storyRow"></div>
     <div id="storyBox" class="hidden" style="margin-top:10px">
       <input id="storyText" placeholder="سٹوری میں کیا لکھنا ہے؟">
-      <button class="btnGold" onclick="addStory()">سٹوری لگاؤ ✅</button>
+      <button class="btnGold" type="button" onclick="addStory()">سٹوری لگاؤ ✅</button>
     </div>
   </div>
   <div class="filter" id="catFilterBar"></div>
   <div class="card" style="display:flex;gap:8px">
     <input id="quickText" placeholder="Quick thought...">
-    <button onclick="quickPost()" style="background:#FFD700;color:#000;border:none;padding:10px 16px;border-radius:10px;font-weight:bold;cursor:pointer">➤</button>
+    <button type="button" onclick="quickPost()" style="background:#FFD700;color:#000;border:none;padding:10px 16px;border-radius:10px;font-weight:bold;cursor:pointer">➤</button>
   </div>
   <div id="feed"></div>
 </div>
@@ -112,8 +111,8 @@ input,select,textarea{width:100%;padding:12px;margin:6px 0;background:#1a1a1a;bo
     <h3>3. Caption</h3>
     <textarea id="postText" placeholder="دل کی بات لکھو..."></textarea>
     <div style="display:flex;gap:8px">
-      <button class="btnBlack" onclick="showPage('home')">Cancel</button>
-      <button class="btnGold" onclick="addPost()">Post → ( +1 Point )</button>
+      <button class="btnBlack" type="button" onclick="showPage('home')">Cancel</button>
+      <button class="btnGold" type="button" onclick="addPost()">Post → ( +1 Point )</button>
     </div>
   </div>
 </div>
@@ -121,7 +120,7 @@ input,select,textarea{width:100%;padding:12px;margin:6px 0;background:#1a1a1a;bo
 <!-- TRENDING -->
 <div id="page-trending" class="hidden">
   <div class="card" style="text-align:center"><h2 style="color:#FFD700">Trending 🔥</h2><p class="small">سب سے زیادہ لائک والی پوسٹ ٹرینڈنگ میں جائے گی</p></div>
-  <button class="btnGold" style="margin:10px;width:calc(100% - 20px)" onclick="showPage('leader')">⭐ Top 10 Stars دیکھو</button>
+  <button class="btnGold" style="margin:10px;width:calc(100% - 20px)" type="button" onclick="showPage('leader')">⭐ Top 10 Stars دیکھو</button>
   <div id="trendFeed"></div>
 </div>
 
@@ -131,7 +130,7 @@ input,select,textarea{width:100%;padding:12px;margin:6px 0;background:#1a1a1a;bo
     <h3 style="color:#FFD700">✉️ Direct Message - کسی کو بھی میسج بھیجو</h3>
     <input id="dmTo" placeholder="Username لکھو">
     <input id="dmText" placeholder="Message...">
-    <button class="btnGold" onclick="sendDM()">DM BHEJO 📩</button>
+    <button class="btnGold" type="button" onclick="sendDM()">DM BHEJO 📩</button>
     <div id="dmList" style="margin-top:14px"></div>
   </div>
 </div>
@@ -140,7 +139,7 @@ input,select,textarea{width:100%;padding:12px;margin:6px 0;background:#1a1a1a;bo
 <div id="page-1on1" class="hidden">
   <div class="card"><h2 style="color:#FFD700">1 ON 1 - Mehfil Chat 💬</h2></div>
   <div class="card" id="chatBox" style="max-height:300px;overflow-y:auto"></div>
-  <div class="card"><input id="chatText" placeholder="کچھ لکھو..."><button class="btnGold" onclick="sendChat()">BHEJO 💬</button></div>
+  <div class="card"><input id="chatText" placeholder="کچھ لکھو..."><button class="btnGold" type="button" onclick="sendChat()">BHEJO 💬</button></div>
 </div>
 
 <!-- PROFILE -->
@@ -156,9 +155,9 @@ input,select,textarea{width:100%;padding:12px;margin:6px 0;background:#1a1a1a;bo
     <h3>✏️ پروفائل سیٹ کرو</h3>
     <input id="eBio" placeholder="اپنے بارے میں لکھو... Bio">
     <select id="eCity">
-      <option>Lahore</option><option>Karachi</option><option>Islamabad</option><option>Rawalpindi</option><option>Faisalabad</option><option>Multan</option><option>Peshawar</option><option>Other</option>
+      <option>Lahore</option><option>Karachi</option><option>Islamabad</option><option>Rawalpindi</option><option>Wah Cantt</option><option>Faisalabad</option><option>Multan</option><option>Peshawar</option><option>Other</option>
     </select>
-    <button class="btnGold" onclick="saveProfile()">PROFILE SAVE KARO ✅</button>
+    <button class="btnGold" type="button" onclick="saveProfile()">PROFILE SAVE KARO ✅</button>
   </div>
   <div class="card"><h3>📝 میری پوسٹس</h3><div id="myPosts"></div></div>
 </div>
@@ -169,14 +168,14 @@ input,select,textarea{width:100%;padding:12px;margin:6px 0;background:#1a1a1a;bo
   <div class="card">
     <h3>🤣 LATEEFA MACHINE</h3>
     <p id="jokeText" style="margin:8px 0;color:#FFD700">دباؤ تو لطیفہ آئے گا...</p>
-    <button class="btnGold" onclick="newJoke()">NAYA LATEEFA 🤣</button>
+    <button class="btnGold" type="button" onclick="newJoke()">NAYA LATEEFA 🤣</button>
   </div>
   <div class="card">
     <h3>🔊 AWAAZ BOARD</h3>
     <div style="display:flex;gap:6px;margin-top:8px">
-      <button class="btnBlack" onclick="playPop()">👍 Faaaaah Awaz</button>
-      <button class="btnBlack" onclick="playSlap()">👋 Chupair Awaz</button>
-      <button class="btnBlack" onclick="playDing()">🔔 Ting Awaz</button>
+      <button class="btnBlack" type="button" onclick="playPop()">👍 Faaaaah Awaz</button>
+      <button class="btnBlack" type="button" onclick="playSlap()">👋 Chupair Awaz</button>
+      <button class="btnBlack" type="button" onclick="playDing()">🔔 Ting Awaz</button>
     </div>
   </div>
 </div>
@@ -189,10 +188,11 @@ input,select,textarea{width:100%;padding:12px;margin:6px 0;background:#1a1a1a;bo
 <!-- MORE PAGE -->
 <div id="page-more" class="hidden">
   <div class="card" style="text-align:center"><h2 style="color:#FFD700">MORE OPTIONS</h2></div>
-  <button class="bigBtn" onclick="showPage('fun')">🎮 GAMES & SOUNDS</button>
-  <button class="bigBtn" onclick="showPage('leader')">🏆 LEADERBOARD</button>
-  <button class="bigBtn" onclick="showPage('rules')">📜 RULES</button>
-  <button class="bigBtn" style="background:#ff2d55;color:#fff" onclick="logout()">🚪 LOGOUT</button>
+  <button class="bigBtn" type="button" onclick="showPage('profile')">👤 MY PROFILE</button>
+  <button class="bigBtn" type="button" onclick="showPage('fun')">🎮 GAMES & SOUNDS</button>
+  <button class="bigBtn" type="button" onclick="showPage('leader')">🏆 LEADERBOARD</button>
+  <button class="bigBtn" type="button" onclick="showPage('rules')">📜 RULES</button>
+  <button class="bigBtn" style="background:#ff2d55;color:#fff" type="button" onclick="logout()">🚪 LOGOUT</button>
 </div>
 
 <!-- RULES -->
@@ -202,12 +202,12 @@ input,select,textarea{width:100%;padding:12px;margin:6px 0;background:#1a1a1a;bo
 
 <!-- BOTTOM BAR -->
 <div class="bottom" id="bottomBar" style="display:none">
-  <button onclick="showPage('home')" id="bn-home">🏠<br>HOME</button>
-  <button onclick="showPage('share')" id="bn-share">➕<br>SHARE</button>
-  <button onclick="showPage('trending')" id="bn-trending">🔥<br>TRENDING</button>
-  <button onclick="showPage('inbox')" id="bn-inbox">✉️<br>INBOX</button>
-  <button onclick="showPage('1on1')" id="bn-1on1">💬<br>1 ON 1</button>
-  <button onclick="showPage('more')" id="bn-more">⋯<br>MORE</button>
+  <button type="button" onclick="showPage('home')" id="bn-home">🏠<br>HOME</button>
+  <button type="button" onclick="showPage('share')" id="bn-share">➕<br>SHARE</button>
+  <button type="button" onclick="showPage('trending')" id="bn-trending">🔥<br>TRENDING</button>
+  <button type="button" onclick="showPage('inbox')" id="bn-inbox">✉️<br>INBOX</button>
+  <button type="button" onclick="showPage('1on1')" id="bn-1on1">💬<br>1 ON 1</button>
+  <button type="button" onclick="showPage('more')" id="bn-more">⋯<br>MORE</button>
 </div>
 
 <script>
@@ -215,16 +215,16 @@ var cur = localStorage.getItem('y_cur') || '';
 var cats = ["All","General","Jokes","Poetry","Motovlog","Community","Gaming","Tech"];
 var curCat = 'All';
 
-function getUsers(){ try{return JSON.parse(localStorage.getItem('y_users')||'{}')}catch(e){return{}} }
-function saveUsers(u){ localStorage.setItem('y_users',JSON.stringify(u)) }
-function getPosts(){ try{return JSON.parse(localStorage.getItem('y_posts')||'[]')}catch(e){return[]} }
-function savePosts(p){ localStorage.setItem('y_posts',JSON.stringify(p)) }
-function getChat(){ try{return JSON.parse(localStorage.getItem('y_chat')||'[]')}catch(e){return[]} }
-function saveChat(c){ localStorage.setItem('y_chat',JSON.stringify(c)) }
-function getStories(){ try{return JSON.parse(localStorage.getItem('y_stories')||'[]')}catch(e){return[]} }
-function saveStories(s){ localStorage.setItem('y_stories',JSON.stringify(s)) }
-function getDMs(){ try{return JSON.parse(localStorage.getItem('y_dms')||'[]')}catch(e){return[]} }
-function saveDMs(d){ localStorage.setItem('y_dms',JSON.stringify(d)) }
+function getStoredUsers(){ try{ return JSON.parse(localStorage.getItem('y_users')||'{}'); }catch(e){ return {}; } }
+function saveStoredUsers(u){ localStorage.setItem('y_users', JSON.stringify(u)); }
+function getPosts(){ try{ return JSON.parse(localStorage.getItem('y_posts')||'[]'); }catch(e){ return []; } }
+function savePosts(p){ localStorage.setItem('y_posts', JSON.stringify(p)); }
+function getChat(){ try{ return JSON.parse(localStorage.getItem('y_chat')||'[]'); }catch(e){ return []; } }
+function saveChat(c){ localStorage.setItem('y_chat', JSON.stringify(c)); }
+function getStories(){ try{ return JSON.parse(localStorage.getItem('y_stories')||'[]'); }catch(e){ return []; } }
+function saveStories(s){ localStorage.setItem('y_stories', JSON.stringify(s)); }
+function getDMs(){ try{ return JSON.parse(localStorage.getItem('y_dms')||'[]'); }catch(e){ return []; } }
+function saveDMs(d){ localStorage.setItem('y_dms', JSON.stringify(d)); }
 
 function playPop(){
   try{
@@ -266,9 +266,13 @@ function playDing(){
   }catch(e){}
 }
 
-function showAuth(t){
-  document.getElementById('auth-signup').classList.toggle('hidden',t!=='signup');
-  document.getElementById('auth-login').classList.toggle('hidden',t!=='login');
+function openAuthTab(t){
+  if(t==='rules'){ showPage('rules'); return; }
+  document.getElementById('auth-signup').classList.toggle('hidden', t!=='signup');
+  document.getElementById('auth-login').classList.toggle('hidden', t!=='login');
+  document.getElementById('tab-signup').classList.toggle('on', t==='signup');
+  document.getElementById('tab-login').classList.toggle('on', t==='login');
+  document.getElementById('page-auth').classList.remove('hidden');
 }
 
 function showPage(p){
@@ -296,28 +300,30 @@ function showPage(p){
   window.scrollTo(0,0);
 }
 
-function signup(){
+function handleSignup(){
   var u=document.getElementById('sUser').value.trim();
   var p=document.getElementById('sPass').value;
   if(!u||!p) return alert('Username aur Password dono likhein');
-  var users=getUsers();
+  var users=getStoredUsers();
   if(users[u]) return alert('Ye Username pehle se maujood hai');
-  users[u]={u:u,p:p,city:'Lahore',dp:'👤',bio:'Yaarii-PK Member 😎',points:0,power:0,lastSeen:Date.now()};
-  saveUsers(users);
+  users[u]={u:u,p:p,city:'Wah Cantt',dp:'👤',bio:'Yaarii-PK Member 😎',points:10,power:50,lastSeen:Date.now()};
+  saveStoredUsers(users);
   localStorage.setItem('y_cur',u);
   cur=u;
+  alert('Welcome '+u+'! Account ban gaya hai!');
   initApp();
 }
 
-function login(){
+function handleLogin(){
   var u=document.getElementById('lUser').value.trim();
   var p=document.getElementById('lPass').value;
-  var users=getUsers();
+  var users=getStoredUsers();
   if(!users[u] || users[u].p!==p) return alert('Ghalat Username ya Password');
   users[u].lastSeen=Date.now();
-  saveUsers(users);
+  saveStoredUsers(users);
   localStorage.setItem('y_cur',u);
   cur=u;
+  alert('Welcome back '+u+'!');
   initApp();
 }
 
@@ -355,13 +361,13 @@ function filterCat(c){ curCat=c; populateCatDropdown(); loadFeed(); }
 
 function updatePowerBox(){
   if(!cur) return;
-  var u=getUsers()[cur] || {};
+  var u=getStoredUsers()[cur] || {};
   document.getElementById('myPower').innerText=u.power||0;
   document.getElementById('myPoints').innerText=u.points||0;
 }
 
 function renderOnline(){
-  var users=getUsers();
+  var users=getStoredUsers();
   var list=Object.values(users);
   document.getElementById('onlineCount').innerText=list.length;
   var bar=document.getElementById('onlineBar');
@@ -396,22 +402,4 @@ function renderStories(){
 function addPost(){
   var txt=document.getElementById('postText').value.trim();
   var cat=document.getElementById('postCat').value;
-  var fileInput=document.getElementById('postPic');
-  if(!txt && !fileInput.files[0]) return alert('Kuch likhein ya photo select karein');
-  
-  var processPost=function(imgData){
-    var posts=getPosts();
-    posts.unshift({id:Date.now(), u:cur, text:txt, cat:cat, pic:imgData||'', likes:0, dislikes:0, time:new Date().toLocaleTimeString()});
-    savePosts(posts);
-    
-    var users=getUsers();
-    if(users[cur]){ users[cur].points=(users[cur].points||0)+1; saveUsers(users); }
-    
-    document.getElementById('postText').value='';
-    document.getElementById('postPic').value='';
-    showPage('home');
-  };
-
-  if(fileInput.files && fileInput.files[0]){
-    var reader=new FileReader();
-    read
+  var fileInput=document
