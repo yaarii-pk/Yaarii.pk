@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ur">
 <head>
@@ -10,7 +11,7 @@ body{background:#000;color:#fff;font-family:Arial,sans-serif;padding-bottom:72px
 a{color:#FFD700;text-decoration:none}
 .top{position:fixed;top:0;left:0;right:0;z-index:99;background:#000;padding:10px 12px;display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #FFD700}
 .top b{font-size:21px;color:#FFD700}
-.topNav{display:flex;gap:12px;font-size:12px}.topNav span{cursor:pointer;color:#ccc}.topNav .on{color:#FFD700;font-weight:bold}
+.topNav{display:flex;gap:12px;font-size:13px}.topNav span{cursor:pointer;color:#ccc;padding:4px 8px;border-radius:6px}.topNav .on{color:#000;background:#FFD700;font-weight:bold}
 .card{background:#0d0d0d;border:1px solid #333;border-radius:14px;padding:12px;margin:10px}
 .authBox{background:#0d0d0d;border:1px solid #FFD700;border-radius:18px;padding:18px;margin:14px;text-align:center}
 .authBox h1{color:#FFD700;font-size:30px}.authBox p{color:#aaa;font-size:13px;margin-bottom:12px}
@@ -21,7 +22,6 @@ a{color:#FFD700;text-decoration:none}
 .onlineBar{display:flex;gap:10px;overflow-x:auto;padding:6px 2px}
 .uCircle{min-width:68px;text-align:center}
 .uCircle div{width:54px;height:54px;border-radius:50%;background:#1a1a1a;display:flex;align-items:center;justify-content:center;font-size:24px;border:2px solid #FFD700;margin:auto;position:relative;overflow:hidden}
-.uCircle div img{width:100%;height:100%;object-fit:cover}
 .uCircle .dot{position:absolute;bottom:2px;right:2px;width:12px;height:12px;background:#00ff00;border-radius:50%;border:2px solid #000}
 .uCircle p{font-size:11px;margin-top:3px;white-space:nowrap;overflow:hidden}
 .storyRow{display:flex;gap:10px;overflow-x:auto;padding:6px 2px}
@@ -44,24 +44,22 @@ input,select,textarea{width:100%;padding:12px;margin:6px 0;background:#1a1a1a;bo
 
 <div class="top">
   <b>Yaarii-PK 👑</b>
-  <div class="topNav" id="topNavBox">
-    <span onclick="openAuthTab('rules')">Rules</span>
-    <span id="tab-login" onclick="openAuthTab('login')">Login</span>
-    <span id="tab-signup" class="on" onclick="openAuthTab('signup')">Sign Up</span>
+  <div class="topNav">
+    <span id="tab-login" onclick="switchAuthTab('login')">Login</span>
+    <span id="tab-signup" class="on" onclick="switchAuthTab('signup')">Sign Up</span>
   </div>
 </div>
 <div style="height:48px"></div>
 
-<!-- AUTH CONTAINER -->
+<!-- ALWAYS VISIBLE AUTH FIRST -->
 <div id="page-auth">
   <div id="auth-signup" class="authBox">
     <h1>اکاؤنٹ بنائیں</h1>
     <p>Yaarii-PK فیملی میں شامل ہوں</p>
     <div class="inp">👤&nbsp;<input id="sUser" placeholder="صارف نام (Username)"></div>
     <div class="inp">🔒&nbsp;<input id="sPass" type="password" placeholder="پاس ورڈ"></div>
-    <label style="font-size:12px;display:flex;gap:6px;align-items:center;margin:8px 0;justify-content:center"><input type="checkbox" id="agree" checked style="width:auto"> میں قواعد سے اتفاق کرتا ہوں</label>
     <button class="btnGold" type="button" onclick="handleSignup()">شروع کریں</button>
-    <p style="margin-top:12px">پہلے سے اکاؤنٹ ہے؟ <a href="#" onclick="openAuthTab('login');return false">لاگ اِن کریں</a></p>
+    <p style="margin-top:12px">پہلے سے اکاؤنٹ ہے؟ <a href="#" onclick="switchAuthTab('login');return false">لاگ اِن کریں</a></p>
   </div>
   <div id="auth-login" class="authBox hidden">
     <h1>خوش آمدید</h1>
@@ -69,30 +67,17 @@ input,select,textarea{width:100%;padding:12px;margin:6px 0;background:#1a1a1a;bo
     <div class="inp">👤&nbsp;<input id="lUser" placeholder="صارف نام"></div>
     <div class="inp">🔒&nbsp;<input id="lPass" type="password" placeholder="پاس ورڈ"></div>
     <button class="btnGold" type="button" onclick="handleLogin()">لاگ اِن</button>
-    <p style="margin-top:12px">نئے ہیں؟ <a href="#" onclick="openAuthTab('signup');return false">اکاؤنٹ بنائیں</a></p>
+    <p style="margin-top:12px">نئے ہیں؟ <a href="#" onclick="switchAuthTab('signup');return false">اکاؤنٹ بنائیں</a></p>
   </div>
 </div>
 
-<!-- HOME FEED -->
+<!-- MAIN APP PAGES -->
 <div id="page-home" class="hidden">
   <div class="card">
     <b>🟢 <span id="onlineCount">0</span> ONLINE - ابھی ایکٹو</b>
     <div class="onlineBar" id="onlineBar"></div>
-    <p class="small">جو ابھی آن لائن ہے وہی دکھے گا۔</p>
   </div>
-  <div class="powerBox">⚡ پاور: <span id="myPower">0</span> | پوائنٹس: <span id="myPoints">0</span><br><span style="font-size:12px">1 پوسٹ = 1 پوائنٹ | 1 لائک = 5 پوائنٹ</span></div>
-  <div class="card">
-    <div style="display:flex;justify-content:space-between;align-items:center">
-      <b>Stories</b>
-      <span style="color:#FFD700;cursor:pointer" onclick="toggleStoryBox()">+ Share a story</span>
-    </div>
-    <div class="storyRow" id="storyRow"></div>
-    <div id="storyBox" class="hidden" style="margin-top:10px">
-      <input id="storyText" placeholder="سٹوری میں کیا لکھنا ہے؟">
-      <button class="btnGold" type="button" onclick="addStory()">سٹوری لگاؤ ✅</button>
-    </div>
-  </div>
-  <div class="filter" id="catFilterBar"></div>
+  <div class="powerBox">⚡ پاور: <span id="myPower">50</span> | پوائنٹس: <span id="myPoints">10</span></div>
   <div class="card" style="display:flex;gap:8px">
     <input id="quickText" placeholder="Quick thought...">
     <button type="button" onclick="quickPost()" style="background:#FFD700;color:#000;border:none;padding:10px 16px;border-radius:10px;font-weight:bold;cursor:pointer">➤</button>
@@ -100,131 +85,74 @@ input,select,textarea{width:100%;padding:12px;margin:6px 0;background:#1a1a1a;bo
   <div id="feed"></div>
 </div>
 
-<!-- SHARE POST -->
 <div id="page-share" class="hidden">
-  <div class="card" style="text-align:center"><h2 style="color:#FFD700">Make a Post - فوٹو بھیج سکتے ہو</h2><p class="small">فوٹو + لکھائی + کیٹیگری - سب ایک ساتھ</p></div>
   <div class="card">
-    <h3>1. Category</h3>
-    <select id="postCat"></select>
-    <h3>2. Photo - فوٹو لگاؤ (Optional)</h3>
-    <input type="file" id="postPic" accept="image/*">
-    <h3>3. Caption</h3>
+    <h3>Post Likho</h3>
     <textarea id="postText" placeholder="دل کی بات لکھو..."></textarea>
-    <div style="display:flex;gap:8px">
-      <button class="btnBlack" type="button" onclick="showPage('home')">Cancel</button>
-      <button class="btnGold" type="button" onclick="addPost()">Post → ( +1 Point )</button>
-    </div>
+    <button class="btnGold" type="button" onclick="addPost()">Post Karo</button>
   </div>
 </div>
 
-<!-- TRENDING -->
-<div id="page-trending" class="hidden">
-  <div class="card" style="text-align:center"><h2 style="color:#FFD700">Trending 🔥</h2><p class="small">سب سے زیادہ لائک والی پوسٹ ٹرینڈنگ میں جائے گی</p></div>
-  <button class="btnGold" style="margin:10px;width:calc(100% - 20px)" type="button" onclick="showPage('leader')">⭐ Top 10 Stars دیکھو</button>
-  <div id="trendFeed"></div>
-</div>
-
-<!-- INBOX -->
-<div id="page-inbox" class="hidden">
-  <div class="card">
-    <h3 style="color:#FFD700">✉️ Direct Message - کسی کو بھی میسج بھیجو</h3>
-    <input id="dmTo" placeholder="Username لکھو">
-    <input id="dmText" placeholder="Message...">
-    <button class="btnGold" type="button" onclick="sendDM()">DM BHEJO 📩</button>
-    <div id="dmList" style="margin-top:14px"></div>
-  </div>
-</div>
-
-<!-- 1 ON 1 CHAT -->
-<div id="page-1on1" class="hidden">
-  <div class="card"><h2 style="color:#FFD700">1 ON 1 - Mehfil Chat 💬</h2></div>
-  <div class="card" id="chatBox" style="max-height:300px;overflow-y:auto"></div>
-  <div class="card"><input id="chatText" placeholder="کچھ لکھو..."><button class="btnGold" type="button" onclick="sendChat()">BHEJO 💬</button></div>
-</div>
-
-<!-- PROFILE -->
-<div id="page-profile" class="hidden">
-  <div class="card" style="text-align:center">
-    <p class="small">MY PROFILE - میری پروفائل</p>
-    <div class="dpBig" id="pDpBox">👤</div>
-    <h2 id="pName">-</h2>
-    <p id="pMeta" style="color:#FFD700"></p>
-    <p class="small" id="pBio"></p>
-  </div>
-  <div class="card">
-    <h3>✏️ پروفائل سیٹ کرو</h3>
-    <input id="eBio" placeholder="اپنے بارے میں لکھو... Bio">
-    <select id="eCity">
-      <option>Lahore</option><option>Karachi</option><option>Islamabad</option><option>Rawalpindi</option><option>Wah Cantt</option><option>Faisalabad</option><option>Multan</option><option>Peshawar</option><option>Other</option>
-    </select>
-    <button class="btnGold" type="button" onclick="saveProfile()">PROFILE SAVE KARO ✅</button>
-  </div>
-  <div class="card"><h3>📝 میری پوسٹس</h3><div id="myPosts"></div></div>
-</div>
-
-<!-- GAMES & FUN -->
 <div id="page-fun" class="hidden">
-  <div class="card"><h2>😂 Games & Audio Arcade</h2></div>
-  <div class="card">
-    <h3>🤣 LATEEFA MACHINE</h3>
-    <p id="jokeText" style="margin:8px 0;color:#FFD700">دباؤ تو لطیفہ آئے گا...</p>
-    <button class="btnGold" type="button" onclick="newJoke()">NAYA LATEEFA 🤣</button>
-  </div>
   <div class="card">
     <h3>🔊 AWAAZ BOARD</h3>
     <div style="display:flex;gap:6px;margin-top:8px">
       <button class="btnBlack" type="button" onclick="playPop()">👍 Faaaaah Awaz</button>
       <button class="btnBlack" type="button" onclick="playSlap()">👋 Chupair Awaz</button>
-      <button class="btnBlack" type="button" onclick="playDing()">🔔 Ting Awaz</button>
     </div>
   </div>
 </div>
 
-<!-- LEADERBOARD -->
-<div id="page-leader" class="hidden">
-  <div class="card"><h2 style="color:#FFD700">🏆 Leaderboard - Top 10</h2><div id="leaderList" style="margin-top:10px"></div></div>
-</div>
-
-<!-- MORE PAGE -->
-<div id="page-more" class="hidden">
-  <div class="card" style="text-align:center"><h2 style="color:#FFD700">MORE OPTIONS</h2></div>
-  <button class="bigBtn" type="button" onclick="showPage('profile')">👤 MY PROFILE</button>
-  <button class="bigBtn" type="button" onclick="showPage('fun')">🎮 GAMES & SOUNDS</button>
-  <button class="bigBtn" type="button" onclick="showPage('leader')">🏆 LEADERBOARD</button>
-  <button class="bigBtn" type="button" onclick="showPage('rules')">📜 RULES</button>
-  <button class="bigBtn" style="background:#ff2d55;color:#fff" type="button" onclick="logout()">🚪 LOGOUT</button>
-</div>
-
-<!-- RULES -->
-<div id="page-rules" class="hidden">
-  <div class="card"><h2 style="color:#FFD700">Rules</h2><p style="line-height:24px;margin-top:8px">1. No abuse.<br>2. Respect all users.<br>3. No spam content.<br>4. Have fun!</p></div>
-</div>
-
-<!-- BOTTOM BAR -->
+<!-- BOTTOM NAVIGATION -->
 <div class="bottom" id="bottomBar" style="display:none">
-  <button type="button" onclick="showPage('home')" id="bn-home">🏠<br>HOME</button>
+  <button type="button" onclick="showPage('home')" id="bn-home" class="on">🏠<br>HOME</button>
   <button type="button" onclick="showPage('share')" id="bn-share">➕<br>SHARE</button>
-  <button type="button" onclick="showPage('trending')" id="bn-trending">🔥<br>TRENDING</button>
-  <button type="button" onclick="showPage('inbox')" id="bn-inbox">✉️<br>INBOX</button>
-  <button type="button" onclick="showPage('1on1')" id="bn-1on1">💬<br>1 ON 1</button>
-  <button type="button" onclick="showPage('more')" id="bn-more">⋯<br>MORE</button>
+  <button type="button" onclick="showPage('fun')" id="bn-fun">🎮<br>FUN</button>
+  <button type="button" onclick="logout()" id="bn-logout">🚪<br>EXIT</button>
 </div>
 
 <script>
-var cur = localStorage.getItem('y_cur') || '';
-var cats = ["All","General","Jokes","Poetry","Motovlog","Community","Gaming","Tech"];
-var curCat = 'All';
+var curUser = '';
 
-function getStoredUsers(){ try{ return JSON.parse(localStorage.getItem('y_users')||'{}'); }catch(e){ return {}; } }
-function saveStoredUsers(u){ localStorage.setItem('y_users', JSON.stringify(u)); }
-function getPosts(){ try{ return JSON.parse(localStorage.getItem('y_posts')||'[]'); }catch(e){ return []; } }
-function savePosts(p){ localStorage.setItem('y_posts', JSON.stringify(p)); }
-function getChat(){ try{ return JSON.parse(localStorage.getItem('y_chat')||'[]'); }catch(e){ return []; } }
-function saveChat(c){ localStorage.setItem('y_chat', JSON.stringify(c)); }
-function getStories(){ try{ return JSON.parse(localStorage.getItem('y_stories')||'[]'); }catch(e){ return []; } }
-function saveStories(s){ localStorage.setItem('y_stories', JSON.stringify(s)); }
-function getDMs(){ try{ return JSON.parse(localStorage.getItem('y_dms')||'[]'); }catch(e){ return []; } }
-function saveDMs(d){ localStorage.setItem('y_dms', JSON.stringify(d)); }
+function switchAuthTab(t){
+  document.getElementById('auth-signup').classList.toggle('hidden', t!=='signup');
+  document.getElementById('auth-login').classList.toggle('hidden', t!=='login');
+  document.getElementById('tab-signup').classList.toggle('on', t==='signup');
+  document.getElementById('tab-login').classList.toggle('on', t==='login');
+}
+
+function handleSignup(){
+  var u=document.getElementById('sUser').value.trim();
+  var p=document.getElementById('sPass').value;
+  if(!u||!p) return alert('Username aur Password likhein!');
+  curUser = u;
+  alert('Mubarak ho '+u+'! Account ban gaya!');
+  startApp();
+}
+
+function handleLogin(){
+  var u=document.getElementById('lUser').value.trim();
+  var p=document.getElementById('lPass').value;
+  if(!u||!p) return alert('Username aur Password likhein!');
+  curUser = u;
+  alert('Welcome '+u+'!');
+  startApp();
+}
+
+function startApp(){
+  document.getElementById('page-auth').classList.add('hidden');
+  document.getElementById('bottomBar').style.display='flex';
+  showPage('home');
+}
+
+function showPage(p){
+  ['home','share','fun'].forEach(function(x){
+    var el=document.getElementById('page-'+x);
+    if(el) el.classList.add('hidden');
+  });
+  var target=document.getElementById('page-'+p);
+  if(target) target.classList.remove('hidden');
+}
 
 function playPop(){
   try{
@@ -250,156 +178,29 @@ function playSlap(){
     g.gain.exponentialRampToValueAtTime(0.01,a.currentTime+0.15);
     s.connect(g); g.connect(a.destination);
     s.start();
-    if(navigator.vibrate) navigator.vibrate(60);
   }catch(e){}
-}
-
-function playDing(){
-  try{
-    var a=new (window.AudioContext||window.webkitAudioContext)();
-    var o=a.createOscillator(); var g=a.createGain();
-    o.connect(g); g.connect(a.destination);
-    o.frequency.setValueAtTime(900,a.currentTime);
-    g.gain.setValueAtTime(0.3,a.currentTime);
-    g.gain.exponentialRampToValueAtTime(0.001,a.currentTime+0.4);
-    o.start(); o.stop(a.currentTime+0.4);
-  }catch(e){}
-}
-
-function openAuthTab(t){
-  if(t==='rules'){ showPage('rules'); return; }
-  document.getElementById('auth-signup').classList.toggle('hidden', t!=='signup');
-  document.getElementById('auth-login').classList.toggle('hidden', t!=='login');
-  document.getElementById('tab-signup').classList.toggle('on', t==='signup');
-  document.getElementById('tab-login').classList.toggle('on', t==='login');
-  document.getElementById('page-auth').classList.remove('hidden');
-}
-
-function showPage(p){
-  var pages=['auth','home','share','trending','inbox','1on1','profile','fun','leader','more','rules'];
-  pages.forEach(function(x){
-    var el=document.getElementById('page-'+x);
-    if(el) el.classList.add('hidden');
-  });
-  var target=document.getElementById('page-'+p);
-  if(target) target.classList.remove('hidden');
-
-  ['home','share','trending','inbox','1on1','more'].forEach(function(b){
-    var el=document.getElementById('bn-'+b);
-    if(el) el.classList.remove('on');
-  });
-  var bn=document.getElementById('bn-'+p);
-  if(bn) bn.classList.add('on');
-
-  if(p==='home'){ loadFeed(); renderOnline(); renderStories(); updatePowerBox(); }
-  if(p==='trending') loadTrend();
-  if(p==='profile') loadProfile();
-  if(p==='leader') showLeader();
-  if(p==='1on1') loadChat();
-  if(p==='inbox') loadInbox();
-  window.scrollTo(0,0);
-}
-
-function handleSignup(){
-  var u=document.getElementById('sUser').value.trim();
-  var p=document.getElementById('sPass').value;
-  if(!u||!p) return alert('Username aur Password dono likhein');
-  var users=getStoredUsers();
-  if(users[u]) return alert('Ye Username pehle se maujood hai');
-  users[u]={u:u,p:p,city:'Wah Cantt',dp:'👤',bio:'Yaarii-PK Member 😎',points:10,power:50,lastSeen:Date.now()};
-  saveStoredUsers(users);
-  localStorage.setItem('y_cur',u);
-  cur=u;
-  alert('Welcome '+u+'! Account ban gaya hai!');
-  initApp();
-}
-
-function handleLogin(){
-  var u=document.getElementById('lUser').value.trim();
-  var p=document.getElementById('lPass').value;
-  var users=getStoredUsers();
-  if(!users[u] || users[u].p!==p) return alert('Ghalat Username ya Password');
-  users[u].lastSeen=Date.now();
-  saveStoredUsers(users);
-  localStorage.setItem('y_cur',u);
-  cur=u;
-  alert('Welcome back '+u+'!');
-  initApp();
-}
-
-function logout(){
-  localStorage.removeItem('y_cur');
-  location.reload();
-}
-
-function initApp(){
-  if(!cur){
-    document.getElementById('page-auth').classList.remove('hidden');
-    document.getElementById('bottomBar').style.display='none';
-    document.getElementById('topNavBox').style.display='flex';
-  } else {
-    document.getElementById('page-auth').classList.add('hidden');
-    document.getElementById('bottomBar').style.display='flex';
-    document.getElementById('topNavBox').style.display='none';
-    populateCatDropdown();
-    showPage('home');
-  }
-}
-
-function populateCatDropdown(){
-  var sel=document.getElementById('postCat');
-  sel.innerHTML='';
-  cats.forEach(function(c){ if(c!=='All') sel.innerHTML+='<option>'+c+'</option>'; });
-  var bar=document.getElementById('catFilterBar');
-  bar.innerHTML='';
-  cats.forEach(function(c){
-    bar.innerHTML+='<button class="'+(c===curCat?'on':'')+'" onclick="filterCat(\''+c+'\')">'+c+'</button>';
-  });
-}
-
-function filterCat(c){ curCat=c; populateCatDropdown(); loadFeed(); }
-
-function updatePowerBox(){
-  if(!cur) return;
-  var u=getStoredUsers()[cur] || {};
-  document.getElementById('myPower').innerText=u.power||0;
-  document.getElementById('myPoints').innerText=u.points||0;
-}
-
-function renderOnline(){
-  var users=getStoredUsers();
-  var list=Object.values(users);
-  document.getElementById('onlineCount').innerText=list.length;
-  var bar=document.getElementById('onlineBar');
-  bar.innerHTML='';
-  list.forEach(function(u){
-    bar.innerHTML+='<div class="uCircle"><div>'+(u.dp||'👤')+'<div class="dot"></div></div><p>'+u.u+'</p></div>';
-  });
-}
-
-function toggleStoryBox(){ document.getElementById('storyBox').classList.toggle('hidden'); }
-
-function addStory(){
-  var txt=document.getElementById('storyText').value.trim();
-  if(!txt) return;
-  var stories=getStories();
-  stories.unshift({u:cur, text:txt, time:Date.now()});
-  saveStories(stories);
-  document.getElementById('storyText').value='';
-  toggleStoryBox();
-  renderStories();
-}
-
-function renderStories(){
-  var stories=getStories();
-  var row=document.getElementById('storyRow');
-  row.innerHTML='';
-  stories.forEach(function(s){
-    row.innerHTML+='<div class="story"><div>💬</div><p style="font-size:10px">'+s.u+'</p></div>';
-  });
 }
 
 function addPost(){
   var txt=document.getElementById('postText').value.trim();
-  var cat=document.getElementById('postCat').value;
-  var fileInput=document
+  if(!txt) return alert('Kuch text likhein!');
+  var feed=document.getElementById('feed');
+  feed.innerHTML='<div class="post"><b>'+curUser+'</b><p style="margin-top:6px">'+txt+'</p><div class="pBtns"><button class="gold" onclick="playPop()">👍 Faaaa!</button><button class="red" onclick="playSlap()">👋 Chupair!</button></div></div>' + feed.innerHTML;
+  document.getElementById('postText').value='';
+  showPage('home');
+}
+
+function quickPost(){
+  var txt=document.getElementById('quickText').value.trim();
+  if(!txt) return;
+  var feed=document.getElementById('feed');
+  feed.innerHTML='<div class="post"><b>'+curUser+'</b><p style="margin-top:6px">'+txt+'</p><div class="pBtns"><button class="gold" onclick="playPop()">👍 Faaaa!</button><button class="red" onclick="playSlap()">👋 Chupair!</button></div></div>' + feed.innerHTML;
+  document.getElementById('quickText').value='';
+}
+
+function logout(){
+  location.reload();
+}
+</script>
+</body>
+  </html>
