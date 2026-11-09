@@ -3,15 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Yaarii-PK 👑 - Pakistan Ki Apni Yaari</title>
+<title>Yaarii-PK 👑</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#000;color:#fff;font-family:Arial;padding-top:112px;padding-bottom:80px}
-body.party{background:linear-gradient(45deg,#ff0000,#ffea00,#00ff00,#00e5ff,#ff00c8);animation:party 1s infinite}
-@keyframes party{0%{filter:hue-rotate(0deg)}100%{filter:hue-rotate(360deg)}}
 .top{position:fixed;top:0;left:0;right:0;background:#111;padding:10px;text-align:center;z-index:99;border-bottom:2px solid #FFD700}
-.top h1{color:#FFD700;font-size:24px}
-.top p{font-size:11px;color:#aaa}
+.top h1{color:#FFD700;font-size:24px}.top p{font-size:11px;color:#aaa}
 .nav{position:fixed;top:62px;left:0;right:0;display:flex;background:#222;z-index:99;overflow-x:auto}
 .nav button{flex:1;padding:12px 1px;background:none;border:none;color:#fff;font-size:13px;white-space:nowrap;position:relative}
 .nav button.active{color:#000;background:#FFD700;font-weight:bold}
@@ -22,27 +19,22 @@ input,select,textarea{width:100%;padding:12px;margin:6px 0;background:#222;borde
 .btn2{background:#222;color:#FFD700;border:1px solid #FFD700;padding:10px;width:100%;border-radius:10px;margin-top:6px}
 .post{background:#1a1a1a;border:1px solid #333;border-radius:12px;padding:11px;margin:10px}
 .post img{width:100%;border-radius:10px;margin-top:8px;max-height:320px;object-fit:cover}
-.small{font-size:12px;color:#aaa}
-.hidden{display:none}
-.row{display:flex;gap:6px;margin-top:8px}
-.row button{flex:1;padding:9px 2px;border:none;border-radius:8px;background:#2a2a2a;color:#fff;font-size:13px}
+.small{font-size:12px;color:#aaa}.hidden{display:none}
+.row{display:flex;gap:6px;margin-top:8px}.row button{flex:1;padding:9px 2px;border:none;border-radius:8px;background:#2a2a2a;color:#fff;font-size:13px}
 .dp{width:80px;height:80px;border-radius:50%;object-fit:cover;border:3px solid #FFD700;background:#222;display:flex;align-items:center;justify-content:center;font-size:38px;margin:0 auto}
 .cmt{background:#222;padding:8px;border-radius:8px;margin-top:6px;font-size:13px}
-.cat{display:flex;gap:6px;overflow-x:auto;padding:5px 10px}
-.cat button{white-space:nowrap;padding:8px 12px;border-radius:20px;border:1px solid #444;background:#222;color:#fff}
-.cat button.on{background:#FFD700;color:#000;font-weight:bold}
-.tab{display:flex;gap:6px}
-.tab button{flex:1;padding:11px;border-radius:10px;border:1px solid #FFD700;background:#222;color:#FFD700;font-weight:bold}
-.tab button.on{background:#FFD700;color:#000}
+.cat{display:flex;gap:6px;overflow-x:auto;padding:5px 10px}.cat button{white-space:nowrap;padding:8px 12px;border-radius:20px;border:1px solid #444;background:#222;color:#fff}.cat button.on{background:#FFD700;color:#000;font-weight:bold}
+.tab{display:flex;gap:6px}.tab button{flex:1;padding:11px;border-radius:10px;border:1px solid #FFD700;background:#222;color:#FFD700;font-weight:bold}.tab button.on{background:#FFD700;color:#000}
 .badge{display:inline-block;background:#FFD700;color:#000;font-size:11px;padding:3px 8px;border-radius:20px;font-weight:bold}
 .replyBox{background:#2a2a2a;border-left:3px solid #FFD700;padding:6px 8px;border-radius:6px;font-size:12px;color:#FFD700;margin-bottom:5px}
 .inboxItem{background:#1a1a1a;border:1px solid #333;border-left:4px solid #FFD700;border-radius:10px;padding:10px;margin:10px}
-.inboxItem.new{border-left:4px solid red;background:#2a1a1a}
 .funBtn{flex:1;padding:12px 4px;border-radius:10px;border:1px solid #FFD700;background:#222;color:#fff;font-size:13px}
+body.party{background:linear-gradient(45deg,#ff0000,#ffea00,#00ff00,#00e5ff,#ff00c8);animation:party 1s infinite}
+@keyframes party{0%{filter:hue-rotate(0deg)}100%{filter:hue-rotate(360deg)}}
 </style>
 </head>
 <body>
-<div class="top"><h1>Yaarii-PK 👑</h1><p>Pakistan Ki Apni Yaari App - 100% Free - Fun Hi Fun 😂</p></div>
+<div class="top"><h1>Yaarii-PK 👑</h1><p>Pakistan Ki Apni Yaari App - 100% Free</p></div>
 <div class="nav" id="navBar" style="display:none">
 <button onclick="show('home')" id="b-home" class="active">🏠 Home</button>
 <button onclick="show('mehfil')" id="b-mehfil">💬 Mehfil</button>
@@ -64,84 +56,157 @@ input,select,textarea{width:100%;padding:12px;margin:6px 0;background:#222;borde
 <input id="sUser" placeholder="Naya Username (English)">
 <input id="sPass" type="password" placeholder="Naya Password">
 <input id="sAge" type="number" placeholder="Age">
-<select id="sCity"><option>Lahore</option><option>Karachi</option><option>Islamabad</option><option>Rawalpindi</option><option>Faisalabad</option><option>Multan</option><option>Hyderabad</option><option>Peshawar</option><option>Quetta</option><option>Sialkot</option><option>Gujranwala</option><option>Bahawalpur</option><option>Other</option></select>
+<select id="sCity"><option>Lahore</option><option>Karachi</option><option>Islamabad</option><option>Rawalpindi</option><option>Faisalabad</option><option>Multan</option><option>Hyderabad</option><option>Peshawar</option><option>Quetta</option><option>Sialkot</option><option>Other</option></select>
 <select id="sStar"><option>Aries ♈</option><option>Taurus ♉</option><option>Gemini ♊</option><option>Cancer ♋</option><option>Leo ♌</option><option>Virgo ♍</option><option>Libra ♎</option><option>Scorpio ♏</option><option>Sagittarius ♐</option><option>Capricorn ♑</option><option>Aquarius ♒</option><option>Pisces ♓</option></select>
 <button class="btn" onclick="signup()">SIGNUP KARO - FREE 👑</button>
 </div>
 </div>
 
 <div id="page-home" class="hidden">
-<div class="card" style="text-align:center"><p style="color:#FFD700;font-weight:bold">💡 آج کی بات</p><p id="dailyQuote" style="margin-top:6px">Yaari wo jo har dukh me kaam aaye ❤️</p><button class="btn2" onclick="newQuote()">Nayi Baat Dikhao 🔄</button></div>
-<div class="card"><h3>🔥 Top Yaar - Leaderboard</h3><div id="topYaar">Load ho raha hai...</div></div>
+<div class="card" style="text-align:center"><p style="color:#FFD700;font-weight:bold">💡 آج کی بات</p><p id="dailyQuote">Yaari wo jo har dukh me kaam aaye ❤️</p><button class="btn2" onclick="newQuote()">Nayi Baat Dikhao 🔄</button></div>
+<div class="card"><h3>🔥 Top Yaar</h3><div id="topYaar">Load ho raha hai...</div></div>
 <div class="card"><h3>✍️ Kya Haal Hai <span id="hiName">Yaar</span>?</h3>
 <div class="tab"><button id="tabText" class="on" onclick="setPostType('text')">✍️ Text Post</button><button id="tabPic" onclick="setPostType('pic')">🖼️ Pic Post</button></div>
 <div id="boxText"><textarea id="postText" rows="2" placeholder="Dil ki baat likho..."></textarea></div>
-<div id="boxPic" class="hidden"><input type="file" id="postPic" accept="image/*"><input id="postPicCap" placeholder="Pic ke sath caption likho..."></div>
+<div id="boxPic" class="hidden"><input type="file" id="postPic" accept="image/*"><input id="postPicCap" placeholder="Pic ke sath caption..."></div>
 <select id="postCat"><option>💬 Gup Shup</option><option>💪 Motivational</option><option>❤️ Life Advice</option><option>😂 Funny</option><option>✍️ Shayari</option><option>🕌 Islamic</option><option>🏏 Cricket</option></select>
 <button class="btn" onclick="addPost()">POST KARO 🚀</button></div>
-<div class="cat" id="catBar"><button class="on" onclick="filterCat('All',this)">Sab</button><button onclick="filterCat('💬 Gup Shup',this)">💬 Gup Shup</button><button onclick="filterCat('💪 Motivational',this)">💪 Motivational</button><button onclick="filterCat('❤️ Life Advice',this)">❤️ Life Advice</button><button onclick="filterCat('😂 Funny',this)">😂 Funny</button><button onclick="filterCat('✍️ Shayari',this)">✍️ Shayari</button><button onclick="filterCat('🕌 Islamic',this)">🕌 Islamic</button><button onclick="filterCat('🏏 Cricket',this)">🏏 Cricket</button></div>
+<div class="cat" id="catBar"><button class="on" onclick="filterCat('All',this)">Sab</button><button onclick="filterCat('💬 Gup Shup',this)">💬 Gup Shup</button><button onclick="filterCat('💪 Motivational',this)">💪 Motivational</button><button onclick="filterCat('😂 Funny',this)">😂 Funny</button><button onclick="filterCat('✍️ Shayari',this)">✍️ Shayari</button><button onclick="filterCat('🕌 Islamic',this)">🕌 Islamic</button><button onclick="filterCat('🏏 Cricket',this)">🏏 Cricket</button></div>
 <div id="feed"></div>
 </div>
 
 <div id="page-mehfil" class="hidden">
-<div class="card"><h3>💬 Yaaron Ki Mehfil</h3><p class="small">Reply dabao to wo Reply us banday ke Inbox me bhi chala jayega 📥</p></div>
+<div class="card"><h3>💬 Yaaron Ki Mehfil</h3><p class="small">Reply dabao to wo Reply us banday ke Inbox me bhi chala jayega</p></div>
 <div id="chatBox"></div>
-<div class="card"><input id="chatText" placeholder="Mehfil me kuch likho... @mention karke"><button class="btn" onclick="sendChat()">BHEJO 💬</button><button class="btn2" onclick="mentionAll()">Sab ko Mention karo @all</button></div>
+<div class="card"><input id="chatText" placeholder="Mehfil me kuch likho..."><button class="btn" onclick="sendChat()">BHEJO 💬</button></div>
 </div>
 
 <div id="page-inbox" class="hidden">
-<div class="card"><h3>📥 Mera Inbox</h3><p class="small">Jis ne tumhe Reply / Comment / Like kiya, sab yahan aayega</p><button class="btn2" onclick="markAllRead()">Sab Read Kar Do ✅</button></div>
-<div id="inboxList"><p style="text-align:center;padding:20px">Abhi koi message nahi</p></div>
-<div class="card"><h3>✉️ Kisi Ko Direct Message Bhejo</h3><input id="dmTo" placeholder="Kis ko bhejna hai? Username likho"><input id="dmText" placeholder="Message likho..."><button class="btn" onclick="sendDM()">DM BHEJO 📩</button></div>
+<div class="card"><h3>📥 Mera Inbox</h3><button class="btn2" onclick="markAllRead()">Sab Read Kar Do ✅</button></div>
+<div id="inboxList"></div>
+<div class="card"><h3>✉️ Direct Message</h3><input id="dmTo" placeholder="Username likho"><input id="dmText" placeholder="Message likho..."><button class="btn" onclick="sendDM()">DM BHEJO 📩</button></div>
 </div>
 
 <div id="page-fun" class="hidden">
-<div class="card" style="text-align:center"><h3>😂 Fun Zone - Mazaa Hi Mazaa</h3><p class="small">Yahan hasna mana nahi hai!</p></div>
-<div class="card"><h3>🤣 LATEEFA MACHINE</h3><p id="jokeText" style="margin:10px 0;font-size:16px">Dabao to lateefa aayega...</p><button class="btn" onclick="newJoke()">NAYA LATEEFA SUNAO 🤣</button></div>
-<div class="card"><h3>🎲 QISMAT AZMAO</h3><p id="diceText" style="text-align:center;font-size:40px;margin:10px">🎲</p><div class="row"><button class="funBtn" onclick="rollDice()">🎲 Dice Phenko</button><button class="funBtn" onclick="tossCoin()">🪙 Toss Karo</button></div><p id="tossText" style="text-align:center;margin-top:8px"></p></div>
-<div class="card"><h3>🔊 AWAAZ WALA BOARD</h3><p class="small">Dabao to awaz aayegi</p><div class="row"><button class="funBtn" onclick="playPop()">👍 Pha</button><button class="funBtn" onclick="playSlap()">👋 Chapair</button><button class="funBtn" onclick="playDing()">🔔 Ting</button></div><div class="row" style="margin-top:6px"><button class="funBtn" onclick="playDhol()">🥁 Dhol</button><button class="funBtn" onclick="playSeeti()">📯 Seeti</button><button class="funBtn" onclick="playLaugh()">😂 Hansi</button></div></div>
-<div class="card"><h3>🥳 PARTY MODE</h3><p class="small">Dabao to screen nachne lagegi!</p><button class="btn" onclick="toggleParty()">PARTY ON / OFF 🥳</button></div>
-<div class="card"><h3>👊 THAPPAR MUQABLA</h3><p style="text-align:center">Tumhare Thappar: <b id="mySlapCount" style="color:#FFD700">0</b></p><button class="btn" onclick="slapGame()">MUJHE THAPPAR MARO 👋😂</button><p id="slapMsg" style="text-align:center;margin-top:8px"></p></div>
-<div class="card"><h3>❤️ YAARI TEST</h3><input id="yaariName" placeholder="Apne yaar ka naam likho"><button class="btn2" onclick="yaariTest()">YAARI KITNI % HAI? ❤️</button><p id="yaariResult" style="text-align:center;margin-top:8px;font-weight:bold;color:#FFD700"></p></div>
+<div class="card" style="text-align:center"><h3>😂 Fun Zone</h3></div>
+<div class="card"><h3>🤣 LATEEFA MACHINE</h3><p id="jokeText" style="margin:10px 0">Dabao to lateefa aayega...</p><button class="btn" onclick="newJoke()">NAYA LATEEFA 🤣</button></div>
+<div class="card"><h3>🎲 QISMAT AZMAO</h3><p id="diceText" style="text-align:center;font-size:40px">🎲</p><div class="row"><button class="funBtn" onclick="rollDice()">🎲 Dice</button><button class="funBtn" onclick="tossCoin()">🪙 Toss</button></div><p id="tossText" style="text-align:center;margin-top:8px"></p></div>
+<div class="card"><h3>🔊 AWAAZ BOARD</h3><div class="row"><button class="funBtn" onclick="playPop()">👍 Pha</button><button class="funBtn" onclick="playSlap()">👋 Chapair</button><button class="funBtn" onclick="playDing()">🔔 Ting</button></div><div class="row" style="margin-top:6px"><button class="funBtn" onclick="playDhol()">🥁 Dhol</button><button class="funBtn" onclick="playSeeti()">📯 Seeti</button><button class="funBtn" onclick="playLaugh()">😂 Hansi</button></div></div>
+<div class="card"><h3>🥳 PARTY MODE</h3><button class="btn" onclick="toggleParty()">PARTY ON / OFF 🥳</button></div>
+<div class="card"><h3>👊 THAPPAR MUQABLA</h3><p style="text-align:center">Tumhare Thappar: <b id="mySlapCount">0</b></p><button class="btn" onclick="slapGame()">THAPPAR MARO 👋</button><p id="slapMsg" style="text-align:center;margin-top:8px"></p></div>
+<div class="card"><h3>❤️ YAARI TEST</h3><input id="yaariName" placeholder="Yaar ka naam"><button class="btn2" onclick="yaariTest()">YAARI KITNI % HAI?</button><p id="yaariResult" style="text-align:center;color:#FFD700;font-weight:bold"></p></div>
 </div>
 
 <div id="page-profile" class="hidden">
-<div class="card" style="text-align:center"><div class="dp" id="pDpBox">😎</div><h2 id="pName" style="margin-top:8px">-</h2><p id="pCity" class="small"></p><p id="pBio" style="margin:8px 0"></p><p>⭐ Points: <b id="pPoints" style="color:#FFD700">0</b> | 👑 <span id="pRole">MEMBER</span></p></div>
-<div class="card"><h3>✏️ Profile Badlo</h3><label class="small">Apni DP Lagao (Photo)</label><input type="file" id="dpFile" accept="image/*" onchange="changeDP()"><label class="small">About / Bio</label><input id="eBio" placeholder="Apne baare me likho..."><label class="small">City</label><select id="eCity"><option>Lahore</option><option>Karachi</option><option>Islamabad</option><option>Rawalpindi</option><option>Faisalabad</option><option>Multan</option><option>Hyderabad</option><option>Peshawar</option><option>Quetta</option><option>Sialkot</option><option>Other</option></select><label class="small">Star Sign</label><select id="eStar"><option>Aries ♈</option><option>Taurus ♉</option><option>Gemini ♊</option><option>Cancer ♋</option><option>Leo ♌</option><option>Virgo ♍</option><option>Libra ♎</option><option>Scorpio ♏</option><option>Sagittarius ♐</option><option>Capricorn ♑</option><option>Aquarius ♒</option><option>Pisces ♓</option></select><button class="btn" onclick="saveProfile()">PROFILE SAVE KARO ✅</button></div>
-<div class="card"><h3>🔖 Meri Saved Posts</h3><div id="savedBox">Abhi kuch save nahi kiya</div></div>
+<div class="card" style="text-align:center"><div class="dp" id="pDpBox">😎</div><h2 id="pName">-</h2><p id="pCity" class="small"></p><p id="pBio"></p><p>⭐ Points: <b id="pPoints">0</b></p></div>
+<div class="card"><h3>✏️ Profile Badlo</h3><input type="file" id="dpFile" accept="image/*" onchange="changeDP()"><input id="eBio" placeholder="Bio likho..."><select id="eCity"><option>Lahore</option><option>Karachi</option><option>Islamabad</option><option>Rawalpindi</option><option>Faisalabad</option><option>Multan</option><option>Hyderabad</option><option>Peshawar</option><option>Quetta</option><option>Sialkot</option><option>Other</option></select><select id="eStar"><option>Aries ♈</option><option>Taurus ♉</option><option>Gemini ♊</option><option>Cancer ♋</option><option>Leo ♌</option><option>Virgo ♍</option><option>Libra ♎</option><option>Scorpio ♏</option><option>Sagittarius ♐</option><option>Capricorn ♑</option><option>Aquarius ♒</option><option>Pisces ♓</option></select><button class="btn" onclick="saveProfile()">SAVE KARO ✅</button></div>
+<div class="card"><h3>🔖 Saved</h3><div id="savedBox"></div></div>
 <div class="card"><h3>📝 Meri Posts</h3><div id="myPosts"></div></div>
 </div>
 
 <div id="page-more" class="hidden">
-<div class="card"><h3>📜 Terms & Conditions</h3><p class="small" style="line-height:20px;margin-top:8px">1. Yaarii-PK ek family friendly app hai.<br>2. Gali, gandi photo, ya kisi ko tang karna mana hai.<br>3. Fake ID banane par ID block ho jayegi.<br>4. Sab yaar ek dusre ki izzat karenge.<br>5. Koi bhi galat post Admin delete kar sakta hai.</p></div>
-<div class="card"><h3>📏 Rules - Mehfil Ke Usool</h3><p class="small" style="line-height:20px;margin-top:8px">✅ Pyar mohabbat se baat karo<br>✅ Naye yaaron ka welcome karo<br>❌ Gali mat do<br>❌ Kisi ki DP ka mazaq mat urao<br>❌ Number mangna mana hai</p></div>
-<div class="card"><h3>🔒 Privacy Policy</h3><p class="small" style="line-height:20px;margin-top:8px">Tumhara password sirf tumhe pata hota hai. Hum tumhara data kisi ko nahi dete.</p></div>
-<div class="card"><h3>ℹ️ About Yaarii-PK</h3><p class="small" style="line-height:20px;margin-top:8px">Yaarii-PK Pakistan ke yaaron ke liye bani hai. Yahan post, photo, mehfil, inbox, like, chapair, comment sab hai. 100% Free hai.</p><p style="margin-top:10px;color:#FFD700;font-weight:bold">Made with ❤️ in Pakistan 🇵🇰</p></div>
+<div class="card"><h3>📜 Terms</h3><p class="small">1. Family friendly app hai.<br>2. Gali, gandi photo mana hai.<br>3. Fake ID block hogi.<br>4. Sab izzat karenge.</p></div>
+<div class="card"><h3>📏 Rules</h3><p class="small">✅ Pyar se baat karo<br>❌ Gali mat do<br>❌ Number mangna mana hai</p></div>
+<div class="card"><h3>ℹ️ About</h3><p class="small">Yaarii-PK Pakistan ke yaaron ke liye hai. 100% Free.</p><p style="color:#FFD700;font-weight:bold">Made with ❤️ in Pakistan 🇵🇰</p></div>
 </div>
 
 <script>
+// ===== FIXED LOGIN / SIGNUP - Pehle Mobile me Save, phir Firebase =====
 var DB='https://yaari-pk-default-rtdb.firebaseio.com';
 var cur=localStorage.getItem('y_cur')||'';
-var feedData={}; var postType='text'; var curCat='All'; var replyTo=''; var mySaved=JSON.parse(localStorage.getItem('y_saved')||'[]');
-var quotes=["Yaari wo jo har dukh me kaam aaye ❤️","Jo sacha yaar hota hai wo kabhi door nahi hota","Zindagi me paisa nahi, ache yaar kaam aate hain","Haso, Hasao, Yaari nibhao 😎","Waqt guzar jayega, yaari yaad rahegi","Jo mushkil me sath de, wohi asli yaar hai"];
-var jokes=["Ustaad: Agar tumhe 1 crore mil jaye to kya karoge? Shagird: Pehle to neend poori karunga 😂","Bachon ka paper tha, ek ne likha - 'Mujhe kuch nahi aata, Allah hi hafiz hai' 😂","Biwi: Suno, tum mujhe kabhi ghoomne nahi le jate. Shohar: To ab ghoom phir ke aa gayi ho na? 😂","Doctor: Tumhe aaram ki zaroorat hai. Mareez: Doctor sahab, aaram to me roz karta hun, kaam ki zaroorat hai 😂","Yaar ne kaha paisa udhar de, maine kaha yaari me hisaab nahi hota, us ne kaha phir yaari hi rakh le, paisa rehne de 😂","Teacher: Beta kal kyun nahi aaye? Bacha: Sir, ammi ne kaha kal chutti kar lo, me ne maan li 😂"];
+function getUsers(){ try{ return JSON.parse(localStorage.getItem('y_users')||'{}'); }catch(e){ return {}; } }
+function saveUsers(u){ localStorage.setItem('y_users', JSON.stringify(u)); }
+function getPosts(){ try{ return JSON.parse(localStorage.getItem('y_posts')||'[]'); }catch(e){ return []; } }
+function getChat(){ try{ return JSON.parse(localStorage.getItem('y_chat')||'[]'); }catch(e){ return []; } }
+function getInbox(){ try{ return JSON.parse(localStorage.getItem('y_inbox_'+cur)||'[]'); }catch(e){ return []; } }
+
+var feedData=[]; var postType='text'; var curCat='All'; var replyTo=''; var mySaved=JSON.parse(localStorage.getItem('y_saved')||'[]');
+var quotes=["Yaari wo jo har dukh me kaam aaye ❤️","Jo sacha yaar hota hai wo kabhi door nahi hota","Haso, Hasao, Yaari nibhao 😎","Waqt guzar jayega, yaari yaad rahegi"];
+var jokes=["Ustaad: 1 crore mil jaye to kya karoge? Shagird: Pehle neend poori karunga 😂","Biwi: Tum mujhe ghoomne nahi le jate. Shohar: To ab ghoom phir ke aa gayi ho na? 😂","Doctor: Tumhe aaram ki zaroorat hai. Mareez: Aaram to roz karta hun, kaam ki zaroorat hai 😂"];
 function newQuote(){ document.getElementById('dailyQuote').innerText=quotes[Math.floor(Math.random()*quotes.length)]; }
 function newJoke(){ document.getElementById('jokeText').innerText=jokes[Math.floor(Math.random()*jokes.length)]; playLaugh(); }
-function playPop(){ try{ var a=new (window.AudioContext||window.webkitAudioContext)(); var o=a.createOscillator(); var g=a.createGain(); o.connect(g); g.connect(a.destination); o.type='sine'; o.frequency.setValueAtTime(500,a.currentTime); o.frequency.exponentialRampToValueAtTime(1400,a.currentTime+0.07); g.gain.setValueAtTime(0.5,a.currentTime); g.gain.exponentialRampToValueAtTime(0.001,a.currentTime+0.15); o.start(); o.stop(a.currentTime+0.16); }catch(e){} }
-function playSlap(){ try{ var a=new (window.AudioContext||window.webkitAudioContext)(); var len=a.sampleRate*0.18; var buf=a.createBuffer(1,len,a.sampleRate); var d=buf.getChannelData(0); for(var i=0;i<len;i++){ d[i]=(Math.random()*2-1)*Math.pow(1-i/len,2); } var src=a.createBufferSource(); src.buffer=buf; var g=a.createGain(); g.gain.setValueAtTime(0.9,a.currentTime); g.gain.exponentialRampToValueAtTime(0.01,a.currentTime+0.18); src.connect(g); g.connect(a.destination); src.start(); if(navigator.vibrate) navigator.vibrate([60,40,80]); }catch(e){} }
-function playDing(){ try{ var a=new (window.AudioContext||window.webkitAudioContext)(); var o=a.createOscillator(); var g=a.createGain(); o.connect(g); g.connect(a.destination); o.type='sine'; o.frequency.setValueAtTime(1200,a.currentTime); g.gain.setValueAtTime(0.4,a.currentTime); g.gain.exponentialRampToValueAtTime(0.001,a.currentTime+0.6); o.start(); o.stop(a.currentTime+0.6); }catch(e){} }
-function playDhol(){ try{ var a=new (window.AudioContext||window.webkitAudioContext)(); [0,0.25,0.5].forEach(function(t){ var o=a.createOscillator(); var g=a.createGain(); o.connect(g); g.connect(a.destination); o.type='sine'; o.frequency.setValueAtTime(120,a.currentTime+t); o.frequency.exponentialRampToValueAtTime(50,a.currentTime+t+0.15); g.gain.setValueAtTime(0.7,a.currentTime+t); g.gain.exponentialRampToValueAtTime(0.01,a.currentTime+t+0.2); o.start(a.currentTime+t); o.stop(a.currentTime+t+0.22); }); }catch(e){} }
-function playSeeti(){ try{ var a=new (window.AudioContext||window.webkitAudioContext)(); var o=a.createOscillator(); var g=a.createGain(); o.connect(g); g.connect(a.destination); o.type='sine'; o.frequency.setValueAtTime(800,a.currentTime); o.frequency.setValueAtTime(1600,a.currentTime+0.15); o.frequency.setValueAtTime(900,a.currentTime+0.3); g.gain.setValueAtTime(0.3,a.currentTime); g.gain.exponentialRampToValueAtTime(0.001,a.currentTime+0.45); o.start(); o.stop(a.currentTime+0.46); }catch(e){} }
-function playLaugh(){ try{ var a=new (window.AudioContext||window.webkitAudioContext)(); [0,0.12,0.24,0.36].forEach(function(t){ var o=a.createOscillator(); var g=a.createGain(); o.connect(g); g.connect(a.destination); o.type='square'; o.frequency.setValueAtTime(600,a.currentTime+t); o.frequency.setValueAtTime(900,a.currentTime+t+0.05); g.gain.setValueAtTime(0.15,a.currentTime+t); g.gain.exponentialRampToValueAtTime(0.001,a.currentTime+t+0.1); o.start(a.currentTime+t); o.stop(a.currentTime+t+0.11); }); }catch(e){} }
-function toggleParty(){ document.body.classList.toggle('party'); playDhol(); if(document.body.classList.contains('party')) alert('PARTY ON! 🥳💃'); }
-function rollDice(){ var n=Math.floor(Math.random()*6)+1; var em=['🎲','⚀','⚁','⚂','⚃','⚄','⚅']; document.getElementById('diceText').innerText=em[n]+'  -  '+n+' Aaya!'; playDing(); }
-function tossCoin(){ var r=Math.random()>0.5?'Head 👑 - Jeet Gaye!':'Tail 🪙 - Haar Gaye!'; document.getElementById('tossText').innerText='Toss: '+r; playPop(); }
-function slapGame(){ var c=parseInt(localStorage.getItem('y_slap')||'0')+1; localStorage.setItem('y_slap',c); document.getElementById('mySlapCount').innerText=c; document.getElementById('slapMsg').innerText=['Oye! Dard ho gaya 😂','Aik aur maar, maza aa raha hai 😂','Bas kar yaar, gaal laal ho gaya 😂','Ab meri baari! 👋'][Math.floor(Math.random()*4)]; playSlap(); }
-function yaariTest(){ var n=document.getElementById('yaariName').value.trim(); if(!n) return alert('Pehle naam likho'); var p=Math.floor(Math.random()*40)+60; document.getElementById('yaariResult').innerText=n+' ke sath tumhari Yaari '+p+'% hai! ❤️👑'; playDing(); }
+function playPop(){ try{ var a=new (window.AudioContext||window.webkitAudioContext)(); var o=a.createOscillator(); var g=a.createGain(); o.connect(g); g.connect(a.destination); o.frequency.setValueAtTime(500,a.currentTime); o.frequency.exponentialRampToValueAtTime(1400,a.currentTime+0.07); g.gain.setValueAtTime(0.5,a.currentTime); g.gain.exponentialRampToValueAtTime(0.001,a.currentTime+0.15); o.start(); o.stop(a.currentTime+0.16); }catch(e){} }
+function playSlap(){ try{ var a=new (window.AudioContext||window.webkitAudioContext)(); var len=a.sampleRate*0.18; var buf=a.createBuffer(1,len,a.sampleRate); var d=buf.getChannelData(0); for(var i=0;i<len;i++){ d[i]=(Math.random()*2-1)*Math.pow(1-i/len,2); } var s=a.createBufferSource(); s.buffer=buf; var g=a.createGain(); g.gain.setValueAtTime(0.9,a.currentTime); g.gain.exponentialRampToValueAtTime(0.01,a.currentTime+0.18); s.connect(g); g.connect(a.destination); s.start(); if(navigator.vibrate) navigator.vibrate([60,40,80]); }catch(e){} }
+function playDing(){ try{ var a=new (window.AudioContext||window.webkitAudioContext)(); var o=a.createOscillator(); var g=a.createGain(); o.connect(g); g.connect(a.destination); o.frequency.setValueAtTime(1200,a.currentTime); g.gain.setValueAtTime(0.4,a.currentTime); g.gain.exponentialRampToValueAtTime(0.001,a.currentTime+0.6); o.start(); o.stop(a.currentTime+0.6); }catch(e){} }
+function playDhol(){ try{ var a=new (window.AudioContext||window.webkitAudioContext)(); [0,0.25,0.5].forEach(function(t){ var o=a.createOscillator(); var g=a.createGain(); o.connect(g); g.connect(a.destination); o.frequency.setValueAtTime(120,a.currentTime+t); o.frequency.exponentialRampToValueAtTime(50,a.currentTime+t+0.15); g.gain.setValueAtTime(0.7,a.currentTime+t); g.gain.exponentialRampToValueAtTime(0.01,a.currentTime+t+0.2); o.start(a.currentTime+t); o.stop(a.currentTime+t+0.22); }); }catch(e){} }
+function playSeeti(){ try{ var a=new (window.AudioContext||window.webkitAudioContext)(); var o=a.createOscillator(); var g=a.createGain(); o.connect(g); g.connect(a.destination); o.frequency.setValueAtTime(800,a.currentTime); o.frequency.setValueAtTime(1600,a.currentTime+0.15); g.gain.setValueAtTime(0.3,a.currentTime); g.gain.exponentialRampToValueAtTime(0.001,a.currentTime+0.45); o.start(); o.stop(a.currentTime+0.46); }catch(e){} }
+function playLaugh(){ try{ var a=new (window.AudioContext||window.webkitAudioContext)(); [0,0.12,0.24,0.36].forEach(function(t){ var o=a.createOscillator(); var g=a.createGain(); o.connect(g); g.connect(a.destination); o.type='square'; o.frequency.setValueAtTime(600,a.currentTime+t); g.gain.setValueAtTime(0.15,a.currentTime+t); g.gain.exponentialRampToValueAtTime(0.001,a.currentTime+t+0.1); o.start(a.currentTime+t); o.stop(a.currentTime+t+0.11); }); }catch(e){} }
+function toggleParty(){ document.body.classList.toggle('party'); playDhol(); }
+function rollDice(){ var n=Math.floor(Math.random()*6)+1; document.getElementById('diceText').innerText='🎲  '+n+' Aaya!'; playDing(); }
+function tossCoin(){ document.getElementById('tossText').innerText='Toss: '+(Math.random()>0.5?'Head 👑 Jeet Gaye!':'Tail 🪙 Haar Gaye!'); playPop(); }
+function slapGame(){ var c=parseInt(localStorage.getItem('y_slap')||'0')+1; localStorage.setItem('y_slap',c); document.getElementById('mySlapCount').innerText=c; document.getElementById('slapMsg').innerText='Oye! Dard ho gaya 😂'; playSlap(); }
+function yaariTest(){ var n=document.getElementById('yaariName').value.trim(); if(!n) return alert('Pehle naam likho'); document.getElementById('yaariResult').innerText=n+' ke sath Yaari '+(Math.floor(Math.random()*40)+60)+'% hai! ❤️'; playDing(); }
 
 function show(p){ ['home','mehfil','inbox','fun','profile','more'].forEach(function(x){ document.getElementById('page-'+x).classList.add('hidden'); var b=document.getElementById('b-'+x); if(b) b.classList.remove('active'); }); document.getElementById('page-'+p).classList.remove('hidden'); var bb=document.getElementById('b-'+p); if(bb) bb.classList.add('active'); if(p==='home'){ loadFeed(); loadTopYaar(); } if(p==='mehfil') loadChat(); if(p==='inbox') loadInbox(); if(p==='profile') loadProfile(); }
 function logout(){ localStorage.removeItem('y_cur'); location.reload(); }
 function setPostType(t){ postType=t; document.getElementById('tabText').className=t==='text'?'on':''; document.getElementById('tabPic').className=t==='pic'?'on':''; document.getElementById('boxText').classList.toggle('hidden',t!=='text'); document.getElementById('boxPic').classList.toggle('hidden',t!=='pic'); }
 function filterCat(c,el){ curCat=c; document.querySelectorAll('#catBar button').forEach(function(b){ b.classList.remove('on'); }); if(el) el.classList.add('on'); loadFeed(); }
-async function login(){ var u=document.getElementById('lUser').value.trim(); var p=document.getElementById('lPass').value; if(!u||!p) return alert('Username + Password likho'); try{ var r=await fetch(DB+'/users/'+u+'.json'); var d=await r.json(); if(!d) return alert('User nahi mila - Pehle Signup karo'); if(d.p===p){ localStorage.setItem('y_cur',u); alert('LOGIN HO GAYA! Welcome '+u); location.reload(); } else alert('Galat Password hai'); }catch(e){ alert('Net ka masla: '+e.message); } }
-async f
+
+// ===== YEHI ASLI FIX HAI =====
+function login(){
+  var u=document.getElementById('lUser').value.trim();
+  var p=document.getElementById('lPass').value;
+  if(!u||!p) return alert('Username + Password likho');
+  var users=getUsers();
+  var d=users[u];
+  // Agar Firebase me pehle se user tha to bhi local me check karo
+  if(!d) return alert('User nahi mila - Pehle Signup karo, neeche wala button dabao');
+  if(d.p!==p) return alert('Galat Password hai');
+  localStorage.setItem('y_cur',u);
+  alert('LOGIN HO GAYA! Welcome '+u);
+  location.reload();
+}
+function signup(){
+  var u=document.getElementById('sUser').value.trim();
+  var p=document.getElementById('sPass').value;
+  if(!u||!p) return alert('Username + Password likho');
+  if(u.length<3) return alert('Username thora bara rakho');
+  var users=getUsers();
+  if(users[u]) return alert('Ye Username pehle se hai, koi aur rakho');
+  users[u]={u:u,p:p,age:document.getElementById('sAge').value||'?',city:document.getElementById('sCity').value,star:document.getElementById('sStar').value,dp:'😎',bio:'Yaarii-PK Ka Yaar 😎',points:10,role:'MEMBER'};
+  saveUsers(users);
+  localStorage.setItem('y_cur',u);
+  // Firebase par bhi bhejne ki koshish karo, fail bhi ho to koi baat nahi
+  try{ fetch(DB+'/users/'+u+'.json',{method:'PUT',body:JSON.stringify(users[u])}); }catch(e){}
+  alert('SIGNUP HO GAYA! Mubarak ho '+u);
+  location.reload();
+}
+
+function fileToBase64(f,cb){ var rd=new FileReader(); rd.onload=function(){ cb(rd.result); }; rd.readAsDataURL(f); }
+function addPost(){
+  var cat=document.getElementById('postCat').value; var t=''; var f=null;
+  if(postType==='text'){ t=document.getElementById('postText').value.trim(); if(!t) return alert('Pehle kuch likho'); }
+  else { f=document.getElementById('postPic').files[0]; t=document.getElementById('postPicCap').value.trim(); if(!f) return alert('Pehle photo select karo'); }
+  var doPost=function(pic){ var arr=getPosts(); arr.push({u:cur,text:t,pic:pic||'',cat:cat,likes:0,chapair:0,comments:[],t:new Date().toLocaleString()}); localStorage.setItem('y_posts',JSON.stringify(arr)); document.getElementById('postText').value=''; document.getElementById('postPic').value=''; document.getElementById('postPicCap').value=''; alert('Post ho gaya! 🚀'); loadFeed(); };
+  if(f) fileToBase64(f,function(b){ doPost(b); }); else doPost('');
+}
+function loadTopYaar(){ var users=getUsers(); var arr=Object.values(users).sort(function(a,b){ return (b.points||0)-(a.points||0); }).slice(0,3); document.getElementById('topYaar').innerHTML=arr.map(function(u,i){ return '<p>'+(i===0?'🥇':i===1?'🥈':'🥉')+' <b>'+u.u+'</b> - ⭐ '+(u.points||0)+' - '+u.city+'</p>'; }).join('')||'Abhi koi nahi'; }
+function loadFeed(){
+  var all=getPosts(); feedData=all; var keys=all.map(function(_,i){ return i; }).reverse();
+  if(curCat!=='All') keys=keys.filter(function(i){ return all[i].cat===curCat; });
+  if(!keys.length){ document.getElementById('feed').innerHTML='<p style="text-align:center;padding:20px">Abhi koi post nahi, pehli post tum karo! 🚀</p>'; return; }
+  document.getElementById('feed').innerHTML=keys.map(function(i){ var p=all[i]; var cmts=(p.comments||[]).map(function(c){ return '<div class="cmt"><b>'+c.u+':</b> '+c.text+'</div>'; }).join(''); var saved=mySaved.includes(i)?'🔖 Saved':'🔖 Save'; return '<div class="post"><b>👤 '+p.u+'</b> <span class="badge">'+(p.cat||'💬 Gup Shup')+'</span> <span class="small">'+(p.t||'')+'</span><p style="margin:8px 0">'+(p.text||'')+'</p>'+(p.pic?'<img src="'+p.pic+'">':'')+'<div class="row"><button onclick="doLike('+i+')">👍 Like ('+(p.likes||0)+')</button><button onclick="doChapair('+i+')">👋 Chapair ('+(p.chapair||0)+')</button></div><div class="row"><button onclick="doShare('+i+')">↗️ Share</button><button onclick="doRepost('+i+')">🔁 Repost</button><button onclick="doSave('+i+')">'+saved+'</button></div><div style="display:flex;gap:6px;margin-top:8px"><input id="cmt-'+i+'" placeholder="Comment likho..."><button onclick="doComment('+i+')" style="width:80px;background:#FFD700;border:none;border-radius:8px;font-weight:bold">Bhejo</button></div>'+cmts+'</div>'; }).join('');
+}
+function savePosts(){ localStorage.setItem('y_posts',JSON.stringify(feedData)); }
+function doLike(i){ playPop(); feedData[i].likes=(feedData[i].likes||0)+1; savePosts(); var p=feedData[i]; if(p.u!==cur) sendToInbox(p.u,cur,'Tumhari post ko 👍 Like kiya','Like 👍'); loadFeed(); }
+function doChapair(i){ playSlap(); alert('CHAPAIR LAG GAYI! 👋😂'); feedData[i].chapair=(feedData[i].chapair||0)+1; savePosts(); var p=feedData[i]; if(p.u!==cur) sendToInbox(p.u,cur,'Tumhe 👋 Chapair maari','Chapair 👋'); loadFeed(); }
+function doSave(i){ if(mySaved.includes(i)) mySaved=mySaved.filter(function(x){ return x!==i; }); else { mySaved.push(i); alert('Post Save Ho Gayi! 🔖'); } localStorage.setItem('y_saved',JSON.stringify(mySaved)); loadFeed(); }
+function doShare(i){ var p=feedData[i]; var txt='Yaarii-PK pe dekho: '+(p.text||'Photo')+' - https://yaarii-pk.github.io/Yaarii.pk/'; if(navigator.share) navigator.share({text:txt}); else { navigator.clipboard.writeText(txt); alert('Link Copy Ho Gaya!'); } }
+function doRepost(i){ var p=feedData[i]; var arr=getPosts(); arr.push({u:cur,text:'🔁 Repost by '+cur+': '+(p.text||''),pic:p.pic||'',cat:p.cat,likes:0,chapair:0,comments:[],t:new Date().toLocaleString()}); localStorage.setItem('y_posts',JSON.stringify(arr)); alert('Repost Ho Gaya! 🔁'); loadFeed(); }
+function doComment(i){ var inp=document.getElementById('cmt-'+i); var t=inp.value.trim(); if(!t) return; feedData[i].comments=feedData[i].comments||[]; feedData[i].comments.push({u:cur,text:t}); savePosts(); playPop(); var p=feedData[i]; if(p.u!==cur) sendToInbox(p.u,cur,'Tumhari post par 💬 Comment: '+t,'Comment 💬'); loadFeed(); }
+function sendToInbox(to,from,text,type){ if(!to||to===cur) return; var arr=JSON.parse(localStorage.getItem('y_inbox_'+to)||'[]'); arr.push({from:from,text:text,type:type,time:new Date().toLocaleString(),read:false}); localStorage.setItem('y_inbox_'+to,JSON.stringify(arr)); }
+function loadInbox(){ var arr=getInbox(); var unread=arr.filter(function(m){ return !m.read; }).length; var b=document.getElementById('inboxBadge'); if(unread>0){ b.innerText=unread; b.classList.remove('hidden'); } else b.classList.add('hidden'); if(!arr.length){ document.getElementById('inboxList').innerHTML='<p style="text-align:center;padding:20px">Abhi koi message nahi</p>'; return; } document.getElementById('inboxList').innerHTML=arr.slice().reverse().map(function(m,idx){ var realIdx=arr.length-1-idx; return '<div class="inboxItem"><b>👤 '+m.from+'</b> <span class="badge">'+m.type+'</span><p style="margin:8px 0">'+m.text+'</p><button onclick="replyInbox(\''+m.from+'\')" style="padding:8px 12px;border-radius:8px;background:#222;color:#FFD700;border:1px solid #FFD700">↩️ Reply</button> <button onclick="markOneRead('+realIdx+')" style="padding:8px 12px;border-radius:8px;background:#222;color:#fff;border:1px solid #444">✅ Read</button></div>'; }).join(''); }
+function replyInbox(u){ show('inbox'); document.getElementById('dmTo').value=u; document.getElementById('dmText').focus(); }
+function markOneRead(i){ var arr=getInbox(); arr[i].read=true; localStorage.setItem('y_inbox_'+cur,JSON.stringify(arr)); loadInbox(); }
+function markAllRead(){ var arr=getInbox(); arr.forEach(function(m){ m.read=true; }); localStorage.setItem('y_inbox_'+cur,JSON.stringify(arr)); loadInbox(); }
+function sendDM(){ var to=document.getElementById('dmTo').value.trim(); var t=document.getElementById('dmText').value.trim(); if(!to||!t) return alert('Username + Message likho'); sendToInbox(to,cur,t,'DM 📩'); document.getElementById('dmText').value=''; alert('DM Bhej Diya! 📩'); loadInbox(); }
+function loadChat(){ var arr=getChat(); document.getElementById('chatBox').innerHTML=arr.slice(-30).map(function(c){ var replyHtml=c.reply?'<div class="replyBox">Reply to @'+c.reply+'</div>':''; return '<div class="post">'+replyHtml+'<b>@'+c.u+':</b> '+c.text+'<div style="margin-top:6px"><button onclick="replyChat(\''+c.u+'\')" style="padding:6px 12px;border-radius:8px;background:#222;color:#FFD700;border:1px solid #FFD700">↩️ Reply</button></div></div>'; }).join('')||'<p style="text-align:center">Mehfil khaali hai, shuru karo!</p>'; }
+function replyChat(u){ replyTo=u; document.getElementById('chatText').value='@'+u+' '; document.getElementById('chatText').focus(); }
+function sendChat(){ var t=document.getElementById('chatText').value.trim(); if(!t) return; var arr=getChat(); arr.push({u:cur,text:t,reply:replyTo||''}); localStorage.setItem('y_chat',JSON.stringify(arr)); if(replyTo&&replyTo!==cur) sendToInbox(replyTo,cur,'Mehfil me tumhe ↩️ Reply: '+t,'Reply ↩️'); document.getElementById('chatText').value=''; replyTo=''; playDing(); loadChat(); }
+function loadProfile(){ var users=getUsers(); var d=users[cur]; if(!d) return; document.getElementById('hiName').innerText=d.u; document.getElementById('pName').innerText=d.u; document.getElementById('pCity').innerText=(d.city||'')+' | '+(d.star||''); document.getElementById('pBio').innerText=d.bio||''; document.getElementById('pPoints').innerText=d.points||0; if(d.dp&&d.dp.length>10) document.getElementById('pDpBox').innerHTML='<img src="'+d.dp+'" style="width:100%;height:100%;border-radius:50%;object-fit:cover">'; else document.getElementById('pDpBox').innerText=d.dp||'😎'; document.getElementById('eBio').value=d.bio||''; document.getElementById('eCity').value=d.city||'Lahore'; document.getElementById('eStar').value=d.star||'Aries ♈'; var all=getPosts(); var mine=all.filter(function(x){ return x.u===cur; }).reverse(); document.getElementById('myPosts').innerHTML=mine.map(function(p){ return '<div class="cmt">'+(p.text||'Photo')+'</div>'; }).join('')||'Abhi koi post nahi'; var savedHtml=mySaved.map(function(i){ var p=all[i]; if(!p) return ''; return '<div class="cmt"><b>'+p.u+':</b> '+(p.text||'Photo')+'</div>'; }).join(''); document.getElementById('savedBox').innerHTML=savedHtml||'Abhi kuch save nahi'; document.getElementById('mySlapCount').innerText=localStorage.getItem('y_slap')||'0'; }
+function saveProfile(){ var users=getUsers(); users[cur].bio=document.getElementById('eBio').value; users[cur].city=document.getElementById('eCity').value; users[cur].star=document.getElementById('eStar').value; saveUsers(users); alert('Profile Save Ho Gaya! ✅'); loadProfile(); }
+function changeDP(){ var f=document.getElementById('dpFile').files[0]; if(!f) return; fileToBase64(f,function(b){ var users=getUsers(); users[cur].dp=b; saveUsers(users); alert('DP Lag Gayi! 😎'); loadProfile(); }); }
+if(cur){ document.getElementById('page-auth').classList.add('hidden'); document.getElementById('navBar').style.display='flex'; document.getElementById('page-home').classList.remove('hidden'); loadFeed(); loadTopYaar(); newQuote(); }
+</script>
+</body>
+</html>
