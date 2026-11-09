@@ -3,184 +3,150 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Yaarii-PK 👑</title>
+<title>Yaarii-PK 👑 - Pakistan Ki Apni Yaari</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#000;color:#fff;padding-top:112px;padding-bottom:70px;font-family:Arial}
+body{background:#000;color:#fff;font-family:Arial;padding-top:112px;padding-bottom:80px}
 .top{position:fixed;top:0;left:0;right:0;background:#111;padding:10px;text-align:center;z-index:99;border-bottom:2px solid #FFD700}
 .top h1{color:#FFD700;font-size:24px}
 .top p{font-size:11px;color:#aaa}
 .nav{position:fixed;top:62px;left:0;right:0;display:flex;background:#222;z-index:99}
-.nav button{flex:1;padding:12px 2px;background:none;border:none;color:#fff;font-size:13px}
+.nav button{flex:1;padding:12px 1px;background:none;border:none;color:#fff;font-size:13px}
 .nav button.active{color:#000;background:#FFD700;font-weight:bold}
-.card{background:#111;border:1.5px solid #333;border-radius:12px;padding:12px;margin:10px}
-input,select,textarea{width:100%;padding:12px;margin:6px 0;background:#222;border:1px solid #444;color:#fff;border-radius:8px;font-size:15px}
-button.btn{background:#FFD700;color:#000;border:none;padding:13px;width:100%;border-radius:10px;font-weight:bold;font-size:16px;margin-top:6px}
-button.btn2{background:#222;color:#FFD700;border:1px solid #FFD700;padding:10px;width:100%;border-radius:10px;margin-top:6px}
-.post{background:#1a1a1a;border:1px solid #333;border-radius:10px;padding:10px;margin:10px}
+.card{background:#111;border:1.5px solid #333;border-radius:14px;padding:13px;margin:10px}
+input,select,textarea{width:100%;padding:12px;margin:6px 0;background:#222;border:1px solid #444;color:#fff;border-radius:9px;font-size:15px}
+.btn{background:#FFD700;color:#000;border:none;padding:13px;width:100%;border-radius:10px;font-weight:bold;font-size:16px;margin-top:6px}
+.btn2{background:#222;color:#FFD700;border:1px solid #FFD700;padding:10px;width:100%;border-radius:10px;margin-top:6px}
+.post{background:#1a1a1a;border:1px solid #333;border-radius:12px;padding:11px;margin:10px}
+.post img{width:100%;border-radius:10px;margin-top:8px;max-height:320px;object-fit:cover}
 .small{font-size:12px;color:#aaa}
 .hidden{display:none}
+.row{display:flex;gap:6px;margin-top:8px}
+.row button{flex:1;padding:9px 2px;border:none;border-radius:8px;background:#2a2a2a;color:#fff;font-size:13px}
+.row button.liked{background:#FFD700;color:#000;font-weight:bold}
+.dp{width:80px;height:80px;border-radius:50%;object-fit:cover;border:3px solid #FFD700;background:#222;display:flex;align-items:center;justify-content:center;font-size:38px;margin:0 auto}
+.cmt{background:#222;padding:8px;border-radius:8px;margin-top:6px;font-size:13px}
 </style>
 </head>
 <body>
-
-<div class="top"><h1>Yaarii-PK 👑</h1><p>Pakistan Ki Apni Yaari App - 100% Free</p></div>
+<div class="top"><h1>Yaarii-PK 👑</h1><p>Pakistan Ki Apni Yaari App - 100% Free - Maza Hi Maza</p></div>
 <div class="nav" id="navBar" style="display:none">
 <button onclick="show('home')" id="b-home" class="active">🏠 Home</button>
 <button onclick="show('mehfil')" id="b-mehfil">💬 Mehfil</button>
 <button onclick="show('profile')" id="b-profile">👤 Profile</button>
-<button onclick="logout()">🚪 Logout</button>
+<button onclick="show('more')" id="b-more">⋯ More</button>
+<button onclick="logout()">🚪 Out</button>
 </div>
 
-<!-- LOGIN / SIGNUP -->
+<!-- AUTH -->
 <div id="page-auth">
-<div class="card"><h2 style="color:#FFD700;text-align:center">Welcome Yaar 😎</h2><p class="small" style="text-align:center">Login karo ya naya account banao</p>
+<div class="card"><h2 style="color:#FFD700;text-align:center">Welcome Yaar 😎</h2><p class="small" style="text-align:center">Login karo ya FREE Signup karo - 10 second me andar</p>
 <h3 style="margin-top:12px">🔑 LOGIN</h3>
-<input id="lUser" placeholder="Username likho">
-<input id="lPass" type="password" placeholder="Password likho">
-<button class="btn" onclick="login()">LOGIN KARO</button>
+<input id="lUser" placeholder="Username">
+<input id="lPass" type="password" placeholder="Password">
+<button class="btn" onclick="login()">LOGIN KARO 🚀</button>
 <hr style="margin:14px 0;border:1px solid #333">
-<h3>🆕 SIGNUP</h3>
-<input id="sUser" placeholder="Naya Username (English me)">
+<h3>🆕 SIGNUP - FREE</h3>
+<input id="sUser" placeholder="Naya Username (English)">
 <input id="sPass" type="password" placeholder="Naya Password">
 <input id="sAge" type="number" placeholder="Age">
-<input id="sCity" placeholder="City - Lahore, Karachi...">
-<select id="sStar"><option>Star: Aries</option><option>Star: Taurus</option><option>Star: Gemini</option><option>Star: Cancer</option><option>Star: Leo</option><option>Star: Virgo</option><option>Star: Libra</option><option>Star: Scorpio</option><option>Star: Sagittarius</option><option>Star: Capricorn</option><option>Star: Aquarius</option><option>Star: Pisces</option></select>
-<button class="btn" onclick="signup()">SIGNUP KARO - FREE</button>
-<p class="small" style="text-align:center;margin-top:10px">Signup ke baad seedha andar chale jaoge</p>
+<select id="sCity"><option>Lahore</option><option>Karachi</option><option>Islamabad</option><option>Rawalpindi</option><option>Faisalabad</option><option>Multan</option><option>Hyderabad</option><option>Peshawar</option><option>Quetta</option><option>Sialkot</option><option>Gujranwala</option><option>Bahawalpur</option><option>Other</option></select>
+<select id="sStar"><option>Aries ♈</option><option>Taurus ♉</option><option>Gemini ♊</option><option>Cancer ♋</option><option>Leo ♌</option><option>Virgo ♍</option><option>Libra ♎</option><option>Scorpio ♏</option><option>Sagittarius ♐</option><option>Capricorn ♑</option><option>Aquarius ♒</option><option>Pisces ♓</option></select>
+<button class="btn" onclick="signup()">SIGNUP KARO - FREE 👑</button>
 </div>
 </div>
 
 <!-- HOME -->
 <div id="page-home" class="hidden">
-<div class="card"><h3>✍️ Kya haal hai Yaar?</h3>
-<textarea id="postText" rows="2" placeholder="Apne dil ki baat likho..."></textarea>
-<button class="btn" onclick="addPost()">POST KARO 🚀</button></div>
-<div id="feed"><p style="text-align:center;padding:20px">Posts load ho rahe hain...</p></div>
+<div class="card"><h3>✍️ Kya Haal Hai <span id="hiName">Yaar</span>?</h3>
+<textarea id="postText" rows="2" placeholder="Dil ki baat likho..."></textarea>
+<input type="file" id="postPic" accept="image/*">
+<button class="btn" onclick="addPost()">POST KARO 🚀</button>
+<p class="small" style="text-align:center;margin-top:6px">Text + Photo dono post kar sakte ho</p></div>
+<div id="feed"></div>
 </div>
 
 <!-- MEHFIL -->
 <div id="page-mehfil" class="hidden">
-<div class="card"><h3>💬 Yaaron Ki Mehfil</h3><p class="small">Sab yaar yahan baat karte hain</p></div>
+<div class="card"><h3>💬 Yaaron Ki Mehfil</h3><p class="small">Sab yaar yahan live baat karte hain - Gup Shup</p></div>
 <div id="chatBox"></div>
 <div class="card"><input id="chatText" placeholder="Mehfil me kuch likho..."><button class="btn" onclick="sendChat()">BHEJO 💬</button></div>
 </div>
 
 <!-- PROFILE -->
 <div id="page-profile" class="hidden">
-<div class="card" style="text-align:center"><div style="font-size:60px" id="pDp">😎</div><h2 id="pName">-</h2><p id="pCity" class="small"></p><p id="pBio" style="margin:8px 0"></p><p>⭐ Points: <b id="pPoints" style="color:#FFD700">0</b></p></div>
-<div class="card"><h3>✏️ Profile Badlo</h3><input id="eBio" placeholder="Bio likho"><button class="btn2" onclick="saveBio()">Bio Save Karo</button></div>
+<div class="card" style="text-align:center">
+<div class="dp" id="pDpBox">😎</div>
+<h2 id="pName" style="margin-top:8px">-</h2>
+<p id="pCity" class="small"></p><p id="pBio" style="margin:8px 0"></p>
+<p>⭐ Points: <b id="pPoints" style="color:#FFD700">0</b> | 👑 <span id="pRole">MEMBER</span></p>
+</div>
+<div class="card"><h3>✏️ Profile Badlo</h3>
+<label class="small">Apni DP Lagao (Photo)</label><input type="file" id="dpFile" accept="image/*" onchange="changeDP()">
+<label class="small">About / Bio</label><input id="eBio" placeholder="Apne baare me likho...">
+<label class="small">City</label><select id="eCity"><option>Lahore</option><option>Karachi</option><option>Islamabad</option><option>Rawalpindi</option><option>Faisalabad</option><option>Multan</option><option>Hyderabad</option><option>Peshawar</option><option>Quetta</option><option>Sialkot</option><option>Other</option></select>
+<label class="small">Star Sign</label><select id="eStar"><option>Aries ♈</option><option>Taurus ♉</option><option>Gemini ♊</option><option>Cancer ♋</option><option>Leo ♌</option><option>Virgo ♍</option><option>Libra ♎</option><option>Scorpio ♏</option><option>Sagittarius ♐</option><option>Capricorn ♑</option><option>Aquarius ♒</option><option>Pisces ♓</option></select>
+<button class="btn" onclick="saveProfile()">PROFILE SAVE KARO ✅</button>
+</div>
+<div class="card"><h3>📝 Meri Posts</h3><div id="myPosts"></div></div>
+</div>
+
+<!-- MORE -->
+<div id="page-more" class="hidden">
+<div class="card"><h3>📜 Terms & Conditions</h3><p class="small" style="line-height:20px;margin-top:8px">1. Yaarii-PK ek family friendly app hai.<br>2. Gali, gandi photo, ya kisi ko tang karna mana hai.<br>3. Fake ID banane par ID block ho jayegi.<br>4. Sab yaar ek dusre ki izzat karenge.<br>5. Koi bhi galat post Admin delete kar sakta hai.</p></div>
+<div class="card"><h3>📏 Rules - Mehfil Ke Usool</h3><p class="small" style="line-height:20px;margin-top:8px">✅ Pyar mohabbat se baat karo<br>✅ Naye yaaron ka welcome karo<br>❌ Gali mat do<br>❌ Kisi ki DP ka mazaq mat urao<br>❌ Number mangna mana hai</p></div>
+<div class="card"><h3>🔒 Privacy Policy</h3><p class="small" style="line-height:20px;margin-top:8px">Tumhara password sirf tumhe pata hota hai. Hum tumhara data kisi ko nahi dete. Tum chaaho to apni post kabhi bhi delete kar sakte ho.</p></div>
+<div class="card"><h3>ℹ️ About Yaarii-PK</h3><p class="small" style="line-height:20px;margin-top:8px">Yaarii-PK Pakistan ke yaaron ke liye bani hai. Yahan tum post kar sakte ho, photo share kar sakte ho, mehfil me baat kar sakte ho, like, chapair, comment sab kar sakte ho. 100% Free hai.</p><p style="margin-top:10px;color:#FFD700;font-weight:bold">Made with ❤️ in Pakistan 🇵🇰</p></div>
 </div>
 
 <script>
-var DB = 'https://yaari-pk-default-rtdb.firebaseio.com';
-var cur = localStorage.getItem('y_cur') || '';
+var DB='https://yaari-pk-default-rtdb.firebaseio.com';
+var cur=localStorage.getItem('y_cur')||'';
+var feedData={};
 
-function show(p){
-  ['home','mehfil','profile'].forEach(function(x){
-    document.getElementById('page-'+x).classList.add('hidden');
-    document.getElementById('b-'+x).classList.remove('active');
-  });
-  document.getElementById('page-'+p).classList.remove('hidden');
-  document.getElementById('b-'+p).classList.add('active');
-  if(p==='home') loadFeed();
-  if(p==='mehfil') loadChat();
-  if(p==='profile') loadProfile();
-}
+// SOUND - Like Pop + Chapair Thappar
+function playPop(){ try{ var a=new (window.AudioContext||window.webkitAudioContext)(); var o=a.createOscillator(); var g=a.createGain(); o.connect(g); g.connect(a.destination); o.frequency.setValueAtTime(600,a.currentTime); o.frequency.exponentialRampToValueAtTime(1200,a.currentTime+0.08); g.gain.setValueAtTime(0.3,a.currentTime); g.gain.exponentialRampToValueAtTime(0.01,a.currentTime+0.12); o.start(); o.stop(a.currentTime+0.13); }catch(e){} }
+function playSlap(){ try{ var a=new (window.AudioContext||window.webkitAudioContext)(); var o=a.createOscillator(); var g=a.createGain(); o.connect(g); g.connect(a.destination); o.type='square'; o.frequency.setValueAtTime(200,a.currentTime); o.frequency.exponentialRampToValueAtTime(60,a.currentTime+0.15); g.gain.setValueAtTime(0.4,a.currentTime); g.gain.exponentialRampToValueAtTime(0.01,a.currentTime+0.2); o.start(); o.stop(a.currentTime+0.22); if(navigator.vibrate) navigator.vibrate(80); }catch(e){} }
+
+function show(p){ ['home','mehfil','profile','more'].forEach(function(x){ document.getElementById('page-'+x).classList.add('hidden'); var b=document.getElementById('b-'+x); if(b) b.classList.remove('active'); }); document.getElementById('page-'+p).classList.remove('hidden'); var bb=document.getElementById('b-'+p); if(bb) bb.classList.add('active'); if(p==='home') loadFeed(); if(p==='mehfil') loadChat(); if(p==='profile') loadProfile(); }
 function logout(){ localStorage.removeItem('y_cur'); location.reload(); }
 
 async function login(){
-  var u = document.getElementById('lUser').value.trim();
-  var p = document.getElementById('lPass').value;
-  if(!u || !p) return alert('Username + Password likho');
-  try{
-    var r = await fetch(DB + '/users/' + u + '.json');
-    var d = await r.json();
-    if(!d) return alert('User nahi mila - Pehle Signup karo');
-    if(d.p === p){ localStorage.setItem('y_cur', u); alert('LOGIN HO GAYA! Welcome ' + u); location.reload(); }
-    else alert('Galat Password hai');
-  }catch(e){ alert('Net ka masla hai: ' + e.message); }
+  var u=document.getElementById('lUser').value.trim(); var p=document.getElementById('lPass').value;
+  if(!u||!p) return alert('Username + Password likho');
+  try{ var r=await fetch(DB+'/users/'+u+'.json'); var d=await r.json(); if(!d) return alert('User nahi mila - Pehle Signup karo'); if(d.p===p){ localStorage.setItem('y_cur',u); alert('LOGIN HO GAYA! Welcome '+u); location.reload(); } else alert('Galat Password hai'); }catch(e){ alert('Net ka masla: '+e.message); }
 }
-
 async function signup(){
-  var u = document.getElementById('sUser').value.trim();
-  var p = document.getElementById('sPass').value;
-  if(!u || !p) return alert('Username + Password likho');
-  if(u.length < 3) return alert('Username thora bara rakho');
-  try{
-    var r = await fetch(DB + '/users/' + u + '.json');
-    var d = await r.json();
-    if(d) return alert('Ye Username pehle se hai, koi aur rakho');
-    var nu = {u:u, p:p, age:document.getElementById('sAge').value||'?', city:document.getElementById('sCity').value||'Pakistan', star:document.getElementById('sStar').value, dp:'😎', bio:'Yaarii-PK Ka Yaar 😎', points:10, banned:false, online:true, role:'MEMBER'};
-    await fetch(DB + '/users/' + u + '.json', {method:'PUT', body: JSON.stringify(nu)});
-    localStorage.setItem('y_cur', u);
-    alert('SIGNUP HO GAYA! Mubarak ho ' + u);
-    location.reload();
-  }catch(e){ alert('Net ka masla hai: ' + e.message); }
+  var u=document.getElementById('sUser').value.trim(); var p=document.getElementById('sPass').value;
+  if(!u||!p) return alert('Username + Password likho'); if(u.length<3) return alert('Username thora bara rakho');
+  try{ var r=await fetch(DB+'/users/'+u+'.json'); var d=await r.json(); if(d) return alert('Ye Username pehle se hai, koi aur rakho'); var nu={u:u,p:p,age:document.getElementById('sAge').value||'?',city:document.getElementById('sCity').value,star:document.getElementById('sStar').value,dp:'😎',bio:'Yaarii-PK Ka Yaar 😎',points:10,banned:false,online:true,role:'MEMBER'}; await fetch(DB+'/users/'+u+'.json',{method:'PUT',body:JSON.stringify(nu)}); localStorage.setItem('y_cur',u); alert('SIGNUP HO GAYA! Mubarak ho '+u); location.reload(); }catch(e){ alert('Net ka masla: '+e.message); }
 }
 
-async function loadFeed(){
-  try{
-    var r = await fetch(DB + '/posts.json');
-    var d = await r.json() || {};
-    var arr = Object.values(d).reverse();
-    if(!arr.length){ document.getElementById('feed').innerHTML = '<p style="text-align:center;padding:20px">Abhi koi post nahi, pehli post tum karo!</p>'; return; }
-    document.getElementById('feed').innerHTML = arr.map(function(p){
-      return '<div class="post"><b>👤 ' + (p.u||'Yaar') + '</b> <span class="small">' + (p.t||'') + '</span><p style="margin:8px 0">' + (p.text||'') + '</p></div>';
-    }).join('');
-  }catch(e){ document.getElementById('feed').innerHTML = 'Net slow hai, dobara try karo'; }
-}
+function fileToBase64(file,cb){ var rd=new FileReader(); rd.onload=function(){ cb(rd.result); }; rd.readAsDataURL(file); }
 async function addPost(){
-  var t = document.getElementById('postText').value.trim();
-  if(!t) return alert('Kuch likho to sahi');
-  await fetch(DB + '/posts.json', {method:'POST', body: JSON.stringify({u:cur, text:t, t:new Date().toLocaleString()})});
-  document.getElementById('postText').value = '';
-  alert('Post ho gaya!');
-  loadFeed();
+  var t=document.getElementById('postText').value.trim(); var f=document.getElementById('postPic').files[0];
+  if(!t && !f) return alert('Kuch likho ya photo lagao');
+  var doPost=function(pic){ fetch(DB+'/posts.json',{method:'POST',body:JSON.stringify({u:cur,text:t,pic:pic||'',likes:0,chapair:0,comments:[],t:new Date().toLocaleString()})}).then(function(){ document.getElementById('postText').value=''; document.getElementById('postPic').value=''; alert('Post ho gaya! 🚀'); loadFeed(); }); };
+  if(f) fileToBase64(f,function(b){ doPost(b); }); else doPost('');
 }
-async function loadChat(){
-  try{
-    var r = await fetch(DB + '/chat.json');
-    var d = await r.json() || {};
-    var arr = Object.values(d).slice(-30);
-    document.getElementById('chatBox').innerHTML = arr.map(function(c){
-      return '<div class="post"><b>' + (c.u||'Yaar') + ':</b> ' + (c.text||'') + '</div>';
-    }).join('') || '<p style="text-align:center">Mehfil khaali hai, shuru karo!</p>';
-  }catch(e){}
+async function loadFeed(){
+  try{ var r=await fetch(DB+'/posts.json'); var d=await r.json()||{}; feedData=d; var keys=Object.keys(d).reverse(); if(!keys.length){ document.getElementById('feed').innerHTML='<p style="text-align:center;padding:20px">Abhi koi post nahi, pehli post tum karo! 🚀</p>'; return; }
+  document.getElementById('feed').innerHTML=keys.map(function(k){ var p=d[k]; var cmts=(p.comments||[]).map(function(c){ return '<div class="cmt"><b>'+c.u+':</b> '+c.text+'</div>'; }).join(''); return '<div class="post"><b>👤 '+p.u+'</b> <span class="small">'+(p.t||'')+'</span><p style="margin:8px 0">'+(p.text||'')+'</p>'+(p.pic?'<img src="'+p.pic+'">':'')+'<div class="row"><button onclick="doLike(\''+k+'\')">👍 Like ('+(p.likes||0)+')</button><button onclick="doChapair(\''+k+'\')">👋 Chapair ('+(p.chapair||0)+')</button></div><div class="row"><button onclick="doShare(\''+k+'\')">↗️ Share</button><button onclick="doRepost(\''+k+'\')">🔁 Repost</button></div><div style="display:flex;gap:6px;margin-top:8px"><input id="cmt-'+k+'" placeholder="Comment likho..."><button onclick="doComment(\''+k+'\')" style="width:80px;background:#FFD700;border:none;border-radius:8px;font-weight:bold">Bhejo</button></div>'+cmts+'</div>'; }).join(''); }catch(e){ document.getElementById('feed').innerHTML='Net slow hai, dobara Home dabao'; }
 }
-async function sendChat(){
-  var t = document.getElementById('chatText').value.trim();
-  if(!t) return;
-  await fetch(DB + '/chat.json', {method:'POST', body: JSON.stringify({u:cur, text:t})});
-  document.getElementById('chatText').value = '';
-  loadChat();
-}
-async function loadProfile(){
-  try{
-    var r = await fetch(DB + '/users/' + cur + '.json');
-    var d = await r.json();
-    if(!d) return;
-    document.getElementById('pName').innerText = d.u;
-    document.getElementById('pCity').innerText = (d.city||'') + ' | ' + (d.star||'');
-    document.getElementById('pBio').innerText = d.bio||'';
-    document.getElementById('pPoints').innerText = d.points||0;
-    document.getElementById('eBio').value = d.bio||'';
-  }catch(e){}
-}
-async function saveBio(){
-  var b = document.getElementById('eBio').value;
-  await fetch(DB + '/users/' + cur + '/bio.json', {method:'PUT', body: JSON.stringify(b)});
-  alert('Bio save ho gaya!');
-  loadProfile();
-}
+async function doLike(k){ playPop(); var p=feedData[k]; var nl=(p.likes||0)+1; await fetch(DB+'/posts/'+k+'/likes.json',{method:'PUT',body:JSON.stringify(nl)}); loadFeed(); }
+async function doChapair(k){ playSlap(); alert('CHAPAIR LAG GAYI! 👋😂'); var p=feedData[k]; var nc=(p.chapair||0)+1; await fetch(DB+'/posts/'+k+'/chapair.json',{method:'PUT',body:JSON.stringify(nc)}); loadFeed(); }
+function doShare(k){ var p=feedData[k]; var txt='Yaarii-PK pe dekho: '+(p.text||'Photo')+' - https://yaarii-pk.github.io/Yaarii.pk/'; if(navigator.share){ navigator.share({text:txt}); } else { navigator.clipboard.writeText(txt); alert('Share Link Copy Ho Gaya! Ab WhatsApp pe paste kar do ↗️'); } }
+async function doRepost(k){ var p=feedData[k]; await fetch(DB+'/posts.json',{method:'POST',body:JSON.stringify({u:cur,text:'🔁 Repost by '+cur+': '+(p.text||''),pic:p.pic||'',likes:0,chapair:0,comments:[],t:new Date().toLocaleString()})}); alert('Repost Ho Gaya! 🔁'); loadFeed(); }
+async function doComment(k){ var inp=document.getElementById('cmt-'+k); var t=inp.value.trim(); if(!t) return; var p=feedData[k]; var arr=p.comments||[]; arr.push({u:cur,text:t}); await fetch(DB+'/posts/'+k+'/comments.json',{method:'PUT',body:JSON.stringify(arr)}); playPop(); loadFeed(); }
 
-// START
-if(cur){
-  document.getElementById('page-auth').classList.add('hidden');
-  document.getElementById('navBar').style.display = 'flex';
-  document.getElementById('page-home').classList.remove('hidden');
-  loadFeed();
-}
+async function loadChat(){ try{ var r=await fetch(DB+'/chat.json'); var d=await r.json()||{}; var arr=Object.values(d).slice(-30); document.getElementById('chatBox').innerHTML=arr.map(function(c){ return '<div class="post"><b>'+c.u+':</b> '+c.text+'</div>'; }).join('')||'<p style="text-align:center">Mehfil khaali hai, shuru karo!</p>'; }catch(e){} }
+async function sendChat(){ var t=document.getElementById('chatText').value.trim(); if(!t) return; await fetch(DB+'/chat.json',{method:'POST',body:JSON.stringify({u:cur,text:t})}); document.getElementById('chatText').value=''; loadChat(); }
+
+async function loadProfile(){ try{ var r=await fetch(DB+'/users/'+cur+'.json'); var d=await r.json(); if(!d) return; document.getElementById('hiName').innerText=d.u; document.getElementById('pName').innerText=d.u; document.getElementById('pCity').innerText=(d.city||'')+' | '+(d.star||''); document.getElementById('pBio').innerText=d.bio||''; document.getElementById('pPoints').innerText=d.points||0; document.getElementById('pRole').innerText=d.role||'MEMBER'; if(d.dp && d.dp.length>10){ document.getElementById('pDpBox').innerHTML='<img src="'+d.dp+'" style="width:100%;height:100%;border-radius:50%;object-fit:cover">'; } else document.getElementById('pDpBox').innerText=d.dp||'😎'; document.getElementById('eBio').value=d.bio||''; document.getElementById('eCity').value=d.city||'Lahore'; document.getElementById('eStar').value=d.star||'Aries ♈'; var pr=await fetch(DB+'/posts.json'); var pd=await pr.json()||{}; var mine=Object.values(pd).filter(function(x){ return x.u===cur; }).reverse(); document.getElementById('myPosts').innerHTML=mine.map(function(p){ return '<div class="cmt">'+(p.text||'Photo Post')+'</div>'; }).join('')||'Abhi koi post nahi'; }catch(e){} }
+async function saveProfile(){ var bio=document.getElementById('eBio').value; var city=document.getElementById('eCity').value; var star=document.getElementById('eStar').value; await fetch(DB+'/users/'+cur+'/bio.json',{method:'PUT',body:JSON.stringify(bio)}); await fetch(DB+'/users/'+cur+'/city.json',{method:'PUT',body:JSON.stringify(city)}); await fetch(DB+'/users/'+cur+'/star.json',{method:'PUT',body:JSON.stringify(star)}); alert('Profile Save Ho Gaya! ✅'); loadProfile(); }
+function changeDP(){ var f=document.getElementById('dpFile').files[0]; if(!f) return; fileToBase64(f,async function(b){ await fetch(DB+'/users/'+cur+'/dp.json',{method:'PUT',body:JSON.stringify(b)}); alert('DP Lag Gayi! 😎'); loadProfile(); }); }
+
+if(cur){ document.getElementById('page-auth').classList.add('hidden'); document.getElementById('navBar').style.display='flex'; document.getElementById('page-home').classList.remove('hidden'); loadFeed(); }
 </script>
 </body>
-                                                              </html>
+                                                                                                                                                                                                                                                                                            </html>
