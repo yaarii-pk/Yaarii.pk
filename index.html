@@ -1,211 +1,117 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>YAARII-PK</title>
-<style>
-body{margin:0;background:#000;color:#fff;font-family:Arial;padding-bottom:90px}
-header{background:#000;padding:12px;text-align:center;border-bottom:2px solid #d4af37}
-header h1{margin:0;color:#ffd700}
-.card{background:#111;border:1px solid #333;border-radius:14px;padding:12px;margin:9px auto;max-width:520px}
-input{width:100%;padding:11px;margin:6px 0;border-radius:11px;border:none;background:#222;color:#fff;box-sizing:border-box}
-button{padding:11px 14px;border:none;border-radius:20px;background:#ffd700;color:#000;font-weight:700;cursor:pointer;margin:3px}
-button.g{background:#222;color:#ffd700;border:1px solid #ffd700}
-.hid{display:none}
-.sm{color:#aaa;font-size:12px}
-.bottom{position:fixed;bottom:0;left:0;right:0;background:#111;border-top:2px solid #d4af37;display:flex;padding:8px;z-index:30}
-.bottom div{flex:1;text-align:center;color:#ffd700;cursor:pointer}
-.pf{width:70px;height:70px;border-radius:50%;object-fit:cover;border:2px solid #ffd700;background:#222}
-.st{width:56px;height:56px;border-radius:50%;object-fit:cover;border:2px solid #ffd700}
-video{width:100%;border-radius:12px}
-</style>
-</head>
-<body>
-<header><h1>YAARII-PK 👑</h1><p>Apni Mehfil - Apni Yaari - Sab Online</p></header>
-
-<div id="auth">
-<div class="card" style="text-align:center">
-<h2 style="color:#ffd700">Account Banao</h2>
-<input id="un" placeholder="Naam - jaise Leader NM">
-<input id="pw" type="password" placeholder="Password">
-<label><input type="checkbox" id="ag" style="width:auto"> Rules se agree hun</label><br>
-<button onclick="signup()" style="width:100%">Signup</button>
-<button class="g" onclick="login()" style="width:100%">Login</button>
-<p id="am" style="color:#ff6666"></p>
-<p class="sm" id="conn">Firebase se connect ho raha hai...</p>
-</div>
-</div>
-
-<div id="main" class="hid">
-<div class="card" style="text-align:center">
-<img id="myp" class="pf" src=""><br>
-<b id="mn"></b> <span id="mid" class="sm"></span><br>
-<span class="sm">Points: <b id="mpt" style="color:#ffd700">0</b></span><br>
-<span id="mbio" class="sm"></span><br>
-<input id="bio" placeholder="Apni Bio likho...">
-<br><label class="sm">Profile Pic Lagao</label>
-<input type="file" id="ppf" accept="image/*,video/*">
-<br><button onclick="upd()">Profile Save</button>
-<button class="g" onclick="logout()">Logout</button>
-</div>
-
-<div class="card">
-<b>STORIES - Sab ki</b><br>
-<label class="sm">Story Lagao - Pic ya Video</label>
-<input type="file" id="sf" accept="image/*,video/*">
-<div id="sl" style="display:flex;gap:8px;overflow:auto;margin-top:8px"></div>
-</div>
-
-<div class="card">
-<input id="pt" placeholder="Kuch likho... Shayari, Masti, Gossip">
-<label class="sm">Post ke saath Pic / Video</label>
-<input type="file" id="pf2" accept="image/*,video/*">
-<div id="pvWrap"></div>
-<br><button onclick="addPost()" style="width:100%">Post Karo +10 Points</button>
-</div>
-<div id="posts" style="max-width:520px;margin:auto"></div>
-</div>
-
-<div class="bottom">
-<div onclick="goHome()">HOME</div>
-<div onclick="focusP()">SHARE</div>
-<div onclick="showLB()">TOP 10</div>
-<div onclick="logout()">LOGOUT</div>
-</div>
-
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getDatabase, ref, set, push, get, onValue, update } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyDK8_8TXQE5IJ6dVfm3_yFd99IpxbfidRk",
-  authDomain: "yaari-pk.firebaseapp.com",
-  databaseURL: "https://yaari-pk-default-rtdb.firebaseio.com",
-  projectId: "yaari-pk",
-  storageBucket: "yaari-pk.firebasestorage.app",
-  messagingSenderId: "1043598133610",
-  appId: "1:1043598133610:web:c5e2b5953d76d2601dbd13",
-  measurementId: "G-8HLV166GGR"
-};
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
-
-let U=null, P=null, tmpPic="", tmpIsVideo=false, allUsers={};
-
-function isVideo(data){ return data && data.startsWith("data:video"); }
-function mediaHtml(data){
-  if(!data) return "";
-  if(isVideo(data)) return '<video controls src="'+data+'"></video>';
-  return '<img src="'+data+'" style="width:100%;border-radius:12px">';
-}
-function storyMediaHtml(data){
-  if(isVideo(data)) return '<video class="st" src="'+data+'" muted></video>';
-  return '<img class="st" src="'+data+'">';
-}
-
-window.signup = async function(){
-  let u=document.getElementById("un").value.trim();
-  let p=document.getElementById("pw").value.trim();
-  if(!u||!p){document.getElementById("am").innerText="Naam aur Password likho";return;}
-  if(!document.getElementById("ag").checked){document.getElementById("am").innerText="Rules se agree karo";return;}
-  let snap=await get(ref(db,"users/"+u));
-  if(snap.exists()){document.getElementById("am").innerText="Ye naam pehle se hai, Login karo";return;}
-  let user={username:u,password:p,bio:"",pic:"",points:50,id:Math.floor(10000+Math.random()*89999)};
-  await set(ref(db,"users/"+u),user);
-  U=u; P=user; localStorage.setItem("y_login",u); showMain();
-};
-window.login = async function(){
-  let u=document.getElementById("un").value.trim();
-  let p=document.getElementById("pw").value.trim();
-  let snap=await get(ref(db,"users/"+u));
-  if(!snap.exists()){document.getElementById("am").innerText="Account nahi mila, Signup karo";return;}
-  let user=snap.val();
-  if(user.password!==p){document.getElementById("am").innerText="Password galat hai";return;}
-  U=u; P=user; localStorage.setItem("y_login",u); showMain();
-};
-window.logout=function(){localStorage.removeItem("y_login");location.reload();};
-function showMain(){
-  document.getElementById("auth").classList.add("hid");
-  document.getElementById("main").classList.remove("hid");
-  document.getElementById("mn").innerText=P.username;
-  document.getElementById("mid").innerText="("+P.id+")";
-  document.getElementById("mpt").innerText=P.points;
-  document.getElementById("mbio").innerText=P.bio||"";
-  if(P.pic) document.getElementById("myp").src=P.pic;
-  listenAll();
-}
-window.upd=async function(){
-  let bio=document.getElementById("bio").value;
-  await update(ref(db,"users/"+U),{bio:bio});
-  alert("Profile save ho gaya!"); location.reload();
-};
-window.addPost=async function(){
-  let t=document.getElementById("pt").value.trim();
-  if(!t && !tmpPic){alert("Kuch likho ya pic/video lagao");return;}
-  await push(ref(db,"posts"),{text:t,media:tmpPic,username:U,likes:0,dis:0,time:Date.now()});
-  await update(ref(db,"users/"+U),{points:P.points+10});
-  P.points=P.points+10; document.getElementById("mpt").innerText=P.points;
-  tmpPic=""; document.getElementById("pt").value=""; document.getElementById("pvWrap").innerHTML="";
-};
-window.like=async function(id,likes){ await update(ref(db,"posts/"+id),{likes:likes+1}); };
-window.dislike=async function(id,dis){ await update(ref(db,"posts/"+id),{dis:dis+1}); alert("DISLIKE! Banda naraz ho gaya!"); };
-window.slap=function(name){ alert("CHUPAIR! "+name+" ko zor ka chupair para! PAAAK!"); };
-window.sharePost=function(txt){ if(navigator.share){navigator.share({text:txt});} else {alert(txt);} };
-window.showLB=function(){
-  let arr=Object.values(allUsers); arr.sort((a,b)=>b.points-a.points);
-  let s="TOP 10 LEADERBOARD\n\n";
-  for(let i=0;i<arr.length&&i<10;i++){ s=s+(i+1)+". "+arr[i].username+" - "+arr[i].points+" pts\n"; }
-  alert(s);
-};
-window.goHome=function(){window.scrollTo(0,0);};
-window.focusP=function(){document.getElementById("pt").focus();window.scrollTo(0,400);};
-
-function listenAll(){
-  onValue(ref(db,"users"),(snap)=>{ allUsers=snap.val()||{}; });
-  onValue(ref(db,"posts"),(snap)=>{
-    let data=snap.val()||{};
-    let keys=Object.keys(data); keys.sort((a,b)=>data[b].time-data[a].time);
-    let h="";
-    for(let id of keys){
-      let p=data[id];
-      h+='<div class="card"><b>'+p.username+'</b><p>'+p.text+'</p>'+mediaHtml(p.media)+'<br><button onclick="like(\''+id+'\','+(p.likes||0)+')">REACT '+(p.likes||0)+'</button><button class="g" onclick="dislike(\''+id+'\','+(p.dis||0)+')">DISLIKE '+(p.dis||0)+'</button><button class="g" onclick="slap(\''+p.username+'\')">CHUPAIR</button><button class="g" onclick="sharePost(\''+p.username+' ne YAARII-PK pe post kiya\')">SHARE</button></div>';
-    }
-    document.getElementById("posts").innerHTML=h||"<div class='card'>Abhi koi post nahi</div>";
-  });
-  onValue(ref(db,"stories"),(snap)=>{
-    let data=snap.val()||{};
-    let keys=Object.keys(data); keys.reverse();
-    let h="";
-    for(let id of keys){ let s=data[id]; h+='<div style="text-align:center">'+storyMediaHtml(s.media)+'<br><span class="sm">'+s.user+'</span></div>'; }
-    document.getElementById("sl").innerHTML=h||"<span class='sm'>Abhi koi story nahi</span>";
-  });
-  document.getElementById("conn").innerText="Firebase Connected ✅ - Sab Online Dikhega";
-}
-
-document.getElementById("ppf").addEventListener("change",function(e){
-  let f=e.target.files[0]; if(!f) return;
-  let r=new FileReader(); r.onload=async function(ev){
-    await update(ref(db,"users/"+U),{pic:ev.target.result});
-    document.getElementById("myp").src=ev.target.result; alert("Profile Pic lag gayi!");
-  }; r.readAsDataURL(f);
-});
-document.getElementById("pf2").addEventListener("change",function(e){
-  let f=e.target.files[0]; if(!f) return;
-  let r=new FileReader(); r.onload=function(ev){ tmpPic=ev.target.result; document.getElementById("pvWrap").innerHTML=mediaHtml(tmpPic); }; r.readAsDataURL(f);
-});
-document.getElementById("sf").addEventListener("change",function(e){
-  let f=e.target.files[0]; if(!f) return;
-  let r=new FileReader(); r.onload=async function(ev){ await push(ref(db,"stories"),{media:ev.target.result,user:U,time:Date.now()}); alert("Story lag gayi! Sab ko dikhegi"); }; r.readAsDataURL(f);
-});
-
-// Auto Login
-let sv=localStorage.getItem("y_login");
-if(sv){
-  get(ref(db,"users/"+sv)).then(snap=>{ if(snap.exists()){ U=sv; P=snap.val(); showMain(); } else { document.getElementById("conn").innerText="Firebase Connected ✅"; } });
-} else {
-  document.getElementById("conn").innerText="Firebase Connected ✅";
-}
-</script>
-</body>
-</html>
+<!DOCTYPE html><html lang="ur"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Yaarii-PK 👑</title><style>
+*{margin:0;padding:0;box-sizing:border-box}body{background:#000;color:#fff;font-family:Arial;padding-bottom:80px;padding-top:56px}a{color:#FFD700}
+.top{position:fixed;top:0;left:0;right:0;z-index:99;background:#000;padding:10px 12px;display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #FFD700}
+.top b{color:#FFD700;font-size:21px}.top small{display:block;font-size:10px;color:#aaa}.topIcons{display:flex;gap:14px;font-size:20px}.topIcons span{cursor:pointer}
+.card{background:#0d0d0d;border:1px solid #333;border-radius:14px;padding:12px;margin:10px}.authBox{background:#0d0d0d;border:1px solid #FFD700;border-radius:18px;padding:18px;margin:14px;text-align:center}
+.authBox h1{color:#FFD700;font-size:30px}.authBox p{color:#aaa;font-size:13px;margin-bottom:10px}.inp{display:flex;align-items:center;background:#1a1a1a;border:1px solid #444;border-radius:10px;padding:12px;margin:8px 0}
+.inp input{background:none;border:none;outline:none;color:#fff;width:100%;font-size:15px}.eye{cursor:pointer;font-size:18px;margin-left:6px}
+.btnGold{background:#FFD700;color:#000;border:none;width:100%;padding:14px;border-radius:10px;font-size:18px;font-weight:bold;margin-top:8px;cursor:pointer}
+.btnBlack{background:#1a1a1a;color:#FFD700;border:1px solid #FFD700;padding:11px;width:100%;border-radius:10px;margin-top:6px;font-weight:bold;cursor:pointer}
+.onlineBar{display:flex;gap:10px;overflow-x:auto;padding:6px 2px}.uCircle{min-width:68px;text-align:center}.uCircle div{width:54px;height:54px;border-radius:50%;background:#1a1a1a;display:flex;align-items:center;justify-content:center;font-size:22px;border:2px solid #FFD700;margin:auto;position:relative;overflow:hidden}.uCircle div img{width:100%;height:100%;object-fit:cover}.uCircle .dot{position:absolute;bottom:2px;right:2px;width:12px;height:12px;background:#00ff00;border-radius:50%;border:2px solid #000}.uCircle p{font-size:11px}.uCircle small{font-size:10px;color:#FFD700;font-weight:bold}
+.filter{display:flex;gap:6px;overflow-x:auto;padding:6px 10px}.filter button{white-space:nowrap;padding:8px 14px;border-radius:20px;background:#1a1a1a;border:1px solid #444;color:#fff;cursor:pointer}.filter button.on{background:#FFD700;color:#000;font-weight:bold}
+.storyRow{display:flex;gap:10px;overflow-x:auto;padding:6px 2px}.story{min-width:72px;text-align:center}.story div{width:58px;height:58px;border-radius:50%;background:#1a1a1a;display:flex;align-items:center;justify-content:center;font-size:22px;border:2px solid #FFD700;overflow:hidden}.story div img{width:100%;height:100%;object-fit:cover}
+.post{background:#111;border:1px solid #333;border-radius:12px;padding:11px;margin:10px}.post img{width:100%;border-radius:10px;margin-top:8px}.badge{background:#1a1a1a;border:1px solid #FFD700;color:#FFD700;border-radius:20px;padding:3px 8px;font-size:11px}
+.pBtns{display:flex;gap:5px;flex-wrap:wrap;margin-top:10px}.pBtns button{flex:1;min-width:52px;padding:8px 2px;border-radius:8px;border:1px solid #444;background:#1a1a1a;color:#fff;font-size:11px;cursor:pointer}.pBtns button.gold{background:#FFD700;color:#000;font-weight:bold}
+.bottom{position:fixed;bottom:0;left:0;right:0;background:#000;display:flex;z-index:99;border-top:2px solid #FFD700}.bottom button{flex:1;background:none;border:none;color:#ccc;padding:8px 1px;font-size:11px;cursor:pointer}
+.hidden{display:none}input,select,textarea{width:100%;padding:12px;margin:6px 0;background:#1a1a1a;border:1px solid #444;color:#fff;border-radius:10px}.small{font-size:12px;color:#aaa}.bigBtn{padding:13px;border-radius:12px;border:none;width:100%;margin:6px 0;font-weight:bold;color:#000;background:#FFD700;font-size:15px;cursor:pointer}.chip{display:inline-block;background:#1a1a1a;border:1px solid #FFD700;color:#FFD700;padding:6px 10px;border-radius:20px;font-size:12px;margin:3px;cursor:pointer}.lead{display:flex;justify-content:space-between;padding:12px;margin:8px 10px;border-radius:12px;background:#1a1a1a;border:1px solid #FFD700;font-weight:bold}.powerBox{background:linear-gradient(90deg,#FFD700,#ffaa00);color:#000;border-radius:12px;padding:12px;margin:10px;text-align:center;font-weight:bold}.dpBig{width:90px;height:90px;border-radius:50%;background:#FFD700;display:flex;align-items:center;justify-content:center;font-size:40px;margin:10px auto;color:#000;overflow:hidden}.dpBig img{width:100%;height:100%;object-fit:cover}#msgBox{background:#1a1a1a;border:1px solid #FFD700;color:#FFD700;padding:10px;border-radius:10px;margin:10px;text-align:center;font-weight:bold}
+</style></head><body>
+<div class="top"><div><b>👑 YAARII-PK 👑</b><small>Apni Mehfil • Apni Yaari • Black & Golden</small></div><div class="topIcons"><span onclick="showPage('search')">🔍</span><span onclick="showPage('leader')">🏆</span><span onclick="goProfile()">👤</span></div></div>
+<div id="msgBox" class="hidden"></div>
+<div id="page-auth"><div id="auth-signup" class="authBox"><h1>اکاؤنٹ بنائیں</h1><p>Yaarii-PK Family me shamil hon</p>
+<div class="inp">👤&nbsp;<input id="sUser" placeholder="صارف نام"></div>
+<div class="inp">🔒&nbsp;<input id="sPass" type="password" placeholder="پاس ورڈ"><span class="eye" onclick="togglePass('sPass',this)">👁️</span></div>
+<label style="font-size:12px;display:flex;gap:6px;align-items:center;margin:8px 0"><input type="checkbox" id="agree" style="width:auto"> میں قواعد سے اتفاق کرتا ہوں</label>
+<button type="button" id="btnSignup" class="btnGold">شروع کریں - Signup Karo</button>
+<p style="margin-top:12px">پہلے سے اکاؤنٹ ہے؟ <a href="#" onclick="showAuth('login');return false">لاگ اِن کریں</a></p></div>
+<div id="auth-login" class="authBox hidden"><h1>خوش آمدید</h1><p>Login karo</p>
+<div class="inp">👤&nbsp;<input id="lUser" placeholder="صارف نام"></div>
+<div class="inp">🔒&nbsp;<input id="lPass" type="password" placeholder="پاس ورڈ"><span class="eye" onclick="togglePass('lPass',this)">👁️</span></div>
+<button type="button" id="btnLogin" class="btnGold">لاگ اِن</button>
+<p style="margin-top:12px">نئے ہیں؟ <a href="#" onclick="showAuth('signup');return false">اکاؤنٹ بنائیں</a></p></div></div>
+<div id="page-home" class="hidden">
+<div class="card"><div style="display:flex;justify-content:space-between"><b>🟢 <span id="onlineCount">0</span> ONLINE</b><input id="searchOnline" placeholder="Search online..." style="width:55%;margin:0;padding:8px" oninput="renderOnline()"></div><div class="onlineBar" id="onlineBar"></div><p class="small">Sirf wo jo abhi online hain.</p></div>
+<div class="filter"><button class="on" onclick="setFilter('FORME',this)">FOR ME</button><button onclick="setFilter('ALL',this)">ALL</button><button onclick="setFilter('TEXT',this)">TEXT</button><button onclick="setFilter('PICS',this)">PICS</button><button onclick="setFilter('Shayari',this)">Shayari</button><button onclick="setFilter('Funny',this)">Funny</button><button onclick="setFilter('Gaming',this)">Gaming</button><button onclick="setFilter('Cricket',this)">Cricket</button></div>
+<div class="card"><div style="display:flex;justify-content:space-between"><b>Stories</b><span style="color:#FFD700;cursor:pointer" onclick="openStoryBox()">📷 Story +</span></div><div class="storyRow" id="storyRow"></div><div id="storyBox" class="hidden" style="margin-top:10px"><input id="storyText" placeholder="Story me kya likhna hai?"><input type="file" id="storyPic" accept="image/*"><button type="button" class="btnGold" onclick="addStory()">Story Lagao ✅</button></div></div>
+<div class="powerBox">⚡ Power: <span id="myPower">0</span> | Points: <span id="myPoints">0</span><br><span style="font-size:12px">Post=+10 | Like=+5 | Trending Like=+5000</span></div>
+<div class="card" style="display:flex;gap:8px"><input id="quickText" placeholder="Quick thought..."><button type="button" onclick="quickPost()" style="background:#FFD700;color:#000;border:none;padding:10px 16px;border-radius:10px;font-weight:bold;cursor:pointer">➤</button></div>
+<div id="feed"></div><div class="card"><h3>🏆 Leaderboard</h3><div id="homeLeader"></div></div></div>
+<div id="page-share" class="hidden"><div class="card" style="text-align:center"><h2 style="color:#FFD700">Make a Post</h2></div><div class="card"><h3>1. Category</h3><select id="postCat"></select><h3>2. Photo</h3><input type="file" id="postPic" accept="image/*"><input id="postPicLink" placeholder="Pic ka Link (optional)"><h3>3. Caption</h3><textarea id="postText" placeholder="Likho..."></textarea><button type="button" class="btnGold" onclick="addPost()">Post Karo 🚀 (+10)</button><button type="button" class="btnBlack" onclick="showPage('home')">Home</button></div></div>
+<div id="page-trending" class="hidden"><div class="card" style="text-align:center"><h2 style="color:#FFD700">Trending 🔥</h2></div><button type="button" class="btnGold" onclick="showPage('leader')">⭐ Top 10 Stars</button><div id="trendFeed"></div></div>
+<div id="page-inbox" class="hidden"><div class="card"><h2 style="color:#FFD700">Inbox 🔔</h2><p class="small">@mention ya comment yahan aayega.</p><div id="notifList"></div><button type="button" class="btnBlack" onclick="loadInbox()">Refresh 🔄</button></div><div class="card"><h3>✉️ DM</h3><input id="dmTo" placeholder="Kis ko bhejna hai?"><input id="dmText" placeholder="Message..."><button type="button" class="btnGold" onclick="sendDM()">DM BHEJO 📩</button><div id="dmList" style="margin-top:10px"></div></div></div>
+<div id="page-1on1" class="hidden"><div class="card"><h2 style="color:#FFD700">1 ON 1 - Private 🔒</h2><p class="small">Sirf tum dono dekh sakte ho.</p><input id="pvtTo" placeholder="Kis se baat karni hai?"><input id="pvtText" placeholder="Private message..."><button type="button" class="btnGold" onclick="sendPrivate()">Private Bhejo 🔒</button></div><div id="pvtBox"></div></div>
+<div id="page-profile" class="hidden"><div class="card" style="text-align:center"><p class="small">MY PROFILE</p><div class="dpBig" id="pDpBox">👤</div><h2 id="pName">-</h2><p id="pMeta" style="color:#FFD700"></p><p class="small" id="pBio"></p><p id="pPowerLine" style="color:#FFD700;font-weight:bold"></p></div><div class="card"><h3>✏️ Profile Update</h3><input type="file" id="dpFile" accept="image/*" onchange="changeDP()"><input id="dpLink" placeholder="DP ka Link"><input id="eBio" placeholder="Bio..."><input id="eAge" type="number" placeholder="Age"><select id="eCity"><option>Lahore</option><option>Karachi</option><option>Islamabad</option><option>Other</option></select><select id="eStar"><option>Aries ♈</option><option>Taurus ♉</option><option>Gemini ♊</option><option>Cancer ♋</option><option>Leo ♌</option><option>Virgo ♍</option><option>Libra ♎</option><option>Scorpio ♏</option><option>Sagittarius ♐</option><option>Capricorn ♑</option><option>Aquarius ♒</option><option>Pisces ♓</option></select><button type="button" class="btnGold" onclick="saveProfile()">SAVE ✅</button></div><div class="card"><h3>📝 Meri Posts</h3><div id="myPosts"></div></div><div id="adminPanel"></div></div>
+<div id="page-mehfil" class="hidden"><div class="card" style="background:#FFD700;color:#000"><h2>Top Mehfils</h2></div><div class="card"><h3>💬 Apni Mehfil Banao</h3><input id="newMehfil" placeholder="Nayi Mehfil ka naam..."><button type="button" class="btnGold" onclick="createMehfil()">MEHFIL BANAO ➕</button></div><div id="mehfilList"></div><div class="card"><h3>🏠 Mehfil Chat</h3><input id="mehfilChatText" placeholder="Mehfil me likho... @name"><button type="button" class="btnGold" onclick="sendMehfilChat()">BHEJO 💬</button><div id="mehfilChatBox" style="margin-top:10px"></div></div></div>
+<div id="page-fun" class="hidden"><div class="card"><h2>😂 Games Arcade</h2></div><div class="card"><h3>🤣 LATEEFA</h3><p id="jokeText">Dabao to lateefa aayega...</p><button type="button" class="btnGold" onclick="newJoke()">NAYA LATEEFA 🤣</button></div><div class="card"><h3>🎲 QISMAT</h3><p id="diceText" style="text-align:center;font-size:36px">🎲</p><button type="button" class="btnBlack" onclick="rollDice()">Dice Phenko 🎲</button></div><div class="card"><h3>👏 TALI</h3><button type="button" class="btnGold" onclick="clapPractice()">👏 TALI MARO</button><p id="clapMsg" style="text-align:center;color:#FFD700"></p></div><div class="card"><h3>🔊 AWAAZ</h3><div style="display:flex;gap:6px"><button type="button" class="btnBlack" onclick="playPop()">👍 Pha</button><button type="button" class="btnBlack" onclick="playSlap()">👋 Chapair</button><button type="button" class="btnBlack" onclick="playDing()">🔔 Ting</button></div></div></div>
+<div id="page-leader" class="hidden"><div class="card"><h2 style="color:#FFD700">🏆 Leaderboard</h2><button type="button" class="chip" onclick="showLeader('score')">🏆 Top Scorers</button><button type="button" class="chip" onclick="showLeader('star')">⭐ Top Stars</button><div id="leaderList"></div></div></div>
+<div id="page-more" class="hidden"><div class="card" style="text-align:center"><h2 style="color:#FFD700">MORE</h2></div><button type="button" class="bigBtn" onclick="showPage('mehfil')">👥 MEHFIL</button><button type="button" class="bigBtn" onclick="showPage('fun')">🎮 GAMES ARCADE</button><button type="button" class="bigBtn" onclick="showPage('search')">🔍 SEARCH</button><button type="button" class="bigBtn" onclick="showPage('emojis')">😊 EMOJIS</button><button type="button" class="bigBtn" onclick="showPage('rules')">📜 RULES</button><button type="button" class="bigBtn" onclick="showPage('about')">ℹ️ ABOUT US</button><button type="button" class="bigBtn" onclick="showPage('terms')">📄 TERMS</button><button type="button" class="bigBtn" onclick="showPage('privacy')">🔒 PRIVACY</button><button type="button" class="bigBtn" style="background:#ff2d55;color:#fff" onclick="logout()">🚪 LOGOUT</button></div>
+<div id="page-search" class="hidden"><div class="card"><h2 style="color:#FFD700">SEARCH 🔍</h2><input id="searchQ" placeholder="Naam ya ID likho..." oninput="doSearch()"><div id="searchRes"></div></div></div>
+<div id="page-emojis" class="hidden"><div class="card"><h2 style="text-align:center;color:#FFD700">EMOJIS</h2><p class="small" style="text-align:center">Post me .c1 likho to emoji ban jayega</p><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;text-align:center"><div class="card">🧕<br>.c1</div><div class="card">🧑‍🎤<br>.c2</div><div class="card">😮<br>.c3</div><div class="card">😡<br>.d4</div><div class="card">😍<br>.p5</div><div class="card">😎<br>.v3</div></div></div></div>
+<div id="page-rules" class="hidden"><div class="card"><h2 style="color:#FFD700">Rules</h2><p>1. No gali<br>2. No nude pics<br>3. No vulgar pics<br>4. No bloody pics<br>5. Private pic leak nahi karni</p><button type="button" class="btnGold" onclick="showPage('home')">Home</button></div></div>
+<div id="page-about" class="hidden"><div class="card"><h2 style="color:#FFD700">About Yaarii-PK</h2><p>Pakistan ke yaaron ke liye. 100% Free. ❤️ 🇵🇰</p></div></div>
+<div id="page-terms" class="hidden"><div class="card"><h2>Terms</h2><p>1. Accurate account<br>2. You are responsible<br>3. Rules todo to ban<br>4. Laws of Pakistan</p></div></div>
+<div id="page-privacy" class="hidden"><div class="card"><h2>Privacy</h2><p>Password sirf tumhe pata hai. Private chat sirf tum dono dekh sakte ho.</p></div></div>
+<div class="bottom"><button type="button" onclick="showPage('home')">🏠<br>HOME</button><button type="button" onclick="showPage('share')">➕<br>SHARE</button><button type="button" onclick="showPage('trending')">🔥<br>TRENDING</button><button type="button" onclick="showPage('inbox')">✉️<br>INBOX</button><button type="button" onclick="showPage('1on1')">💬<br>1 ON 1</button><button type="button" onclick="showPage('more')">⋯<br>MORE</button></div>
+<script>
+var cur=localStorage.getItem('y_cur')||'';var curFilter='ALL';var feedData=[];var curMehfil='Sab Ki Mehfil';
+var cats=["General","Aseel","Motovlog","News","Sports","Cricket","Football","Automotive","Politics","Religion","History","Psychology","Motivation","Quotes","Weather","Jobs","Questions","DP Competition","Entertainment","Gaming","Memes","Movies","Music","Art","Drama","Comedy","Poetry","Shayari","Sad Poetry","Love Poetry","Urdu Ghazal","Sufi Poetry","Deep Lines","Attitude Poetry","Funny Poetry","Punjabi Poetry","Islamic Poetry","Literature","Books","Photography","Travel","Food","Fashion","Fitness","Tech","AI","Coding","Education","Business","Crypto","Science"];
+var emojiMap={'.c1':'🧕','.c2':'🧑‍🎤','.c3':'😮','.d4':'😡','.p5':'😍','.v3':'😎'};
+function emojify(t){var s=t||'';Object.keys(emojiMap).forEach(function(k){s=s.split(k).join(emojiMap[k])});return s}
+function showMsg(t){var m=document.getElementById('msgBox');m.classList.remove('hidden');m.innerText=t;setTimeout(function(){m.classList.add('hidden')},3000)}
+function togglePass(id,el){var i=document.getElementById(id);if(i.type==='password'){i.type='text';el.innerText='🙈'}else{i.type='password';el.innerText='👁️'}}
+function showAuth(t){document.getElementById('page-auth').classList.remove('hidden');document.getElementById('auth-signup').classList.toggle('hidden',t!=='signup');document.getElementById('auth-login').classList.toggle('hidden',t!=='login');['home','share','trending','inbox','1on1','profile','mehfil','fun','leader','more','search','emojis','rules','about','terms','privacy'].forEach(function(x){var e=document.getElementById('page-'+x);if(e)e.classList.add('hidden')})}
+function goProfile(){if(!cur){showMsg('Pehle Login karo');showAuth('signup');return}showPage('profile')}
+function showHomeNow(){document.getElementById('page-auth').classList.add('hidden');document.getElementById('page-home').classList.remove('hidden');loadFeed();renderOnline();renderStories();updatePowerBox();loadHomeLeader()}
+function showPage(p){if(!cur&&['home','share','trending','inbox','1on1','profile','mehfil','fun','leader'].indexOf(p)>=0){showMsg('Pehle Signup karo');showAuth('signup');return}['home','share','trending','inbox','1on1','profile','mehfil','fun','leader','more','search','emojis','rules','about','terms','privacy'].forEach(function(x){var e=document.getElementById('page-'+x);if(e)e.classList.add('hidden')});document.getElementById('page-auth').classList.add('hidden');var t=document.getElementById('page-'+p);if(t)t.classList.remove('hidden');if(p==='home'){loadFeed();renderOnline();renderStories();updatePowerBox();loadHomeLeader()}if(p==='trending')loadTrend();if(p==='profile')loadProfile();if(p==='mehfil')loadMehfil();if(p==='leader')showLeader('score');if(p==='1on1')loadPrivate();if(p==='inbox')loadInbox();window.scrollTo(0,0)}
+function getUsers(){try{return JSON.parse(localStorage.getItem('y_users')||'{}')}catch(e){return{}}}
+function saveUsers(u){localStorage.setItem('y_users',JSON.stringify(u))}
+function getPosts(){try{return JSON.parse(localStorage.getItem('y_posts')||'[]')}catch(e){return[]}}
+function getChat(){try{return JSON.parse(localStorage.getItem('y_chat')||'[]')}catch(e){return[]}}
+function getStories(){try{return JSON.parse(localStorage.getItem('y_stories')||'[]')}catch(e){return[]}}
+function getMehfils(){try{return JSON.parse(localStorage.getItem('y_mehfils')||'["Sab Ki Mehfil"]')}catch(e){return["Sab Ki Mehfil"]}}
+function signup(){var u=document.getElementById('sUser').value.trim();var p=document.getElementById('sPass').value;if(!u||!p){showMsg('Naam + Password likho');return}if(u.length<3){showMsg('Naam bara rakho');return}if(!document.getElementById('agree').checked){showMsg('Pehle Rules se agree karo');return}var users=getUsers();if(users[u]){showMsg('Ye naam pehle se hai - Login karo');showAuth('login');return}var isFirst=Object.keys(users).length===0;users[u]={u:u,p:p,age:'?',city:'Lahore',star:'Leo ♌',bio:'Yaarii-PK Ka Yaar 😎',dp:'😎',points:50,power:0,lastSeen:Date.now(),id:Math.floor(1000+Math.random()*9000),role:isFirst?'ADMIN':'USER',following:[]};saveUsers(users);localStorage.setItem('y_cur',u);cur=u;showMsg('SIGNUP HO GAYA '+u+'! +50 Points');showHomeNow()}
+function login(){var u=document.getElementById('lUser').value.trim();var p=document.getElementById('lPass').value;if(!u||!p){showMsg('Naam + Password likho');return}var users=getUsers();var d=users[u];if(!d){showMsg('Account nahi mila - Signup karo');showAuth('signup');return}if(d.p!==p){showMsg('Galat Password');return}d.lastSeen=Date.now();saveUsers(users);localStorage.setItem('y_cur',u);cur=u;showMsg('LOGIN HO GAYA '+u);showHomeNow()}
+function logout(){try{var users=getUsers();if(users[cur]){users[cur].lastSeen=0;saveUsers(users)}}catch(e){}localStorage.removeItem('y_cur');location.reload()}
+document.getElementById('btnSignup').addEventListener('click',signup);document.getElementById('btnLogin').addEventListener('click',login);
+function markOnline(){if(!cur)return;var u=getUsers();if(u[cur]){u[cur].lastSeen=Date.now();saveUsers(u)}}
+function playPop(){try{var a=new(window.AudioContext||window.webkitAudioContext)();var o=a.createOscillator();var g=a.createGain();o.connect(g);g.connect(a.destination);o.frequency.setValueAtTime(500,a.currentTime);o.frequency.exponentialRampToValueAtTime(1400,a.currentTime+0.07);g.gain.setValueAtTime(0.4,a.currentTime);g.gain.exponentialRampToValueAtTime(0.001,a.currentTime+0.15);o.start();o.stop(a.currentTime+0.16)}catch(e){}}
+function playSlap(){try{var a=new(window.AudioContext||window.webkitAudioContext)();var len=a.sampleRate*0.18;var buf=a.createBuffer(1,len,a.sampleRate);var d=buf.getChannelData(0);for(var i=0;i<len;i++){d[i]=(Math.random()*2-1)*Math.pow(1-i/len,2)}var s=a.createBufferSource();s.buffer=buf;var g=a.createGain();g.gain.setValueAtTime(0.9,a.currentTime);g.gain.exponentialRampToValueAtTime(0.01,a.currentTime+0.18);s.connect(g);g.connect(a.destination);s.start();if(navigator.vibrate)navigator.vibrate(80)}catch(e){}}
+function playDing(){try{var a=new(window.AudioContext||window.webkitAudioContext)();var o=a.createOscillator();var g=a.createGain();o.connect(g);g.connect(a.destination);o.frequency.setValueAtTime(1200,a.currentTime);g.gain.setValueAtTime(0.4,a.currentTime);g.gain.exponentialRampToValueAtTime(0.001,a.currentTime+0.6);o.start();o.stop(a.currentTime+0.6)}catch(e){}}
+function renderOnline(){var users=getUsers();var now=Date.now();var q=(document.getElementById('searchOnline')?document.getElementById('searchOnline').value.toLowerCase():'');var on=Object.values(users).filter(function(u){return(now-(u.lastSeen||0))<5*60*1000&&u.u.toLowerCase().indexOf(q)>=0}).sort(function(a,b){return(b.points||0)-(a.points||0)});document.getElementById('onlineCount').innerText=on.length;document.getElementById('onlineBar').innerHTML=on.map(function(u){var dp=(u.dp&&u.dp.length>10)?'<img src="'+u.dp+'">':(u.dp||'👤');return '<div class="uCircle"><div>'+dp+'<span class="dot"></span></div><p>'+u.u+'</p><small>⭐ '+(u.points||0)+'</small></div>'}).join('')||'<p class="small">Koi online nahi</p>'}
+function setFilter(f,el){curFilter=f;document.querySelectorAll('.filter button').forEach(function(b){b.classList.remove('on')});if(el)el.classList.add('on');loadFeed()}
+function openStoryBox(){document.getElementById('storyBox').classList.toggle('hidden')}
+function fileToBase64(f,cb){var rd=new FileReader();rd.onload=function(){cb(rd.result)};rd.readAsDataURL(f)}
+function addStory(){var t=document.getElementById('storyText').value.trim();var f=document.getElementById('storyPic').files[0];if(!t&&!f){alert('Kuch likho');return}var doAdd=function(pic){var arr=getStories();arr.push({u:cur,text:t,pic:pic||'',time:Date.now()});localStorage.setItem('y_stories',JSON.stringify(arr));document.getElementById('storyText').value='';document.getElementById('storyBox').classList.add('hidden');alert('Story lag gayi!');renderStories()};if(f)fileToBase64(f,function(b){doAdd(b)});else doAdd('')}
+function renderStories(){var arr=getStories();var now=Date.now();arr=arr.filter(function(s){return(now-s.time)<24*60*60*1000});localStorage.setItem('y_stories',JSON.stringify(arr));if(!arr.length){document.getElementById('storyRow').innerHTML='<p class="small">Koi story nahi</p>';return}document.getElementById('storyRow').innerHTML=arr.slice().reverse().map(function(s){var inner=s.pic?'<img src="'+s.pic+'">':'😎';return '<div class="story"><div>'+inner+'</div><p style="font-size:11px">'+s.u+'</p></div>'}).join('')}
+function updateTrainingPower(){var users=getUsers();var posts=getPosts();var likesBy={};posts.forEach(function(p){likesBy[p.u]=(likesBy[p.u]||0)+(p.likes||0)});var sorted=Object.keys(likesBy).sort(function(a,b){return likesBy[b]-likesBy[a]}).slice(0,10);Object.keys(users).forEach(function(u){users[u].power=sorted.indexOf(u)>=0?5000:0});saveUsers(users)}
+function getLikeScore(){var me=getUsers()[cur];if(me&&me.power>=5000)return 5000;return 5}
+function updatePowerBox(){updateTrainingPower();var me=getUsers()[cur];if(!me)return;document.getElementById('myPower').innerText=me.power||0;document.getElementById('myPoints').innerText=me.points||0}
+function clapPractice(){var gain=getLikeScore();var users=getUsers();users[cur].points=(users[cur].points||0)+gain;saveUsers(users);updatePowerBox();document.getElementById('clapMsg').innerText='👏 +'+gain+' points! Total: '+users[cur].points;playPop()}
+function newJoke(){var j=["Ustaad: 1 crore mil jaye to kya karoge? Shagird: Pehle neend poori karunga 😂","Biwi: Ghoomne nahi le jate. Shohar: To ab ghoom ke aa gayi na? 😂"];document.getElementById('jokeText').innerText=j[Math.floor(Math.random()*j.length)]}
+function rollDice(){document.getElementById('diceText').innerText='🎲 '+(Math.floor(Math.random()*6)+1)+' Aaya!';playDing()}
+function quickPost(){var t=document.getElementById('quickText').value.trim();if(!t){alert('Pehle kuch likho');return}var arr=getPosts();arr.push({u:cur,text:t,cat:'General',likes:0,comments:[],t:'Just now',pic:'',type:'TEXT'});localStorage.setItem('y_posts',JSON.stringify(arr));var users=getUsers();users[cur].points=(users[cur].points||0)+10;saveUsers(users);document.getElementById('quickText').value='';updatePowerBox();alert('Post Ho Gaya! +10 Points');loadFeed()}
+function addPost(){var t=document.getElementById('postText').value.trim();var f=document.getElementById('postPic').files[0];var link=document.getElementById('postPicLink').value.trim();var cat=document.getElementById('postCat').value||'General';if(!t&&!f&&!link){alert('Kuch likho ya photo lagao');return}var doPost=function(pic){var arr=getPosts();arr.push({u:cur,text:t,pic:pic||link||'',cat:cat,likes:0,comments:[],t:'Just now',type:pic||link?'PICS':'TEXT'});localStorage.setItem('y_posts',JSON.stringify(arr));var users=getUsers();users[cur].points=(users[cur].points||0)+10;saveUsers(users);document.getElementById('postText').value='';alert('Post ho gaya! +10 Points');showPage('home')};if(f)fileToBase64(f,function(b){doPost(b)});else doPost(link)}
+function loadFeed(){var all=getPosts();feedData=all;var me=getUsers()[cur];var following=me&&me.following?me.following:[];var keys=all.map(function(_,i){return i}).reverse();if(curFilter==='FORME'){keys=keys.filter(function(i){return following.indexOf(all[i].u)>=0||all[i].u===cur})}else if(curFilter==='TEXT'){keys=keys.filter(function(i){return !all[i].pic})}else if(curFilter==='PICS'){keys=keys.filter(function(i){return !!all[i].pic})}else if(curFilter!=='ALL'){keys=keys.filter(function(i){return all[i].cat===curFilter})}if(!keys.length){document.getElementById('feed').innerHTML='<p style="text-align:center;padding:20px;color:#aaa">Koi post nahi - Tum pehli post karo! +10 Points</p>';return}document.getElementById('feed').innerHTML=keys.map(function(i){var p=all[i];var cmts=(p.comments||[]).map(function(c){return '<div style="background:#000;padding:8px;border-radius:8px;margin-top:6px;font-size:13px"><b>'+c.u+':</b> '+emojify(c.text)+'</div>'}).join('');return '<div class="post"><div style="display:flex;justify-content:space-between"><b>👤 '+p.u+'</b><span class="badge">'+p.cat+' • '+p.t+'</span></div><p style="margin:10px 0;font-size:16px">'+emojify(p.text||'')+'</p>'+(p.pic?'<img src="'+p.pic+'">':'')+'<div class="pBtns"><button class="gold" onclick="doLike('+i+')">👏 LIKE '+(p.likes||0)+'</button><button onclick="doFollow(\''+p.u+'\')">Follow</button><button onclick="doRepost('+i+')">REPOST</button><button onclick="doShare('+i+')">SHARE</button></div><div style="display:flex;gap:6px;margin-top:8px"><input id="cmt-'+i+'" placeholder="Comment... @name"><button onclick="doComment('+i+')" style="width:70px;background:#FFD700;color:#000;border:none;border-radius:8px;font-weight:bold;cursor:pointer">Bhejo</button></div>'+cmts+'</div>'}).join('')}
+function doLike(i){var gain=getLikeScore();var users=getUsers();users[cur].points=(users[cur].points||0)+gain;saveUsers(users);feedData[i].likes=(feedData[i].likes||0)+1;localStorage.setItem('y_posts',JSON.stringify(feedData));updatePowerBox();playPop();alert('👏 +'+gain+' points! Total: '+users[cur].points);loadFeed()}
+function doRepost(i){var p=feedData[i];var arr=getPosts();arr.push({u:cur,text:'🔁 Repost: '+(p.text||''),pic:p.pic||'',cat:p.cat,likes:0,comments:[],t:'Just now'});localStorage.setItem('y_posts',JSON.stringify(arr));alert('Repost Ho Gaya!');loadFeed()}
+function doShare(i){var p=feedData[i];var txt='Yaarii-PK pe dekho: '+(p.text||'Photo')+' - https://yaarii-pk.github.io/Yaarii.pk/';if(navigator.share)navigator.share({text:txt});else{navigator.clipboard.writeText(txt);alert('Link Copy Ho Gaya!')}}
+function doFollow(name){if(name===cur)return;var users=getUsers();users[cur].following=users[cur].following||[];if(users[cur].following.indexOf(name)<0){users[cur].following.push(name);saveUsers(users);alert(name+' ko Follow kar liya!')}else{alert('Pehle se Follow hai')}loadFeed()}
+function doComment(i){var inp=document.getElementById('cmt-'+i);var t=inp.value.trim();if(!t)return;feedData[i].comments=feedData[i].comments||[];feedData[i].comments.push({u:cur,text:t});localStorage.setItem('y_posts',JSON.stringify(feedData));var owner=feedData[i].u;if(owner&&owner!==cur){var arr=JSON.parse(localStorage.getItem('y_inbox_'+owner)||'[]');arr.push({from:cur,text:'Ne tumhari post par comment kiya: '+t});localStorage.setItem('y_inbox_'+owner,JSON.stringify(arr))}var m=t.match(/@(\w+)/);if(m&&m[1]!==cur){var arr2=JSON.parse(localStorage.getItem('y_inbox_'+m[1])||'[]');arr2.push({from:cur,text:'Ne tumhe @mention kiya: '+t});localStorage.setItem('y_inbox_'+m[1],JSON.stringify(arr2))}playPop();loadFeed()}
+function loadTrend(){var all=getPosts();var sorted=all.slice().sort(function(a,b){return(b.likes||0)-(a.likes||0)}).slice(0,10);document.getElementById('trendFeed').innerHTML=sorted.map(function(p){return '<div class="post"><b>'+p.u+'</b> <span class="badge">'+p.cat+' • 👏 '+(p.likes||0)+'</span><p>'+emojify(p.text||'')+'</p>'+(p.pic?'<img src="'+p.pic+'">':'')+'</div>'}).join('')||'Koi trending nahi'}
+function loadHomeLeader(){var users=getUsers();var arr=Object.values(users).sort(function(a,b){return(b.points||0)-(a.points||0)}).slice(0,5);document.getElementById('homeLeader').innerHTML=arr.map(function(u,i){return '<div class="lead"><span>#'+(i+1)+' '+u.u+'</span><span>⭐ '+(u.points||0)+'</span></div>'}).join('')||'Koi nahi'}
+function createMehfil(){var n=document.getElementById('newMehfil').value.trim();if(!n){alert('Naam likho');return}var m=getMehfils();m.push(n);localStorage.setItem('y_mehfils',JSON.stringify(m));alert('Mehfil Ban Gayi!');loadMehfil()}
+function loadMehfil(){var m=getMehfils();document.getElementById('mehfilList').innerHTML=m.map(function(x){return '<div class="card"><b>'+x+'</b><br><button onclick="joinMehfil(\''+x+'\')" style="background:#FFD700;border:none;padding:6px 14px;border-radius:20px;font-weight:bold;margin-top:4px;cursor:pointer">JOIN 💬</button></div>'}).join('');loadMehfilChat()}
+function joinMehfil(n){curMehfil=n;alert(n+' join ho gayi!');loadMehfilChat()}
+function loadMehfilChat(){var arr=getChat().filter(function(c){return(c.mehfil||'Sab Ki Mehfil')===curMehfil});document.getElementById('mehfilChatBox').innerHTML=arr.slice(-20).map(function(c){return '<div style="background:#111;padding:8px;border-radius:8px;margin:4px 0"><b>@'+c.u+':</b> '+emojify(c.text)+'</div>'}).join('')||'Mehfil khaali hai'}
+function sendMehfilChat(){var t=document.getElementById('mehfilChatText').value.trim();if(!t)return;var arr=getChat();arr.push({u:cur,text:t,mehfil:curMehfil});localStorage.setItem('y_chat',JSON.stringify(arr));document.getElementById('mehfilChatText').value='';loadMehfilChat()}
+function showLeader(type){updateTrainingPower();var users=getUsers();var posts=getPosts();var likesBy={};posts.forEach(function(p){likesBy[p.u]=(likesBy[p.u]||0)+(p.likes||0)});var arr=Object.values(users).sort(function(a,b){if(type==='star')return(likesBy[b.u]||0)-(likesBy[a.u]||0);return(b.points||0)-(a.points||0)}).slice(0,10);document.getElementById('leaderList').innerHTML=arr.map(function(u,i){return '<div class="lead"><span>#'+(i+1)+' '+u.u+' '+(u.power>=5000?'⚡ TRENDING':'')+'</span><span>⭐ '+(u.points||0)+' | 👏 '+(likesBy[u.u]||0)+'</span></div>'}).join('')}
+function loadPrivate(){var arr=JSON.parse(localStorage.getItem('y_pvt_'+cur)||'[]');document.getElementById('pvtBox').innerHTML=arr.slice(-20).map(function(c){return '<div class="post"><b>'+c.from+' → '+c.to+':</b> '+emojify(c.text)+' 🔒</div>'}).join('')||'Koi private chat nahi'}
+function sendPrivate(){var to=document.getElementById('pvtTo').value.trim();var t=document.getElementById('pvtText').value.trim();if(!to||!t){alert('Naam + Message likho');return}var my=JSON.parse(localStorage.getItem('y_pvt_'+cur)||'[]');my.push({from:cur,to:to,text:t});localStorage.setItem('y_pvt_'+cur,JSON.stringify(my));var toArr=JSON.parse(localStorage.getItem('y_pvt_'+to)||'[]');toArr.push({from:cur,to:to,text:t});localStorage.setItem('y_pvt_'+to,JSON.stringify(toArr));alert('Private Bhej Diya! 🔒');document.getElementById('pvtText').value='';loadPrivate()}
+function loadInbox(){var arr=JSON.parse(localStorage.getItem('y_inbox_'+cur)||'[]');document.getElementById('notifList').innerHTML=arr.slice().reverse().map(function(m){return '<div style="background:#111;padding:10px;border-radius:10px;margin:6px 0;border:1px solid #FFD700"><b>'+m.from+'</b> - '+emojify(m.text)+'</div>'}).join('')||'Koi notification nahi';document.getElementById('dmList').innerHTML=arr.map(function(m){return '<div style="background:#111;padding:8px;border-radius:8px;margin:4px 0"><b>'+m.from+':</b> '+emojify(m.text)+'</div>'}).join('')}
+function sendDM(){var to=document.getElementById('dmTo').value.trim();var t=document.getElementById('dmText').value.trim();if(!to||!t){alert('Naam + Message likho');return}var arr=JSON.parse(localStorage.getItem('y_inbox_'+to)||'[]');arr.push({from:cur,text:t});localStorage.setItem('y_inbox_'+to,JSON.stringify(arr));alert('DM Bhej Diya!');document.getElementById('dmText').value='';loadInbox()}
+function loadProfile(){var users=getUsers();var d=users[cur];if(!d)return;document.getElementById('pName').innerText=d.u+(d.role==='ADMIN'?' 👑 ADMIN':'')+' ('+(d.id||'')+')';document.getElementById('pMeta').innerText=(getPosts().filter(function(x){return x.u===cur}).length)+' posts • ⭐ '+(d.points||0)+' • '+(d.age||'?')+' Years • '+(d.city||'')+' • '+(d.star||'');document.getElementById('pBio').innerText=d.bio||'';document.getElementById('pPowerLine').innerText='⚡ Power: '+(d.power||0)+' | ⭐ Points: '+(d.points||0);if(d.dp&&d.dp.length>10)document.getElementById('pDpBox').innerHTML='<img src="'+d.dp+'">';else document.getElementById('pDpBox').innerText=d.dp||'👤';document.getElementById('eBio').value=d.bio||'';document.getElementById('eAge').value=d.age||'';document.getElementById('myPosts').innerHTML=getPosts().filter(function(x){return x.u===cur}).map(function(p){return '<div class="post"><b>'+p.u+'</b><p>'+emojify(p.text||'')+'</p></div>'}).join('')||'Koi post nahi';if(d.role==='ADMIN'){var html='<div class="card" style="border:1px solid #FFD700"><h3 style="color:#FFD700">👑 ADMIN</h3>';Object.values(users).forEach(function(u){html+='<div style="background:#111;padding:8px;border-radius:8px;margin:4px 0"><b>'+u.u+'</b> - '+(u.points||0)+'</div>'});html+='</div>';document.getElementById('adminPanel').innerHTML=html}}
+function saveProfile(){var users=getUsers();users[cur].bio=document.getElementById('eBio').value;users[cur].age=document.getElementById('eAge').value;users[cur].city=document.getElementById('eCity').value;users[cur].star=document.getElementById('eStar').value;var link=document.getElementById('dpLink').value.trim();if(link)users[cur].dp=link;saveUsers(users);alert('Profile Save Ho Gaya!');loadProfile()}
+function changeDP(){var f=document.getElementById('dpFile').files[0];if(!f)return;fileToBase64(f,function(b){var users=getUsers();users[cur].dp=b;saveUsers(users);alert('DP Lag Gayi!');loadProfile()})}
+function doSearch(){var q=document.getElementById('searchQ').value.toLowerCase();if(!q){document.getElementById('searchRes').innerHTML='';return}var users=getUsers();var res=Object.keys(users).filter(function(u){return u.toLowerCase().indexOf(q)>=0||String(users[u].id||'').indexOf(q)>=0});document.getElementById('searchRes').innerHTML=res.map(function(u){return '<div class="card">👤 '+u+' ('+(users[u].id||'')+') - ⭐ '+(users[u].points||0)+' <button type="button" class="btnBlack" onclick="doFollow(\''+u+'\')">Follow</button></div>'}).join('')||'Kuch nahi mila'}
+document.getElementById('postCat').innerHTML=cats.map(function(c){return '<option>'+c+'</option>'}).join('');
+if(cur){showHomeNow();markOnline();setInterval(function(){markOnline();renderOnline()},30000)}else{showAuth('signup')}
+</script></body></html>
