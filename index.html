@@ -10,12 +10,14 @@ header{background:#000;padding:12px;text-align:center;border-bottom:2px solid #d
 header h1{margin:0;color:#ffd700}
 .card{background:#111;border:1px solid #333;border-radius:14px;padding:12px;margin:9px auto;max-width:520px}
 input{width:100%;padding:11px;margin:6px 0;border-radius:11px;border:none;background:#222;color:#fff;box-sizing:border-box}
-button{padding:11px 14px;border:none;border-radius:20px;background:#ffd700;color:#000;font-weight:700;cursor:pointer}
+button{padding:11px 14px;border:none;border-radius:20px;background:#ffd700;color:#000;font-weight:700;cursor:pointer;margin:3px}
 button.g{background:#222;color:#ffd700;border:1px solid #ffd700}
 .hid{display:none}
 .sm{color:#aaa;font-size:12px}
 .bottom{position:fixed;bottom:0;left:0;right:0;background:#111;border-top:2px solid #d4af37;display:flex;padding:8px;z-index:30}
 .bottom div{flex:1;text-align:center;color:#ffd700;cursor:pointer}
+.pf{width:70px;height:70px;border-radius:50%;object-fit:cover;border:2px solid #ffd700;background:#222}
+.st{width:56px;height:56px;border-radius:50%;object-fit:cover;border:2px solid #ffd700}
 </style>
 </head>
 <body>
@@ -27,24 +29,38 @@ button.g{background:#222;color:#ffd700;border:1px solid #ffd700}
 <input id="un" placeholder="Naam - jaise Leader">
 <input id="pw" type="password" placeholder="Password">
 <label><input type="checkbox" id="ag" style="width:auto"> Rules se agree hun</label><br>
-<button onclick="signup()" style="width:100%;margin-top:8px">Signup</button>
-<button class="g" onclick="login()" style="width:100%;margin-top:6px">Login</button>
+<button onclick="signup()" style="width:100%">Signup</button>
+<button class="g" onclick="login()" style="width:100%">Login</button>
 <p id="am" style="color:#ff6666"></p>
 </div>
 </div>
 
 <div id="main" class="hid">
-<div class="card">
+<div class="card" style="text-align:center">
+<img id="myp" class="pf" src=""><br>
 <b id="mn"></b> <span id="mid" class="sm"></span><br>
 <span class="sm">Points: <b id="mpt" style="color:#ffd700">0</b></span><br>
-<span id="mbio" class="sm"></span><br><br>
+<span id="mbio" class="sm"></span><br>
 <input id="bio" placeholder="Apni Bio likho...">
-<button onclick="upd()">Profile Update</button>
+<br><label class="sm">Profile Pic Lagao</label>
+<input type="file" id="ppf" accept="image/*">
+<br><button onclick="upd()">Profile Save</button>
 <button class="g" onclick="logout()">Logout</button>
 </div>
+
 <div class="card">
-<input id="pt" placeholder="Kuch likho...">
-<button onclick="addPost()" style="width:100%">Post Karo +10 Points</button>
+<b>STORIES</b><br>
+<label class="sm">Story Lagao</label>
+<input type="file" id="sf" accept="image/*">
+<div id="sl" style="display:flex;gap:8px;overflow:auto;margin-top:8px"></div>
+</div>
+
+<div class="card">
+<input id="pt" placeholder="Kuch likho... Shayari, Masti, Gossip">
+<label class="sm">Post ke saath Pic</label>
+<input type="file" id="pf2" accept="image/*">
+<img id="pv" style="width:100%;display:none;border-radius:12px;margin-top:6px">
+<br><button onclick="addPost()" style="width:100%">Post Karo +10 Points</button>
 </div>
 <div id="posts" style="max-width:520px;margin:auto"></div>
 </div>
@@ -52,118 +68,33 @@ button.g{background:#222;color:#ffd700;border:1px solid #ffd700}
 <div class="bottom">
 <div onclick="goHome()">HOME</div>
 <div onclick="focusP()">SHARE</div>
+<div onclick="showLB()">TOP 10</div>
 <div onclick="logout()">LOGOUT</div>
 </div>
 
 <script>
-var U = null;
-var P = null;
-var users = {};
-var posts = {};
-function load() {
-  try {
-    users = JSON.parse(localStorage.getItem("y_users") || "{}");
-    posts = JSON.parse(localStorage.getItem("y_posts") || "{}");
-  } catch(e) {}
-}
-function save() {
-  localStorage.setItem("y_users", JSON.stringify(users));
-  localStorage.setItem("y_posts", JSON.stringify(posts));
-}
-function signup() {
-  var u = document.getElementById("un").value.trim();
-  var p = document.getElementById("pw").value.trim();
-  if (!u || !p) {
-    document.getElementById("am").innerText = "Naam aur Password likho";
-    return;
-  }
-  if (!document.getElementById("ag").checked) {
-    document.getElementById("am").innerText = "Pehle Rules se agree karo";
-    return;
-  }
-  load();
-  if (users[u]) {
-    document.getElementById("am").innerText = "Ye naam pehle se hai, Login karo";
-    return;
-  }
-  users[u] = { username: u, password: p, bio: "", points: 50, id: Math.floor(10000 + Math.random() * 89999) };
-  save();
-  U = u;
-  P = users[u];
-  localStorage.setItem("y_login", u);
-  showMain();
-}
-function login() {
-  var u = document.getElementById("un").value.trim();
-  var p = document.getElementById("pw").value.trim();
-  load();
-  if (!users[u]) {
-    document.getElementById("am").innerText = "Account nahi mila, Signup karo";
-    return;
-  }
-  if (users[u].password !== p) {
-    document.getElementById("am").innerText = "Password galat hai";
-    return;
-  }
-  U = u;
-  P = users[u];
-  localStorage.setItem("y_login", u);
-  showMain();
-}
-function logout() {
-  localStorage.removeItem("y_login");
-  location.reload();
-}
-function showMain() {
-  document.getElementById("auth").classList.add("hid");
-  document.getElementById("main").classList.remove("hid");
-  document.getElementById("mn").innerText = P.username;
-  document.getElementById("mid").innerText = "(" + P.id + ")";
-  document.getElementById("mpt").innerText = P.points;
-  document.getElementById("mbio").innerText = P.bio || "";
-  renderPosts();
-}
-function upd() {
-  users[U].bio = document.getElementById("bio").value;
-  save();
-  alert("Profile update ho gaya!");
-  location.reload();
-}
-function addPost() {
-  var t = document.getElementById("pt").value.trim();
-  if (!t) { alert("Kuch likho"); return; }
-  var id = "p" + Date.now();
-  posts[id] = { text: t, username: U, likes: 0, time: Date.now() };
-  users[U].points = users[U].points + 10;
-  P = users[U];
-  save();
-  document.getElementById("pt").value = "";
-  document.getElementById("mpt").innerText = P.points;
-  renderPosts();
-}
-function like(id) {
-  posts[id].likes = posts[id].likes + 1;
-  save();
-  renderPosts();
-}
-function renderPosts() {
-  var keys = Object.keys(posts);
-  keys.sort(function(a,b){ return posts[b].time - posts[a].time; });
-  var h = "";
-  for (var i = 0; i < keys.length; i++) {
-    var id = keys[i];
-    var p = posts[id];
-    h = h + '<div class="card"><b>' + p.username + '</b><p>' + p.text + '</p><button onclick="like(\'' + id + '\')">REACT ' + p.likes + '</button></div>';
-  }
-  if (h === "") { h = "<div class='card'>Abhi koi post nahi</div>"; }
-  document.getElementById("posts").innerHTML = h;
-}
-function goHome() { window.scrollTo(0,0); }
-function focusP() { document.getElementById("pt").focus(); }
-load();
-var sv = localStorage.getItem("y_login");
-if (sv && users[sv]) { U = sv; P = users[sv]; showMain(); }
-renderPosts();
+var U=null,P=null,users={},posts={},stories=[],tmpPic="";
+function load(){try{users=JSON.parse(localStorage.getItem("y_users")||"{}");posts=JSON.parse(localStorage.getItem("y_posts")||"{}");stories=JSON.parse(localStorage.getItem("y_stories")||"[]");}catch(e){}}
+function save(){localStorage.setItem("y_users",JSON.stringify(users));localStorage.setItem("y_posts",JSON.stringify(posts));localStorage.setItem("y_stories",JSON.stringify(stories));}
+function signup(){var u=document.getElementById("un").value.trim();var p=document.getElementById("pw").value.trim();if(!u||!p){document.getElementById("am").innerText="Naam aur Password likho";return;}if(!document.getElementById("ag").checked){document.getElementById("am").innerText="Rules se agree karo";return;}load();if(users[u]){document.getElementById("am").innerText="Ye naam pehle se hai, Login karo";return;}users[u]={username:u,password:p,bio:"",pic:"",points:50,id:Math.floor(10000+Math.random()*89999)};save();U=u;P=users[u];localStorage.setItem("y_login",u);showMain();}
+function login(){var u=document.getElementById("un").value.trim();var p=document.getElementById("pw").value.trim();load();if(!users[u]){document.getElementById("am").innerText="Account nahi mila, Signup karo";return;}if(users[u].password!==p){document.getElementById("am").innerText="Password galat hai";return;}U=u;P=users[u];localStorage.setItem("y_login",u);showMain();}
+function logout(){localStorage.removeItem("y_login");location.reload();}
+function showMain(){document.getElementById("auth").classList.add("hid");document.getElementById("main").classList.remove("hid");document.getElementById("mn").innerText=P.username;document.getElementById("mid").innerText="("+P.id+")";document.getElementById("mpt").innerText=P.points;document.getElementById("mbio").innerText=P.bio||"";if(P.pic){document.getElementById("myp").src=P.pic;}renderPosts();renderS();}
+function upd(){users[U].bio=document.getElementById("bio").value;save();alert("Profile save ho gaya!");location.reload();}
+function addPost(){var t=document.getElementById("pt").value.trim();if(!t&&!tmpPic){alert("Kuch likho ya pic lagao");return;}var id="p"+Date.now();posts[id]={text:t,img:tmpPic,username:U,likes:0,dis:0,time:Date.now()};users[U].points=users[U].points+10;P=users[U];save();tmpPic="";document.getElementById("pt").value="";document.getElementById("pv").style.display="none";document.getElementById("mpt").innerText=P.points;renderPosts();}
+function like(id){posts[id].likes=posts[id].likes+1;save();renderPosts();}
+function dislike(id){posts[id].dis=posts[id].dis+1;save();alert("DISLIKE! Banda naraz ho gaya!");renderPosts();}
+function slap(name){alert("CHUPAIR! "+name+" ko zor ka chupair para! PAAAK!");}
+function sharePost(id){var p=posts[id];var txt=p.username+" ne YAARII-PK pe post kiya: "+p.text;if(navigator.share){navigator.share({text:txt});}else{alert(txt);}}
+function showLB(){var arr=Object.values(users);arr.sort(function(a,b){return b.points-a.points;});var s="TOP 10 LEADERBOARD\n\n";for(var i=0;i<arr.length&&i<10;i++){s=s+(i+1)+". "+arr[i].username+" - "+arr[i].points+" pts\n";}alert(s||"Koi nahi");}
+function renderS(){var h="";for(var i=stories.length-1;i>=0;i--){var s=stories[i];h=h+'<div style="text-align:center"><img class="st" src="'+s.img+'"><br><span class="sm">'+s.user+'</span></div>';}if(h===""){h="<span class='sm'>Abhi koi story nahi</span>";}document.getElementById("sl").innerHTML=h;}
+function renderPosts(){var keys=Object.keys(posts);keys.sort(function(a,b){return posts[b].time-posts[a].time;});var h="";for(var i=0;i<keys.length;i++){var id=keys[i];var p=posts[id];var img="";if(p.img){img='<img src="'+p.img+'" style="width:100%;border-radius:12px">';}h=h+'<div class="card"><b>'+p.username+'</b><p>'+p.text+'</p>'+img+'<br><button onclick="like(\''+id+'\')">REACT '+p.likes+'</button><button class="g" onclick="dislike(\''+id+'\')">DISLIKE '+p.dis+'</button><button class="g" onclick="slap(\''+p.username+'\')">CHUPAIR</button><button class="g" onclick="sharePost(\''+id+'\')">SHARE</button></div>';}if(h===""){h="<div class='card'>Abhi koi post nahi</div>";}document.getElementById("posts").innerHTML=h;}
+function goHome(){window.scrollTo(0,0);}
+function focusP(){document.getElementById("pt").focus();window.scrollTo(0,400);}
+document.getElementById("ppf").addEventListener("change",function(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(ev){users[U].pic=ev.target.result;save();document.getElementById("myp").src=ev.target.result;};r.readAsDataURL(f);});
+document.getElementById("pf2").addEventListener("change",function(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(ev){tmpPic=ev.target.result;var im=document.getElementById("pv");im.src=tmpPic;im.style.display="block";};r.readAsDataURL(f);});
+document.getElementById("sf").addEventListener("change",function(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(ev){stories.push({img:ev.target.result,user:U});save();renderS();alert("Story lag gayi!");};r.readAsDataURL(f);});
+load();var sv=localStorage.getItem("y_login");if(sv&&users[sv]){U=sv;P=users[sv];showMain();}renderPosts();renderS();
 </script>
 </body>
-</html>
+  </html>
