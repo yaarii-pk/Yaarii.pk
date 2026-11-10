@@ -120,4 +120,19 @@ function changeDP(){var f=document.getElementById('dpFile').files[0];if(!f)retur
 function doSearch(){var q=document.getElementById('searchQ').value.toLowerCase();if(!q){document.getElementById('searchRes').innerHTML='';return}var users=getUsers();var res=Object.keys(users).filter(function(u){return u.toLowerCase().indexOf(q)>=0||String(users[u].id||'').indexOf(q)>=0});document.getElementById('searchRes').innerHTML=res.map(function(u){return '<div class="card">👤 '+u+' ('+(users[u].id||'')+') - ⭐ '+(users[u].points||0)+' <button type="button" class="btnBlack" onclick="doFollow(\''+u+'\')">Follow</button></div>'}).join('')||'Kuch nahi mila'}
 document.getElementById('postCat').innerHTML=cats.map(function(c){return '<option>'+c+'</option>'}).join('');
 syncFirebase();if(cur){showHomeNow();markOnline();setInterval(function(){markOnline();renderOnline()},30000)}else{showAuth('signup')}
-</script></body></html>
+<script>
+// --- FIX: Firebase Load Fix ---
+var FB_LOADED=false;
+db.ref('users').once('value',function(){FB_LOADED=true});
+// Purane save ko safe kar diya - khaali data overwrite nahi karega
+var _oldSaveUsers=saveUsers;var _oldSavePosts=savePosts;
+saveUsers=function(u){if(!u||Object.keys(u).length===0)return;Object.keys(u).forEach(function(k){db.ref('users/'+k).set(u[k])});G.users=u};
+savePosts=function(a){if(!a)return;db.ref('posts').set(a);G.posts=a};
+// Post - ab Firebase se fresh data leke post karega
+quickPost=function(){var t=document.getElementById('quickText').value.trim();if(!t){alert('Pehle kuch likho');return}db.ref('posts').once('value',function(s){var arr=s.val()||[];arr.push({u:cur,text:t,cat:'General',likes:0,comments:[],t:'Just now',pic:'',type:'TEXT'});db.ref('posts').set(arr);db.ref('users/'+cur+'/points').once('value',function(ps){var p=(ps.val()||0)+10;db.ref('users/'+cur+'/points').set(p)});document.getElementById('quickText').value='';alert('Post Ho Gaya! +10 Points - Sab ko dikhega')})};
+addPost=function(){var t=document.getElementById('postText').value.trim();var f=document.getElementById('postPic').files[0];var link=document.getElementById('postPicLink').value.trim();var cat=document.getElementById('postCat').value||'General';if(!t&&!f&&!link){alert('Kuch likho ya photo lagao');return}if(f&&f.size>900000){alert('Photo bari hai, chhoti photo lagao ya Link use karo');return}var doPost=function(pic){db.ref('posts').once('value',function(s){var arr=s.val()||[];arr.push({u:cur,text:t,pic:pic||link||'',cat:cat,likes:0,comments:[],t:'Just now',type:pic||link?'PICS':'TEXT'});db.ref('posts').set(arr);db.ref('users/'+cur+'/points').once('value',function(ps){db.ref('users/'+cur+'/points').set((ps.val()||0)+10)});document.getElementById('postText').value='';alert('Post ho gaya! +10 Points - Sab ko dikhega');showPage('home')})};if(f)fileToBase64(f,function(b){doPost(b)});else doPost(link)};
+// Profile + DP - ab direct update hoga
+saveProfile=function(){var bio=document.getElementById('eBio').value;var age=document.getElementById('eAge').value;var city=document.getElementById('eCity').value;var star=document.getElementById('eStar').value;var link=document.getElementById('dpLink').value.trim();var upd={bio:bio,age:age,city:city,star:star};if(link)upd.dp=link;db.ref('users/'+cur).update(upd);alert('Profile Save Ho Gaya!');setTimeout(loadProfile,800)};
+changeDP=function(){var f=document.getElementById('dpFile').files[0];if(!f)return;if(f.size>900000){alert('DP bari hai, chhoti photo lagao ya Link use karo');return}fileToBase64(f,function(b){db.ref('users/'+cur).update({dp:b});alert('DP Lag Gayi!');setTimeout(loadProfile,800)})};
+</script>
+  </script></body></html>
