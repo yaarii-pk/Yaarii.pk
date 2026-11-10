@@ -1,48 +1,138 @@
-<!DOCTYPE html><html lang="ur"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>YAARII-PK 👑 Apni Mehfil Apni Yaari</title><style>*{box-sizing:border-box}body{margin:0;background:#000;color:#fff;font-family:Arial;padding-bottom:85px}header{background:#000;padding:10px;text-align:center;border-bottom:2px solid #d4af37;position:sticky;top:0;z-index:20}header h1{margin:0;color:#ffd700;font-size:24px}header p{margin:0;color:#aaa;font-size:11px}.topbar{display:flex;justify-content:space-between;align-items:center;padding:8px 10px;background:#111;font-size:12px}.card{background:#111;border:1px solid #333;border-radius:14px;padding:12px;margin:9px auto;max-width:520px}input,select,textarea{width:100%;padding:11px;margin:6px 0;border-radius:11px;border:none;background:#222;color:#fff;outline:none}button{padding:11px 14px;border:none;border-radius:20px;background:#ffd700;color:#000;font-weight:700;cursor:pointer}button.g{background:#222;color:#ffd700;border:1px solid #ffd700}.av{width:44px;height:44px;border-radius:50%;border:2px solid #ffd700;object-fit:cover}.pill{display:inline-flex;align-items:center;gap:5px;background:#1a1500;border:1px solid #d4af37;padding:5px 9px;border-radius:20px;margin:3px;font-size:12px;cursor:pointer}.dot{width:8px;height:8px;background:#0f6;border-radius:50%;display:inline-block}.hid{display:none}.fl{display:flex;gap:9px;align-items:center}.sm{color:#aaa;font-size:12px}.pimg{width:100%;border-radius:12px;margin-top:8px}.chip{background:#222;color:#fff;padding:7px 11px;border-radius:20px;border:none;white-space:nowrap}.chip.on{background:#ffd700;color:#000}.act{font-size:11px;background:#222;padding:7px 9px;border-radius:15px;border:1px solid #333;cursor:pointer;color:#ddd}.bottom{position:fixed;bottom:0;left:0;right:0;background:#111;border-top:2px solid #d4af37;display:flex;gap:2px;padding:7px 3px;z-index:30}.bottom div{flex:1;text-align:center;color:#ffd700;cursor:pointer}.bottom i{font-size:19px;display:block}.bottom b{font-size:9px}.story{width:54px;height:54px;border-radius:50%;border:2px solid #ffd700;object-fit:cover;cursor:pointer}.pop{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:50;display:flex;align-items:center;justify-content:center;padding:15px}.pop>div{background:#111;border:1px solid #ffd700;border-radius:15px;padding:14px;width:100%;max-width:460px;max-height:85vh;overflow:auto}.msg{padding:8px 10px;border-radius:12px;margin:5px 0;max-width:80%}.me{background:#ffd700;color:#000;margin-left:auto}.you{background:#222}.lb1{background:#ff9d00;color:#000}.lb2{background:#ff6b00;color:#fff}.lb3{background:#2e8bff;color:#fff}.lb4{background:#00c853;color:#fff}.lb5{background:#9c27b0;color:#fff}</style></head><body><header><h1>👑 YAARII-PK 👑</h1><p>Apni Mehfil • Apni Yaari • Black & Golden</p></header><div class="topbar"><span>🟢 <b id="oc">0 ONLINE</b></span><span><input id="sq" placeholder="Search..." style="width:105px;padding:6px;margin:0" oninput="searchO()"></span><span>🏆 <b onclick="showLB()">Leaderboard</b></span></div>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>YAARII-PK</title>
+<style>
+body{margin:0;background:#000;color:#fff;font-family:Arial;padding-bottom:85px}
+header{background:#000;padding:10px;text-align:center;border-bottom:2px solid #d4af37}
+header h1{margin:0;color:#ffd700}
+.card{background:#111;border:1px solid #333;border-radius:14px;padding:12px;margin:9px auto;max-width:520px}
+input,select{width:100%;padding:11px;margin:6px 0;border-radius:11px;border:none;background:#222;color:#fff}
+button{padding:11px 14px;border:none;border-radius:20px;background:#ffd700;color:#000;font-weight:700;cursor:pointer}
+button.g{background:#222;color:#ffd700;border:1px solid #ffd700}
+.av{width:44px;height:44px;border-radius:50%;border:2px solid #ffd700;object-fit:cover}
+.hid{display:none}
+.sm{color:#aaa;font-size:12px}
+.bottom{position:fixed;bottom:0;left:0;right:0;background:#111;border-top:2px solid #d4af37;display:flex;padding:7px;z-index:30}
+.bottom div{flex:1;text-align:center;color:#ffd700;cursor:pointer}
+.pop{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:50;display:flex;align-items:center;justify-content:center;padding:15px}
+.pop>div{background:#111;border:1px solid #ffd700;border-radius:15px;padding:14px;width:100%;max-width:460px;max-height:85vh;overflow:auto}
+</style>
+</head>
+<body>
+<header><h1>👑 YAARII-PK 👑</h1><p>Apni Mehfil • Apni Yaari</p></header>
 
-<div id="auth"><div class="card" style="text-align:center"><h2 style="color:#ffd700;margin:0">اکاؤنٹ بنائیں</h2><p class="sm">Dostana style - Apni Mehfil Apni Yaari</p><input id="un" placeholder="Naam - jaise Leader"><input id="pw" type="password" placeholder="Password"><label style="font-size:12px"><input type="checkbox" id="ag" style="width:auto"> Rules se agree hun</label><br><button onclick="signup()" style="width:100%;margin-top:8px">Shuru Karein - Signup</button><button class="g" onclick="login()" style="width:100%;margin-top:6px">Pehle se account hai? Login</button><p id="am"></p></div></div>
+<div id="auth">
+<div class="card" style="text-align:center">
+<h2 style="color:#ffd700">Account Banao</h2>
+<input id="un" placeholder="Naam - jaise Leader">
+<input id="pw" type="password" placeholder="Password">
+<label><input type="checkbox" id="ag" style="width:auto"> Rules se agree hun</label><br>
+<button onclick="signup()" style="width:100%;margin-top:8px">Signup</button>
+<button class="g" onclick="login()" style="width:100%;margin-top:6px">Login</button>
+<p id="am"></p>
+</div>
+</div> 
 
-<div id="main" class="hid"><div class="card"><b>🟢 Online Yaar - Tap karke Chat karo</b><div id="ol" style="margin-top:8px"></div><p class="sm" id="olinfo"></p></div><div class="card"><b>Stories - Sirf unki jinhone lagayi</b><span style="float:right;color:#ffd700;cursor:pointer" onclick="document.getElementById('sf').click()">📸 Story +</span><input type="file" id="sf" accept="image/*" style="display:none" onchange="storyF(event)"><div id="sl" style="display:flex;gap:10px;overflow:auto;margin-top:8px"></div></div><div class="card"><div class="fl"><img id="myp" class="av" src="https://via.placeholder.com/100"><div><b id="mn"></b> <span id="mid" class="sm"></span><br><span class="sm"><span id="mpc">0 posts</span> • Points: <b style="color:#ffd700" id="mpt">0</b></span><br><span id="mbio" class="sm"></span></div></div><input id="bio" placeholder="Apni Bio likho..."><input id="pic" placeholder="Profile Pic Link..."><input type="file" accept="image/*" onchange="profPic(event)"><button onclick="upd()">Profile Update</button> <button class="g" onclick="logout()">Logout</button></div><div class="card"><div style="display:flex;gap:7px;overflow:auto"><button class="chip on" onclick="filt('All',this)">FOR ME</button><button class="chip" onclick="filt('All',this)">ALL</button><button class="chip" onclick="filt('Pics',this)">PICS</button><button class="chip" onclick="filt('Shayari',this)">Shayari</button><button class="chip" onclick="filt('Funny',this)">Funny</button><button class="chip" onclick="filt('Gaming',this)">Gaming</button><button class="chip" onclick="filt('Poll',this)">POLLS</button></div><input id="pt" placeholder="Quick thought... kuch likho..."><label class="sm" style="color:#ffd700">📷 Gallery se Pic:</label><input type="file" id="pf" accept="image/*" onchange="prevP(event)"><img id="pv" style="width:100%;border-radius:12px;display:none"><select id="tp"><option>General</option><option>Pics</option><option>Shayari</option><option>Funny</option><option>Gaming</option><option>Cricket</option><option>Football</option><option>Politics</option><option>Religion</option><option>History</option><option>Music</option></select><button onclick="addPost()">Post Karo +10 Points</button> <button class="g" onclick="openPoll()">📊 Poll Banao</button></div><div id="posts" style="max-width:520px;margin:auto"></div><div class="card" id="lbc" style="display:none"><h3>🏆 Leaderboard</h3><div style="display:flex;gap:6px"><button class="chip on" onclick="lbTab('pts',this)">Top Scorers</button><button class="chip" onclick="lbTab('star',this)">Top Stars</button></div><div id="lbl" style="margin-top:8px"></div></div></div>
+  <div id="main" class="hid">
+<div class="card">
+<b>🟢 Online Yaar - <span id="oc">0 ONLINE</span></b>
+<div id="ol"></div>
+<p class="sm">Ye real hain - jo login hoga wo hi dikhega</p>
+</div>
 
-<div class="bottom"><div onclick="goHome()"><i>🏠</i><b>HOME</b></div><div onclick="focusP()"><i>➕</i><b>SHARE</b></div><div onclick="showLB()"><i>🔥</i><b>TRENDING</b></div><div onclick="openInbox()"><i>✉️</i><b>INBOX</b></div><div onclick="openInbox()"><i>👤</i><b>1 ON 1</b></div><div onclick="openMore()"><i>•••</i><b>MORE</b></div></div>
+<div class="card">
+<b>Stories - Sirf unki jinhone lagayi</b>
+<span style="float:right;color:#ffd700;cursor:pointer" onclick="document.getElementById('sf').click()">📸 Story +</span>
+<input type="file" id="sf" accept="image/*" style="display:none" onchange="storyF(event)">
+<div id="sl" style="display:flex;gap:10px;overflow:auto;margin-top:8px"></div>
+</div>
 
-<div id="modal"></div><script>
-var U=null,P=null,posts={},users={},online={},filter='All',stories=[],tmpPic="",chats={},lbMode='pts';
-function load(){try{users=JSON.parse(localStorage.getItem("y_users")||"{}");posts=JSON.parse(localStorage.getItem("y_posts")||"{}");chats=JSON.parse(localStorage.getItem("y_chats")||"{}");stories=JSON.parse(localStorage.getItem("y_stories")||"[]");}catch(e){}}function save(){localStorage.setItem("y_users",JSON.stringify(users));localStorage.setItem("y_posts",JSON.stringify(posts));localStorage.setItem("y_chats",JSON.stringify(chats));localStorage.setItem("y_stories",JSON.stringify(stories));}
-function title(p){if(p>=10000)return"👑 THE LION KING";if(p>=5000)return"🐯 ROYAL TIGER";if(p>=2000)return"🐆 SWIFT CHEETAH";if(p>=1000)return"🐺 LONE WOLF";if(p>=500)return"🦁 BRAVE LION";if(p>=200)return"🦊 CLEVER FOX";return"🐣 NEW YAAR";}
-function snd(t){try{var c=new(window.AudioContext||window.webkitAudioContext)();var o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);if(t=='like'){o.frequency.setValueAtTime(600,c.currentTime);o.frequency.exponentialRampToValueAtTime(1200,c.currentTime+.15);}if(t=='dis'){o.frequency.setValueAtTime(300,c.currentTime);o.frequency.exponentialRampToValueAtTime(80,c.currentTime+.25);}if(t=='slap'){o.frequency.setValueAtTime(1100,c.currentTime);o.frequency.exponentialRampToValueAtTime(140,c.currentTime+.12);}if(t=='cm'){o.frequency.setValueAtTime(800,c.currentTime);o.frequency.exponentialRampToValueAtTime(1000,c.currentTime+.1);}o.start();o.stop(c.currentTime+.3);}catch(e){}}
+<div class="card">
+<b id="mn"></b> <span id="mid" class="sm"></span><br>
+<span class="sm"><span id="mpc">0 posts</span> • Points: <b id="mpt" style="color:#ffd700">0</b></span><br>
+<span id="mbio" class="sm"></span><br><br>
+<img id="myp" class="av" src="https://via.placeholder.com/100"><br>
+<input id="bio" placeholder="Apni Bio likho...">
+<input type="file" accept="image/*" onchange="profPic(event)">
+<button onclick="upd()">Profile Update</button>
+<button class="g" onclick="logout()">Logout</button>
+</div>
+
+<div class="card">
+<input id="pt" placeholder="Kuch likho...">
+<input type="file" id="pf" accept="image/*" onchange="prevP(event)">
+<img id="pv" style="width:100%;border-radius:12px;display:none">
+<select id="tp">
+<option>General</option>
+<option>Pics</option>
+<option>Shayari</option>
+<option>Funny</option>
+<option>Gaming</option>
+<option>Cricket</option>
+<option>Football</option>
+</select>
+<button onclick="addPost()">Post Karo +10 Points</button>
+<button class="g" onclick="openPoll()">📊 Poll Banao</button>
+</div>
+
+<div id="posts" style="max-width:520px;margin:auto"></div>
+
+<div class="card" id="lbc" style="display:none">
+<h3>🏆 Leaderboard</h3>
+<div id="lbl"></div>
+</div>
+</div>
+
+<div class="bottom">
+<div onclick="goHome()">🏠<br><b>HOME</b></div>
+<div onclick="focusP()">➕<br><b>SHARE</b></div>
+<div onclick="showLB()">🔥<br><b>TRENDING</b></div>
+<div onclick="openInbox()">✉️<br><b>INBOX</b></div>
+<div onclick="openInbox()">👤<br><b>1 ON 1</b></div>
+<div onclick="openMore()">•••<br><b>MORE</b></div>
+</div>
+
+<div id="modal"></div>
+
+  <script>
+var U=null,P=null,posts={},users={},online={},stories=[],tmpPic="",chats={};
+function load(){try{users=JSON.parse(localStorage.getItem("y_users")||"{}");posts=JSON.parse(localStorage.getItem("y_posts")||"{}");chats=JSON.parse(localStorage.getItem("y_chats")||"{}");stories=JSON.parse(localStorage.getItem("y_stories")||"[]");}catch(e){}}
+function save(){localStorage.setItem("y_users",JSON.stringify(users));localStorage.setItem("y_posts",JSON.stringify(posts));localStorage.setItem("y_chats",JSON.stringify(chats));localStorage.setItem("y_stories",JSON.stringify(stories));}
+function snd(t){try{var c=new(window.AudioContext||window.webkitAudioContext)();var o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.frequency.setValueAtTime(t=='dis'?300:600,c.currentTime);o.frequency.exponentialRampToValueAtTime(t=='dis'?80:1200,c.currentTime+.15);o.start();o.stop(c.currentTime+.3);}catch(e){}}
 function closeM(){document.getElementById('modal').innerHTML="";}
-function showM(h){document.getElementById('modal').innerHTML='<div class="pop"><div>'+h+'<br><button class="g" style="width:100%" onclick="closeM()">Band Karo ✖</button></div></div>';}
-function signup(){var u=document.getElementById('un').value.trim(),p=document.getElementById('pw').value.trim();if(!u||!p)return document.getElementById('am').innerText="Naam aur Password likho";if(!document.getElementById('ag').checked)return document.getElementById('am').innerText="Pehle Rules se agree karo";load();if(users[u])return document.getElementById('am').innerText="Ye naam pehle se hai, Login karo";users[u]={username:u,password:p,bio:"",pic:"",points:50,stars:0,isAdmin:(u==="Leader"),id:Math.floor(10000+Math.random()*89999)};save();U=u;P=users[u];localStorage.setItem("y_login",u);goOn();showMain();}
+function showM(h){document.getElementById('modal').innerHTML='<div class="pop"><div>'+h+'<br><button class="g" style="width:100%" onclick="closeM()">Band Karo</button></div></div>';}
+function signup(){var u=document.getElementById('un').value.trim(),p=document.getElementById('pw').value.trim();if(!u||!p)return document.getElementById('am').innerText="Naam aur Password likho";if(!document.getElementById('ag').checked)return document.getElementById('am').innerText="Pehle Rules se agree karo";load();if(users[u])return document.getElementById('am').innerText="Ye naam pehle se hai, Login karo";users[u]={username:u,password:p,bio:"",pic:"",points:50,id:Math.floor(10000+Math.random()*89999)};save();U=u;P=users[u];localStorage.setItem("y_login",u);goOn();showMain();}
 function login(){var u=document.getElementById('un').value.trim(),p=document.getElementById('pw').value.trim();load();if(!users[u])return document.getElementById('am').innerText="Account nahi mila, Signup karo";if(users[u].password!==p)return document.getElementById('am').innerText="Password galat hai";U=u;P=users[u];localStorage.setItem("y_login",u);goOn();showMain();}
 function goOn(){if(!U)return;online[U]={username:U};renderO();}
-function logout(){delete online[U];localStorage.removeItem("y_login");location.reload();}
-function showMain(){document.getElementById('auth').classList.add('hid');document.getElementById('main').classList.remove('hid');document.getElementById('mn').innerHTML=P.username+(P.isAdmin?' 👑':'')+" <span class='sm'>"+title(P.points)+"</span>";document.getElementById('mid').innerText="("+P.id+")";document.getElementById('mpt').innerText=P.points;document.getElementById('mbio').innerText=P.bio||"";if(P.pic)document.getElementById('myp').src=P.pic;renderPosts();renderLB();renderS();}
-function upd(){users[U].bio=document.getElementById('bio').value;var pp=document.getElementById('pic').value;if(pp)users[U].pic=pp;save();alert("Profile update ho gaya!");location.reload();}
-function profPic(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(ev){users[U].pic=ev.target.result;save();document.getElementById('myp').src=ev.target.result;alert("Profile pic lag gayi!");};r.readAsDataURL(f);}
+function logout(){localStorage.removeItem("y_login");location.reload();}
+function showMain(){document.getElementById('auth').classList.add('hid');document.getElementById('main').classList.remove('hid');document.getElementById('mn').innerText=P.username+" 👑";document.getElementById('mid').innerText="("+P.id+")";document.getElementById('mpt').innerText=P.points;document.getElementById('mbio').innerText=P.bio||"";if(P.pic)document.getElementById('myp').src=P.pic;renderPosts();renderLB();renderS();}
+function upd(){users[U].bio=document.getElementById('bio').value;save();alert("Profile update ho gaya!");location.reload();}
+function profPic(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(ev){users[U].pic=ev.target.result;save();document.getElementById('myp').src=ev.target.result;};r.readAsDataURL(f);}
 function prevP(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(ev){tmpPic=ev.target.result;var im=document.getElementById('pv');im.src=tmpPic;im.style.display='block';};r.readAsDataURL(f);}
-function storyF(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(ev){stories.push({img:ev.target.result,user:U,time:Date.now()});save();renderS();alert("Story lag gayi! 📸");};r.readAsDataURL(f);}
-function renderS(){var h='';stories.slice().reverse().forEach(function(s){h+='<div style="text-align:center"><img class="story" src="'+s.img+'" onclick="showM(\'<img src='+s.img+' style=width:100%;border-radius:12px><p><b>'+s.user+'</b> ki Story</p>\')"><br><span style="font-size:10px">'+s.user+'</span></div>';});document.getElementById('sl').innerHTML=h||"<span class='sm'>Abhi kisi ne story nahi lagayi - Pehli story tum lagao! 📸</span>";}
-function addPost(){if(!U)return alert("Login karo");var t=document.getElementById('pt').value.trim();if(!t&&!tmpPic)return alert("Kuch likho ya pic lagao");var id="p"+Date.now();posts[id]={text:t,img:tmpPic,topic:document.getElementById('tp').value,username:U,pic:P.pic||"",isAdmin:P.isAdmin||false,likes:0,dis:0,comments:[],time:Date.now()};users[U].points+=10;P=users[U];save();tmpPic="";document.getElementById('pt').value="";document.getElementById('pv').style.display='none';document.getElementById('mpt').innerText=P.points;renderPosts();renderLB();}
-function openPoll(){if(!U)return alert("Login karo");showM('<h3>📊 Poll Banao</h3><input id="q1" placeholder="Sawal likho..."><input id="o1" placeholder="Option 1"><input id="o2" placeholder="Option 2"><button style="width:100%" onclick="makePoll()">Poll Post Karo</button>');}
-function makePoll(){var q=document.getElementById('q1').value.trim(),a=document.getElementById('o1').value.trim(),b=document.getElementById('o2').value.trim();if(!q||!a||!b)return alert("Sab likho");var id="p"+Date.now();posts[id]={text:"📊 POLL: "+q,img:"",topic:"Poll",username:U,pic:P.pic||"",isAdmin:P.isAdmin||false,likes:0,dis:0,comments:[],time:Date.now(),poll:{a:a,b:b,va:0,vb:0,voted:{}}};users[U].points+=10;save();closeM();renderPosts();}
-function vote(id,opt){if(!U)return alert("Login karo");var p=posts[id];if(p.poll.voted[U])return alert("Tum pehle vote kar chuke ho!");p.poll.voted[U]=opt;if(opt=='a')p.poll.va++;else p.poll.vb++;save();snd('like');renderPosts();}
-function like(id,owner){if(!U)return alert("Login karo");snd('like');posts[id].likes++;if(owner!==U&&users[owner])users[owner].points+=5;if(users[owner])users[owner].stars++;save();renderPosts();renderLB();}
-function dislike(id){snd('dis');posts[id].dis++;save();alert("😂 DISLIKE! Banda naraz ho gaya!");renderPosts();}
-function slap(u){snd('slap');alert("👋 CHAPPAIR! "+u+" ko zor ka chupair para! PAAAK! 😂");if(users[u])users[u].points=Math.max(0,users[u].points-2);save();renderLB();}
-function filt(t,btn){filter=t;document.querySelectorAll('.chip').forEach(function(b){b.classList.remove('on')});if(btn)btn.classList.add('on');renderPosts();}
-function renderPosts(){var list=Object.entries(posts).sort(function(a,b){return b[1].time-a[1].time});var h="";list.forEach(function(it){var id=it[0],p=it[1];if(filter!=='All'&&p.topic!==filter)return;var cr=p.isAdmin?' 👑':'';var del=(P&&P.isAdmin)?'<button class="g" onclick="delP(\''+id+'\')">Delete</button>':'';var pollH="";if(p.poll){var tot=p.poll.va+p.poll.vb||1;pollH='<div style="background:#222;padding:10px;border-radius:12px;margin-top:8px"><b>'+p.poll.a+'</b> - '+p.poll.va+' votes ('+Math.round(p.poll.va/tot*100)+'%)<br><button onclick="vote(\''+id+'\',\'a\')" style="margin-top:6px">Vote A</button> <button class="g" onclick="vote(\''+id+'\',\'b\')">Vote B</button><br><b>'+p.poll.b+'</b> - '+p.poll.vb+' votes</div>';}var cm="";(p.comments||[]).forEach(function(c){cm+='<div style="background:#222;padding:8px;border-radius:10px;margin-top:5px;font-size:13px"><b>'+c.u+':</b> '+c.t+'</div>';});h+='<div class="card"><div class="fl"><img class="av" src="'+(p.pic||'https://via.placeholder.com/100')+'"><div><b>'+p.username+'</b>'+cr+'<br><span class="sm">'+p.topic+' • '+new Date(p.time).toLocaleString()+'</span></div></div><p>'+p.text+'</p>'+(p.img?'<img class="pimg" src="'+p.img+'">':'')+pollH+'<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px"><span class="act" onclick="like(\''+id+'\',\''+p.username+'\')">❤️ REACT '+p.likes+'</span><span class="act" onclick="dislike(\''+id+'\')">👎 DISLIKE '+p.dis+'</span><span class="act" onclick="slap(\''+p.username+'\')">👋 CHUPAIR</span><span class="act" onclick="followU(\''+p.username+'\')">➕ Follow</span><span class="act" onclick="shareP()">↗️ SHARE</span><span class="act" onclick="alert(\'Report ho gaya, Admin dekhega\')">🚩 REPORT</span></div><div style="margin-top:10px"><input id="cm'+id+'" placeholder="Comment likho... funny wala!"><button onclick="addCm(\''+id+'\')">Comment Karo 💬</button></div>'+cm+del+'</div>';});document.getElementById('posts').innerHTML=h||"<div class='card' style='text-align:center'>Abhi koi post nahi, pehli post tum karo!</div>";if(U){var c=list.filter(function(x){return x[1].username===U}).length;document.getElementById('mpc').innerText=c+" posts";}}
-function addCm(id){var v=document.getElementById('cm'+id).value.trim();if(!v)return alert("Comment likho");snd('cm');posts[id].comments.push({u:U,t:v});users[U].points+=2;save();renderPosts();}
-function delP(id){if(confirm("Delete kar dun?")){delete posts[id];save();renderPosts();}}
-function followU(u){snd('like');alert(u+" ko Follow kar liya! ✅");if(users[u])users[u].stars++;save();renderLB();}
-function shareP(){snd('like');alert("Link copy ho gaya! Share karo 📤");}
-function renderO(list){if(!list)list=Object.values(online);var h="";list.forEach(function(u){h+='<span class="pill" onclick="openChat(\''+u.username+'\')"><span class="dot"></span> '+u.username+' 💬</span>';});document.getElementById('ol').innerHTML=h||"Abhi koi aur online nahi, sirf tum ho.";document.getElementById('oc').innerText=list.length+" ONLINE";document.getElementById('olinfo').innerText="Ye real hain - jo login hoga wo hi yahan dikhega.";}
-function searchO(){var q=document.getElementById('sq').value.toLowerCase();var l=Object.values(online).filter(function(u){return u.username.toLowerCase().includes(q)});renderO(l);}
-function lbTab(m,btn){lbMode=m;document.querySelectorAll('#lbc .chip').forEach(function(b){b.classList.remove('on')});btn.classList.add('on');renderLB();}
-function renderLB(){var arr=Object.values(users).sort(function(a,b){return lbMode=='pts'?(b.points-a.points):(b.stars-a.stars)}).slice(0,10);var h="",cls=["lb1","lb2","lb3","lb4","lb5"];arr.forEach(function(u,i){h+='<div style="display:flex;justify-content:space-between;padding:10px;border-radius:12px;margin-bottom:6px" class="'+(cls[i]||'')+'"><span>#'+(i+1)+' <b>'+u.username+'</b> - '+title(u.points)+'</span><b>'+(lbMode=='pts'?u.points+' pts':(u.stars||0)+' ⭐')+'</b></div>';});document.getElementById('lbl').innerHTML=h||"Koi nahi";}
+function storyF(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(ev){stories.push({img:ev.target.result,user:U});save();renderS();alert("Story lag gayi!");};r.readAsDataURL(f);}
+function renderS(){var h='';stories.slice().reverse().forEach(function(s){h+='<div style="text-align:center"><img src="'+s.img+'" style="width:54px;height:54px;border-radius:50%;border:2px solid #ffd700;object-fit:cover" onclick="showM(\'<img src='+s.img+' style=width:100%><p><b>'+s.user+'</b> ki Story</p>\')"><br><span style="font-size:10px">'+s.user+'</span></div>';});document.getElementById('sl').innerHTML=h||"<span class='sm'>Abhi kisi ne story nahi lagayi</span>";}
+function addPost(){var t=document.getElementById('pt').value.trim();if(!t&&!tmpPic)return alert("Kuch likho ya pic lagao");var id="p"+Date.now();posts[id]={text:t,img:tmpPic,topic:document.getElementById('tp').value,username:U,pic:P.pic||"",likes:0,dis:0,comments:[],time:Date.now()};users[U].points+=10;P=users[U];save();tmpPic="";document.getElementById('pt').value="";document.getElementById('pv').style.display='none';document.getElementById('mpt').innerText=P.points;renderPosts();renderLB();}
+function openPoll(){showM('<h3>Poll Banao</h3><input id="q1" placeholder="Sawal"><input id="o1" placeholder="Option 1"><input id="o2" placeholder="Option 2"><button style="width:100%" onclick="makePoll()">Poll Post Karo</button>');}
+function makePoll(){var q=document.getElementById('q1').value,a=document.getElementById('o1').value,b=document.getElementById('o2').value;if(!q||!a||!b)return alert("Sab likho");var id="p"+Date.now();posts[id]={text:"POLL: "+q,img:"",topic:"Poll",username:U,pic:P.pic||"",likes:0,dis:0,comments:[],time:Date.now(),poll:{a:a,b:b,va:0,vb:0,voted:{}}};save();closeM();renderPosts();}
+function vote(id,opt){var p=posts[id];if(p.poll.voted[U])return alert("Pehle vote kar chuke ho!");p.poll.voted[U]=opt;if(opt=='a')p.poll.va++;else p.poll.vb++;save();snd('like');renderPosts();}
+function like(id,owner){snd('like');posts[id].likes++;if(users[owner])users[owner].points+=5;save();renderPosts();renderLB();}
+function dislike(id){snd('dis');posts[id].dis++;save();alert("DISLIKE! Banda naraz ho gaya!");renderPosts();}
+function slap(u){snd('slap');alert("CHUPAIR! "+u+" ko zor ka chupair para! PAAAK!");}
+function addCm(id){var v=document.getElementById('cm'+id).value.trim();if(!v)return;posts[id].comments.push({u:U,t:v});save();renderPosts();}
+function renderPosts(){var list=Object.entries(posts).sort(function(a,b){return b[1].time-a[1].time});var h="";list.forEach(function(it){var id=it[0],p=it[1];var pollH="";if(p.poll){pollH='<div style="background:#222;padding:10px;border-radius:12px;margin-top:8px"><b>'+p.poll.a+'</b> - '+p.poll.va+' votes<br><button onclick="vote(\''+id+'\',\'a\')">Vote A</button> <button class="g" onclick="vote(\''+id+'\',\'b\')">Vote B</button><br><b>'+p.poll.b+'</b> - '+p.poll.vb+' votes</div>';}var cm="";(p.comments||[]).forEach(function(c){cm+='<div style="background:#222;padding:8px;border-radius:10px;margin-top:5px;font-size:13px"><b>'+c.u+':</b> '+c.t+'</div>';});h+='<div class="card"><b>'+p.username+'</b> • '+p.topic+'<p>'+p.text+'</p>'+(p.img?'<img src="'+p.img+'" style="width:100%;border-radius:12px">':'')+pollH+'<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px"><button onclick="like(\''+id+'\',\''+p.username+'\')">REACT '+p.likes+'</button><button class="g" onclick="dislike(\''+id+'\')">DISLIKE '+p.dis+'</button><button class="g" onclick="slap(\''+p.username+'\')">CHUPAIR</button></div><div style="margin-top:10px"><input id="cm'+id+'" placeholder="Comment likho..."><button onclick="addCm(\''+id+'\')">Comment Karo</button></div>'+cm+'</div>';});document.getElementById('posts').innerHTML=h||"<div class='card'>Abhi koi post nahi</div>";}
+function renderO(){var l=Object.values(online);var h="";l.forEach(function(u){h+='<span style="background:#1a1500;border:1px solid #d4af37;padding:5px 9px;border-radius:20px;margin:3px;display:inline-block;cursor:pointer" onclick="openChat(\''+u.username+'\')">🟢 '+u.username+' 💬</span>';});document.getElementById('ol').innerHTML=h||"Abhi koi aur online nahi";document.getElementById('oc').innerText=l.length+" ONLINE";}
+function renderLB(){var arr=Object.values(users).sort(function(a,b){return b.points-a.points}).slice(0,10);var h="";arr.forEach(function(u,i){h+='<div style="padding:10px;border-bottom:1px solid #333">#'+(i+1)+' <b>'+u.username+'</b> - '+u.points+' pts</div>';});document.getElementById('lbl').innerHTML=h||"Koi nahi";}
 function showLB(){document.getElementById('lbc').style.display='block';document.getElementById('lbc').scrollIntoView();}
-function goHome(){window.scrollTo(0,0);}function focusP(){document.getElementById('pt').focus();window.scrollTo(0,400);}
-function openChat(to){if(!U)return alert("Login karo");if(to===U)return alert("Khud se chat nahi hoti 😂");var key=[U,to].sort().join("_");var msgs=chats[key]||[];var mh=msgs.map(function(m){return '<div class="msg '+(m.from===U?'me':'you')+'"><b>'+m.from+':</b> '+m.text+'</div>';}).join("")||"<p class='sm'>Koi message nahi, pehla message bhejo!</p>";showM('<h3>💬 '+to+' se 1 ON 1 Chat</h3><div id="chatBox" style="max-height:300px;overflow:auto">'+mh+'</div><input id="chatIn" placeholder="Message likho..."><button style="width:100%" onclick="sendChat(\''+key+'\',\''+to+'\')">Bhejo ➡️</button>');}
-function sendChat(key,to){var v=document.getElementById('chatIn').value.trim();if(!v)return;if(!chats[key])chats[key]=[];chats[key].push({from:U,text:v});save();snd('cm');openChat(to);}
-function openInbox(){if(!U)return alert("Login karo");var list=Object.keys(users).filter(function(u){return u!==U});var h='<h3>✉️ INBOX - Kisi ko dabao, chat khulegi</h3>';list.forEach(function(u){h+='<div style="display:flex;justify-content:space-between;padding:10px;border-bottom:1px solid #333;cursor:pointer" onclick="openChat(\''+u+'\')"><span>👤 <b>'+u+'</b></span><span style="color:#ffd700">Chat ➡️</span></div>';});showM(h||"Koi user nahi");}
-function openMore(){showM('<h3>••• MORE - Sab Kuch</h3><button style="width:100%;margin:4px 0" onclick="showM(mehfilH())">🎤 MEHFIL</button><button style="width:100%;margin:4px 0" onclick="showM(gameH())">🎮 GAMES ARCADE</button><button style="width:100%;margin:4px 0" onclick="showM(searchH())">🔍 SEARCH Users</button><button style="width:100%;margin:4px 0" onclick="showM(emojiH())">😂 EMOJIS</button><button style="width:100%;margin:4px 0" onclick="showM(themeH())">🎨 THEMES</button><button style="width:100%;margin:4px 0" onclick="showM(rulesH())">📜 RULES</button><button style="width:100%;margin:4px 0" onclick="showM(termsH())">📄 TERMS</button><button style="width:100%;margin:4px 0" onclick="showM(privacyH())">🔒 PRIVACY</button><button style="width:100%;margin:4px 0" onclick="showM(aboutH())">ℹ️ ABOUT</button><button style="width:100%;margin:4px 0;background:#ff4444;color
+function goHome(){window.scrollTo(0,0);}
+function focusP(){document.getElementById('pt').focus();window.scrollTo(0,400);}
+function openChat(to){if(to===U)return alert("Khud se chat nahi hoti");var key=[U,to].sort().join("_");var msgs=chats[key]||[];var mh=msgs.map(function(m){return '<div style="padding:8px;background:#222;border-radius:10px;margin:5px 0"><b>'+m.from+':</b> '+m.text+'</div>';}).join("")||"Koi message nahi";showM('<h3>Chat - '+to+'</h3><div>'+mh+'</div><input id="chatIn" placeholder="Message likho..."><button style="width:100%" onclick="sendChat(\''+key+'\',\''+to+'\')">Bhejo</button>');}
+function sendChat(key,to){var v=document.getElementById('chatIn').value.trim();if(!v)return;if(!chats[key])chats[key]=[];chats[key].push({from:U,text:v});save();openChat(to);}
+function openInbox(){var list=Object.keys(users).filter(function(u){return u!==U});var h='<h3>INBOX</h3>';list.forEach(function(u){h+='<div style="padding:10px;border-bottom:1px solid #333;cursor:pointer" onclick="openChat(\''+u+'\')">👤 <b>'+u+'</b> - Chat</div>';});showM(h||"Koi user nahi");}
+function openMore(){showM('<h3>MORE</h3><button style="width:100%;margin:4px 0" onclick="alert(\'Mehfil me welcome! Shayari post karo\')">MEHFIL</button><button style="width:100%;margin:4px 0" onclick="var r=Math.random()>0.5?\'HEAD\':\'TAIL\';alert(\'Coin: \'+r)">GAMES - Coin Toss</button><button style="width:100%;margin:4px 0" onclick="alert(\'RULES: 1.Gali nahi 2.Tang nahi 3.Fake post nahi\')">RULES</button><button style="width:100%;margin:4px 0" onclick="alert(\'YAARII-PK - Apni Mehfil Apni Yaari\')">ABOUT</button><button style="width:100%;margin:4px 0;background:#ff4444;color:#fff" onclick="logout()">LOGOUT</button>');}
+load();var sv=localStorage.getItem("y_login");if(sv&&users[sv]){U=sv;P=users[sv];goOn();showMain();}renderPosts();renderLB();renderS();renderO();
+</script>
+</body>
+</html>
