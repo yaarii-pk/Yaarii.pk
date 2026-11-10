@@ -5,24 +5,21 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>YAARII-PK</title>
 <style>
-body{margin:0;background:#000;color:#fff;font-family:Arial;padding-bottom:85px}
-header{background:#000;padding:10px;text-align:center;border-bottom:2px solid #d4af37}
+body{margin:0;background:#000;color:#fff;font-family:Arial;padding-bottom:90px}
+header{background:#000;padding:12px;text-align:center;border-bottom:2px solid #d4af37}
 header h1{margin:0;color:#ffd700}
 .card{background:#111;border:1px solid #333;border-radius:14px;padding:12px;margin:9px auto;max-width:520px}
-input,select{width:100%;padding:11px;margin:6px 0;border-radius:11px;border:none;background:#222;color:#fff}
+input{width:100%;padding:11px;margin:6px 0;border-radius:11px;border:none;background:#222;color:#fff;box-sizing:border-box}
 button{padding:11px 14px;border:none;border-radius:20px;background:#ffd700;color:#000;font-weight:700;cursor:pointer}
 button.g{background:#222;color:#ffd700;border:1px solid #ffd700}
-.av{width:44px;height:44px;border-radius:50%;border:2px solid #ffd700;object-fit:cover}
 .hid{display:none}
 .sm{color:#aaa;font-size:12px}
-.bottom{position:fixed;bottom:0;left:0;right:0;background:#111;border-top:2px solid #d4af37;display:flex;padding:7px;z-index:30}
+.bottom{position:fixed;bottom:0;left:0;right:0;background:#111;border-top:2px solid #d4af37;display:flex;padding:8px;z-index:30}
 .bottom div{flex:1;text-align:center;color:#ffd700;cursor:pointer}
-.pop{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:50;display:flex;align-items:center;justify-content:center;padding:15px}
-.pop>div{background:#111;border:1px solid #ffd700;border-radius:15px;padding:14px;width:100%;max-width:460px;max-height:85vh;overflow:auto}
 </style>
 </head>
 <body>
-<header><h1>👑 YAARII-PK 👑</h1><p>Apni Mehfil • Apni Yaari</p></header>
+<header><h1>YAARII-PK</h1><p>Apni Mehfil - Apni Yaari</p></header>
 
 <div id="auth">
 <div class="card" style="text-align:center">
@@ -32,107 +29,141 @@ button.g{background:#222;color:#ffd700;border:1px solid #ffd700}
 <label><input type="checkbox" id="ag" style="width:auto"> Rules se agree hun</label><br>
 <button onclick="signup()" style="width:100%;margin-top:8px">Signup</button>
 <button class="g" onclick="login()" style="width:100%;margin-top:6px">Login</button>
-<p id="am"></p>
+<p id="am" style="color:#ff6666"></p>
 </div>
-</div> 
-
-  <div id="main" class="hid">
-<div class="card">
-<b>🟢 Online Yaar - <span id="oc">0 ONLINE</span></b>
-<div id="ol"></div>
-<p class="sm">Ye real hain - jo login hoga wo hi dikhega</p>
 </div>
 
-<div class="card">
-<b>Stories - Sirf unki jinhone lagayi</b>
-<span style="float:right;color:#ffd700;cursor:pointer" onclick="document.getElementById('sf').click()">📸 Story +</span>
-<input type="file" id="sf" accept="image/*" style="display:none" onchange="storyF(event)">
-<div id="sl" style="display:flex;gap:10px;overflow:auto;margin-top:8px"></div>
-</div>
-
+<div id="main" class="hid">
 <div class="card">
 <b id="mn"></b> <span id="mid" class="sm"></span><br>
-<span class="sm"><span id="mpc">0 posts</span> • Points: <b id="mpt" style="color:#ffd700">0</b></span><br>
+<span class="sm">Points: <b id="mpt" style="color:#ffd700">0</b></span><br>
 <span id="mbio" class="sm"></span><br><br>
-<img id="myp" class="av" src="https://via.placeholder.com/100"><br>
 <input id="bio" placeholder="Apni Bio likho...">
-<input type="file" accept="image/*" onchange="profPic(event)">
 <button onclick="upd()">Profile Update</button>
 <button class="g" onclick="logout()">Logout</button>
 </div>
-
 <div class="card">
 <input id="pt" placeholder="Kuch likho...">
-<input type="file" id="pf" accept="image/*" onchange="prevP(event)">
-<img id="pv" style="width:100%;border-radius:12px;display:none">
-<select id="tp">
-<option>General</option>
-<option>Pics</option>
-<option>Shayari</option>
-<option>Funny</option>
-<option>Gaming</option>
-<option>Cricket</option>
-<option>Football</option>
-</select>
-<button onclick="addPost()">Post Karo +10 Points</button>
-<button class="g" onclick="openPoll()">📊 Poll Banao</button>
+<button onclick="addPost()" style="width:100%">Post Karo +10 Points</button>
 </div>
-
 <div id="posts" style="max-width:520px;margin:auto"></div>
-
-<div class="card" id="lbc" style="display:none">
-<h3>🏆 Leaderboard</h3>
-<div id="lbl"></div>
-</div>
 </div>
 
 <div class="bottom">
-<div onclick="goHome()">🏠<br><b>HOME</b></div>
-<div onclick="focusP()">➕<br><b>SHARE</b></div>
-<div onclick="showLB()">🔥<br><b>TRENDING</b></div>
-<div onclick="openInbox()">✉️<br><b>INBOX</b></div>
-<div onclick="openInbox()">👤<br><b>1 ON 1</b></div>
-<div onclick="openMore()">•••<br><b>MORE</b></div>
+<div onclick="goHome()">HOME</div>
+<div onclick="focusP()">SHARE</div>
+<div onclick="logout()">LOGOUT</div>
 </div>
 
-<div id="modal"></div>
-
-  <script>
-var U=null,P=null,posts={},users={},online={},stories=[],tmpPic="",chats={};
-function load(){try{users=JSON.parse(localStorage.getItem("y_users")||"{}");posts=JSON.parse(localStorage.getItem("y_posts")||"{}");chats=JSON.parse(localStorage.getItem("y_chats")||"{}");stories=JSON.parse(localStorage.getItem("y_stories")||"[]");}catch(e){}}
-function save(){localStorage.setItem("y_users",JSON.stringify(users));localStorage.setItem("y_posts",JSON.stringify(posts));localStorage.setItem("y_chats",JSON.stringify(chats));localStorage.setItem("y_stories",JSON.stringify(stories));}
-function snd(t){try{var c=new(window.AudioContext||window.webkitAudioContext)();var o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.frequency.setValueAtTime(t=='dis'?300:600,c.currentTime);o.frequency.exponentialRampToValueAtTime(t=='dis'?80:1200,c.currentTime+.15);o.start();o.stop(c.currentTime+.3);}catch(e){}}
-function closeM(){document.getElementById('modal').innerHTML="";}
-function showM(h){document.getElementById('modal').innerHTML='<div class="pop"><div>'+h+'<br><button class="g" style="width:100%" onclick="closeM()">Band Karo</button></div></div>';}
-function signup(){var u=document.getElementById('un').value.trim(),p=document.getElementById('pw').value.trim();if(!u||!p)return document.getElementById('am').innerText="Naam aur Password likho";if(!document.getElementById('ag').checked)return document.getElementById('am').innerText="Pehle Rules se agree karo";load();if(users[u])return document.getElementById('am').innerText="Ye naam pehle se hai, Login karo";users[u]={username:u,password:p,bio:"",pic:"",points:50,id:Math.floor(10000+Math.random()*89999)};save();U=u;P=users[u];localStorage.setItem("y_login",u);goOn();showMain();}
-function login(){var u=document.getElementById('un').value.trim(),p=document.getElementById('pw').value.trim();load();if(!users[u])return document.getElementById('am').innerText="Account nahi mila, Signup karo";if(users[u].password!==p)return document.getElementById('am').innerText="Password galat hai";U=u;P=users[u];localStorage.setItem("y_login",u);goOn();showMain();}
-function goOn(){if(!U)return;online[U]={username:U};renderO();}
-function logout(){localStorage.removeItem("y_login");location.reload();}
-function showMain(){document.getElementById('auth').classList.add('hid');document.getElementById('main').classList.remove('hid');document.getElementById('mn').innerText=P.username+" 👑";document.getElementById('mid').innerText="("+P.id+")";document.getElementById('mpt').innerText=P.points;document.getElementById('mbio').innerText=P.bio||"";if(P.pic)document.getElementById('myp').src=P.pic;renderPosts();renderLB();renderS();}
-function upd(){users[U].bio=document.getElementById('bio').value;save();alert("Profile update ho gaya!");location.reload();}
-function profPic(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(ev){users[U].pic=ev.target.result;save();document.getElementById('myp').src=ev.target.result;};r.readAsDataURL(f);}
-function prevP(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(ev){tmpPic=ev.target.result;var im=document.getElementById('pv');im.src=tmpPic;im.style.display='block';};r.readAsDataURL(f);}
-function storyF(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(ev){stories.push({img:ev.target.result,user:U});save();renderS();alert("Story lag gayi!");};r.readAsDataURL(f);}
-function renderS(){var h='';stories.slice().reverse().forEach(function(s){h+='<div style="text-align:center"><img src="'+s.img+'" style="width:54px;height:54px;border-radius:50%;border:2px solid #ffd700"><br><span style="font-size:10px">'+s.user+'</span></div>';});document.getElementById('sl').innerHTML=h||"<span class='sm'>Abhi koi story nahi</span>";}
-function addPost(){var t=document.getElementById('pt').value.trim();if(!t&&!tmpPic)return alert("Kuch likho ya pic lagao");var id="p"+Date.now();posts[id]={text:t,img:tmpPic,topic:document.getElementById('tp').value,username:U,pic:P.pic||"",likes:0,dis:0,comments:[],time:Date.now()};users[U].points+=10;P=users[U];save();tmpPic="";document.getElementById('pt').value="";document.getElementById('pv').style.display='none';document.getElementById('mpt').innerText=P.points;renderPosts();renderLB();}
-function openPoll(){showM('<h3>Poll Banao</h3><input id="q1" placeholder="Sawal"><input id="o1" placeholder="Option 1"><input id="o2" placeholder="Option 2"><button style="width:100%" onclick="makePoll()">Poll Post Karo</button>');}
-function makePoll(){var q=document.getElementById('q1').value,a=document.getElementById('o1').value,b=document.getElementById('o2').value;if(!q||!a||!b)return alert("Sab likho");var id="p"+Date.now();posts[id]={text:"POLL: "+q,img:"",topic:"Poll",username:U,pic:P.pic||"",likes:0,dis:0,comments:[],time:Date.now(),poll:{a:a,b:b,va:0,vb:0,voted:{}}};save();closeM();renderPosts();}
-function vote(id,opt){var p=posts[id];if(p.poll.voted[U])return alert("Pehle vote kar chuke ho!");p.poll.voted[U]=opt;if(opt=='a')p.poll.va++;else p.poll.vb++;save();snd('like');renderPosts();}
-function like(id,owner){snd('like');posts[id].likes++;if(users[owner])users[owner].points+=5;save();renderPosts();renderLB();}
-function dislike(id){snd('dis');posts[id].dis++;save();alert("DISLIKE! Banda naraz ho gaya!");renderPosts();}
-function slap(u){snd('slap');alert("CHUPAIR! "+u+" ko zor ka chupair para! PAAAK!");}
-function addCm(id){var v=document.getElementById('cm'+id).value.trim();if(!v)return;posts[id].comments.push({u:U,t:v});save();renderPosts();}
-function renderPosts(){var list=Object.entries(posts).sort(function(a,b){return b[1].time-a[1].time});var h="";list.forEach(function(it){var id=it[0],p=it[1];var pollH="";if(p.poll){pollH='<div style="background:#222;padding:10px;border-radius:12px;margin-top:8px"><b>'+p.poll.a+'</b> - '+p.poll.va+' votes<br><button onclick="vote(\''+id+'\',\'a\')">Vote A</button> <button class="g" onclick="vote(\''+id+'\',\'b\')">Vote B</button><br><b>'+p.poll.b+'</b> - '+p.poll.vb+' votes</div>';}var cm="";(p.comments||[]).forEach(function(c){cm+='<div style="background:#222;padding:8px;border-radius:10px;margin-top:5px;font-size:13px"><b>'+c.u+':</b> '+c.t+'</div>';});h+='<div class="card"><b>'+p.username+'</b> • '+p.topic+'<p>'+p.text+'</p>'+(p.img?'<img src="'+p.img+'" style="width:100%;border-radius:12px">':'')+pollH+'<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:10px"><button onclick="like(\''+id+'\',\''+p.username+'\')">REACT '+p.likes+'</button><button class="g" onclick="dislike(\''+id+'\')">DISLIKE '+p.dis+'</button><button class="g" onclick="slap(\''+p.username+'\')">CHUPAIR</button></div><div style="margin-top:10px"><input id="cm'+id+'" placeholder="Comment likho..."><button onclick="addCm(\''+id+'\')">Comment Karo</button></div>'+cm+'</div>';});document.getElementById('posts').innerHTML=h||"<div class='card'>Abhi koi post nahi</div>";}
-function renderO(){var l=Object.values(online);var h="";l.forEach(function(u){h+='<span style="background:#1a1500;border:1px solid #d4af37;padding:5px 9px;border-radius:20px;margin:3px;display:inline-block;cursor:pointer" onclick="openChat(\''+u.username+'\')">🟢 '+u.username+' 💬</span>';});document.getElementById('ol').innerHTML=h||"Abhi koi aur online nahi";document.getElementById('oc').innerText=l.length+" ONLINE";}
-function renderLB(){var arr=Object.values(users).sort(function(a,b){return b.points-a.points}).slice(0,10);var h="";arr.forEach(function(u,i){h+='<div style="padding:10px;border-bottom:1px solid #333">#'+(i+1)+' <b>'+u.username+'</b> - '+u.points+' pts</div>';});document.getElementById('lbl').innerHTML=h||"Koi nahi";}
-function showLB(){document.getElementById('lbc').style.display='block';document.getElementById('lbc').scrollIntoView();}
-function goHome(){window.scrollTo(0,0);}
-function focusP(){document.getElementById('pt').focus();window.scrollTo(0,400);}
-function openChat(to){if(to===U)return alert("Khud se chat nahi hoti");var key=[U,to].sort().join("_");var msgs=chats[key]||[];var mh=msgs.map(function(m){return '<div style="padding:8px;background:#222;border-radius:10px;margin:5px 0"><b>'+m.from+':</b> '+m.text+'</div>';}).join("")||"Koi message nahi";showM('<h3>Chat - '+to+'</h3><div>'+mh+'</div><input id="chatIn" placeholder="Message likho..."><button style="width:100%" onclick="sendChat(\''+key+'\',\''+to+'\')">Bhejo</button>');}
-function sendChat(key,to){var v=document.getElementById('chatIn').value.trim();if(!v)return;if(!chats[key])chats[key]=[];chats[key].push({from:U,text:v});save();openChat(to);}
-function openInbox(){var list=Object.keys(users).filter(function(u){return u!==U});var h='<h3>INBOX</h3>';list.forEach(function(u){h+='<div style="padding:10px;border-bottom:1px solid #333;cursor:pointer" onclick="openChat(\''+u+'\')">👤 <b>'+u+'</b> - Chat</div>';});showM(h||"Koi user nahi");}
-function openMore(){showM('<h3>MORE</h3><button style="width:100%;margin:4px 0" onclick="alert(\'Mehfil me welcome! Shayari post karo\')">MEHFIL</button><button style="width:100%;margin:4px 0" onclick="var r=Math.random()>0.5?\'HEAD\':\'TAIL\';alert(\'Coin: \'+r)">GAMES - Coin Toss</button><button style="width:100%;margin:4px 0" onclick="alert(\'RULES: 1.Gali nahi 2.Tang nahi 3.Fake post nahi\')">RULES</button><button style="width:100%;margin:4px 0" onclick="alert(\'YAARII-PK - Apni Mehfil Apni Yaari\')">ABOUT</button><button style="width:100%;margin:4px 0;background:#ff4444;color:#fff" onclick="logout()">LOGOUT</button>');}
-load();var sv=localStorage.getItem("y_login");if(sv&&users[sv]){U=sv;P=users[sv];goOn();showMain();}renderPosts();renderLB();renderS();renderO();
+<script>
+var U = null;
+var P = null;
+var users = {};
+var posts = {};
+function load() {
+  try {
+    users = JSON.parse(localStorage.getItem("y_users") || "{}");
+    posts = JSON.parse(localStorage.getItem("y_posts") || "{}");
+  } catch(e) {}
+}
+function save() {
+  localStorage.setItem("y_users", JSON.stringify(users));
+  localStorage.setItem("y_posts", JSON.stringify(posts));
+}
+function signup() {
+  var u = document.getElementById("un").value.trim();
+  var p = document.getElementById("pw").value.trim();
+  if (!u || !p) {
+    document.getElementById("am").innerText = "Naam aur Password likho";
+    return;
+  }
+  if (!document.getElementById("ag").checked) {
+    document.getElementById("am").innerText = "Pehle Rules se agree karo";
+    return;
+  }
+  load();
+  if (users[u]) {
+    document.getElementById("am").innerText = "Ye naam pehle se hai, Login karo";
+    return;
+  }
+  users[u] = { username: u, password: p, bio: "", points: 50, id: Math.floor(10000 + Math.random() * 89999) };
+  save();
+  U = u;
+  P = users[u];
+  localStorage.setItem("y_login", u);
+  showMain();
+}
+function login() {
+  var u = document.getElementById("un").value.trim();
+  var p = document.getElementById("pw").value.trim();
+  load();
+  if (!users[u]) {
+    document.getElementById("am").innerText = "Account nahi mila, Signup karo";
+    return;
+  }
+  if (users[u].password !== p) {
+    document.getElementById("am").innerText = "Password galat hai";
+    return;
+  }
+  U = u;
+  P = users[u];
+  localStorage.setItem("y_login", u);
+  showMain();
+}
+function logout() {
+  localStorage.removeItem("y_login");
+  location.reload();
+}
+function showMain() {
+  document.getElementById("auth").classList.add("hid");
+  document.getElementById("main").classList.remove("hid");
+  document.getElementById("mn").innerText = P.username;
+  document.getElementById("mid").innerText = "(" + P.id + ")";
+  document.getElementById("mpt").innerText = P.points;
+  document.getElementById("mbio").innerText = P.bio || "";
+  renderPosts();
+}
+function upd() {
+  users[U].bio = document.getElementById("bio").value;
+  save();
+  alert("Profile update ho gaya!");
+  location.reload();
+}
+function addPost() {
+  var t = document.getElementById("pt").value.trim();
+  if (!t) { alert("Kuch likho"); return; }
+  var id = "p" + Date.now();
+  posts[id] = { text: t, username: U, likes: 0, time: Date.now() };
+  users[U].points = users[U].points + 10;
+  P = users[U];
+  save();
+  document.getElementById("pt").value = "";
+  document.getElementById("mpt").innerText = P.points;
+  renderPosts();
+}
+function like(id) {
+  posts[id].likes = posts[id].likes + 1;
+  save();
+  renderPosts();
+}
+function renderPosts() {
+  var keys = Object.keys(posts);
+  keys.sort(function(a,b){ return posts[b].time - posts[a].time; });
+  var h = "";
+  for (var i = 0; i < keys.length; i++) {
+    var id = keys[i];
+    var p = posts[id];
+    h = h + '<div class="card"><b>' + p.username + '</b><p>' + p.text + '</p><button onclick="like(\'' + id + '\')">REACT ' + p.likes + '</button></div>';
+  }
+  if (h === "") { h = "<div class='card'>Abhi koi post nahi</div>"; }
+  document.getElementById("posts").innerHTML = h;
+}
+function goHome() { window.scrollTo(0,0); }
+function focusP() { document.getElementById("pt").focus(); }
+load();
+var sv = localStorage.getItem("y_login");
+if (sv && users[sv]) { U = sv; P = users[sv]; showMain(); }
+renderPosts();
 </script>
 </body>
 </html>
