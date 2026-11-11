@@ -133,4 +133,58 @@ function changeDP(){var f=document.getElementById('dpFile').files[0];if(!f)retur
 function doSearch(){var q=document.getElementById('searchQ').value.toLowerCase();if(!q){document.getElementById('searchRes').innerHTML='';return}var users=getUsers();var res=Object.keys(users).filter(function(u){return u.toLowerCase().indexOf(q)>=0||String(users[u].id||'').indexOf(q)>=0});document.getElementById('searchRes').innerHTML=res.map(function(u){return '<div class="card">👤 '+u+' ('+(users[u].id||'')+') - ⭐ '+(users[u].points||0)+' <button type="button" class="btnBlack" onclick="doFollow(\''+u+'\')">Follow</button></div>'}).join('')||'Kuch nahi mila'}
 document.getElementById('postCat').innerHTML=cats.map(function(c){return '<option>'+c+'</option>'}).join('');
 syncFirebase();if(cur){showHomeNow();markOnline();setInterval(function(){markOnline();renderOnline()},30000)}else{showAuth('signup')}
+<script>
+try{
+setInterval(function(){
+var topImg = document.querySelector(".top img") || document.querySelector("header img") || document.querySelectorAll("img")[0];
+var myPic = topImg ? topImg.src : "";
+document.querySelectorAll(".post").forEach(function(post){
+var b = post.querySelector("b");
+if(!b) return;
+var name = b.textContent.trim();
+var pic = "";
+try{
+if(window.users && window.users[name]) pic = window.users[name].pic || window.users[name].dp || "";
+if(window.allUsers && window.allUsers[name]) pic = pic || window.allUsers[name].pic || window.allUsers[name].dp || "";
+}catch(e){}
+if(!pic) return;
+if(post.querySelector(".dp-fix")) return;
+var first = b.firstChild;
+if(first && first.textContent && first.textContent.indexOf("👤") !== -1){
+var img = document.createElement("img");
+img.className = "dp-fix";
+img.src = pic;
+img.style.width = "32px";
+img.style.height = "32px";
+img.style.borderRadius = "50%";
+img.style.objectFit = "cover";
+img.style.marginRight = "6px";
+img.style.verticalAlign = "middle";
+img.onerror = function(){ this.remove(); };
+first.replaceWith(img);
+}
+});
+if(myPic){
+document.body.childNodes.forEach(function(n){});
+var all = document.querySelectorAll("div, span, b, p");
+all.forEach(function(el){
+if(el.querySelector("input") || el.querySelector("textarea")) return;
+if(el.children.length > 0) return;
+if(el.textContent && el.textContent.trim() === "👤" && !el.classList.contains("dp-done")){
+var img2 = document.createElement("img");
+img2.className = "dp-fix";
+img2.src = myPic;
+img2.style.width = "32px";
+img2.style.height = "32px";
+img2.style.borderRadius = "50%";
+img2.style.objectFit = "cover";
+img2.style.verticalAlign = "middle";
+img2.onerror = function(){ this.remove(); };
+el.replaceWith(img2);
+}
+});
+}
+}, 1000);
+}catch(e){}
+</script>
 </script></body></html>
