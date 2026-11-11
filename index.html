@@ -62,6 +62,14 @@ var G={users:{},posts:{},postsArr:[],chat:[],stories:[],mehfils:["Sab Ki Mehfil"
 var cats=["General","Aseel","Motovlog","News","Sports","Cricket","Football","Automotive","Politics","Religion","History","Psychology","Motivation","Quotes","Weather","Jobs","Questions","DP Competition","Entertainment","Gaming","Memes","Movies","Music","Art","Drama","Comedy","Poetry","Shayari","Sad Poetry","Love Poetry","Urdu Ghazal","Sufi Poetry","Deep Lines","Attitude Poetry","Funny Poetry","Punjabi Poetry","Islamic Poetry","Literature","Books","Photography","Travel","Food","Fashion","Fitness","Tech","AI","Coding","Education","Business","Crypto","Science"];
 var emojiMap={'.c1':'🧕','.c2':'🧑‍🎤','.c3':'😮','.d4':'😡','.p5':'😍','.v3':'😎'};
 function emojify(t){var s=t||'';Object.keys(emojiMap).forEach(function(k){s=s.split(k).join(emojiMap[k])});return s}
+function timeAgo(t){
+  if(!t) return 'Abhi abhi';
+  var d = Date.now() - t;
+  if(d < 60000) return Math.floor(d/1000) + ' sec ho gaye';
+  if(d < 3600000) return Math.floor(d/60000) + ' min ho gaye';
+  if(d < 86400000) return Math.floor(d/3600000) + ' ghante ho gaye';
+  return Math.floor(d/86400000) + ' din ho gaye';
+}  
 function showMsg(t){var m=document.getElementById('msgBox');m.classList.remove('hidden');m.innerText=t;setTimeout(function(){m.classList.add('hidden')},3000)}
 function togglePass(id,el){var i=document.getElementById(id);if(i.type==='password'){i.type='text';el.innerText='🙈'}else{i.type='password';el.innerText='👁️'}}
 function showAuth(t){document.getElementById('page-auth').classList.remove('hidden');document.getElementById('auth-signup').classList.toggle('hidden',t!=='signup');document.getElementById('auth-login').classList.toggle('hidden',t!=='login');['home','share','trending','inbox','1on1','profile','mehfil','fun','leader','more','search','emojis','rules','about','terms','privacy'].forEach(function(x){var e=document.getElementById('page-'+x);if(e)e.classList.add('hidden')})}
