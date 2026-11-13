@@ -166,13 +166,58 @@ function getDPHtml(name){var u=G.users[name]||{};if(u.dp&&u.dp.length>10){return
 function mediaHtml(p){if(!p.pic)return '';if(p.pic.indexOf('data:video')===0||p.type==='VIDEO')return '<video src="'+p.pic+'" controls preload="metadata" style="width:100%;border-radius:10px"></video>';if(p.pic.indexOf('data:audio')===0||p.type==='AUDIO')return '<audio src="'+p.pic+'" controls preload="metadata" style="width:100%;margin-top:8px"></audio>';return '<img src="'+p.pic+'" loading="lazy">';}
 var FEED_LIMIT=15;
 var __feedBusy=false;
+function isModOrAdmin(){
+var me=getUsers()[cur];
+if(!me) return false;
+var r=(me.role||me.rank||'').toLowerCase();
+return r=='admin'||r=='moderator'||me.isAdmin==true||me.isMod==true||cur=='Leader'||cur=='Admin';
+}
+function isTrendingCreator(u){
+var users=getUsers();
+var me=users[u];
+if(!me) return false;
+var r=(me.role||me.rank||me.badge||'').toLowerCase();
+if(r.indexOf('trending')>=0 || r.indexOf('creator')>=0) return true;
+if((me.score||0)>=5000) return true;
+if((me.trendingLikes||0)>=3) return true;
+return false;
+}
+function userBadgeLine(u){
+var users=getUsers();
+var me=users[u]||{};
+var s=me.score||me.points||0;
+var line='';
+if(me.role && me.role.toLowerCase().indexOf('moderator')>=0) line+='<div style="background:#FF0000;color:#fff;font-size:10px;font-weight:bold;padding:1px 8px;border-radius:10px;display:inline-block">MODERATOR</div> ';
+if(me.role && me.role.toLowerCase().indexOf('admin')>=0) line+='<div style="background:#FFD700;color:#000;font-size:10px;font-weight:bold;padding:1px 8px;border-radius:10px;display:inline-block">ADMIN</div> ';
+var starTxt=me.star||me.stars||me.starEmoji||me.levelStar||'';
+var animalTxt=me.animal||me.pet||me.petEmoji||me.animalEmoji||me.emoji||'';
+var fireTxt=me.fire||me.firePower||'';
+var badgeTxt=me.badge||me.badges||me.title||'';
+if(!starTxt && !animalTxt && !fireTxt && !badgeTxt){
+if(s>=100000){ starTxt='⭐'; animalTxt='🐅'; fireTxt='🔥'; }
+else if(s>=5000){ starTxt='⭐'; animalTxt='🐆'; fireTxt='🔥'; }
+else if(s>=1000){ starTxt='⭐'; animalTxt='🐅'; }
+else { starTxt='⭐'; }
+}
+var icons='';
+if(starTxt) icons+='<span>'+starTxt+'</span> ';
+if(animalTxt) icons+='<span>'+animalTxt+'</span> ';
+if(fireTxt) icons+='<span>'+fireTxt+'</span> ';
+if(!fireTxt && s>=5000) icons+='<span>🔥</span> ';
+if(badgeTxt && typeof badgeTxt==='string') icons+=' <span>'+badgeTxt+'</span>';
+line+='<div style="font-size:13px;line-height:1.4;margin-top:2px">'+icons+'</div>';
+if(s>=5000) line+='<div style="font-size:11px;color:#FFD700">🔥 Fire Power</div>';
+line+='<div style="font-size:11px;color:#FFD700">⭐ '+(me.score||0)+' • 👏 '+(me.points||me.likes||0)+'</div>';
+if(me.lastSeen) line+='<div style="font-size:10px;color:#aaa">Last seen '+timeAgo(me.lastSeen)+'</div>';
+return line;
+}
 function loadFeed(){
 if(__feedBusy) return;
 __feedBusy=true;
 setTimeout(function(){__feedBusy=false},500);
 var all=getPosts();
-var me=getUsers()[cur];
 var blocked=getBlockedList();
+var isMod=isModOrAdmin();
 all=all.filter(function(p){return blocked.indexOf(p.u)<0});
 var keys=all.map(function(_,i){return i}).reverse();
 keys=keys.slice(0,FEED_LIMIT);
@@ -182,11 +227,63 @@ return;
 }
 document.getElementById('feed').innerHTML=keys.map(function(i){
 var p=all[i];
+if(p.hidden && p.u!=cur && !isMod) return '';
 var timeTxt=p.time?timeAgo(p.time):(p.t||'');
-return '<div class="post"><div style="display:flex;justify-content:space-between"><b style="cursor:pointer" onclick="viewUser(\''+p.u+'\')">'+getDPHtml(p.u)+displayName(p.u)+' 👀</b><span class="badge">'+p.cat+' • '+timeTxt+'</span></div><p style="margin:10px 0;font-size:16px">'+mentionify(p.text||'')+'</p>'+mediaHtml(p)+'<div class="pBtns"><button class="gold" onclick="doLike(\''+p._key+'\')">👏 LIKE '+(p.likes||0)+'</button><button onclick="doChapair(\''+p._key+'\')">👋 CHAPAIR '+(p.chapair||0)+'</button><button onclick="doShare(\''+p._key+'\')">SHARE</button></div><div style="display:flex;gap:6px;margin-top:8px"><input id="cmt-'+p._key+'" placeholder="Comment..."><button onclick="doComment(\''+p._key+'\')" style="width:70px;background:#FFD700;color:#000;border:none;border-radius:8px;font-weight:bold">Bhejo</button></div></div>';
+var isMine=p.u==cur;
+var canEdit=isMine||isMod;
+var canHideDel=isMine||isMod;
+var followBtn=p.u==cur?'':'<button onclick="doFollow(\''+p.u+'\')">Follow</button>';
+var repostBtn='<button onclick="doRepost(\''+p._key+'\')">REPOST</button>';
+var editBtn=canEdit?'<button onclick="editPost(\''+p._key+'\')" style="background:#FFD700;color:#000">✏️ EDIT</button>':'';
+var delBtn=canHideDel?'<button onclick="deletePost(\''+p._key+'\')" style="background:#FFD700;color:#000">🗑️ DELETE</button>':'';
+var hideBtn=canHideDel?'<button onclick="hidePost(\''+p._key+'\')">👁️ HIDE</button>':'';
+var fireTxt=(p.likes||0)>=3?' 🔥 Fire Power ON (+5000)':'';
+var likersTxt='';
+if(p.likedBy && p.likedBy.length){
+var lastLiker=p.likedBy[p.likedBy.length-1];
+if(isTrendingCreator(lastLiker)){
+likersTxt='<div style="font-size:13px;color:#FFD700;margin-top:6px">🔥 '+displayName(lastLiker)+' ne apki post like ki Trending Creator (+5000)</div>';
+} else {
+likersTxt='<div style="font-size:13px;color:#fff;margin-top:6px">❤️ '+displayName(lastLiker)+' ne apki post like ki (+5)</div>';
+}
+} else if((p.likes||0)>0){
+likersTxt='<div style="font-size:13px;color:#fff;margin-top:6px">❤️ '+(p.likes||0)+' users ne apki post like ki (+5)</div>';
+}
+if(p.trendingCreatorLike){
+likersTxt+='<div style="font-size:13px;color:#FFD700;margin-top:2px">🔥 Trending Creator Like - '+p.cat+' Category</div>';
+}
+return '<div class="post"><div style="display:flex;justify-content:space-between"><div><b style="cursor:pointer" onclick="viewUser(\''+p.u+'\')">'+getDPHtml(p.u)+displayName(p.u)+' 👀</b><div style="text-align:left">'+userBadgeLine(p.u)+'</div></div><span class="badge">'+p.cat+' • '+timeTxt+'</span></div><p style="margin:10px 0;font-size:16px">'+mentionify(p.text||'')+'</p>'+mediaHtml(p)+'<div style="margin:6px 0">'+editBtn+delBtn+hideBtn+'</div><div class="pBtns"><button class="gold" onclick="doLike(\''+p._key+'\')">👏 LIKE '+(p.likes||0)+'</button><button onclick="doChapair(\''+p._key+'\')">👋 CHAPAIR '+(p.chapair||0)+'</button>'+followBtn+repostBtn+'<button onclick="doShare(\''+p._key+'\')">SHARE</button></div>'+likersTxt+'<div style="font-size:12px;color:#FFD700;margin-top:4px">Post=+10 | Like=+5 | Chapair=-5 | Trending Creator Like=+5000'+fireTxt+'</div><div style="display:flex;gap:6px;margin-top:8px"><input id="cmt-'+p._key+'" placeholder="Comment..."><button onclick="doComment(\''+p._key+'\')" style="width:70px;background:#FFD700;color:#000;border:none;border-radius:8px;font-weight:bold">Bhejo</button></div></div>';
 }).join('')+'<button onclick="FEED_LIMIT+=15;loadFeed()" style="width:100%;padding:12px;background:#222;color:#FFD700;border:1px solid #FFD700;border-radius:10px;margin-top:10px;font-weight:bold">⬇️ AUR POSTS DEKHO</button>';
 }
-function doLike(key){var p=G.posts[key];if(!p)return;if(p.u===cur){showMsg('Apni post like nahi kar sakte!');return;}var owner=G.users[p.u]||{};if(owner.likeOn===false){showMsg('Is user ne Like OFF kiya hua hai');return}if((p.likedBy||[]).indexOf(cur)>=0){showMsg('Tum is post ko pehle hi Like kar chuke ho - 1 bar hi Like hota hai');return}playFah();var gain=getLikeScore();var newLikes=(p.likes||0)+1;var newLikedBy=(p.likedBy||[]).slice();newLikedBy.push(cur);var logTxt='👏 '+cur+' ne aapki post Like ki (+'+gain+' score)';var newLog=(p.likeLog||[]).slice();newLog.push(logTxt);p.likes=newLikes;p.likedBy=newLikedBy;p.likeLog=newLog;var btn=document.querySelector('[data-like-btn="'+key+'"]');if(btn){btn.innerText='👏 LIKE '+newLikes+' ✓';btn.disabled=true;}var cmt=document.getElementById('cmt-'+key);if(cmt&&cmt.parentNode){var lg=document.createElement('div');lg.className='likeLog';lg.innerText=logTxt;cmt.parentNode.parentNode.insertBefore(lg,cmt.parentNode);}addPointsTo(p.u,gain);db.ref('posts/'+key).update({likes:newLikes,likedBy:newLikedBy,likeLog:newLog});showMsg('👏 +'+gain+' points! Faaaaah 😂');if(p.u!==cur){pushInbox(p.u,{from:cur,text:'👏 '+cur+' ne tumhari post ko LIKE kiya | +'+gain+' Score | Post: '+(p.text||'Photo'),postText:p.text||'',type:'like'});}}
+function doLike(key){
+var p=G.posts[key];
+if(!p) return;
+if(!p.likedBy) p.likedBy=[];
+if(p.likedBy.indexOf(cur)>=0){ alert('Pehle se like kiya hua hai'); return; }
+p.likedBy.push(cur);
+p.likes=(p.likes||0)+1;
+var users=getUsers();
+var likerIsTrending=isTrendingCreator(cur);
+var giveScore=likerIsTrending?5000:5;
+if(users[p.u]){ users[p.u].score=(users[p.u].score||0)+giveScore; }
+if(likerIsTrending){ p.trendingCreatorLike=true; p.trending=true; }
+else if(p.likes>=3 && !p.trending){ p.trending=true; if(users[p.u]){ users[p.u].score=(users[p.u].score||0)+5000; } }
+try{ if(typeof saveData==='function') saveData(); }catch(e){}
+try{ if(typeof savePosts==='function') savePosts(); }catch(e){}
+try{ if(typeof saveUsers==='function') saveUsers(); }catch(e){}
+try{
+if(p.u!=cur){
+if(!G.notifs) G.notifs=[];
+if(likerIsTrending){
+G.notifs.push({to:p.u, from:cur, text:'🔥 '+displayName(cur)+' ne apki post like ki Trending Creator (+5000)', time:Date.now(), cat:p.cat});
+} else {
+G.notifs.push({to:p.u, from:cur, text:displayName(cur)+' ne apki post like ki (+5)', time:Date.now(), cat:p.cat});
+}
+if(typeof saveData==='function') saveData();
+}
+}catch(e){}
+loadFeed();
+  }
 function doChapair(key){var p=G.posts[key];if(!p)return;if(p.u===cur){showMsg('Apni post par chapair nahi maar sakte!');return;}var owner=G.users[p.u]||{};if(owner.chapairOn===false){showMsg('Is user ne Chapair OFF kiya hua hai');return}if((p.chapairBy||[]).indexOf(cur)>=0){showMsg('Tum is post par pehle hi Chapair maar chuke ho - 1 bar hi Chapair hoti hai');return}playSlap();var loss=getChapairScore();var newChap=(p.chapair||0)+1;var newChapBy=(p.chapairBy||[]).slice();newChapBy.push(cur);var logTxt='👋 '+cur+' ne aapko bhare bazar me CHAPAIR maari (-'+loss+' score)';var newLog=(p.likeLog||[]).slice();newLog.push(logTxt);p.chapair=newChap;p.chapairBy=newChapBy;p.likeLog=newLog;var btn=document.querySelector('[data-chap-btn="'+key+'"]');if(btn){btn.innerText='👋 CHAPAIR '+newChap+' ✓';btn.disabled=true;}var cmt=document.getElementById('cmt-'+key);if(cmt&&cmt.parentNode){var lg=document.createElement('div');lg.className='likeLog';lg.innerText=logTxt;cmt.parentNode.parentNode.insertBefore(lg,cmt.parentNode);}addPointsTo(p.u,-loss);db.ref('posts/'+key).update({chapair:newChap,chapairBy:newChapBy,likeLog:newLog});showMsg('👋 CHAPAIR! -'+loss+' score');if(p.u!==cur){pushInbox(p.u,{from:cur,text:'👋 '+cur+' ne tumhe bhare bazar me CHAPAIR maari | -'+loss+' Score | Post: '+(p.text||'Photo'),postText:p.text||'',type:'chapair'});}}
 function editPost(key){var p=G.posts[key];if(!p||p.u!==cur)return;var nt=prompt('Post edit karo:',p.text||'');if(nt===null)return;db.ref('posts/'+key).update({text:nt});showMsg('Post Edit Ho Gayi ✅');}
 function deletePost(key){var p=G.posts[key];if(!p)return;if(p.u!==cur&&!isModNow()&&!hasDeletePower(G.users[cur]))return;if(!confirm('Kya tum ye post delete karna chahte ho?'))return;db.ref('posts/'+key).remove();showMsg('Post Delete Ho Gayi 🗑️');}
