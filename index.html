@@ -318,4 +318,36 @@ function doSearch(){var q=document.getElementById('searchQ').value.toLowerCase()
 document.getElementById('postCat').innerHTML=cats.map(function(c){return '<option>'+c+'</option>'}).join('');
 fetchMyIP();
 if(cur){document.getElementById('page-auth').classList.add('hidden');var _sp=localStorage.getItem('y_page')||'home';var allowPages=['home','share','trending','inbox','1on1','profile','viewprofile','mehfil','fun','leader','leaderpanel','more','search','emojis','rules','about','terms','privacy'];if(allowPages.indexOf(_sp)<0)_sp='home';var _c='';try{_c=localStorage.getItem('y_feed_cache')||''}catch(e){}if(_c&&_sp==='home'){document.getElementById('page-home').classList.remove('hidden');document.getElementById('feed').innerHTML=_c;}syncFirebase();if(_sp==='leaderpanel'){showLeaderPanel();}else{showPage(_sp);}markOnline();setInterval(function(){markOnline()},60000);}else{showAuth('signup')}
+// FINAL FIX - Home + Leaderboard
+function showHomeNow(){
+  document.querySelectorAll('[id^="page-"]').forEach(function(el){el.classList.add('hidden')});
+  var h=document.getElementById('page-home');
+  if(h) h.classList.remove('hidden');
+  var lb=document.getElementById('homeLeader');
+  if(lb) lb.style.display='none';
+  var lb2=document.getElementById('homeLeaderboard');
+  if(lb2) lb2.style.display='none';
+  window.scrollTo(0,0);
+  setTimeout(function(){try{loadFeed()}catch(e){}},10);
+  setTimeout(function(){try{renderOnline()}catch(e){}},100);
+  setTimeout(function(){try{renderStories()}catch(e){}},200);
+  setTimeout(function(){try{updatePowerBox()}catch(e){}},300);
+}
+function showPage(p){
+  if(!cur && ['home','share','trending','inbox','1on1','profile','mehfil','fun','leader','leaderpanel'].indexOf(p)>=0){showMsg('Pehle Signup karo');showAuth('signup');return}
+  try{localStorage.setItem('y_page',p)}catch(e){}
+  ['home','share','trending','inbox','1on1','profile','viewprofile','mehfil','fun','leader','leaderpanel','more','search','emojis','rules','about','terms','privacy'].forEach(function(x){var e=document.getElementById('page-'+x);if(e)e.classList.add('hidden')});
+  document.getElementById('page-auth').classList.add('hidden');
+  var t=document.getElementById('page-'+p);
+  if(t)t.classList.remove('hidden');
+  if(p==='home'){showHomeNow();return}
+  if(p==='trending')loadTrend();
+  if(p==='profile')loadProfile();
+  if(p==='mehfil')loadMehfil();
+  if(p==='leader')showLeader('score');
+  if(p==='leaderpanel')showLeaderPanel();
+  if(p==='1on1')loadPrivate();
+  if(p==='inbox'){loadInbox();markAllRead();}
+  window.scrollTo(0,0);
+    }
 </script></body></html> 
