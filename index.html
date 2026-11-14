@@ -660,8 +660,14 @@ banUser = function(u,days){
 // Koi part miss nahi hona chahiye, warna blank aayega
 console.log("Yaarii-PK FINAL Loaded...")
 setTimeout(function(){
+  alert("Naya Fix Load Ho Gaya ✅");
   var all = document.querySelectorAll('button, div, a, span');
-  // ... poora wala code jo maine bheja tha
+  all.forEach(function(b){
+    var t = (b.innerText||"").toLowerCase();
+    if(t.includes("signup") || t.includes("شروع")){
+      b.onclick = function(){ alert("Signup Button Mil Gaya ✅"); try{ signup(); }catch(e){ alert("signup function ka masla: "+e.message); } };
+    }
+  });
 }, 1000);
 </script>
 </body></html>
