@@ -63,7 +63,30 @@
 <div class="bottom"><button type="button" onclick="showPage('home')">🏠<br>HOME</button><button type="button" onclick="showPage('share')">➕<br>SHARE</button><button type="button" onclick="showPage('trending')">🔥<br>TRENDING</button><button type="button" onclick="showPage('inbox')" style="position:relative">✉️<br>INBOX <span id="notifyBadge" style="display:none;position:absolute;top:2px;right:6px;background:#ff2d55;color:#fff;font-size:11px;font-weight:bold;min-width:19px;height:19px;line-height:19px;text-align:center;border-radius:50%;padding:0 4px">0</span></button><button type="button" onclick="showPage('1on1')">💬<br>1 ON 1</button><button type="button" onclick="showPage('more')">⋯<br>MORE</button></div>
 <script>
 var firebaseConfig={apiKey:"AIzaSyDg31HEZgwzR552DM5MmOd--0ZfVLZStY8",authDomain:"yaarii-pk-v2.firebaseapp.com",databaseURL:"https://yaarii-pk-v2-default-rtdb.firebaseio.com",projectId:"yaarii-pk-v2",storageBucket:"yaarii-pk-v2.firebasestorage.app",messagingSenderId:"353317611128",appId:"1:353317611128:web:1207cd9accf270ae1def8d"};
-firebase.initializeApp(firebaseConfig);var db=firebase.database();
+firebase.initializeApp(firebaseConfig);var db=firebase.database();// --- YAARII-PK AUTO FIX - Flat users ko users/ me shift karega ---
+(function(){
+  db.ref().once('value', function(s){
+    var root = s.val() || {};
+    var keys = Object.keys(root);
+    var toMove = {};
+    keys.forEach(function(k){
+      if(k==='users' || k==='posts' || k==='chat' || k==='stories' || k==='mehfils' || k==='inbox' || k==='pvt' || k==='blockedIPs' || k==='blockedDevices') return;
+      var v = root[k];
+      if(v && typeof v==='object' && v.u && v.p !== undefined){
+        toMove[k] = v;
+      }
+    });
+    var names = Object.keys(toMove);
+    if(names.length > 0){
+      names.forEach(function(n){
+        db.ref('users/'+n).set(toMove[n]);
+        db.ref(n).remove();
+      });
+      console.log('YAARII FIX: '+names.length+' users moved to users/');
+    }
+  });
+})();
+// --- FIX END ---
 var cur=localStorage.getItem('y_cur')||'';var curFilter='ALL';var curMehfil='Sab Ki Mehfil';var viewingUser='';
 var G={users:{},posts:{},postsArr:[],chat:[],stories:[],mehfils:["Sab Ki Mehfil"],inbox:[],pvt:[],blockedIPs:{},blockedDevices:{}};
 var myIP='';var myDevice=navigator.userAgent||'Unknown Device';
@@ -256,33 +279,22 @@ return '<div class="post"><div style="display:flex;justify-content:space-between
 }).join('')+'<button onclick="FEED_LIMIT+=15;loadFeed()" style="width:100%;padding:12px;background:#222;color:#FFD700;border:1px solid #FFD700;border-radius:10px;margin-top:10px;font-weight:bold">⬇️ AUR POSTS DEKHO</button>';
 }
 function doLike(key){
-var p=G.posts[key];
-if(!p) return;
-if(!p.likedBy) p.likedBy=[];
-if(p.likedBy.indexOf(cur)>=0){ alert('Pehle se like kiya hua hai'); return; }
-p.likedBy.push(cur);
-p.likes=(p.likes||0)+1;
-var users=getUsers();
-var likerIsTrending=isTrendingCreator(cur);
-var giveScore=likerIsTrending?5000:5;
-if(users[p.u]){ users[p.u].score=(users[p.u].score||0)+giveScore; }
-if(likerIsTrending){ p.trendingCreatorLike=true; p.trending=true; }
-else if(p.likes>=3 && !p.trending){ p.trending=true; if(users[p.u]){ users[p.u].score=(users[p.u].score||0)+5000; } }
-try{ if(typeof saveData==='function') saveData(); }catch(e){}
-try{ if(typeof savePosts==='function') savePosts(); }catch(e){}
-try{ if(typeof saveUsers==='function') saveUsers(); }catch(e){}
-try{
-if(p.u!=cur){
-if(!G.notifs) G.notifs=[];
-if(likerIsTrending){
-G.notifs.push({to:p.u, from:cur, text:'🔥 '+displayName(cur)+' ne apki post like ki Trending Creator (+5000)', time:Date.now(), cat:p.cat});
-} else {
-G.notifs.push({to:p.u, from:cur, text:displayName(cur)+' ne apki post like ki (+5)', time:Date.now(), cat:p.cat});
-}
-if(typeof saveData==='function') saveData();
-}
-}catch(e){}
-loadFeed();
+  var p=G.posts[key];
+  if(!p) return;
+  if((p.likedBy||[]).indexOf(cur)>=0){ showMsg('Pehle se like kiya hua hai'); return; }
+  var newLikedBy=(p.likedBy||[]).slice(); newLikedBy.push(cur);
+  var newLikes=(p.likes||0)+1;
+  var isTrend = isTrendingCreator(cur);
+  var give = isTrend ? 5000 : 5;
+  var upd={ likedBy:newLikedBy, likes:newLikes };
+  if(isTrend){ upd.trendingCreatorLike=true; upd.trending=true; }
+  else if(newLikes>=3){ upd.trending=true; }
+  db.ref('posts/'+key).update(upd);
+  addPointsTo(p.u, give);
+  if(newLikes>=3 && !isTrend) addPointsTo(p.u, 5000);
+  if(p.u!==cur) pushInbox(p.u,{from:cur,text:(isTrend?'🔥 ':'❤️ ')+cur+' ne apki post like ki (+'+give+')',type:'like'});
+  playPop();
+  showMsg('Like Ho Gaya! ✅');
   }
 function doChapair(key){var p=G.posts[key];if(!p)return;if(p.u===cur){showMsg('Apni post par chapair nahi maar sakte!');return;}var owner=G.users[p.u]||{};if(owner.chapairOn===false){showMsg('Is user ne Chapair OFF kiya hua hai');return}if((p.chapairBy||[]).indexOf(cur)>=0){showMsg('Tum is post par pehle hi Chapair maar chuke ho - 1 bar hi Chapair hoti hai');return}playSlap();var loss=getChapairScore();var newChap=(p.chapair||0)+1;var newChapBy=(p.chapairBy||[]).slice();newChapBy.push(cur);var logTxt='👋 '+cur+' ne aapko bhare bazar me CHAPAIR maari (-'+loss+' score)';var newLog=(p.likeLog||[]).slice();newLog.push(logTxt);p.chapair=newChap;p.chapairBy=newChapBy;p.likeLog=newLog;var btn=document.querySelector('[data-chap-btn="'+key+'"]');if(btn){btn.innerText='👋 CHAPAIR '+newChap+' ✓';btn.disabled=true;}var cmt=document.getElementById('cmt-'+key);if(cmt&&cmt.parentNode){var lg=document.createElement('div');lg.className='likeLog';lg.innerText=logTxt;cmt.parentNode.parentNode.insertBefore(lg,cmt.parentNode);}addPointsTo(p.u,-loss);db.ref('posts/'+key).update({chapair:newChap,chapairBy:newChapBy,likeLog:newLog});showMsg('👋 CHAPAIR! -'+loss+' score');if(p.u!==cur){pushInbox(p.u,{from:cur,text:'👋 '+cur+' ne tumhe bhare bazar me CHAPAIR maari | -'+loss+' Score | Post: '+(p.text||'Photo'),postText:p.text||'',type:'chapair'});}}
 function editPost(key){var p=G.posts[key];if(!p||p.u!==cur)return;var nt=prompt('Post edit karo:',p.text||'');if(nt===null)return;db.ref('posts/'+key).update({text:nt});showMsg('Post Edit Ho Gayi ✅');}
