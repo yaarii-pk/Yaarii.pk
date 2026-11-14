@@ -659,15 +659,14 @@ banUser = function(u,days){
 // 5. Sab kuch ek hi file me hona chahiye - Part 1 se Part 8 tak
 // Koi part miss nahi hona chahiye, warna blank aayega
 console.log("Yaarii-PK FINAL Loaded...")
-setTimeout(function(){
-  alert("Naya Fix Load Ho Gaya ✅");
-  var all = document.querySelectorAll('button, div, a, span');
-  all.forEach(function(b){
-    var t = (b.innerText||"").toLowerCase();
-    if(t.includes("signup") || t.includes("شروع")){
-      b.onclick = function(){ alert("Signup Button Mil Gaya ✅"); try{ signup(); }catch(e){ alert("signup function ka masla: "+e.message); } };
-    }
-  });
-}, 1000);
+console.log("Yaarii-PK CLEAN Loaded");
+// YAHAN NAYA WALA PASTE KARO
+window.signup = function(){
+  ...
+};
+window.login = function(){
+  ...
+};
+</script>
 </script>
 </body></html>
