@@ -659,14 +659,28 @@ banUser = function(u,days){
 // 5. Sab kuch ek hi file me hona chahiye - Part 1 se Part 8 tak
 // Koi part miss nahi hona chahiye, warna blank aayega
 console.log("Yaarii-PK FINAL Loaded...")
-console.log("Yaarii-PK CLEAN Loaded");
-// YAHAN NAYA WALA PASTE KARO
 window.signup = function(){
-  ...
+  var inputs = document.querySelectorAll('input');
+  var vis = [];
+  inputs.forEach(function(i){ if(i.type=="text"||i.type=="password"||i.type=="email") vis.push(i); });
+  var u = vis[0] ? vis[0].value.trim() : "";
+  var p = vis[1] ? vis[1].value.trim() : "";
+  var msg = document.getElementById('authMsg') || document.querySelector('[id*="msg"]');
+  if(!u || !p){ if(msg){ msg.innerText = "Pehle Naam aur Password likho"; msg.style.color = "#ffcc00"; } return; }
+  if(msg){ msg.innerText = "Ho raha hai..."; msg.style.color = "#ffcc00"; }
+  try{ if(typeof db !== "undefined" && db){ db.ref('users/'+u).set({u:u, pass:p, points:0, dp:"👤", bio:"", role:"USER", online:true, approved:true, created:Date.now()}); } }catch(e){}
+  try{ localStorage.setItem('y_user', u); }catch(e){}
+  try{ if(typeof cur !== "undefined") cur = u; }catch(e){}
+  setTimeout(function(){ try{ showPage('home'); }catch(e){ location.reload(); } }, 400);
 };
-window.login = function(){
-  ...
-};
-</script>
+window.login = window.signup;
+setTimeout(function(){
+  var all = document.querySelectorAll('button, div, a, span');
+  all.forEach(function(b){
+    var t = (b.innerText||"").toLowerCase();
+    if(t.includes("signup") || t.includes("شروع")){ b.onclick = function(){ window.signup(); }; }
+    if(t.includes("login")){ b.onclick = function(){ window.login(); }; }
+  });
+}, 500);
 </script>
 </body></html>
