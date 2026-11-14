@@ -674,13 +674,16 @@ window.signup = function(){
   setTimeout(function(){ try{ showPage('home'); }catch(e){ location.reload(); } }, 400);
 };
 window.login = window.signup;
-setTimeout(function(){
-  var all = document.querySelectorAll('button, div, a, span');
-  all.forEach(function(b){
-    var t = (b.innerText||"").toLowerCase();
-    if(t.includes("signup") || t.includes("شروع")){ b.onclick = function(){ window.signup(); }; }
-    if(t.includes("login")){ b.onclick = function(){ window.login(); }; }
-  });
-}, 500);
+
+// Ab batan dabate hi chalega - chahe batan kaisa bhi ho
+document.addEventListener('click', function(e){
+  var b = e.target.closest('button, div, a, span');
+  if(!b) return;
+  var t = (b.innerText||"").toLowerCase();
+  if(t.includes("signup") || t.includes("شروع") || t.includes("login")){
+    e.preventDefault();
+    window.signup();
+  }
+});
 </script>
 </body></html>
