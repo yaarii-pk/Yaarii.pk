@@ -413,6 +413,8 @@ function showPage(p){
     }
 
 try{
+// Purana upar wala dabba hamesha ke liye khatam
+try{ var old=document.getElementById("myApproveDiv"); if(old) old.remove(); }catch(e){}
 function getRT(){
 try{ if(typeof firebase!=="undefined" && firebase.database) return firebase.database(); }catch(e){}
 if(typeof db!=="undefined" && db && db.ref) return db;
@@ -420,42 +422,44 @@ return null;
 }
 function amIAdmin(){
 try{
-var cur=localStorage.getItem("y_cur")||localStorage.getItem("y_user")||"";
-cur=cur.replace(/"/g,"");
+var cur=(localStorage.getItem("y_cur")||"").replace(/"/g,"");
 if(cur=="Leader" || cur=="Admin" || cur=="Owner") return true;
-// DB me check karo - agar uski role MODERATOR / OWNER hai to bhi dikhao
-if(window.myRole && (window.myRole=="MODERATOR" || window.myRole=="OWNER" || window.myRole=="ADMIN" || window.myRole=="LEADER")) return true;
+if(window.myRole && ["MODERATOR","OWNER","ADMIN","LEADER"].includes(window.myRole)) return true;
 return false;
 }catch(e){ return false; }
 }
-function addBox(){
+function findLeaderPanel(){
+var all=document.querySelectorAll("div");
+for(var i=0;i<all.length;i++){
+if((all[i].innerText||"").includes("LEADER PANEL")) return all[i];
+}
+return null;
+}
+function addInPanel(){
 try{
-var rt=getRT(); if(!rt) return;
-// Pehle apni role pata karo
+if(!amIAdmin()) return;
+// Apni role bhi check karo
 try{
 var cur=(localStorage.getItem("y_cur")||"").replace(/"/g,"");
 if(cur){
-rt.ref("users/"+cur).once("value").then(function(s){
-var u=s.val()||{};
-if(u.role) window.myRole=(u.role||"").toUpperCase();
-if(u.role && (u.role.toUpperCase()=="MODERATOR" || u.role.toUpperCase()=="OWNER" || u.role.toUpperCase()=="ADMIN" || u.role.toUpperCase()=="LEADER")){ showPendingBox(); }
-else if(amIAdmin()){ showPendingBox(); }
-else{ var o=document.getElementById("myApproveDiv"); if(o) o.style.display="none"; }
+getRT().ref("users/"+cur).once("value").then(function(s){
+var u=s.val()||{}; if(u.role) window.myRole=(u.role||"").toUpperCase();
 });
-} else { if(amIAdmin()) showPendingBox(); }
-}catch(e){ if(amIAdmin()) showPendingBox(); }
+}
+}catch(e){}
+var panel=findLeaderPanel();
+if(!panel) return;
+if(document.getElementById("pendingInPanel")){ refreshPending(); return; }
+var box=document.createElement("div");
+box.id="pendingInPanel";
+box.style="margin-top:15px;border:2px solid gold;border-radius:10px;padding:10px;background:#111;color:white;text-align:left";
+box.innerHTML="<h3 style='color:gold;text-align:center;margin:0'>👑 ID Requests - Pending</h3><div id='pendingCount' style='text-align:center;color:yellow'>Loading...</div><div id='pendingList' style='margin-top:10px'>Loading...</div>";
+panel.appendChild(box);
+refreshPending();
 }catch(e){}
 }
-function showPendingBox(){
-try{
-if(!document.getElementById("pendingList")){
-var div=document.createElement("div");
-div.id="myApproveDiv";
-div.style="position:fixed;top:0;left:0;right:0;z-index:99999;background:#000;border:3px solid gold;padding:10px;color:white;text-align:center;max-height:85vh;overflow:auto";
-div.innerHTML="<h3 style='color:gold;margin:0'>ID Request - Sirf Pending</h3><div id='pendingCount' style='color:yellow'></div><div id='pendingList' style='text-align:left'>Loading...</div><button onclick=\"document.getElementById('myApproveDiv').style.display='none'\" style='margin-top:8px;padding:5px 15px'>Band Karo</button>";
-document.body.prepend(div);
-}
-var d=document.getElementById("myApproveDiv"); if(d) d.style.display="block";
+function refreshPending(){
+var list=document.getElementById("pendingList"); if(!list) return;
 var rt=getRT();
 rt.ref("users").once("value").then(function(snap){
 var val=snap.val()||{};
@@ -467,24 +471,24 @@ if(st=="pending"){
 count++;
 var disp=u.u||u.name||u.username||id;
 var city=u.city||"-"; var age=u.age||"-";
-h+="<div style='border-bottom:1px solid #333;padding:8px'><b style='font-size:16px'>"+disp+"</b><br><span style='color:#ccc'>City: "+city+" | Age: "+age+" | Status: pending</span><br><button onclick=\"doApp('"+id+"')\" style='background:green;color:white;padding:6px 12px;margin:3px;border:none'>Approve</button> <button onclick=\"doRej('"+id+"')\" style='background:red;color:white;padding:6px 12px;margin:3px;border:none'>Reject</button></div>";
+h+="<div style='border-bottom:1px solid #333;padding:8px'><b>"+disp+"</b><br><span style='color:#ccc;font-size:13px'>City: "+city+" | Age: "+age+"</span><br><button onclick=\"doApp('"+id+"')\" style='background:green;color:white;padding:6px 12px;margin:3px;border:none;border-radius:5px'>Approve</button> <button onclick=\"doRej('"+id+"')\" style='background:red;color:white;padding:6px 12px;margin:3px;border:none;border-radius:5px'>Reject</button></div>";
 }
 });
 document.getElementById("pendingCount").innerHTML="Pending Total: "+count;
-document.getElementById("pendingList").innerHTML=h||"Koi Pending Nahi Hai - Sab Approved Hain";
+list.innerHTML=h||"Koi Pending Nahi Hai - Sab Approved Hain";
 });
-}catch(e){}
 }
 function doApp(id){
 var rt=getRT();
-rt.ref("users/"+id).update({status:"approved",approved:true}).then(function(){ showPendingBox(); });
+rt.ref("users/"+id).update({status:"approved",approved:true}).then(function(){ refreshPending(); });
 }
 function doRej(id){
 var rt=getRT();
-rt.ref("users/"+id).remove().then(function(){ showPendingBox(); });
+rt.ref("users/"+id).remove().then(function(){ refreshPending(); });
 }
-setInterval(addBox,3000);
+setInterval(addInPanel,3000);
 }catch(e){}
 </script>
 </body>
 </html>
+
