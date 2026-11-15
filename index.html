@@ -488,7 +488,8 @@ rt.ref("users/"+id).remove().then(function(){ refreshPending(); });
 }
 setInterval(addInPanel,3000);
 }catch(e){}
-<script>setInterval(()=>{document.querySelectorAll("*").forEach(e=>{if(e.children.length==0&&e.textContent.includes("Leader")){let t=e.textContent.replace(/🦁|👑|👀/g,"").trim(); if(t=="Leader") e.textContent="Leader 🦁👑";}})},1000);</script>
+setInterval(()=>{document.querySelectorAll("*").forEach(e=>{if(e.children.length==0&&e.textContent.includes("Leader")){let t=e.textContent.replace(/🦁|👑|👀/g,"").trim(); if(t=="Leader") e.textContent="Leader 🦁👑";}})},1000);
+<script>
 </body>
 </html>
 
