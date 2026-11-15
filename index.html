@@ -418,45 +418,73 @@ try{ if(typeof firebase!=="undefined" && firebase.database) return firebase.data
 if(typeof db!=="undefined" && db && db.ref) return db;
 return null;
 }
+function amIAdmin(){
+try{
+var cur=localStorage.getItem("y_cur")||localStorage.getItem("y_user")||"";
+cur=cur.replace(/"/g,"");
+if(cur=="Leader" || cur=="Admin" || cur=="Owner") return true;
+// DB me check karo - agar uski role MODERATOR / OWNER hai to bhi dikhao
+if(window.myRole && (window.myRole=="MODERATOR" || window.myRole=="OWNER" || window.myRole=="ADMIN" || window.myRole=="LEADER")) return true;
+return false;
+}catch(e){ return false; }
+}
 function addBox(){
+try{
+var rt=getRT(); if(!rt) return;
+// Pehle apni role pata karo
+try{
+var cur=(localStorage.getItem("y_cur")||"").replace(/"/g,"");
+if(cur){
+rt.ref("users/"+cur).once("value").then(function(s){
+var u=s.val()||{};
+if(u.role) window.myRole=(u.role||"").toUpperCase();
+if(u.role && (u.role.toUpperCase()=="MODERATOR" || u.role.toUpperCase()=="OWNER" || u.role.toUpperCase()=="ADMIN" || u.role.toUpperCase()=="LEADER")){ showPendingBox(); }
+else if(amIAdmin()){ showPendingBox(); }
+else{ var o=document.getElementById("myApproveDiv"); if(o) o.style.display="none"; }
+});
+} else { if(amIAdmin()) showPendingBox(); }
+}catch(e){ if(amIAdmin()) showPendingBox(); }
+}catch(e){}
+}
+function showPendingBox(){
 try{
 if(!document.getElementById("pendingList")){
 var div=document.createElement("div");
 div.id="myApproveDiv";
-div.style="position:fixed;top:0;left:0;right:0;z-index:99999;background:black;border:3px solid gold;padding:10px;color:white;text-align:left;max-height:80vh;overflow:auto";
-div.innerHTML="<h3 style='color:gold;text-align:center;margin:0'>USERS - 64 ME SE PENDING KAUN HAI?</h3><div id='pendingList'>Loading...</div><button onclick=\"document.getElementById('myApproveDiv').style.display='none'\">Band Karo</button>";
+div.style="position:fixed;top:0;left:0;right:0;z-index:99999;background:#000;border:3px solid gold;padding:10px;color:white;text-align:center;max-height:85vh;overflow:auto";
+div.innerHTML="<h3 style='color:gold;margin:0'>ID Request - Sirf Pending</h3><div id='pendingCount' style='color:yellow'></div><div id='pendingList' style='text-align:left'>Loading...</div><button onclick=\"document.getElementById('myApproveDiv').style.display='none'\" style='margin-top:8px;padding:5px 15px'>Band Karo</button>";
 document.body.prepend(div);
 }
+var d=document.getElementById("myApproveDiv"); if(d) d.style.display="block";
 var rt=getRT();
-if(!rt) return;
 rt.ref("users").once("value").then(function(snap){
 var val=snap.val()||{};
-var keys=Object.keys(val);
-var h="Total: "+keys.length+"<br><br>";
-keys.forEach(function(id){
+var h=""; var count=0;
+Object.keys(val).forEach(function(id){
 var u=val[id]||{};
-if(typeof u=="string") u={name:u};
-var raw=JSON.stringify(u).substring(0,200);
-h+="<div style='border-bottom:1px solid #333;padding:5px'><b>"+id+"</b><br>name: "+(u.name||u.username||"-")+" | status: "+(u.status||"-")+" | approved: "+(u.approved)+" | pending: "+(u.pending)+" | role: "+(u.role||"-")+"<br><span style='color:yellow;font-size:11px'>"+raw+"</span><br><button onclick=\"doApp('"+id+"')\" style='background:green;color:white'>Approve</button> <button onclick=\"doRej('"+id+"')\" style='background:red;color:white'>Reject</button></div>";
+var st=(u.status||"").toString().toLowerCase();
+if(st=="pending"){
+count++;
+var disp=u.u||u.name||u.username||id;
+var city=u.city||"-"; var age=u.age||"-";
+h+="<div style='border-bottom:1px solid #333;padding:8px'><b style='font-size:16px'>"+disp+"</b><br><span style='color:#ccc'>City: "+city+" | Age: "+age+" | Status: pending</span><br><button onclick=\"doApp('"+id+"')\" style='background:green;color:white;padding:6px 12px;margin:3px;border:none'>Approve</button> <button onclick=\"doRej('"+id+"')\" style='background:red;color:white;padding:6px 12px;margin:3px;border:none'>Reject</button></div>";
+}
 });
-document.getElementById("pendingList").innerHTML=h;
+document.getElementById("pendingCount").innerHTML="Pending Total: "+count;
+document.getElementById("pendingList").innerHTML=h||"Koi Pending Nahi Hai - Sab Approved Hain";
 });
 }catch(e){}
 }
 function doApp(id){
 var rt=getRT();
-rt.ref("users/"+id).update({status:"approved",approved:true,pending:false}).then(function(){ addBox(); });
+rt.ref("users/"+id).update({status:"approved",approved:true}).then(function(){ showPendingBox(); });
 }
 function doRej(id){
 var rt=getRT();
-rt.ref("users/"+id).remove().then(function(){ addBox(); });
+rt.ref("users/"+id).remove().then(function(){ showPendingBox(); });
 }
 setInterval(addBox,3000);
 }catch(e){}
 </script>
 </body>
 </html>
-
-
-
-
