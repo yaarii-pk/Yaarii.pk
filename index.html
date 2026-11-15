@@ -414,73 +414,112 @@ function showPage(p){
 
 try{
 function getFS(){
-try{
-if(typeof firebase!=="undefined" && firebase.firestore) return firebase.firestore();
-}catch(e){}
+try{ if(typeof firebase!=="undefined" && firebase.firestore) return firebase.firestore(); }catch(e){}
 if(typeof db!=="undefined" && db && db.collection) return db;
 if(typeof window!=="undefined" && window.db && window.db.collection) return window.db;
 return null;
 }
 function getRT(){
-try{
-if(typeof firebase!=="undefined" && firebase.database) return firebase.database();
-}catch(e){}
+try{ if(typeof firebase!=="undefined" && firebase.database) return firebase.database(); }catch(e){}
 if(typeof db!=="undefined" && db && db.ref) return db;
 return null;
 }
+function getCurrentUser(){
+try{
+var u=JSON.parse(localStorage.getItem("cur")||localStorage.getItem("user")||localStorage.getItem("currentUser")||"null");
+return u||{};
+}catch(e){ return {}; }
+}
+function isLeaderOrMod(){
+var u=getCurrentUser();
+var name=(u.name||u.username||u.user||"").toLowerCase();
+var role=(u.role||"").toLowerCase();
+if(name=="leader" || name=="owner") return true;
+if(role=="leader" || role=="moderator" || role=="owner" || role=="admin") return true;
+if(u.isModerator==true || u.moderator==true || u.isLeader==true || u.isAdmin==true) return true;
+return false;
+}
 function addApproveBox(){
 try{
+if(!isLeaderOrMod()){
+var old=document.getElementById("myApproveDiv");
+if(old) old.style.display="none";
+return;
+}
 if(!document.getElementById("pendingList")){
 var div=document.createElement("div");
 div.id="myApproveDiv";
-div.style="position:fixed;top:0;left:0;right:0;z-index:99999;background:black;border:3px solid red;padding:10px;color:white;text-align:center";
-div.innerHTML="<h3 style='color:gold;margin:0'>ID Request Approve - TEST</h3><div id='pendingList' style='color:white'>Loading...</div><button onclick=\"document.getElementById('myApproveDiv').style.display='none'\" style='margin-top:5px'>Band Karo</button>";
+div.style="position:fixed;top:0;left:0;right:0;z-index:99999;background:black;border:3px solid gold;padding:10px;color:white;text-align:center";
+div.innerHTML="<h3 style='color:gold;margin:0'>ID Request Approve - Pending Only</h3><div style='margin:5px'><button onclick=\"window.showMode='pending';showPending();\" style='padding:5px 10px'>Sirf Pending</button> <button onclick=\"window.showMode='all';showPending();\" style='padding:5px 10px'>Sab Dikhao</button></div><div id='pendingList' style='color:white'>Loading...</div><button onclick=\"document.getElementById('myApproveDiv').style.display='none'\" style='margin-top:5px'>Band Karo</button>";
 document.body.prepend(div);
 }
+var d=document.getElementById("myApproveDiv");
+if(d) d.style.display="block";
 showPending();
 }catch(e){}
+}
+function isPendingUser(u){
+if(!u) return false;
+var s=(u.status||"").toString().toLowerCase();
+if(s=="pending" || s=="waiting" || s=="request" || s=="requested" || s=="new" || s=="unapproved") return true;
+if(u.approved===false || u.isApproved===false || u.approved=="pending" || u.approved=="no" || u.active===false) return true;
+if(u.pending===true || u.waiting===true) return true;
+return false;
+}
+function makeRow(id,u,from){
+var nm=u.name||u.username||u.user||id;
+var st=u.status||(u.approved===false?"pending":"pending");
+return "<div style='border-bottom:1px solid #333;padding:5px'><b>"+nm+"</b> - "+st+" ("+from+")<br><button onclick=\"approveUser2('"+id+"')\" style='background:green;color:white;padding:5px 10px'>Approve</button> <button onclick=\"rejectUser2('"+id+"')\" style='background:red;color:white;padding:5px 10px'>Reject</button></div>";
 }
 function showPending(){
 var list=document.getElementById("pendingList");
 if(!list) return;
-var fs=getFS();
-var rt=getRT();
+var mode=window.showMode||"pending";
+var fs=getFS(); var rt=getRT();
 if(fs){
-fs.collection("users").get().then(function(s){
-var h="Total Users (Firestore): "+s.size+"<br>";
-s.forEach(function(d){
-var u=d.data();
-h+="<div><b>"+(u.name||u.username||d.id)+"</b> <button onclick=\"approveUser2('"+d.id+"')\">Approve</button> <button onclick=\"rejectUser2('"+d.id+"')\">Delete</button></div>";
+var p1=fs.collection("users").get().catch(function(){return null;});
+var p2=fs.collection("pendingUsers").get().catch(function(){return null;});
+Promise.all([p1,p2]).then(function(res){
+var h="";
+var total=0;
+if(res[0]){ res[0].forEach(function(d){ var u=d.data(); total++; if(mode=="all" || isPendingUser(u)){ h+=makeRow(d.id,u,"users"); } }); }
+if(res[1]){ res[1].forEach(function(d){ var u=d.data(); total++; h+=makeRow(d.id,u,"pendingUsers"); }); }
+if(!h) h = mode=="pending" ? "Koi Pending Nahi Hai - Sab Approved Hain" : "Koi User Nahi";
+list.innerHTML="Mode: "+mode+" | Total Check: "+total+"<br>"+h;
 });
-list.innerHTML=h||"Koi User Nahi";
-}).catch(function(err){ list.innerHTML="Firestore Error: "+err.message; });
 }
 else if(rt){
 rt.ref("users").once("value").then(function(snap){
 var val=snap.val()||{};
-var keys=Object.keys(val);
-var h="Total Users (Realtime): "+keys.length+"<br>";
-keys.forEach(function(id){
-var u=val[id]||{};
-h+="<div><b>"+(u.name||u.username||id)+"</b> <button onclick=\"approveUser2('"+id+"')\">Approve</button> <button onclick=\"rejectUser2('"+id+"')\">Delete</button></div>";
+var h=""; var total=0;
+Object.keys(val).forEach(function(id){ var u=val[id]||{}; total++; if(mode=="all" || isPendingUser(u)){ h+=makeRow(id,u,"users"); } });
+rt.ref("pendingUsers").once("value").then(function(snap2){
+var val2=snap2.val()||{};
+Object.keys(val2).forEach(function(id){ var u=val2[id]||{}; h+=makeRow(id,u,"pendingUsers"); });
+if(!h) h = mode=="pending" ? "Koi Pending Nahi Hai - Sab Approved Hain" : "Koi User Nahi";
+list.innerHTML="Mode: "+mode+" | Total Check: "+total+"<br>"+h;
 });
-list.innerHTML=h||"Koi User Nahi";
-}).catch(function(err){ list.innerHTML="RT Error: "+err.message; });
+});
 }
-else{
-list.innerHTML="DB nahi mila - firebase / db check karo. firebase="+typeof firebase+" db="+typeof db;
-}
+else{ list.innerHTML="DB nahi mila"; }
 }
 function approveUser2(id){
 var fs=getFS(); var rt=getRT();
-if(fs){ fs.collection("users").doc(id).update({status:"approved",approved:true}).then(function(){showPending();}); }
-else if(rt){ rt.ref("users/"+id).update({status:"approved",approved:true}).then(function(){showPending();}); }
+if(fs){
+fs.collection("users").doc(id).update({status:"approved",approved:true,pending:false}).then(function(){showPending();}).catch(function(){
+fs.collection("pendingUsers").doc(id).get().then(function(d){
+if(d.exists){ fs.collection("users").doc(id).set(Object.assign({},d.data(),{status:"approved",approved:true})).then(function(){ fs.collection("pendingUsers").doc(id).delete().then(function(){showPending();}); }); }
+});
+});
+}
+else if(rt){ rt.ref("users/"+id).update({status:"approved",approved:true,pending:false}).then(function(){showPending();}); }
 }
 function rejectUser2(id){
 var fs=getFS(); var rt=getRT();
-if(fs){ fs.collection("users").doc(id).delete().then(function(){showPending();}); }
-else if(rt){ rt.ref("users/"+id).remove().then(function(){showPending();}); }
+if(fs){ fs.collection("users").doc(id).delete().then(function(){showPending();}); fs.collection("pendingUsers").doc(id).delete().then(function(){showPending();}); }
+else if(rt){ rt.ref("users/"+id).remove().then(function(){showPending();}); rt.ref("pendingUsers/"+id).remove().then(function(){showPending();}); }
 }
+if(typeof window.showMode=="undefined") window.showMode="pending";
 setInterval(addApproveBox,2000);
 }catch(e){}
 </script>
