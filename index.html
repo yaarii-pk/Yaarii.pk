@@ -431,4 +431,61 @@ function showPage(p){
   if(p==='inbox'){loadInbox();markAllRead();}
   window.scrollTo(0,0);
 }
+/* ===== FINAL - ایک بار پیسٹ کرو، انٹرفیس پہلے جیسا ===== */
+(function(){
+  var st=document.createElement('style');
+  st.innerHTML=".yStar{font-size:16px!important;display:inline-block}.yAnimal{font-size:15px!important;display:inline-block}.leaderGlow{border:2px solid #FFD700!important;box-shadow:0 0 12px #FFD700!important}.modGlow{border:2px solid #FF0000!important;box-shadow:0 0 10px #FF0000!important}";
+  document.head.appendChild(st);
+})();
+
+function getAnimalForUser(n){
+  var u=Object.values(G.users||{}).sort(function(a,b){return (b.points||0)-(a.points||0)});
+  var i=u.findIndex(function(x){return x.u===n});
+  var a=['🐯','🐆','🐺','🦅','🦈'];
+  return (i>=0&&i<5)?'<span class="yAnimal">'+a[i]+'</span>':'';
+}
+function getStarForUser(n){
+  var likes={}; (getPosts()||[]).forEach(function(p){likes[p.u]=(likes[p.u]||0)+(p.likes||0)});
+  var u=Object.values(G.users||{}).sort(function(a,b){return (likes[b.u]||0)-(likes[a.u]||0)});
+  var i=u.findIndex(function(x){return x.u===n});
+  var colors=['#FFD700','#FFE600','#00E676','#2196F3','#E040FB'];
+  if(i>=0&&i<5) return '<span class="yStar" style="color:'+colors[i]+'">★</span>';
+  return '';
+}
+function displayName(n){
+  if(!n) return '';
+  return n+' '+getAnimalForUser(n)+' '+getStarForUser(n)+(isFireUser(n)?' 🔥':'');
+}
+function isFireUser(n){
+  if(n==='Leader') return true;
+  var c={}; (getPosts()||[]).forEach(function(p){ if(isTrendingPost(p)) c[p.u]=(c[p.u]||0)+1 });
+  var top=Object.keys(c).sort(function(a,b){return c[b]-c[a]}).slice(0,5);
+  return top.indexOf(n)>=0;
+}
+function renderOnline(){
+  var el=document.getElementById('onlineList'); if(!el) return;
+  var users=Object.values(G.users||{}).sort(function(a,b){return (b.lastSeen||0)-(a.lastSeen||0)});
+  el.innerHTML=users.map(function(u){
+    var on=isOnlineNow(u);
+    var glow=u.u==='Leader'?' leaderGlow':(isModUser(u)?' modGlow':'');
+    return '<div class="onlineCard'+glow+'" onclick="viewUser(\''+u.u+'\')">'
+      +'<div>'+getDPHtml(u.u)+'</div>'
+      +'<div style="font-size:12px;font-weight:bold">'+displayName(u.u)+getTopBadge(u.u)+'</div>'
+      +'<div style="font-size:10px;color:#FFD700">⭐ '+(u.points||0)+'</div>'
+      +'<div style="font-size:9px;color:#aaa">'+(on?'🟢 Online hai':lastSeenTxt(u))+'</div>'
+      +'<button style="background:#FFD700;border:none;font-size:10px;font-weight:bold;padding:3px 8px;border-radius:10px;margin-top:4px" onclick="event.stopPropagation();sendRing(\''+u.u+'\')">🔔 RING</button>'
+      +'</div>';
+  }).join('');
+}
+var _oldLoadProfile2 = loadProfile;
+loadProfile = function(){
+  _oldLoadProfile2();
+  setTimeout(function(){
+    var ap=document.getElementById('adminPanel'); if(!ap) return;
+    var d=(G.users||{})[cur]||{};
+    if(isLeaderNow()) ap.innerHTML='<button type="button" class="btnGold" onclick="showLeaderPanel()">👑 LEADER PANEL</button>';
+    else if(d.role==='MODERATOR') ap.innerHTML='<button type="button" class="btnBlack" onclick="showLeaderPanel()">⭐ MODERATOR PANEL</button>';
+    else ap.innerHTML='';
+  },300);
+};
 </script></body></html>
