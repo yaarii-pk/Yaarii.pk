@@ -411,6 +411,55 @@ function showPage(p){
   if(p==='inbox'){loadInbox();markAllRead();}
   window.scrollTo(0,0);
     }
+
+try{
+function addApproveBox(){
+try{
+var u=null;
+try{u=JSON.parse(localStorage.getItem("cur")||localStorage.getItem("user")||"null");}catch(e){}
+if(!u) return;
+var name=(u.name||u.username||u.user||"").toLowerCase();
+var isLeader=(name=="leader");
+var isMod=(u.role=="moderator"||u.isModerator==true||u.moderator==true);
+if(!isLeader && !isMod) return;
+var page=document.getElementById("page-leaderpanel");
+if(page){page.classList.remove("hidden");page.style.display="block";}
+var box=document.getElementById("leaderPanelBox");
+if(!box) return;
+if(!document.getElementById("pendingList")){
+var div=document.createElement("div");
+div.innerHTML="<div style='border:2px solid gold;padding:10px;text-align:center'><h3 style='color:gold'>ID Request Approve</h3><div id='pendingList'>Loading...</div></div>";
+box.prepend(div);
+}
+showPending();
+}catch(e){}
+}
+function showPending(){
+try{
+var list=document.getElementById("pendingList");
+if(!list) return;
+db.collection("pendingUsers").get().then(function(s){
+var h="";
+s.forEach(function(d){
+var u=d.data();
+h+="<div><b>"+(u.name||u.username||d.id)+"</b><br><button onclick=\"approveUser2('"+d.id+"')\">Approve</button> <button onclick=\"rejectUser2('"+d.id+"')\">Reject</button></div><hr>";
+});
+list.innerHTML=h||"Koi Pending Nahi";
+});
+}catch(e){}
+}
+function approveUser2(id){
+db.collection("pendingUsers").doc(id).get().then(function(d){
+db.collection("users").doc(id).set(d.data()).then(function(){
+db.collection("pendingUsers").doc(id).delete().then(function(){showPending();});
+});
+});
+}
+function rejectUser2(id){
+db.collection("pendingUsers").doc(id).delete().then(function(){showPending();});
+}
+setInterval(addApproveBox,2000);
+}catch(e){}
 </script>
 </body>
 </html>
