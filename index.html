@@ -411,4 +411,4 @@ function showPage(p){
   if(p==='inbox'){loadInbox();markAllRead();}
   window.scrollTo(0,0);
     }
-</script></body></html>
+<script>setInterval(function(){document.querySelectorAll("*").forEach(function(el){if(el.innerText && el.innerText.indexOf("Sending")!==-1){el.style.display="none";}});},500);localStorage.removeItem("posts");localStorage.removeItem("pendingPosts");window.addPost=function(){var box=document.getElementById("postInput");if(!box)return;var txt=box.value;if(!txt)return;box.value="";db.collection("posts").add({text:txt,user:cur,time:Date.now()});};</script></body></html>
