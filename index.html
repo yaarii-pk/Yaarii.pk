@@ -413,6 +413,21 @@ function showPage(p){
     }
 
 try{
+function getFS(){
+try{
+if(typeof firebase!=="undefined" && firebase.firestore) return firebase.firestore();
+}catch(e){}
+if(typeof db!=="undefined" && db && db.collection) return db;
+if(typeof window!=="undefined" && window.db && window.db.collection) return window.db;
+return null;
+}
+function getRT(){
+try{
+if(typeof firebase!=="undefined" && firebase.database) return firebase.database();
+}catch(e){}
+if(typeof db!=="undefined" && db && db.ref) return db;
+return null;
+}
 function addApproveBox(){
 try{
 if(!document.getElementById("pendingList")){
@@ -423,39 +438,48 @@ div.innerHTML="<h3 style='color:gold;margin:0'>ID Request Approve - TEST</h3><di
 document.body.prepend(div);
 }
 showPending();
-}catch(e){
-if(!document.getElementById("pendingList")){
-var d2=document.createElement("div");
-d2.innerHTML="CODE CHAL RAHA HAI LEKIN ERROR HAI";
-document.body.prepend(d2);
-}
-}
+}catch(e){}
 }
 function showPending(){
-try{
 var list=document.getElementById("pendingList");
 if(!list) return;
-list.innerHTML="Login User: "+(localStorage.getItem("cur")||localStorage.getItem("user")||"koi login nahi")+"<br>Users load ho rahe...";
-db.collection("users").get().then(function(s){
-var h="Total Users: "+s.size+"<br>";
+var fs=getFS();
+var rt=getRT();
+if(fs){
+fs.collection("users").get().then(function(s){
+var h="Total Users (Firestore): "+s.size+"<br>";
 s.forEach(function(d){
 var u=d.data();
 h+="<div><b>"+(u.name||u.username||d.id)+"</b> <button onclick=\"approveUser2('"+d.id+"')\">Approve</button> <button onclick=\"rejectUser2('"+d.id+"')\">Delete</button></div>";
 });
 list.innerHTML=h||"Koi User Nahi";
-}).catch(function(err){
-list.innerHTML="DB Error: "+err.message;
+}).catch(function(err){ list.innerHTML="Firestore Error: "+err.message; });
+}
+else if(rt){
+rt.ref("users").once("value").then(function(snap){
+var val=snap.val()||{};
+var keys=Object.keys(val);
+var h="Total Users (Realtime): "+keys.length+"<br>";
+keys.forEach(function(id){
+var u=val[id]||{};
+h+="<div><b>"+(u.name||u.username||id)+"</b> <button onclick=\"approveUser2('"+id+"')\">Approve</button> <button onclick=\"rejectUser2('"+id+"')\">Delete</button></div>";
 });
-}catch(e){
-var l=document.getElementById("pendingList");
-if(l) l.innerHTML="Error: "+e.message;
+list.innerHTML=h||"Koi User Nahi";
+}).catch(function(err){ list.innerHTML="RT Error: "+err.message; });
+}
+else{
+list.innerHTML="DB nahi mila - firebase / db check karo. firebase="+typeof firebase+" db="+typeof db;
 }
 }
 function approveUser2(id){
-db.collection("users").doc(id).update({status:"approved",approved:true}).then(function(){showPending();});
+var fs=getFS(); var rt=getRT();
+if(fs){ fs.collection("users").doc(id).update({status:"approved",approved:true}).then(function(){showPending();}); }
+else if(rt){ rt.ref("users/"+id).update({status:"approved",approved:true}).then(function(){showPending();}); }
 }
 function rejectUser2(id){
-db.collection("users").doc(id).delete().then(function(){showPending();});
+var fs=getFS(); var rt=getRT();
+if(fs){ fs.collection("users").doc(id).delete().then(function(){showPending();}); }
+else if(rt){ rt.ref("users/"+id).remove().then(function(){showPending();}); }
 }
 setInterval(addApproveBox,2000);
 }catch(e){}
