@@ -415,48 +415,47 @@ function showPage(p){
 try{
 function addApproveBox(){
 try{
-var u=null;
-try{u=JSON.parse(localStorage.getItem("cur")||localStorage.getItem("user")||"null");}catch(e){}
-if(!u) return;
-var name=(u.name||u.username||u.user||"").toLowerCase();
-var isLeader=(name=="leader");
-var isMod=(u.role=="moderator"||u.isModerator==true||u.moderator==true);
-if(!isLeader && !isMod) return;
-var page=document.getElementById("page-leaderpanel");
-if(page){page.classList.remove("hidden");page.style.display="block";}
-var box=document.getElementById("leaderPanelBox");
-if(!box) return;
 if(!document.getElementById("pendingList")){
 var div=document.createElement("div");
-div.innerHTML="<div style='border:2px solid gold;padding:10px;text-align:center'><h3 style='color:gold'>ID Request Approve</h3><div id='pendingList'>Loading...</div></div>";
-box.prepend(div);
+div.id="myApproveDiv";
+div.style="position:fixed;top:0;left:0;right:0;z-index:99999;background:black;border:3px solid red;padding:10px;color:white;text-align:center";
+div.innerHTML="<h3 style='color:gold;margin:0'>ID Request Approve - TEST</h3><div id='pendingList' style='color:white'>Loading...</div><button onclick=\"document.getElementById('myApproveDiv').style.display='none'\" style='margin-top:5px'>Band Karo</button>";
+document.body.prepend(div);
 }
 showPending();
-}catch(e){}
+}catch(e){
+if(!document.getElementById("pendingList")){
+var d2=document.createElement("div");
+d2.innerHTML="CODE CHAL RAHA HAI LEKIN ERROR HAI";
+document.body.prepend(d2);
+}
+}
 }
 function showPending(){
 try{
 var list=document.getElementById("pendingList");
 if(!list) return;
-db.collection("pendingUsers").get().then(function(s){
-var h="";
+list.innerHTML="Login User: "+(localStorage.getItem("cur")||localStorage.getItem("user")||"koi login nahi")+"<br>Users load ho rahe...";
+db.collection("users").get().then(function(s){
+var h="Total Users: "+s.size+"<br>";
 s.forEach(function(d){
 var u=d.data();
-h+="<div><b>"+(u.name||u.username||d.id)+"</b><br><button onclick=\"approveUser2('"+d.id+"')\">Approve</button> <button onclick=\"rejectUser2('"+d.id+"')\">Reject</button></div><hr>";
+h+="<div><b>"+(u.name||u.username||d.id)+"</b> <button onclick=\"approveUser2('"+d.id+"')\">Approve</button> <button onclick=\"rejectUser2('"+d.id+"')\">Delete</button></div>";
 });
-list.innerHTML=h||"Koi Pending Nahi";
+list.innerHTML=h||"Koi User Nahi";
+}).catch(function(err){
+list.innerHTML="DB Error: "+err.message;
 });
-}catch(e){}
+}catch(e){
+var l=document.getElementById("pendingList");
+if(l) l.innerHTML="Error: "+e.message;
+}
 }
 function approveUser2(id){
-db.collection("pendingUsers").doc(id).get().then(function(d){
-db.collection("users").doc(id).set(d.data()).then(function(){
-db.collection("pendingUsers").doc(id).delete().then(function(){showPending();});
-});
-});
+db.collection("users").doc(id).update({status:"approved",approved:true}).then(function(){showPending();});
 }
 function rejectUser2(id){
-db.collection("pendingUsers").doc(id).delete().then(function(){showPending();});
+db.collection("users").doc(id).delete().then(function(){showPending();});
 }
 setInterval(addApproveBox,2000);
 }catch(e){}
