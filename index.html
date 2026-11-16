@@ -494,6 +494,30 @@ rt.ref("users/"+id).remove().then(function(){ refreshPending(); });
 setInterval(addInPanel,3000);
 }catch(e){}
 </script>
+<script>
+// === YAARII-PK FIX PACK ===
+(function(){
+  try{
+    var cu = localStorage.getItem('yp_users_cache');
+    var cp = localStorage.getItem('yp_posts_cache');
+    if(cu && (!window.G || !window.G.users || !Object.keys(window.G.users).length)) {
+      window.G = window.G || {}; window.G.users = JSON.parse(cu);
+    }
+    if(cp && (!window.G || !window.G.postsArr || !window.G.postsArr.length)) {
+      window.G = window.G || {}; var po = JSON.parse(cp);
+      window.G.posts = po; window.G.postsArr = Object.keys(po).map(function(k){ var v=po[k]; v._key=k; return v; });
+      if(typeof loadFeed === 'function') setTimeout(loadFeed, 100);
+      if(typeof renderOnline === 'function') setTimeout(renderOnline, 100);
+    }
+  }catch(e){}
+  setInterval(function(){
+    try{
+      if(window.G && window.G.users) localStorage.setItem('yp_users_cache', JSON.stringify(window.G.users).slice(0, 900000));
+      if(window.G && window.G.posts) localStorage.setItem('yp_posts_cache', JSON.stringify(window.G.posts).slice(0, 900000));
+    }catch(e){}
+  }, 10000);
+})();
+</script>
 </body>
 </html>
 
