@@ -415,11 +415,22 @@ function showPage(p){
   window.scrollTo(0,0);
     }
 
-try{var old=document.getElementById("myApproveDiv");if(old)old.remove();}catch(e){}
-function getRT(){try{if(typeof firebase!=="undefined" && firebase.database) return firebase.database();}catch(e){} if(typeof db!=="undefined" && db && db.ref) return db; return null;}
-function amIAdmin(){try{var cur=(localStorage.getItem("y_cur")||"").replace(/"/g,""); if(cur=="Leader" || cur=="Admin" || cur=="Owner") return true; if(window.myRole && ["MODERATOR","OWNER","ADMIN","LEADER"].includes(window.myRole)) return true; return false;}catch(e){return false;}}
-function findLeaderPanel(){return null;}
-function addInPanel(){return;}
+try{
+// Purana upar wala dabba hamesha ke liye khatam
+try{ var old=document.getElementById("myApproveDiv"); if(old) old.remove(); }catch(e){}
+function getRT(){
+try{ if(typeof firebase!=="undefined" && firebase.database) return firebase.database(); }catch(e){}
+if(typeof db!=="undefined" && db && db.ref) return db;
+return null;
+}
+function amIAdmin(){
+try{
+var cur=(localStorage.getItem("y_cur")||"").replace(/"/g,"");
+if(cur=="Leader" || cur=="Admin" || cur=="Owner") return true;
+if(window.myRole && ["MODERATOR","OWNER","ADMIN","LEADER"].includes(window.myRole)) return true;
+return false;
+}catch(e){ return false; }
+  }
 function findLeaderPanel(){
 var all=document.querySelectorAll("div");
 for(var i=0;i<all.length;i++){
