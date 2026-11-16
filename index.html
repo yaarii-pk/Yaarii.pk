@@ -426,6 +426,7 @@ function amIAdmin(){
 try{
 var cur=(localStorage.getItem("y_cur")||"").replace(/"/g,"");
 if(cur=="Leader" || cur=="Admin" || cur=="Owner") return true;
+if(typeof G!=="undefined" && G.users && G.users[cur] && ["MODERATOR","ADMIN","OWNER","LEADER"].includes((G.users[cur].role||"").toUpperCase())) return true;
 if(window.myRole && ["MODERATOR","OWNER","ADMIN","LEADER"].includes(window.myRole)) return true;
 return false;
 }catch(e){ return false; }
