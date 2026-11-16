@@ -430,7 +430,7 @@ if(cur=="Leader" || cur=="Admin" || cur=="Owner") return true;
 if(window.myRole && ["MODERATOR","OWNER","ADMIN","LEADER"].includes(window.myRole)) return true;
 return false;
 }catch(e){ return false; }
-  }
+}
 function findLeaderPanel(){
 var all=document.querySelectorAll("div");
 for(var i=0;i<all.length;i++){
