@@ -81,7 +81,7 @@ function uploadToCloudinary(file, cb){
   }).catch(function(){ showMsg('Upload fail - net check karo'); cb(''); });
 }
 
-var firebaseConfig={apiKey:"AIzaSyBJ7y0Sh6IaNe0-k6MADWMT_6BS6a1Dtv8",authDomain:"yaarii-pk-new.firebaseapp.com",databaseURL:"https://yaarii-pk-new-default-rtdb.firebaseio.com",projectId:"yaarii-pk-new",storageBucket:"yaarii-pk-new.firebasestorage.app",messagingSenderId:"958838607539",appId:"1:958838607539:web:9a808364c9817978e3aac6"};
+var firebaseConfig={apiKey:"AIzaSyDg31HEZgwzR552DM5MmOd--0ZfVLZStY8",authDomain:"yaarii-pk-v2.firebaseapp.com",databaseURL:"https://yaarii-pk-v2-default-rtdb.firebaseio.com",projectId:"yaarii-pk-v2",storageBucket:"yaarii-pk-v2.firebasestorage.app",messagingSenderId:"353317611128",appId:"1:353317611128:web:1207cd9accf270ae1def8d"};
 firebase.initializeApp(firebaseConfig);
 var db=firebase.database();
 var G={users:{},posts:{},postsArr:[],chat:[],stories:[],mehfils:[],inbox:[],pvt:[],blockedIPs:{},blockedDevices:{}};
@@ -145,7 +145,7 @@ function syncFirebase(){
 db.ref('users/Leader').once('value',function(s){if(!s.val()){db.ref('users/Leader').set({u:'Leader',p:'05121472',age:'?',city:'Lahore',star:'Leo ♌',bio:'Yaarii-PK Ka Admin 👑',dp:'👑',points:10000,power:5000,lastSeen:Date.now(),id:1001,role:'ADMIN',status:'approved',following:[],blocked:[],bannedUntil:0,likeOn:true,chapairOn:true})}});
 db.ref('blockedIPs').on('value',function(s){G.blockedIPs=s.val()||{}});
 db.ref('blockedDevices').on('value',function(s){G.blockedDevices=s.val()||{}});
-db.ref().on('value',function(s){G.users=s.val()||{};if(cur&&!document.getElementById('page-home').classList.contains('hidden')
+db.ref('users').on('value',function(s){G.users=s.val()||{};if(cur&&!document.getElementById('page-home').classList.contains('hidden')){renderOnline();updatePowerBox();}if(cur&&!document.getElementById('page-profile').classList.contains('hidden')){loadProfile();}if(cur&&!document.getElementById('page-leaderpanel').classList.contains('hidden')){showLeaderPanel();}});
 db.ref('posts').on('value',function(s){window.__dataLoaded=true;var o=s.val()||{};G.posts=o;G.postsArr=Object.keys(o).map(function(k){var v=o[k];v._key=k;return v});if(!document.getElementById('page-home').classList.contains('hidden'))loadFeed();if(!document.getElementById('page-trending').classList.contains('hidden'))loadTrend()});
 db.ref('chat').on('value',function(s){var o=s.val()||{};G.chat=Object.keys(o).map(function(k){return o[k]});if(!document.getElementById('page-mehfil').classList.contains('hidden'))loadMehfilChat()});
 db.ref('stories').on('value',function(s){var o=s.val()||{};G.stories=Object.keys(o).map(function(k){return o[k]});if(!document.getElementById('page-home').classList.contains('hidden'))renderStories()});
