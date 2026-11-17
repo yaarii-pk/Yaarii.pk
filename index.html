@@ -518,9 +518,8 @@ setInterval(addInPanel,3000);
   }, 10000);
 })();
 
-</script>
 <script>
-// === YAARII-PK 10GB FIX - FINAL, POSTS/DP KO HATH NAHI ===
+// === YAARII-PK 10GB FIX - SIRF MARKONLINE, POSTS KO HATH NAHI ===
 (function(){
 try{
 if(!window.db) return;
@@ -543,42 +542,11 @@ window._addPanelDone = true;
 try{ window._oldAddInPanel(); }catch(e){}
 };
 }
-setTimeout(function(){
-try{
-var db = window.db;
-db.ref('posts').off('value');
-db.ref('posts').limitToLast(100).on('child_added', function(s){
-try{
-var v = s.val(); if(!v) return; v._key = s.key;
-if(!window.G.posts) window.G.posts = {};
-window.G.posts[s.key] = v;
-window.G.postsArr = Object.keys(window.G.posts).map(function(k){ var x=window.G.posts[k]; x._key=k; return x; });
-if(!document.getElementById('page-home').classList.contains('hidden') && window.loadFeed) window.loadFeed();
-if(!document.getElementById('page-trending').classList.contains('hidden') && window.loadTrend) window.loadTrend();
-}catch(e){}
-});
-db.ref('posts').limitToLast(100).on('child_changed', function(s){
-try{
-var v = s.val(); if(!v) return; v._key = s.key;
-if(!window.G.posts) window.G.posts = {};
-window.G.posts[s.key] = v;
-window.G.postsArr = Object.keys(window.G.posts).map(function(k){ var x=window.G.posts[k]; x._key=k; return x; });
-if(!document.getElementById('page-home').classList.contains('hidden') && window.loadFeed) window.loadFeed();
-if(!document.getElementById('page-trending').classList.contains('hidden') && window.loadTrend) window.loadTrend();
-}catch(e){}
-});
-db.ref('posts').limitToLast(100).on('child_removed', function(s){
-try{
-if(window.G.posts) delete window.G.posts[s.key];
-window.G.postsArr = Object.keys(window.G.posts||{}).map(function(k){ var x=window.G.posts[k]; x._key=k; return x; });
-if(window.loadFeed) window.loadFeed();
-}catch(e){}
-});
-}catch(e){}
-}, 500);
 }catch(e){}
 })();
 </script>
+</body>
+</html>
 </body>
 </html>
 
