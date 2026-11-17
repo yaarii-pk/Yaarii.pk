@@ -518,154 +518,59 @@ setInterval(addInPanel,3000);
   }, 10000);
 })();
 
+</script>
 <script>
-// === LAST FINAL - HOME FLICKER + 10GB - SAB EK SATH ===
+// === YAARII-PK FINAL FIX - LAST WALA ===
 (function(){
-try{
-// 1. Asli file ko khaali dikhane se roko - jab tak data na aaye, purana hi dikhao
-var _origRenderOnline = window.renderOnline;
-var _origLoadFeed = window.loadFeed;
-window._hasRealData = false;
+  // 1. Refresh pe foran purani feed dikhao, khaali mat dikhao
+  try{
+    var fh = localStorage.getItem('yp_feed_html');
+    var oh = localStorage.getItem('yp_online_html');
+    var oc = localStorage.getItem('yp_online_count');
+    if(fh && document.getElementById('feed')) document.getElementById('feed').innerHTML = fh;
+    if(oh && document.getElementById('onlineBar')) document.getElementById('onlineBar').innerHTML = oh;
+    if(oc && document.getElementById('onlineCount')) document.getElementById('onlineCount').innerText = oc;
+  }catch(e){}
 
-// Pehle cache dikhao
-try{
-var fh = localStorage.getItem('yp_feed_html');
-var oh = localStorage.getItem('yp_online_html');
-var oc = localStorage.getItem('yp_online_count');
-if(fh && document.getElementById('feed')) document.getElementById('feed').innerHTML = fh;
-if(oh && document.getElementById('onlineBar')) document.getElementById('onlineBar').innerHTML = oh;
-if(oc && document.getElementById('onlineCount')) document.getElementById('onlineCount').innerText = oc;
-}catch(e){}
+  // 2. Jab tak naya data na aaye, purana code feed ko mitane na paye
+  window.__dataLoaded = false;
+  var _oldLoadFeed = window.loadFeed;
+  if(_oldLoadFeed){
+    window.loadFeed = function(){
+      if(!window.__dataLoaded && localStorage.getItem('yp_feed_html')) return;
+      return _oldLoadFeed.apply(this, arguments);
+    };
+  }
+  var _oldRender = window.renderOnline;
+  if(_oldRender){
+    window.renderOnline = function(){
+      if(!window.__dataLoaded && localStorage.getItem('yp_online_html')) return;
+      return _oldRender.apply(this, arguments);
+    };
+  }
 
-// Agar data khaali hai to Loading / Koi post nahi MAT likho, purana rehne do
-window.renderOnline = function(){
-try{
-if((!window.G || !window.G.users || Object.keys(window.G.users||{}).length===0) && localStorage.getItem('yp_online_html')){
-return;
-}
-if(_origRenderOnline) _origRenderOnline();
-}catch(e){}
-};
-window.loadFeed = function(){
-try{
-if((!window.G || !window.G.postsArr || window.G.postsArr.length===0) && localStorage.getItem('yp_feed_html')){
-return;
-}
-if(_origLoadFeed) _origLoadFeed();
-}catch(e){}
-};
-
-// 2. Jab asli data aa jaye to save kar lo
-setInterval(function(){
-try{
-var f = document.getElementById('feed');
-var o = document.getElementById('onlineBar');
-var c = document.getElementById('onlineCount');
-if(f && f.innerHTML && f.innerHTML.length > 200 && f.innerHTML.indexOf('Koi post nahi') < 0) localStorage.setItem('yp_feed_html', f.innerHTML);
-if(o && o.innerHTML && o.innerHTML.length > 200 && o.innerHTML.indexOf('Loading') < 0) localStorage.setItem('yp_online_html', o.innerHTML);
-if(c && c.innerText && c.innerText.indexOf('0 / 0') < 0 && c.innerText.indexOf('0/0') < 0) localStorage.setItem('yp_online_count', c.innerText);
-}catch(e){}
-}, 3000);
-
-// 3. markOnline 5 min
-window._lastMark = 0;
-var _oldMark = window.markOnline;
-window.markOnline = function(){
-try{
-var now = Date.now();
-if(now - window._lastMark < 5*60*1000) return;
-window._lastMark = now;
-if(_oldMark) _oldMark();
-}catch(e){}
-};
-
-// 4. ASAL 10GB CHOR BAND - users / posts / chat / inbox / pvt sab ka on(value) band
-setTimeout(function(){
-try{
-var db = window.db; if(!db) return;
-db.ref('users').off();
-db.ref('posts').off();
-db.ref('chat').off();
-db.ref('stories').off();
-db.ref('mehfils').off();
-db.ref('inbox').off();
-db.ref('pvt').off();
-
-// Users - 1 dafa lao, phir sirf jo badle wo lao
-db.ref('users').once('value', function(s){
-try{
-var o = s.val() || {};
-window.G.users = o;
-window.G.usersArr = Object.keys(o).map(function(k){ var v=o[k]; v._key=k; return v; });
-if(window.renderOnline) window.renderOnline();
-}catch(e){}
-});
-db.ref('users').on('child_changed', function(s){
-try{
-var v = s.val(); if(!v) return; v._key = s.key;
-if(!window.G.users) window.G.users = {};
-window.G.users[s.key] = v;
-window.G.usersArr = Object.keys(window.G.users).map(function(k){ var x=window.G.users[k]; x._key=k; return x; });
-if(window.renderOnline) window.renderOnline();
-}catch(e){}
-});
-db.ref('users').on('child_added', function(s){
-try{
-var v = s.val(); if(!v) return; v._key = s.key;
-if(!window.G.users) window.G.users = {};
-if(window.G.users[s.key]) return;
-window.G.users[s.key] = v;
-window.G.usersArr = Object.keys(window.G.users).map(function(k){ var x=window.G.users[k]; x._key=k; return x; });
-if(window.renderOnline) window.renderOnline();
-}catch(e){}
-});
-
-// Posts - 30 hi, 100 nahi
-db.ref('posts').limitToLast(30).once('value', function(s){
-try{
-var o = s.val() || {};
-window.G.posts = o;
-window.G.postsArr = Object.keys(o).map(function(k){ var v=o[k]; v._key=k; return v; });
-if(window.loadFeed) window.loadFeed();
-}catch(e){}
-});
-db.ref('posts').limitToLast(30).on('child_added', function(s){
-try{
-var v = s.val(); if(!v) return; v._key = s.key;
-if(!window.G.posts) window.G.posts = {};
-if(window.G.posts[s.key]) return;
-window.G.posts[s.key] = v;
-window.G.postsArr = Object.keys(window.G.posts).map(function(k){ var x=window.G.posts[k]; x._key=k; return x; });
-if(window.loadFeed) window.loadFeed();
-}catch(e){}
-});
-db.ref('posts').limitToLast(30).on('child_changed', function(s){
-try{
-var v = s.val(); if(!v) return; v._key = s.key;
-if(!window.G.posts) window.G.posts = {};
-window.G.posts[s.key] = v;
-window.G.postsArr = Object.keys(window.G.posts).map(function(k){ var x=window.G.posts[k]; x._key=k; return x; });
-if(window.loadFeed) window.loadFeed();
-}catch(e){}
-});
-db.ref('posts').limitToLast(30).on('child_removed', function(s){
-try{
-if(window.G.posts) delete window.G.posts[s.key];
-window.G.postsArr = Object.keys(window.G.posts||{}).map(function(k){ var x=window.G.posts[k]; x._key=k; return x; });
-if(window.loadFeed) window.loadFeed();
-}catch(e){}
-});
-}catch(e){}
-}, 1000);
-}catch(e){}
+  // 3. Har 2 sec me check karo, naya data aaya hai to lock khol do or save kar lo
+  setInterval(function(){
+    try{
+      if(window.G && window.G.postsArr && window.G.postsArr.length > 0){
+        window.__dataLoaded = true;
+      }
+      var f = document.getElementById('feed');
+      var o = document.getElementById('onlineBar');
+      var c = document.getElementById('onlineCount');
+      if(f && f.innerHTML && f.innerHTML.length > 100 && f.innerHTML.indexOf('Koi post nahi') < 0){
+        localStorage.setItem('yp_feed_html', f.innerHTML);
+      }
+      if(o && o.innerHTML && o.innerHTML.length > 100 && o.innerHTML.indexOf('Loading') < 0){
+        localStorage.setItem('yp_online_html', o.innerHTML);
+      }
+      if(c && c.innerText && c.innerText.indexOf('0 / 0') < 0){
+        localStorage.setItem('yp_online_count', c.innerText);
+      }
+    }catch(e){}
+  }, 2000);
 })();
 </script>
 </body>
 </html>
-
-
-
-
-
-
 
