@@ -571,9 +571,10 @@ setInterval(addInPanel,3000);
   }, 2000);
 })();
 
+
 </script>
 <script>
-// === YAARII-PK FIX V2 - POST FORAN ===
+// === YAARII-PK FIX V3 - HOME SAB SHOW ===
 (function(){
 try{
 if(window.firebase && firebase.database()){
@@ -581,15 +582,15 @@ var db = firebase.database();
 try{ db.ref('posts').off(); }catch(e){}
 try{ db.ref('users').off(); }catch(e){}
 if(window.G){
-db.ref('posts').limitToLast(25).on('child_added', function(snap){
+db.ref('posts').limitToLast(200).on('child_added', function(snap){
 try{ var p = snap.val(); if(!p) return; p.id = snap.key;
 var arr = window.G.postsArr || [];
 if(!arr.find(x=>x.id===p.id)) arr.unshift(p);
-window.G.postsArr = arr.slice(0,25);
+window.G.postsArr = arr.slice(0,200);
 if(window.loadFeed) window.loadFeed();
 }catch(e){}
 });
-db.ref('posts').limitToLast(25).on('child_changed', function(snap){
+db.ref('posts').limitToLast(200).on('child_changed', function(snap){
 try{ var p = snap.val(); if(!p) return; p.id = snap.key;
 var arr = window.G.postsArr || [];
 var i = arr.findIndex(x=>x.id===p.id);
@@ -610,4 +611,3 @@ if(window.renderOnline) window.renderOnline();
 </script>
 </body>
 </html>
-
