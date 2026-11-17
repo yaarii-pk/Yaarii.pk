@@ -570,70 +570,42 @@ setInterval(addInPanel,3000);
     }catch(e){}
   }, 2000);
 })();
+
 </script>
 <script>
-// === YAARII-PK 10GB FINAL FIX - LAST WALA ===
+// === YAARII-PK FIX V2 - POST FORAN ===
 (function(){
-  try{
-    if(window.firebase && firebase.database){
-      var db = firebase.database();
-      try{ db.ref('posts').off(); }catch(e){}
-      try{ db.ref('users').off(); }catch(e){}
-      try{ db.ref('online').off(); }catch(e){}
-      try{ db.ref('chats').off(); }catch(e){}
-
-      if(window.G){
-        db.ref('posts').limitToLast(25).on('child_added', function(snap){
-          try{
-            var p = snap.val(); if(!p) return;
-            p.id = snap.key;
-            var arr = window.G.postsArr || [];
-            if(!arr.find(x=>x.id===p.id)) arr.unshift(p);
-            window.G.postsArr = arr.slice(0,25);
-            if(window.loadFeed && window.__dataLoaded) window.loadFeed();
-          }catch(e){}
-        });
-
-        db.ref('posts').limitToLast(25).on('child_changed', function(snap){
-          try{
-            var p = snap.val(); if(!p) return; p.id = snap.key;
-            var arr = window.G.postsArr || [];
-            var i = arr.findIndex(x=>x.id===p.id);
-            if(i>=0) arr[i]=p;
-            window.G.postsArr = arr;
-            if(window.loadFeed && window.__dataLoaded) window.loadFeed();
-          }catch(e){}
-        });
-
-        db.ref('users').limitToLast(200).on('value', function(snap){
-          try{
-            var u = snap.val()||{};
-            window.G.users = u;
-            if(window.renderOnline && window.__dataLoaded) window.renderOnline();
-          }catch(e){}
-        });
-      }
-    }
-  }catch(e){}
-
-  var _oldSetInterval = window.setInterval;
-  window.setInterval = function(fn, time){
-    try{
-      var s = fn.toString();
-      if(s.indexOf('syncFirebase')>=0 || s.indexOf('loadFeed')>=0 || s.indexOf('online')>=0){
-        if(time < 60000) time = 60000;
-      }
-    }catch(e){}
-    return _oldSetInterval(fn, time);
-  };
-
-  setInterval(function(){
-    try{
-      if(window.G && window.G.postsArr && window.G.postsArr.length>0){
-        localStorage.setItem('yp_posts_backup', JSON.stringify(window.G.postsArr.slice(0,25)));
-      }
-    }catch(e){}
-  }, 5000);
+try{
+if(window.firebase && firebase.database()){
+var db = firebase.database();
+try{ db.ref('posts').off(); }catch(e){}
+try{ db.ref('users').off(); }catch(e){}
+if(window.G){
+db.ref('posts').limitToLast(25).on('child_added', function(snap){
+try{ var p = snap.val(); if(!p) return; p.id = snap.key;
+var arr = window.G.postsArr || [];
+if(!arr.find(x=>x.id===p.id)) arr.unshift(p);
+window.G.postsArr = arr.slice(0,25);
+if(window.loadFeed) window.loadFeed();
+}catch(e){}
+});
+db.ref('posts').limitToLast(25).on('child_changed', function(snap){
+try{ var p = snap.val(); if(!p) return; p.id = snap.key;
+var arr = window.G.postsArr || [];
+var i = arr.findIndex(x=>x.id===p.id);
+if(i>=0) arr[i]=p;
+window.G.postsArr = arr;
+if(window.loadFeed) window.loadFeed();
+}catch(e){}
+});
+db.ref('users').limitToLast(200).on('value', function(snap){
+try{ window.G.users = snap.val()||{};
+if(window.renderOnline) window.renderOnline();
+}catch(e){}
+});
+}
+}
+}catch(e){}
 })();
 </script>
 </body>
