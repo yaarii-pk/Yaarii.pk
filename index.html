@@ -498,34 +498,7 @@ rt.ref("users/"+id).remove().then(function(){ refreshPending(); });
 }
 setInterval(addInPanel,3000);
 }catch(e){}
-<script>
-// === SAFE CACHE - SIRF REFRESH PE PURANI HOME DIKHANE KE LIYE, 0 DATA ===
-(function(){
-  try{
-    var fh = localStorage.getItem('yp_feed_html');
-    var oh = localStorage.getItem('yp_online_html');
-    var oc = localStorage.getItem('yp_online_count');
-    if(fh && document.getElementById('feed')) document.getElementById('feed').innerHTML = fh;
-    if(oh && document.getElementById('onlineBar')) document.getElementById('onlineBar').innerHTML = oh;
-    if(oc && document.getElementById('onlineCount')) document.getElementById('onlineCount').innerText = oc;
-    var _oldFeed = window.loadFeed;
-    if(_oldFeed){
-      var _saved = false;
-      window.loadFeed = function(){
-        var r = _oldFeed.apply(this, arguments);
-        try{
-          var f = document.getElementById('feed');
-          var o = document.getElementById('onlineBar');
-          var c = document.getElementById('onlineCount');
-          if(f && f.innerHTML && f.innerHTML.length > 100 && f.innerHTML.indexOf('Koi post nahi') < 0) localStorage.setItem('yp_feed_html', f.innerHTML);
-          if(o && o.innerHTML && o.innerHTML.length > 100 && o.innerHTML.indexOf('Loading') < 0) localStorage.setItem('yp_online_html', o.innerHTML);
-          if(c && c.innerText && c.innerText.indexOf('0 / 0') < 0) localStorage.setItem('yp_online_count', c.innerText);
-        }catch(e){}
-        return r;
-      };
-    }
-  }catch(e){}
-})();
+
 </script>
 </body>
 </html>
