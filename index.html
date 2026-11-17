@@ -519,5 +519,58 @@ setInterval(addInPanel,3000);
 })();
 
 </script>
+<script>
+// === YAARII-PK FINAL FIX - LAST WALA ===
+(function(){
+  // 1. Refresh pe foran purani feed dikhao, khaali mat dikhao
+  try{
+    var fh = localStorage.getItem('yp_feed_html');
+    var oh = localStorage.getItem('yp_online_html');
+    var oc = localStorage.getItem('yp_online_count');
+    if(fh && document.getElementById('feed')) document.getElementById('feed').innerHTML = fh;
+    if(oh && document.getElementById('onlineBar')) document.getElementById('onlineBar').innerHTML = oh;
+    if(oc && document.getElementById('onlineCount')) document.getElementById('onlineCount').innerText = oc;
+  }catch(e){}
+
+  // 2. Jab tak naya data na aaye, purana code feed ko mitane na paye
+  window.__dataLoaded = false;
+  var _oldLoadFeed = window.loadFeed;
+  if(_oldLoadFeed){
+    window.loadFeed = function(){
+      if(!window.__dataLoaded && localStorage.getItem('yp_feed_html')) return;
+      return _oldLoadFeed.apply(this, arguments);
+    };
+  }
+  var _oldRender = window.renderOnline;
+  if(_oldRender){
+    window.renderOnline = function(){
+      if(!window.__dataLoaded && localStorage.getItem('yp_online_html')) return;
+      return _oldRender.apply(this, arguments);
+    };
+  }
+
+  // 3. Har 2 sec me check karo, naya data aaya hai to lock khol do or save kar lo
+  setInterval(function(){
+    try{
+      if(window.G && window.G.postsArr && window.G.postsArr.length > 0){
+        window.__dataLoaded = true;
+      }
+      var f = document.getElementById('feed');
+      var o = document.getElementById('onlineBar');
+      var c = document.getElementById('onlineCount');
+      if(f && f.innerHTML && f.innerHTML.length > 100 && f.innerHTML.indexOf('Koi post nahi') < 0){
+        localStorage.setItem('yp_feed_html', f.innerHTML);
+      }
+      if(o && o.innerHTML && o.innerHTML.length > 100 && o.innerHTML.indexOf('Loading') < 0){
+        localStorage.setItem('yp_online_html', o.innerHTML);
+      }
+      if(c && c.innerText && c.innerText.indexOf('0 / 0') < 0){
+        localStorage.setItem('yp_online_count', c.innerText);
+      }
+    }catch(e){}
+  }, 2000);
+})();
+</script>
 </body>
 </html>
+
