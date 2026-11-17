@@ -571,35 +571,16 @@ setInterval(addInPanel,3000);
   }, 2000);
 })();
 
-
 </script>
 <script>
-// === YAARII-PK FIX V3 - HOME SAB SHOW ===
+// === FINAL FIX - POSTS KO HATH NAHI, SIRF DATA BACHAYEGA ===
 (function(){
 try{
 if(window.firebase && firebase.database()){
 var db = firebase.database();
-try{ db.ref('posts').off(); }catch(e){}
 try{ db.ref('users').off(); }catch(e){}
 if(window.G){
-db.ref('posts').limitToLast(200).on('child_added', function(snap){
-try{ var p = snap.val(); if(!p) return; p.id = snap.key;
-var arr = window.G.postsArr || [];
-if(!arr.find(x=>x.id===p.id)) arr.unshift(p);
-window.G.postsArr = arr.slice(0,200);
-if(window.loadFeed) window.loadFeed();
-}catch(e){}
-});
-db.ref('posts').limitToLast(200).on('child_changed', function(snap){
-try{ var p = snap.val(); if(!p) return; p.id = snap.key;
-var arr = window.G.postsArr || [];
-var i = arr.findIndex(x=>x.id===p.id);
-if(i>=0) arr[i]=p;
-window.G.postsArr = arr;
-if(window.loadFeed) window.loadFeed();
-}catch(e){}
-});
-db.ref('users').limitToLast(200).on('value', function(snap){
+db.ref('users').limitToLast(100).on('value', function(snap){
 try{ window.G.users = snap.val()||{};
 if(window.renderOnline) window.renderOnline();
 }catch(e){}
