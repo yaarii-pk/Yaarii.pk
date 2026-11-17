@@ -500,6 +500,29 @@ setInterval(addInPanel,3000);
 }catch(e){}
 
 </script>
+<script>
+// === SAFE LOADING FIX - NA PURANA HTML, NA LOADFEED OVERRIDE ===
+(function(){
+  try{
+    var feed = document.getElementById('feed');
+    if(feed) feed.innerHTML = '<div style="text-align:center;padding:20px;color:#888">Posts load ho rahi hain... thora wait karein</div>';
+    var ob = document.getElementById('onlineBar');
+    if(ob) ob.innerHTML = 'Online load ho raha hai...';
+    var oc = document.getElementById('onlineCount');
+    if(oc) oc.innerText = '...';
+    var tries = 0;
+    var t = setInterval(function(){
+      tries++;
+      if(window.__dataLoaded === true || tries > 30){
+        clearInterval(t);
+        // Data aa gaya hai, ab asli feed dobara load karwa do
+        try{ if(typeof loadFeed === 'function' && !document.getElementById('page-home').classList.contains('hidden')) loadFeed(); }catch(e){}
+        try{ if(typeof loadOnline === 'function') loadOnline(); }catch(e){}
+      }
+    }, 500);
+  }catch(e){}
+})();
+</script>
 </body>
 </html>
 
