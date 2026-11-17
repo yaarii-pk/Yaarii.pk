@@ -605,7 +605,7 @@ setInterval(addInPanel,3000);
           }catch(e){}
         });
 
-        db.ref('users').limitToLast(50).on('value', function(snap){
+        db.ref('users').limitToLast(200).on('value', function(snap){
           try{
             var u = snap.val()||{};
             window.G.users = u;
