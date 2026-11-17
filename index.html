@@ -519,10 +519,15 @@ setInterval(addInPanel,3000);
 })();
 
 <script>
-// === YAARII-PK PAKKA FINAL - 10GB + INSTANT HOME ===
+// === LAST FINAL - HOME FLICKER + 10GB - SAB EK SATH ===
 (function(){
 try{
-// A. Refresh pe foran purani HOME dikhao - Koi post nahi mat dikhao
+// 1. Asli file ko khaali dikhane se roko - jab tak data na aaye, purana hi dikhao
+var _origRenderOnline = window.renderOnline;
+var _origLoadFeed = window.loadFeed;
+window._hasRealData = false;
+
+// Pehle cache dikhao
 try{
 var fh = localStorage.getItem('yp_feed_html');
 var oh = localStorage.getItem('yp_online_html');
@@ -532,19 +537,37 @@ if(oh && document.getElementById('onlineBar')) document.getElementById('onlineBa
 if(oc && document.getElementById('onlineCount')) document.getElementById('onlineCount').innerText = oc;
 }catch(e){}
 
-// B. Feed ban jaye to save karo - loadFeed ko ROKNA NAHI
+// Agar data khaali hai to Loading / Koi post nahi MAT likho, purana rehne do
+window.renderOnline = function(){
+try{
+if((!window.G || !window.G.users || Object.keys(window.G.users||{}).length===0) && localStorage.getItem('yp_online_html')){
+return;
+}
+if(_origRenderOnline) _origRenderOnline();
+}catch(e){}
+};
+window.loadFeed = function(){
+try{
+if((!window.G || !window.G.postsArr || window.G.postsArr.length===0) && localStorage.getItem('yp_feed_html')){
+return;
+}
+if(_origLoadFeed) _origLoadFeed();
+}catch(e){}
+};
+
+// 2. Jab asli data aa jaye to save kar lo
 setInterval(function(){
 try{
 var f = document.getElementById('feed');
 var o = document.getElementById('onlineBar');
 var c = document.getElementById('onlineCount');
-if(f && f.innerHTML && f.innerHTML.length > 100 && f.innerHTML.indexOf('Koi post nahi') < 0) localStorage.setItem('yp_feed_html', f.innerHTML);
-if(o && o.innerHTML && o.innerHTML.length > 100 && o.innerHTML.indexOf('Loading') < 0) localStorage.setItem('yp_online_html', o.innerHTML);
-if(c && c.innerText && c.innerText.indexOf('0 / 0') < 0) localStorage.setItem('yp_online_count', c.innerText);
+if(f && f.innerHTML && f.innerHTML.length > 200 && f.innerHTML.indexOf('Koi post nahi') < 0) localStorage.setItem('yp_feed_html', f.innerHTML);
+if(o && o.innerHTML && o.innerHTML.length > 200 && o.innerHTML.indexOf('Loading') < 0) localStorage.setItem('yp_online_html', o.innerHTML);
+if(c && c.innerText && c.innerText.indexOf('0 / 0') < 0 && c.innerText.indexOf('0/0') < 0) localStorage.setItem('yp_online_count', c.innerText);
 }catch(e){}
 }, 3000);
 
-// C. markOnline 60 sec -> 5 min
+// 3. markOnline 5 min
 window._lastMark = 0;
 var _oldMark = window.markOnline;
 window.markOnline = function(){
@@ -556,26 +579,48 @@ if(_oldMark) _oldMark();
 }catch(e){}
 };
 
-// D. Leader panel 3 sec wala band
-if(window.addInPanel){
-window._oldAddInPanel = window.addInPanel;
-window._addPanelDone = false;
-window.addInPanel = function(){
-if(window._addPanelDone) return;
-window._addPanelDone = true;
-try{ window._oldAddInPanel(); }catch(e){}
-};
-}
-
-// E. ASAL 10GB FIX - Poori list baar baar mat lao, sirf naya lao
+// 4. ASAL 10GB CHOR BAND - users / posts / chat / inbox / pvt sab ka on(value) band
 setTimeout(function(){
 try{
 var db = window.db; if(!db) return;
+db.ref('users').off();
 db.ref('posts').off();
 db.ref('chat').off();
 db.ref('stories').off();
 db.ref('mehfils').off();
+db.ref('inbox').off();
+db.ref('pvt').off();
 
+// Users - 1 dafa lao, phir sirf jo badle wo lao
+db.ref('users').once('value', function(s){
+try{
+var o = s.val() || {};
+window.G.users = o;
+window.G.usersArr = Object.keys(o).map(function(k){ var v=o[k]; v._key=k; return v; });
+if(window.renderOnline) window.renderOnline();
+}catch(e){}
+});
+db.ref('users').on('child_changed', function(s){
+try{
+var v = s.val(); if(!v) return; v._key = s.key;
+if(!window.G.users) window.G.users = {};
+window.G.users[s.key] = v;
+window.G.usersArr = Object.keys(window.G.users).map(function(k){ var x=window.G.users[k]; x._key=k; return x; });
+if(window.renderOnline) window.renderOnline();
+}catch(e){}
+});
+db.ref('users').on('child_added', function(s){
+try{
+var v = s.val(); if(!v) return; v._key = s.key;
+if(!window.G.users) window.G.users = {};
+if(window.G.users[s.key]) return;
+window.G.users[s.key] = v;
+window.G.usersArr = Object.keys(window.G.users).map(function(k){ var x=window.G.users[k]; x._key=k; return x; });
+if(window.renderOnline) window.renderOnline();
+}catch(e){}
+});
+
+// Posts - 30 hi, 100 nahi
 db.ref('posts').limitToLast(30).once('value', function(s){
 try{
 var o = s.val() || {};
@@ -611,7 +656,7 @@ if(window.loadFeed) window.loadFeed();
 }catch(e){}
 });
 }catch(e){}
-}, 800);
+}, 1000);
 }catch(e){}
 })();
 </script>
