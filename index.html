@@ -519,10 +519,32 @@ setInterval(addInPanel,3000);
 })();
 
 <script>
-// === YAARII-PK 10GB FIX - SIRF MARKONLINE, POSTS KO HATH NAHI ===
+// === YAARII-PK PAKKA FINAL - 10GB + INSTANT HOME ===
 (function(){
 try{
-if(!window.db) return;
+// A. Refresh pe foran purani HOME dikhao - Koi post nahi mat dikhao
+try{
+var fh = localStorage.getItem('yp_feed_html');
+var oh = localStorage.getItem('yp_online_html');
+var oc = localStorage.getItem('yp_online_count');
+if(fh && document.getElementById('feed')) document.getElementById('feed').innerHTML = fh;
+if(oh && document.getElementById('onlineBar')) document.getElementById('onlineBar').innerHTML = oh;
+if(oc && document.getElementById('onlineCount')) document.getElementById('onlineCount').innerText = oc;
+}catch(e){}
+
+// B. Feed ban jaye to save karo - loadFeed ko ROKNA NAHI
+setInterval(function(){
+try{
+var f = document.getElementById('feed');
+var o = document.getElementById('onlineBar');
+var c = document.getElementById('onlineCount');
+if(f && f.innerHTML && f.innerHTML.length > 100 && f.innerHTML.indexOf('Koi post nahi') < 0) localStorage.setItem('yp_feed_html', f.innerHTML);
+if(o && o.innerHTML && o.innerHTML.length > 100 && o.innerHTML.indexOf('Loading') < 0) localStorage.setItem('yp_online_html', o.innerHTML);
+if(c && c.innerText && c.innerText.indexOf('0 / 0') < 0) localStorage.setItem('yp_online_count', c.innerText);
+}catch(e){}
+}, 3000);
+
+// C. markOnline 60 sec -> 5 min
 window._lastMark = 0;
 var _oldMark = window.markOnline;
 window.markOnline = function(){
@@ -533,6 +555,8 @@ window._lastMark = now;
 if(_oldMark) _oldMark();
 }catch(e){}
 };
+
+// D. Leader panel 3 sec wala band
 if(window.addInPanel){
 window._oldAddInPanel = window.addInPanel;
 window._addPanelDone = false;
@@ -542,11 +566,59 @@ window._addPanelDone = true;
 try{ window._oldAddInPanel(); }catch(e){}
 };
 }
+
+// E. ASAL 10GB FIX - Poori list baar baar mat lao, sirf naya lao
+setTimeout(function(){
+try{
+var db = window.db; if(!db) return;
+db.ref('posts').off();
+db.ref('chat').off();
+db.ref('stories').off();
+db.ref('mehfils').off();
+
+db.ref('posts').limitToLast(30).once('value', function(s){
+try{
+var o = s.val() || {};
+window.G.posts = o;
+window.G.postsArr = Object.keys(o).map(function(k){ var v=o[k]; v._key=k; return v; });
+if(window.loadFeed) window.loadFeed();
+}catch(e){}
+});
+db.ref('posts').limitToLast(30).on('child_added', function(s){
+try{
+var v = s.val(); if(!v) return; v._key = s.key;
+if(!window.G.posts) window.G.posts = {};
+if(window.G.posts[s.key]) return;
+window.G.posts[s.key] = v;
+window.G.postsArr = Object.keys(window.G.posts).map(function(k){ var x=window.G.posts[k]; x._key=k; return x; });
+if(window.loadFeed) window.loadFeed();
+}catch(e){}
+});
+db.ref('posts').limitToLast(30).on('child_changed', function(s){
+try{
+var v = s.val(); if(!v) return; v._key = s.key;
+if(!window.G.posts) window.G.posts = {};
+window.G.posts[s.key] = v;
+window.G.postsArr = Object.keys(window.G.posts).map(function(k){ var x=window.G.posts[k]; x._key=k; return x; });
+if(window.loadFeed) window.loadFeed();
+}catch(e){}
+});
+db.ref('posts').limitToLast(30).on('child_removed', function(s){
+try{
+if(window.G.posts) delete window.G.posts[s.key];
+window.G.postsArr = Object.keys(window.G.posts||{}).map(function(k){ var x=window.G.posts[k]; x._key=k; return x; });
+if(window.loadFeed) window.loadFeed();
+}catch(e){}
+});
+}catch(e){}
+}, 800);
 }catch(e){}
 })();
 </script>
 </body>
 </html>
+
+
 
 
 
