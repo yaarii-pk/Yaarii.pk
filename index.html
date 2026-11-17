@@ -520,57 +520,67 @@ setInterval(addInPanel,3000);
 
 </script>
 <script>
-// === YAARII-PK FINAL FIX - LAST WALA ===
+// === YAARII-PK 10GB FIX - FINAL, POSTS/DP KO HATH NAHI ===
 (function(){
-  // 1. Refresh pe foran purani feed dikhao, khaali mat dikhao
-  try{
-    var fh = localStorage.getItem('yp_feed_html');
-    var oh = localStorage.getItem('yp_online_html');
-    var oc = localStorage.getItem('yp_online_count');
-    if(fh && document.getElementById('feed')) document.getElementById('feed').innerHTML = fh;
-    if(oh && document.getElementById('onlineBar')) document.getElementById('onlineBar').innerHTML = oh;
-    if(oc && document.getElementById('onlineCount')) document.getElementById('onlineCount').innerText = oc;
-  }catch(e){}
-
-  // 2. Jab tak naya data na aaye, purana code feed ko mitane na paye
-  window.__dataLoaded = false;
-  var _oldLoadFeed = window.loadFeed;
-  if(_oldLoadFeed){
-    window.loadFeed = function(){
-      if(!window.__dataLoaded && localStorage.getItem('yp_feed_html')) return;
-      return _oldLoadFeed.apply(this, arguments);
-    };
-  }
-  var _oldRender = window.renderOnline;
-  if(_oldRender){
-    window.renderOnline = function(){
-      if(!window.__dataLoaded && localStorage.getItem('yp_online_html')) return;
-      return _oldRender.apply(this, arguments);
-    };
-  }
-
-  // 3. Har 2 sec me check karo, naya data aaya hai to lock khol do or save kar lo
-  setInterval(function(){
-    try{
-      if(window.G && window.G.postsArr && window.G.postsArr.length > 0){
-        window.__dataLoaded = true;
-      }
-      var f = document.getElementById('feed');
-      var o = document.getElementById('onlineBar');
-      var c = document.getElementById('onlineCount');
-      if(f && f.innerHTML && f.innerHTML.length > 100 && f.innerHTML.indexOf('Koi post nahi') < 0){
-        localStorage.setItem('yp_feed_html', f.innerHTML);
-      }
-      if(o && o.innerHTML && o.innerHTML.length > 100 && o.innerHTML.indexOf('Loading') < 0){
-        localStorage.setItem('yp_online_html', o.innerHTML);
-      }
-      if(c && c.innerText && c.innerText.indexOf('0 / 0') < 0){
-        localStorage.setItem('yp_online_count', c.innerText);
-      }
-    }catch(e){}
-  }, 2000);
+try{
+if(!window.db) return;
+window._lastMark = 0;
+var _oldMark = window.markOnline;
+window.markOnline = function(){
+try{
+var now = Date.now();
+if(now - window._lastMark < 5*60*1000) return;
+window._lastMark = now;
+if(_oldMark) _oldMark();
+}catch(e){}
+};
+if(window.addInPanel){
+window._oldAddInPanel = window.addInPanel;
+window._addPanelDone = false;
+window.addInPanel = function(){
+if(window._addPanelDone) return;
+window._addPanelDone = true;
+try{ window._oldAddInPanel(); }catch(e){}
+};
+}
+setTimeout(function(){
+try{
+var db = window.db;
+db.ref('posts').off('value');
+db.ref('posts').limitToLast(100).on('child_added', function(s){
+try{
+var v = s.val(); if(!v) return; v._key = s.key;
+if(!window.G.posts) window.G.posts = {};
+window.G.posts[s.key] = v;
+window.G.postsArr = Object.keys(window.G.posts).map(function(k){ var x=window.G.posts[k]; x._key=k; return x; });
+if(!document.getElementById('page-home').classList.contains('hidden') && window.loadFeed) window.loadFeed();
+if(!document.getElementById('page-trending').classList.contains('hidden') && window.loadTrend) window.loadTrend();
+}catch(e){}
+});
+db.ref('posts').limitToLast(100).on('child_changed', function(s){
+try{
+var v = s.val(); if(!v) return; v._key = s.key;
+if(!window.G.posts) window.G.posts = {};
+window.G.posts[s.key] = v;
+window.G.postsArr = Object.keys(window.G.posts).map(function(k){ var x=window.G.posts[k]; x._key=k; return x; });
+if(!document.getElementById('page-home').classList.contains('hidden') && window.loadFeed) window.loadFeed();
+if(!document.getElementById('page-trending').classList.contains('hidden') && window.loadTrend) window.loadTrend();
+}catch(e){}
+});
+db.ref('posts').limitToLast(100).on('child_removed', function(s){
+try{
+if(window.G.posts) delete window.G.posts[s.key];
+window.G.postsArr = Object.keys(window.G.posts||{}).map(function(k){ var x=window.G.posts[k]; x._key=k; return x; });
+if(window.loadFeed) window.loadFeed();
+}catch(e){}
+});
+}catch(e){}
+}, 500);
+}catch(e){}
 })();
 </script>
 </body>
 </html>
+
+
 
