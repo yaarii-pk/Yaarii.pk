@@ -148,14 +148,16 @@ db.ref('blockedDevices').on('value',function(s){G.blockedDevices=s.val()||{}});
 db.ref('users').once('value',function(s){G.users=s.val()||{};if(cur&&!document.getElementById('page-home').classList.contains('hidden')){renderOnline();updatePowerBox();}if(cur&&!document.getElementById('page-profile').classList.contains('hidden')){loadProfile();}if(cur&&!document.getElementById('page-leaderpanel').classList.contains('hidden')){showLeaderPanel();}});
 db.ref('users').on('child_changed',function(s){G.users[s.key]=s.val();if(cur&&!document.getElementById('page-home').classList.contains('hidden')){renderOnline();updatePowerBox();}if(cur&&!document.getElementById('page-profile').classList.contains('hidden')){loadProfile();}if(cur&&!document.getElementById('page-leaderpanel').classList.contains('hidden')){showLeaderPanel();}});
 db.ref('users').on('child_added',function(s){if(!G.users[s.key]){G.users[s.key]=s.val();if(cur&&!document.getElementById('page-home').classList.contains('hidden')){renderOnline();}}});
-// No.1 FIX - Line 151 wali - Post Gaib nahi hogi
-db.ref('posts').limitToLast(12).on('child_added', function(s){
+// No.1 FIX - Safe wali - Sirf 50 post, data bhi bachega
+db.ref('posts').limitToLast(50).on('value', function(snap){
   window.__dataLoaded = true;
-  var newPost = s.val();
-  newPost.id = s.key;
-  // Purani ko khatam mat karo, nayi ko upar joro
-  if(!window.__posts) window.__posts = [];
-  window.__posts.unshift(newPost);
+  window.__posts = [];
+  snap.forEach(function(s){
+    var newPost = s.val();
+    if(!newPost) return;
+    newPost.id = s.key;
+    window.__posts.unshift(newPost);
+  });
   showPosts();
 });
 db.ref('chat').limitToLast(30).on('value',function(s){var o=s.val()||{};G.chat=Object.keys(o).map(function(k){return o[k]});if(!document.getElementById('page-mehfil').classList.contains('hidden'))loadMehfilChat()});
