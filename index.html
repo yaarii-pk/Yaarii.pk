@@ -571,66 +571,20 @@ setInterval(addInPanel,3000);
     }catch(e){}
   }, 2000);
 })();
-</script>
+
 <style>
-/* Category + Time wali pill */
-.cat-pill b{font-weight:800!important;font-size:12px!important;letter-spacing:0.3px!important}
-.cat-pill .time-box{
-  background:#1a1a1a!important;
-  border:1px solid #FFD700!important;
-  color:#FFD700!important;
-  font-size:10px!important;
-  padding:1px 6px!important;
-  border-radius:8px!important;
-  margin-left:5px!important;
-  font-weight:700!important;
-}
-<style>
-.cat-fix{
-  padding:2px 5px!important;
-  height:20px!important;
-  min-height:20px!important;
-  max-height:20px!important;
-  width:max-content!important;
-  max-width:95vw!important;
-  display:inline-flex!important;
-  align-items:center!important;
-  justify-content:center!important;
-  flex-wrap:nowrap!important;
-  white-space:nowrap!important;
-  gap:3px!important;
-  font-size:10.5px!important;
-  line-height:1!important;
-  border-radius:8px!important;
-  position:absolute!important;
-  top:8px!important;
-  right:8px!important;
-  z-index:20!important;
-  overflow:hidden!important;
-  background:#111!important;
-  border:1px solid #555!important;
-  box-sizing:border-box!important;
-  margin:0!important;
-  flex-shrink:0!important;
-}
-<style>
-/* EXACT CROP WALA PILL - Bas itna hi */
 .cat-new{
   background:#111!important;
   border:1px solid #FFD700!important;
   border-radius:999px!important;
-  box-shadow:none!important;
   padding:3px 8px!important;
   margin:0!important;
   height:auto!important;
-  min-height:0!important;
   width:max-content!important;
   max-width:max-content!important;
   display:inline-flex!important;
   align-items:center!important;
-  justify-content:center!important;
   white-space:nowrap!important;
-  flex-wrap:nowrap!important;
   gap:2px!important;
   font-size:11px!important;
   line-height:1.2!important;
@@ -638,31 +592,14 @@ setInterval(addInPanel,3000);
   top:10px!important;
   right:10px!important;
   z-index:99!important;
-  overflow:hidden!important;
   box-sizing:border-box!important;
 }
-.cat-new b{
-  font-weight:800!important;
-  font-size:11px!important;
-  color:#FFD700!important;
-  white-space:nowrap!important;
-  background:transparent!important;
-  border:none!important;
-}
-.cat-new i{
-  font-style:normal!important;
-  font-weight:800!important;
-  font-size:11px!important;
-  color:#FFD700!important;
-  white-space:nowrap!important;
-  background:transparent!important;
-  border:none!important;
-  padding:0!important;
-}
-.cat-new em{font-style:normal!important;color:#FFD700!important;font-size:11px!important}
+.cat-new b{font-weight:800!important;color:#FFD700!important}
+.cat-new i{font-style:normal!important;font-weight:800!important;color:#FFD700!important}
+.cat-new em{font-style:normal!important;color:#FFD700!important}
 </style>
 <script>
-function fixCropPill(){
+function fixFinal(){
   document.querySelectorAll('div, span, small').forEach(function(el){
     var txt = (el.innerText||'').trim().replace(/\s+/g,' ');
     if(!txt.match(/^(General|Shayari|Funny|Mehfil|Poetry)\s*•\s*.+/)) return;
@@ -680,41 +617,45 @@ function fixCropPill(){
       tmp = tmp.parentElement;
     }
     if(!card) return;
-    if(card.querySelector('.cat-new')){
-      hideOld(el, card);
-      return;
+
+    if(!card.querySelector('.cat-new')){
+      var badge = document.createElement('div');
+      badge.className = 'cat-new';
+      badge.innerHTML = '<b>'+cat+'</b><em>•</em><i>'+time+'</i>';
+      card.style.position = 'relative';
+      card.appendChild(badge);
     }
 
-    // NAYA - EXACT CROP WALA PILL
-    var badge = document.createElement('div');
-    badge.className = 'cat-new';
-    badge.innerHTML = '<b>'+cat+'</b><em>•</em><i>'+time+'</i>';
-    card.style.position = 'relative';
-    card.appendChild(badge);
-
-    // PURANA BARA DABBA - BILKUL GAYAB
-    hideOld(el, card);
+    // *** ASLI KAAM - PURANA BARA BOX KA PARENT MAAR DO ***
+    el.style.setProperty('display','none','important');
+    var p = el.parentElement;
+    var count = 0;
+    while(p && p !== card && count < 6){
+      // Agar parent me LIKE / Comment / Post text NAHI hai to wo hi fazool dabba hai
+      var pTxt = p.innerText || '';
+      if(!pTxt.includes('LIKE') && !pTxt.includes('Comment') && pTxt.length < 80){
+        p.style.setProperty('display','none','important');
+        p.style.setProperty('height','0','important');
+        p.style.setProperty('min-height','0','important');
+        p.style.setProperty('border','none','important');
+        p.style.setProperty('background','transparent','important');
+        p.style.setProperty('padding','0','important');
+        p.style.setProperty('margin','0','important');
+      } else {
+        // Agar parent me or bhi cheez hai to sirf uski height / border khatam karo, hide mat karo
+        p.style.setProperty('height','auto','important');
+        p.style.setProperty('min-height','0','important');
+        p.style.setProperty('border','none','important');
+        p.style.setProperty('background','transparent','important');
+        break;
+      }
+      p = p.parentElement;
+      count++;
+    }
   });
 }
-function hideOld(el, card){
-  el.style.setProperty('display','none','important');
-  var p = el.parentElement;
-  var count = 0;
-  while(p && p !== card && count < 4){
-    var pTxt = (p.innerText||'').trim().replace(/\s+/g,' ');
-    if(pTxt === (el.innerText||'').trim().replace(/\s+/g,' ') || pTxt.length < 35){
-      p.style.setProperty('display','none','important');
-      p.style.setProperty('height','0','important');
-      p.style.setProperty('border','none','important');
-      p.style.setProperty('padding','0','important');
-      p.style.setProperty('margin','0','important');
-    } else break;
-    p = p.parentElement;
-    count++;
-  }
-}
-setInterval(fixCropPill, 300);
-fixCropPill();
+setInterval(fixFinal, 300);
+fixFinal();
 </script>
 
 </script>
