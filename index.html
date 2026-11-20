@@ -573,45 +573,84 @@ setInterval(addInPanel,3000);
 })();
 
 <style>
-.sonu-pill{
-  background:#111!important; border:1px solid #FFD700!important; border-radius:999px!important;
-  padding:4px 9px!important; margin:0!important; width:max-content!important;
-  display:inline-flex!important; align-items:center!important; white-space:nowrap!important; gap:2px!important;
-  font-size:11px!important; line-height:1!important;
-  position:absolute!important; top:10px!important; right:10px!important; z-index:99!important;
-}
-.sonu-pill b,.sonu-pill i{font-weight:800!important;font-size:11px!important;color:#FFD700!important}
-.sonu-pill em{font-style:normal!important;color:#FFD700!important}
+/* --- FIX 3: General pill - kabhi stretch nahi hoga --- */
+.post>div:first-child{display:flex!important;justify-content:space-between!important;align-items:flex-start!important;gap:8px!important}
+.badge{background:#111!important;border:1px solid #FFD700!important;color:#FFD700!important;border-radius:999px!important;padding:4px 9px!important;font-size:11px!important;font-weight:800!important;line-height:1!important;white-space:nowrap!important;flex-shrink:0!important;align-self:flex-start!important;height:auto!important;width:max-content!important}
+/* --- FIX 4: WHITE MODE --- */
+body[data-theme="white"]{background:#f2f2f2!important;color:#111!important}
+body[data-theme="white"] .top,body[data-theme="white"] .bottom{background:#fff!important;border-color:#FFD700!important}
+body[data-theme="white"] .card,body[data-theme="white"] .post,body[data-theme="white"] .authBox{background:#fff!important;border-color:#ddd!important;color:#111!important}
+body[data-theme="white"] .inp,body[data-theme="white"] input,body[data-theme="white"] select,body[data-theme="white"] textarea{background:#eee!important;color:#111!important;border-color:#ccc!important}
+body[data-theme="white"] .badge{background:#fff!important}
+body[data-theme="white"] .small{color:#666!important}
+body[data-theme="white"] .bottom button{color:#333!important}
+.themeBtn{cursor:pointer;background:#111;border:1px solid #FFD700;color:#FFD700;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:16px}
+body[data-theme="white"] .themeBtn{background:#fff!important}
 </style>
 <script>
-function lastFinal(){
-  document.querySelectorAll('div').forEach(function(card){
-    if(!card.innerText || !card.innerText.includes('LIKE')) return;
-    if(card.offsetHeight < 150) return;
-    var m = card.innerText.match(/(General|Shayari|Funny|Mehfil|Poetry)\s*•\s*([^\n]+)/);
-    if(!m) return;
-    var cat = m[1], time = m[2].trim().split('\n')[0];
-    if(!card.querySelector('.sonu-pill')){
-      var pill = document.createElement('div');
-      pill.className = 'sonu-pill';
-      pill.innerHTML = '<b>'+cat+'</b><em>•</em><i>'+time+'</i>';
-      card.style.position = 'relative';
-      card.appendChild(pill);
-    }
-    card.querySelectorAll('div').forEach(function(d){
-      if(d.classList.contains('sonu-pill')) return;
-      if(d.innerText && d.innerText.includes('LIKE')) return;
-      var t = (d.innerText||'').trim();
-      if(t.match(/^(General|Shayari|Funny|Mehfil|Poetry)\s*•\s*.+$/) && t.length < 35){
-        d.style.setProperty('display','none','important');
-      }
-    });
-  });
+(function(){
+/* --- FIX 4: Theme lagao + button lagao --- */
+function applyTheme(){
+  var t = localStorage.getItem('y_theme') || 'black';
+  document.body.setAttribute('data-theme', t);
+  document.querySelectorAll('.themeBtn').forEach(function(b){ b.innerText = t==='white' ? '🌙' : '☀️'; });
 }
-setInterval(lastFinal, 400);
-lastFinal();
-</script>
+window.toggleTheme = function(){
+  var t = localStorage.getItem('y_theme')==='white' ? 'black' : 'white';
+  localStorage.setItem('y_theme', t); applyTheme();
+};
+applyTheme();
+// Top bar me button - har user ko nazar aayega
+setInterval(function(){
+  var top = document.querySelector('.topIcons');
+  if(top && !top.querySelector('.themeBtn')){
+    var b = document.createElement('span');
+    b.className='themeBtn'; b.onclick = window.toggleTheme;
+    b.innerText = (localStorage.getItem('y_theme')==='white'?'🌙':'☀️');
+    top.prepend(b);
+  }
+  // Profile page me bhi option
+  var prof = document.getElementById('page-profile');
+  if(prof && !document.getElementById('themeRow')){
+    var d = document.createElement('div');
+    d.id='themeRow'; d.style.cssText='padding:10px;background:#111;border:1px solid #FFD700;border-radius:10px;margin:10px;display:flex;justify-content:space-between;align-items:center';
+    d.innerHTML='<b>🌗 Theme - Black / White</b><button onclick="toggleTheme()" style="background:#FFD700;border:none;padding:8px 14px;border-radius:8px;font-weight:bold">Change</button>';
+    prof.prepend(d);
+  }
+},1000);
 
+/* --- FIX 1 + 2: Login + Refresh pe foran Online + Posts --- */
+// Purane fix-pack jo loadFeed ko rokte hain, unka lock khatam karo
+window.__dataLoaded = true;
+// Login ke foran baad - cache se dikhao, Firebase ka wait mat karo
+var _oldShowHome = window.showHomeNow;
+if(_oldShowHome){
+  window.showHomeNow = function(){
+    try{
+      var c = localStorage.getItem('yp_online_html');
+      var f = localStorage.getItem('yp_feed_html');
+      var oc = localStorage.getItem('yp_online_count');
+      if(c && document.getElementById('onlineBar')) document.getElementById('onlineBar').innerHTML = c;
+      if(f && document.getElementById('feed')) document.getElementById('feed').innerHTML = f;
+      if(oc && document.getElementById('onlineCount')) document.getElementById('onlineCount').innerText = oc;
+    }catch(e){}
+    try{ if(typeof markOnline==='function') markOnline(); }catch(e){}
+    return _oldShowHome.apply(this, arguments);
+  };
+}
+// Har baar jab asli data aaye to cache save karo - taake refresh pe khali na dikhe
+setInterval(function(){
+  try{
+    var f=document.getElementById('feed'), o=document.getElementById('onlineBar'), c=document.getElementById('onlineCount');
+    if(f && f.innerHTML && f.innerHTML.length>100 && f.innerHTML.indexOf('Koi post nahi')<0) localStorage.setItem('yp_feed_html', f.innerHTML);
+    if(o && o.innerHTML && o.innerHTML.length>100 && o.innerHTML.indexOf('Loading')<0) localStorage.setItem('yp_online_html', o.innerHTML);
+    if(c && c.innerText && c.innerText.indexOf('0 / 0')<0 && c.innerText.indexOf('0 / 0 ONLINE')<0) localStorage.setItem('yp_online_count', c.innerText);
+    // Agar feed me galti se "Koi post nahi" aa gaya aur posts hain to dobara load karo
+    if(f && f.innerHTML.indexOf('Koi post nahi')>=0 && window.G && window.G.postsArr && window.G.postsArr.length>0 && typeof loadFeed==='function') loadFeed();
+  }catch(e){}
+},2000);
+})();
+</script>
 
 </script>
 </body>
