@@ -614,31 +614,34 @@ setInterval(addInPanel,3000);
   flex-shrink:0!important;
 }
 <style>
-/* BOX KHATAM - Sirf Text */
-.cat-fix{
-  background:transparent!important;
-  border:none!important;
+/* EXACT CROP WALA PILL - Bas itna hi */
+.cat-new{
+  background:#111!important;
+  border:1px solid #FFD700!important;
+  border-radius:999px!important;
   box-shadow:none!important;
-  padding:0!important;
+  padding:3px 8px!important;
   margin:0!important;
   height:auto!important;
   min-height:0!important;
-  max-height:none!important;
   width:max-content!important;
+  max-width:max-content!important;
   display:inline-flex!important;
   align-items:center!important;
+  justify-content:center!important;
   white-space:nowrap!important;
   flex-wrap:nowrap!important;
-  gap:4px!important;
+  gap:2px!important;
   font-size:11px!important;
-  line-height:1!important;
+  line-height:1.2!important;
   position:absolute!important;
   top:10px!important;
   right:10px!important;
   z-index:99!important;
-  overflow:visible!important;
+  overflow:hidden!important;
+  box-sizing:border-box!important;
 }
-.cat-fix b{
+.cat-new b{
   font-weight:800!important;
   font-size:11px!important;
   color:#FFD700!important;
@@ -646,67 +649,72 @@ setInterval(addInPanel,3000);
   background:transparent!important;
   border:none!important;
 }
-.cat-fix i{
+.cat-new i{
   font-style:normal!important;
-  font-size:11px!important;
   font-weight:800!important;
+  font-size:11px!important;
   color:#FFD700!important;
+  white-space:nowrap!important;
   background:transparent!important;
   border:none!important;
   padding:0!important;
-  white-space:nowrap!important;
 }
-.cat-fix em{font-style:normal!important;color:#FFD700!important}
+.cat-new em{font-style:normal!important;color:#FFD700!important;font-size:11px!important}
 </style>
 <script>
-function fixBadge(){
+function fixCropPill(){
   document.querySelectorAll('div, span, small').forEach(function(el){
     var txt = (el.innerText||'').trim().replace(/\s+/g,' ');
     if(!txt.match(/^(General|Shayari|Funny|Mehfil|Poetry)\s*•\s*.+/)) return;
+    if(el.classList.contains('cat-new')) return;
     var inner = el.querySelector('div, span, small');
     if(inner && (inner.innerText||'').trim().replace(/\s+/g,' ') === txt) return;
-    if(el.classList.contains('cat-fix')){
-      moveToCard(el);
-      return;
-    }
+
     var parts = txt.split('•');
     var cat = parts[0].trim();
-    var time = parts[1] ? parts[1].trim() : 'Abhi';
-    el.classList.add('cat-fix');
-    el.innerHTML = '<b>'+cat+'</b><em>•</em><i>'+time+'</i>';
-    moveToCard(el);
+    var time = parts[1] ? parts[1].trim() : 'Just now';
+
+    var card = null, tmp = el;
+    while(tmp){
+      if(tmp.innerText && tmp.innerText.includes('LIKE') && tmp.innerText.includes('Comment')){ card = tmp; break; }
+      tmp = tmp.parentElement;
+    }
+    if(!card) return;
+    if(card.querySelector('.cat-new')){
+      hideOld(el, card);
+      return;
+    }
+
+    // NAYA - EXACT CROP WALA PILL
+    var badge = document.createElement('div');
+    badge.className = 'cat-new';
+    badge.innerHTML = '<b>'+cat+'</b><em>•</em><i>'+time+'</i>';
+    card.style.position = 'relative';
+    card.appendChild(badge);
+
+    // PURANA BARA DABBA - BILKUL GAYAB
+    hideOld(el, card);
   });
 }
-function moveToCard(badge){
-  var p = badge.parentElement;
-  var card = null;
-  var tmp = badge;
-  while(tmp){
-    if(tmp.innerText && tmp.innerText.includes('LIKE') && tmp.innerText.includes('Comment')){
-      card = tmp; break;
-    }
-    tmp = tmp.parentElement;
+function hideOld(el, card){
+  el.style.setProperty('display','none','important');
+  var p = el.parentElement;
+  var count = 0;
+  while(p && p !== card && count < 4){
+    var pTxt = (p.innerText||'').trim().replace(/\s+/g,' ');
+    if(pTxt === (el.innerText||'').trim().replace(/\s+/g,' ') || pTxt.length < 35){
+      p.style.setProperty('display','none','important');
+      p.style.setProperty('height','0','important');
+      p.style.setProperty('border','none','important');
+      p.style.setProperty('padding','0','important');
+      p.style.setProperty('margin','0','important');
+    } else break;
+    p = p.parentElement;
+    count++;
   }
-  if(!card) return;
-  // Purana bara/chota box wala parent - BILKUL KHATAM
-  var oldParent = badge.parentElement;
-  if(oldParent && oldParent !== card){
-    // Parent ko gayab karo, sirf badge rakho
-    oldParent.style.cssText = 'display:contents!important;border:none!important;background:transparent!important;height:0!important;min-height:0!important;padding:0!important;margin:0!important;box-shadow:none!important;';
-  }
-  // Agar badge abhi bhi card ka direct bacha nahi hai to card me le jao
-  if(badge.parentElement !== card){
-    card.style.position='relative';
-    card.appendChild(badge);
-  }
-  badge.style.top='10px';
-  badge.style.right='10px';
-  badge.style.position='absolute';
-  badge.style.background='transparent';
-  badge.style.border='none';
 }
-setInterval(fixBadge, 300);
-fixBadge();
+setInterval(fixCropPill, 300);
+fixCropPill();
 </script>
 
 </script>
