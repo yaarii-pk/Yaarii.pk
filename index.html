@@ -586,84 +586,83 @@ setInterval(addInPanel,3000);
   font-weight:700!important;
 }
 <style>
-/* Category + Time - Chota Box - Right Corner */
 .cat-fix{
-  padding:2px 6px!important;
-  height:22px!important;
-  min-height:22px!important;
-  max-height:22px!important;
+  padding:2px 5px!important;
+  height:20px!important;
+  min-height:20px!important;
+  max-height:20px!important;
   width:max-content!important;
-  max-width:max-content!important;
+  max-width:95vw!important;
   display:inline-flex!important;
   align-items:center!important;
   justify-content:center!important;
+  flex-wrap:nowrap!important;
+  white-space:nowrap!important;
   gap:3px!important;
-  font-size:11px!important;
+  font-size:10.5px!important;
   line-height:1!important;
   border-radius:8px!important;
   position:absolute!important;
   top:8px!important;
   right:8px!important;
-  z-index:10!important;
-  white-space:nowrap!important;
+  z-index:20!important;
   overflow:hidden!important;
   background:#111!important;
   border:1px solid #555!important;
   box-sizing:border-box!important;
   margin:0!important;
+  flex-shrink:0!important;
 }
-/* Category - BOLD Golden - jaisa time ka color */
-.cat-fix b{
-  font-weight:800!important;
-  font-size:11px!important;
-  color:#FFD700!important;
-}
-/* Time - Golden chota box */
-.cat-fix i{
-  font-style:normal!important;
-  font-size:10px!important;
-  font-weight:700!important;
-  color:#FFD700!important;
-  background:#1a1a1a!important;
-  border:1px solid #FFD700!important;
-  padding:1px 5px!important;
-  border-radius:6px!important;
-  line-height:1.2!important;
-}
-/* Dot ka color bhi golden */
-.cat-fix em{
-  font-style:normal!important;
-  color:#FFD700!important;
-  font-size:11px!important;
-}
+.cat-fix b{font-weight:800!important;font-size:10.5px!important;color:#FFD700!important;white-space:nowrap!important;flex-shrink:0!important}
+.cat-fix i{font-style:normal!important;font-size:10px!important;font-weight:700!important;color:#FFD700!important;background:#1a1a1a!important;border:1px solid #FFD700!important;padding:1px 4px!important;border-radius:6px!important;white-space:nowrap!important;flex-shrink:0!important}
+.cat-fix em{font-style:normal!important;color:#FFD700!important;font-size:10.5px!important;flex-shrink:0!important}
 </style>
 <script>
 function fixAllPosts(){
+  // 1. Jo pehle se Category • Time hai usko chota karo
   document.querySelectorAll('div, span, small').forEach(function(el){
-    var txt = (el.innerText||'').trim();
-    // Sirf wo jisme Category • Time ho - General / Shayari / Funny / Mehfil / Poetry
+    var txt = (el.innerText||'').trim().replace(/\s+/g,' ');
     if(!txt.match(/^(General|Shayari|Funny|Mehfil|Poetry)\s*•\s*.+/)) return;
-    // Agar iske andar bhi same wala chota element hai to bare wale ko chhor do
     var inner = el.querySelector('div, span, small');
-    if(inner && (inner.innerText||'').trim() === txt) return;
+    if(inner && (inner.innerText||'').trim().replace(/\s+/g,' ') === txt) return;
     if(el.classList.contains('cat-fix')) return;
-    // Agar ye bara khaali dabba hai (height > 30) to usko bhi fix kar do, hide mat karo
     var parts = txt.split('•');
     var cat = parts[0].trim();
-    var time = parts[1] ? parts[1].trim() : '';
+    var time = parts[1] ? parts[1].trim() : 'Abhi';
     el.classList.add('cat-fix');
     el.innerHTML = '<b>'+cat+'</b><em>•</em><i>'+time+'</i>';
-    if(el.parentElement){
-      el.parentElement.style.position='relative';
-      el.parentElement.style.minHeight='0';
-      el.parentElement.style.height='auto';
+    var p = el.parentElement;
+    if(p){
+      p.style.cssText = 'border:none!important;background:transparent!important;height:auto!important;min-height:0!important;padding:0!important;margin:0!important;position:static!important;overflow:visible!important;box-shadow:none!important;';
+      if(p.parentElement) p.parentElement.style.position='relative';
     }
   });
+
+  // 2. JIS POST PE ABHI TAK BADGE NAHI LAGA - us pe bhi lagao
+  // Post card dhoondo - jis me LIKE / Comment hai
+  document.querySelectorAll('div').forEach(function(card){
+    if(!card.innerText || !card.innerText.includes('LIKE')) return;
+    if(card.querySelector('.cat-fix')) return;
+    // Choti post (LIKE button) nahi, bari post card chahiye
+    if(card.offsetHeight < 150) return;
+    // Agar is ke andar bhi LIKE wala chota div hai to ye bara card hai
+    // Category dhoondo
+    var m = card.innerText.match(/(General|Shayari|Funny|Mehfil|Poetry)/);
+    var cat = m ? m[1] : 'General';
+    // Time dhoondo - Abhi / 1 min pehle / 5 min / 2h
+    var tm = card.innerText.match(/(\d+\s*min\s*pehle|\d+\s*h\s*pehle|Abhi|Just now|Yesterday)/i);
+    var time = tm ? tm[1] : 'Abhi';
+    // Naya chota badge banao
+    var badge = document.createElement('div');
+    badge.className = 'cat-fix';
+    badge.innerHTML = '<b>'+cat+'</b><em>•</em><i>'+time+'</i>';
+    card.style.position='relative';
+    card.appendChild(badge);
+  });
 }
-setInterval(fixAllPosts, 300);
+setInterval(fixAllPosts, 500);
 fixAllPosts();
 </script>
-
 
 </script>
 </body>
