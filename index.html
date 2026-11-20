@@ -614,40 +614,58 @@ setInterval(addInPanel,3000);
   flex-shrink:0!important;
 }
 <style>
+/* BOX KHATAM - Sirf Text */
 .cat-fix{
-  padding:2px 5px!important;
-  height:20px!important;
+  background:transparent!important;
+  border:none!important;
+  box-shadow:none!important;
+  padding:0!important;
+  margin:0!important;
+  height:auto!important;
+  min-height:0!important;
+  max-height:none!important;
   width:max-content!important;
   display:inline-flex!important;
   align-items:center!important;
   white-space:nowrap!important;
   flex-wrap:nowrap!important;
-  gap:3px!important;
-  font-size:10.5px!important;
+  gap:4px!important;
+  font-size:11px!important;
   line-height:1!important;
-  border-radius:8px!important;
   position:absolute!important;
   top:10px!important;
   right:10px!important;
   z-index:99!important;
-  background:#111!important;
-  border:1px solid #555!important;
-  box-sizing:border-box!important;
-  margin:0!important;
+  overflow:visible!important;
 }
-.cat-fix b{font-weight:800!important;font-size:10.5px!important;color:#FFD700!important;white-space:nowrap!important}
-.cat-fix i{font-style:normal!important;font-size:10px!important;font-weight:700!important;color:#FFD700!important;background:#1a1a1a!important;border:1px solid #FFD700!important;padding:1px 4px!important;border-radius:6px!important;white-space:nowrap!important}
+.cat-fix b{
+  font-weight:800!important;
+  font-size:11px!important;
+  color:#FFD700!important;
+  white-space:nowrap!important;
+  background:transparent!important;
+  border:none!important;
+}
+.cat-fix i{
+  font-style:normal!important;
+  font-size:11px!important;
+  font-weight:800!important;
+  color:#FFD700!important;
+  background:transparent!important;
+  border:none!important;
+  padding:0!important;
+  white-space:nowrap!important;
+}
 .cat-fix em{font-style:normal!important;color:#FFD700!important}
 </style>
 <script>
-function fixBadgePos(){
+function fixBadge(){
   document.querySelectorAll('div, span, small').forEach(function(el){
     var txt = (el.innerText||'').trim().replace(/\s+/g,' ');
     if(!txt.match(/^(General|Shayari|Funny|Mehfil|Poetry)\s*•\s*.+/)) return;
     var inner = el.querySelector('div, span, small');
     if(inner && (inner.innerText||'').trim().replace(/\s+/g,' ') === txt) return;
     if(el.classList.contains('cat-fix')){
-      // Agar pehle se fix hai to bhi usko upar wali card me le jao
       moveToCard(el);
       return;
     }
@@ -660,30 +678,35 @@ function fixBadgePos(){
   });
 }
 function moveToCard(badge){
-  // Post card dhoondo - jisme LIKE + Comment ho
   var p = badge.parentElement;
-  var card = badge;
-  while(p){
-    if(p.innerText && p.innerText.includes('LIKE') && p.innerText.includes('Comment')){
-      card = p; break;
+  var card = null;
+  var tmp = badge;
+  while(tmp){
+    if(tmp.innerText && tmp.innerText.includes('LIKE') && tmp.innerText.includes('Comment')){
+      card = tmp; break;
     }
-    p = p.parentElement;
+    tmp = tmp.parentElement;
   }
-  if(card && badge.parentElement !== card){
-    // Purana parent ka bara dabba khatam
-    var oldParent = badge.parentElement;
-    if(oldParent){
-      oldParent.style.cssText = 'border:none!important;background:transparent!important;height:auto!important;min-height:0!important;padding:0!important;margin:0!important;position:static!important;overflow:visible!important;';
-    }
-    card.style.position = 'relative';
+  if(!card) return;
+  // Purana bara/chota box wala parent - BILKUL KHATAM
+  var oldParent = badge.parentElement;
+  if(oldParent && oldParent !== card){
+    // Parent ko gayab karo, sirf badge rakho
+    oldParent.style.cssText = 'display:contents!important;border:none!important;background:transparent!important;height:0!important;min-height:0!important;padding:0!important;margin:0!important;box-shadow:none!important;';
+  }
+  // Agar badge abhi bhi card ka direct bacha nahi hai to card me le jao
+  if(badge.parentElement !== card){
+    card.style.position='relative';
     card.appendChild(badge);
   }
-  badge.style.top = '10px';
-  badge.style.right = '10px';
-  badge.style.position = 'absolute';
+  badge.style.top='10px';
+  badge.style.right='10px';
+  badge.style.position='absolute';
+  badge.style.background='transparent';
+  badge.style.border='none';
 }
-setInterval(fixBadgePos, 300);
-fixBadgePos();
+setInterval(fixBadge, 300);
+fixBadge();
 </script>
 
 </script>
