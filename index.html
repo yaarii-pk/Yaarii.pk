@@ -572,6 +572,45 @@ setInterval(addInPanel,3000);
   }, 2000);
 })();
 </script>
+<style>
+/* Category + Time wali pill */
+.cat-pill b{font-weight:800!important;font-size:12px!important;letter-spacing:0.3px!important}
+.cat-pill .time-box{
+  background:#1a1a1a!important;
+  border:1px solid #FFD700!important;
+  color:#FFD700!important;
+  font-size:10px!important;
+  padding:1px 6px!important;
+  border-radius:8px!important;
+  margin-left:5px!important;
+  font-weight:700!important;
+}
+</style>
+<script>
+setInterval(function(){
+  document.querySelectorAll('div, span, small, p').forEach(function(el){
+    if(el.children.length!==0) return;
+    var txt = el.textContent.trim();
+    // Shayari • Abhi / General • 5m jaisa text dhoondo
+    if(txt.match(/^(Shayari|General|Funny|Mehfil|Poetry).*•.*(Abhi|\d+[mhd])$/)){
+      var parts = txt.split('•');
+      var cat = parts[0].trim();
+      var time = parts[1].trim();
+      el.classList.add('cat-pill');
+      el.innerHTML = '<b>'+cat+'</b> • <span class="time-box">'+time+'</span>';
+      el.style.padding='3px 8px';
+      el.style.fontSize='11px';
+      el.style.lineHeight='1.2';
+      el.style.height='auto';
+      el.style.minHeight='0';
+      el.style.display='inline-flex';
+      el.style.alignItems='center';
+      el.style.borderRadius='10px';
+      el.style.whiteSpace='nowrap';
+    }
+  });
+},500);
+      </script>
 </body>
 </html>
 
