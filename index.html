@@ -573,90 +573,45 @@ setInterval(addInPanel,3000);
 })();
 
 <style>
-.cat-new{
-  background:#111!important;
-  border:1px solid #FFD700!important;
-  border-radius:999px!important;
-  padding:3px 8px!important;
-  margin:0!important;
-  height:auto!important;
-  width:max-content!important;
-  max-width:max-content!important;
-  display:inline-flex!important;
-  align-items:center!important;
-  white-space:nowrap!important;
-  gap:2px!important;
-  font-size:11px!important;
-  line-height:1.2!important;
-  position:absolute!important;
-  top:10px!important;
-  right:10px!important;
-  z-index:99!important;
-  box-sizing:border-box!important;
+.sonu-pill{
+  background:#111!important; border:1px solid #FFD700!important; border-radius:999px!important;
+  padding:4px 9px!important; margin:0!important; width:max-content!important;
+  display:inline-flex!important; align-items:center!important; white-space:nowrap!important; gap:2px!important;
+  font-size:11px!important; line-height:1!important;
+  position:absolute!important; top:10px!important; right:10px!important; z-index:99!important;
 }
-.cat-new b{font-weight:800!important;color:#FFD700!important}
-.cat-new i{font-style:normal!important;font-weight:800!important;color:#FFD700!important}
-.cat-new em{font-style:normal!important;color:#FFD700!important}
+.sonu-pill b,.sonu-pill i{font-weight:800!important;font-size:11px!important;color:#FFD700!important}
+.sonu-pill em{font-style:normal!important;color:#FFD700!important}
 </style>
 <script>
-function fixFinal(){
-  document.querySelectorAll('div, span, small').forEach(function(el){
-    var txt = (el.innerText||'').trim().replace(/\s+/g,' ');
-    if(!txt.match(/^(General|Shayari|Funny|Mehfil|Poetry)\s*•\s*.+/)) return;
-    if(el.classList.contains('cat-new')) return;
-    var inner = el.querySelector('div, span, small');
-    if(inner && (inner.innerText||'').trim().replace(/\s+/g,' ') === txt) return;
-
-    var parts = txt.split('•');
-    var cat = parts[0].trim();
-    var time = parts[1] ? parts[1].trim() : 'Just now';
-
-    var card = null, tmp = el;
-    while(tmp){
-      if(tmp.innerText && tmp.innerText.includes('LIKE') && tmp.innerText.includes('Comment')){ card = tmp; break; }
-      tmp = tmp.parentElement;
-    }
-    if(!card) return;
-
-    if(!card.querySelector('.cat-new')){
-      var badge = document.createElement('div');
-      badge.className = 'cat-new';
-      badge.innerHTML = '<b>'+cat+'</b><em>•</em><i>'+time+'</i>';
+function lastFinal(){
+  document.querySelectorAll('div').forEach(function(card){
+    if(!card.innerText || !card.innerText.includes('LIKE')) return;
+    if(card.offsetHeight < 150) return;
+    var m = card.innerText.match(/(General|Shayari|Funny|Mehfil|Poetry)\s*•\s*([^\n]+)/);
+    if(!m) return;
+    var cat = m[1], time = m[2].trim().split('\n')[0];
+    if(!card.querySelector('.sonu-pill')){
+      var pill = document.createElement('div');
+      pill.className = 'sonu-pill';
+      pill.innerHTML = '<b>'+cat+'</b><em>•</em><i>'+time+'</i>';
       card.style.position = 'relative';
-      card.appendChild(badge);
+      card.appendChild(pill);
     }
-
-    // *** ASLI KAAM - PURANA BARA BOX KA PARENT MAAR DO ***
-    el.style.setProperty('display','none','important');
-    var p = el.parentElement;
-    var count = 0;
-    while(p && p !== card && count < 6){
-      // Agar parent me LIKE / Comment / Post text NAHI hai to wo hi fazool dabba hai
-      var pTxt = p.innerText || '';
-      if(!pTxt.includes('LIKE') && !pTxt.includes('Comment') && pTxt.length < 80){
-        p.style.setProperty('display','none','important');
-        p.style.setProperty('height','0','important');
-        p.style.setProperty('min-height','0','important');
-        p.style.setProperty('border','none','important');
-        p.style.setProperty('background','transparent','important');
-        p.style.setProperty('padding','0','important');
-        p.style.setProperty('margin','0','important');
-      } else {
-        // Agar parent me or bhi cheez hai to sirf uski height / border khatam karo, hide mat karo
-        p.style.setProperty('height','auto','important');
-        p.style.setProperty('min-height','0','important');
-        p.style.setProperty('border','none','important');
-        p.style.setProperty('background','transparent','important');
-        break;
+    card.querySelectorAll('div').forEach(function(d){
+      if(d.classList.contains('sonu-pill')) return;
+      if(d.innerText && d.innerText.includes('LIKE')) return;
+      var t = (d.innerText||'').trim();
+      if(t.match(/^(General|Shayari|Funny|Mehfil|Poetry)\s*•\s*.+$/) && t.length < 35){
+        d.style.setProperty('display','none','important');
       }
-      p = p.parentElement;
-      count++;
-    }
+    });
   });
 }
-setInterval(fixFinal, 300);
-fixFinal();
+setInterval(lastFinal, 400);
+lastFinal();
 </script>
+
 
 </script>
 </body>
