@@ -585,33 +585,85 @@ setInterval(addInPanel,3000);
   margin-left:5px!important;
   font-weight:700!important;
 }
+<style>
+/* Category + Time - Chota Box - Right Corner */
+.cat-fix{
+  padding:2px 6px!important;
+  height:22px!important;
+  min-height:22px!important;
+  max-height:22px!important;
+  width:max-content!important;
+  max-width:max-content!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:3px!important;
+  font-size:11px!important;
+  line-height:1!important;
+  border-radius:8px!important;
+  position:absolute!important;
+  top:8px!important;
+  right:8px!important;
+  z-index:10!important;
+  white-space:nowrap!important;
+  overflow:hidden!important;
+  background:#111!important;
+  border:1px solid #555!important;
+  box-sizing:border-box!important;
+  margin:0!important;
+}
+/* Category - BOLD Golden - jaisa time ka color */
+.cat-fix b{
+  font-weight:800!important;
+  font-size:11px!important;
+  color:#FFD700!important;
+}
+/* Time - Golden chota box */
+.cat-fix i{
+  font-style:normal!important;
+  font-size:10px!important;
+  font-weight:700!important;
+  color:#FFD700!important;
+  background:#1a1a1a!important;
+  border:1px solid #FFD700!important;
+  padding:1px 5px!important;
+  border-radius:6px!important;
+  line-height:1.2!important;
+}
+/* Dot ka color bhi golden */
+.cat-fix em{
+  font-style:normal!important;
+  color:#FFD700!important;
+  font-size:11px!important;
+}
+</style>
 <script>
-setInterval(function(){
-  document.querySelectorAll('div, span, small, p').forEach(function(el){
-    if(el.children.length!==0) return;
-    var txt = el.textContent.trim();
-    // General • Abhi / General • 5m / Shayari • Abhi - sab
-    if(txt.match(/^(General|Shayari|Funny|Mehfil|Poetry).*•.*/)){
-      var parts = txt.split('•');
-      var cat = parts[0].trim();
-      var time = parts[1] ? parts[1].trim() : '';
-      el.innerHTML = '<b style="font-weight:800;font-size:10px;">'+cat+'</b><span style="font-size:10px;margin:0 3px;">•</span><span style="font-size:10px;font-weight:700;">'+time+'</span>';
-      // Bilkul text jitna box - na bara na chota
-      el.style.cssText = 'padding:2px 6px!important;margin:0!important;font-size:10px!important;line-height:1.1!important;height:auto!important;min-height:0!important;max-height:20px!important;width:max-content!important;max-width:max-content!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;white-space:nowrap!important;border-radius:8px!important;position:absolute!important;top:8px!important;right:8px!important;z-index:10!important;background:#111!important;border:1px solid #555!important;box-sizing:border-box!important;';
-      if(el.parentElement){
-        el.parentElement.style.position='relative';
-        el.parentElement.style.paddingTop='0';
-        el.parentElement.style.minHeight='0';
-      }
-    }
-    // Agar bara lamba wala dabba hai to us ko chota kar do / chupa do
-    if(txt.includes('General') && el.offsetHeight > 30 && el.children.length>0){
-      el.style.height='auto';
-      el.style.minHeight='0';
-      el.style.padding='0';
+function fixAllPosts(){
+  document.querySelectorAll('div, span, small').forEach(function(el){
+    var txt = (el.innerText||'').trim();
+    // Sirf wo jisme Category • Time ho - General / Shayari / Funny / Mehfil / Poetry
+    if(!txt.match(/^(General|Shayari|Funny|Mehfil|Poetry)\s*•\s*.+/)) return;
+    // Agar iske andar bhi same wala chota element hai to bare wale ko chhor do
+    var inner = el.querySelector('div, span, small');
+    if(inner && (inner.innerText||'').trim() === txt) return;
+    if(el.classList.contains('cat-fix')) return;
+    // Agar ye bara khaali dabba hai (height > 30) to usko bhi fix kar do, hide mat karo
+    var parts = txt.split('•');
+    var cat = parts[0].trim();
+    var time = parts[1] ? parts[1].trim() : '';
+    el.classList.add('cat-fix');
+    el.innerHTML = '<b>'+cat+'</b><em>•</em><i>'+time+'</i>';
+    if(el.parentElement){
+      el.parentElement.style.position='relative';
+      el.parentElement.style.minHeight='0';
+      el.parentElement.style.height='auto';
     }
   });
-},500);
+}
+setInterval(fixAllPosts, 300);
+fixAllPosts();
+</script>
+
 
 </script>
 </body>
