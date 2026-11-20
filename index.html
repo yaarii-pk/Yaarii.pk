@@ -585,32 +585,35 @@ setInterval(addInPanel,3000);
   margin-left:5px!important;
   font-weight:700!important;
 }
-</style>
 <script>
 setInterval(function(){
   document.querySelectorAll('div, span, small, p').forEach(function(el){
     if(el.children.length!==0) return;
     var txt = el.textContent.trim();
-    // Shayari • Abhi / General • 5m jaisa text dhoondo
-    if(txt.match(/^(Shayari|General|Funny|Mehfil|Poetry).*•.*(Abhi|\d+[mhd])$/)){
+    // General • Abhi / General • 5m / Shayari • Abhi - sab
+    if(txt.match(/^(General|Shayari|Funny|Mehfil|Poetry).*•.*/)){
       var parts = txt.split('•');
       var cat = parts[0].trim();
-      var time = parts[1].trim();
-      el.classList.add('cat-pill');
-      el.innerHTML = '<b>'+cat+'</b> • <span class="time-box">'+time+'</span>';
-      el.style.padding='3px 8px';
-      el.style.fontSize='11px';
-      el.style.lineHeight='1.2';
+      var time = parts[1] ? parts[1].trim() : '';
+      el.innerHTML = '<b style="font-weight:800;font-size:10px;">'+cat+'</b><span style="font-size:10px;margin:0 3px;">•</span><span style="font-size:10px;font-weight:700;">'+time+'</span>';
+      // Bilkul text jitna box - na bara na chota
+      el.style.cssText = 'padding:2px 6px!important;margin:0!important;font-size:10px!important;line-height:1.1!important;height:auto!important;min-height:0!important;max-height:20px!important;width:max-content!important;max-width:max-content!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;white-space:nowrap!important;border-radius:8px!important;position:absolute!important;top:8px!important;right:8px!important;z-index:10!important;background:#111!important;border:1px solid #555!important;box-sizing:border-box!important;';
+      if(el.parentElement){
+        el.parentElement.style.position='relative';
+        el.parentElement.style.paddingTop='0';
+        el.parentElement.style.minHeight='0';
+      }
+    }
+    // Agar bara lamba wala dabba hai to us ko chota kar do / chupa do
+    if(txt.includes('General') && el.offsetHeight > 30 && el.children.length>0){
       el.style.height='auto';
       el.style.minHeight='0';
-      el.style.display='inline-flex';
-      el.style.alignItems='center';
-      el.style.borderRadius='10px';
-      el.style.whiteSpace='nowrap';
+      el.style.padding='0';
     }
   });
 },500);
-      </script>
+
+</script>
 </body>
 </html>
 
