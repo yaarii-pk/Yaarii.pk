@@ -538,17 +538,7 @@ setInterval(addInPanel,3000);
   var _oldLoadFeed = window.loadFeed;
   if(_oldLoadFeed){
     window.loadFeed = function(){
-      if(!window.__dataLoaded && localStorage.getItem('yp_feed_html')) return;
-      return _oldLoadFeed.apply(this, arguments);
-    };
-  }
-  var _oldRender = window.renderOnline;
-  if(_oldRender){
-    window.renderOnline = function(){
-      if(!window.__dataLoaded && localStorage.getItem('yp_online_html')) return;
-      return _oldRender.apply(this, arguments);
-    };
-  }
+     return _oldLoadFeed.apply(this, arguments); }; } var _oldRender = window.renderOnline; if(_oldRender){ window.renderOnline = function(){ return _oldRender.apply(this, arguments); }; } 
 
   // 3. Har 2 sec me check karo, naya data aaya hai to lock khol do or save kar lo
   setInterval(function(){
