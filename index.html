@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="ur"><head><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><script>var APP_VERSION=10;var oldVer=localStorage.getItem('y_app_ver');if(oldVer&&oldVer!=String(APP_VERSION)){localStorage.setItem('y_app_ver',String(APP_VERSION));location.reload(true);}else{localStorage.setItem('y_app_ver',String(APP_VERSION));}</script><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Yaarii-PK 👑</title>
+<!DOCTYPE html><html lang="ur"><head><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><script>var APP_VERSION=4;var oldVer=localStorage.getItem('y_app_ver');if(oldVer&&oldVer!=String(APP_VERSION)){localStorage.setItem('y_app_ver',String(APP_VERSION));location.reload(true);}else{localStorage.setItem('y_app_ver',String(APP_VERSION));}</script><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Yaarii-PK 👑</title>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 <style>
@@ -538,7 +538,17 @@ setInterval(addInPanel,3000);
   var _oldLoadFeed = window.loadFeed;
   if(_oldLoadFeed){
     window.loadFeed = function(){
-     return _oldLoadFeed.apply(this, arguments); }; } var _oldRender = window.renderOnline; if(_oldRender){ window.renderOnline = function(){ return _oldRender.apply(this, arguments); }; } 
+      if(!window.__dataLoaded && localStorage.getItem('yp_feed_html')) return;
+      return _oldLoadFeed.apply(this, arguments);
+    };
+  }
+  var _oldRender = window.renderOnline;
+  if(_oldRender){
+    window.renderOnline = function(){
+      if(!window.__dataLoaded && localStorage.getItem('yp_online_html')) return;
+      return _oldRender.apply(this, arguments);
+    };
+  }
 
   // 3. Har 2 sec me check karo, naya data aaya hai to lock khol do or save kar lo
   setInterval(function(){
@@ -605,88 +615,107 @@ lastFinal();
 /* 2. General wala bara dabba - chota pill banao */
 .post>div:first-child{display:flex!important;justify-content:space-between!important;align-items:flex-start!important;gap:8px!important}
 .badge{display:inline-block!important;width:max-content!important;max-width:45%!important;background:#111!important;border:1px solid #FFD700!important;color:#FFD700!important;border-radius:999px!important;padding:4px 9px!important;font-size:11px!important;font-weight:800!important;line-height:1!important;white-space:nowrap!important;flex-shrink:0!important}
-</style>
-<style>
-/* FULL WHITE MODE - upar se neeche tak sab white */
-body[data-theme="white"],body[data-theme="white"] #page-home,body[data-theme="white"] #page-auth{background:#f2f2f2!important;color:#111!important}
-body[data-theme="white"] .top,body[data-theme="white"] .bottom{background:#fff!important;border-color:#ddd!important;color:#111!important;box-shadow:0 2px 10px rgba(0,0,0,.08)!important}
-body[data-theme="white"] .top b,body[data-theme="white"] .top small,body[data-theme="white"] .bottom button{color:#111!important}
-body[data-theme="white"] .card,body[data-theme="white"] .post,body[data-theme="white"] .authBox,body[data-theme="white"] .powerBox,body[data-theme="white"] .onlineBar>div,body[data-theme="white"] .storyRow>div{background:#fff!important;border-color:#ddd!important;color:#111!important}
+/* 3. White theme */
+body[data-theme="white"]{background:#f2f2f2!important;color:#111!important}
+body[data-theme="white"] .top,body[data-theme="white"] .bottom{background:#fff!important}
+body[data-theme="white"] .card,body[data-theme="white"] .post,body[data-theme="white"] .authBox{background:#fff!important;border-color:#ddd!important;color:#111!important}
 body[data-theme="white"] .inp,body[data-theme="white"] input,body[data-theme="white"] select,body[data-theme="white"] textarea{background:#eee!important;color:#111!important;border-color:#ccc!important}
-body[data-theme="white"] .small,body[data-theme="white"] p{color:#333!important}
-body[data-theme="white"] .filter button{background:#eee!important;color:#111!important;border-color:#ccc!important}
-body[data-theme="white"] .filter button.on{background:#FFD700!important;color:#000!important}
-body[data-theme="white"] .btnGold{background:#FFD700!important;color:#000!important}
-body[data-theme="white"] .btnBlack{background:#111!important;color:#fff!important}
-body[data-theme="white"] .badge{background:#fff!important;color:#111!important;border-color:#FFD700!important}
+body[data-theme="white"] .small{color:#666!important}
+body[data-theme="white"] .bottom button{color:#333!important}
 .themeBtn{cursor:pointer;font-size:20px}
 </style>
 <script>
 (function(){
 try{
+function toggleTheme(){var t=localStorage.getItem('y_theme')==='white'?'black':'white';localStorage.setItem('y_theme',t);document.body.setAttribute('data-theme',t);document.querySelectorAll('.themeBtn').forEach(function(b){b.innerText=t==='white'?'🌙 White':'☀️ Black';});}
 if(localStorage.getItem('y_theme')) document.body.setAttribute('data-theme',localStorage.getItem('y_theme'));
-function toggleTheme(){var t=localStorage.getItem('y_theme')==='white'?'black':'white';localStorage.setItem('y_theme',t);document.body.setAttribute('data-theme',t);document.querySelectorAll('.themeBtn').forEach(function(b){b.innerText=t==='white'?'🌙':'☀️';});var lb=document.getElementById('themeLbl');if(lb)lb.innerText=t==='white'?'Black':'White';}
-window.toggleTheme=toggleTheme;
-function isBannedObj(u){try{return u && (u.bannedUntil||0)>Date.now();}catch(e){return false;}}
-function bannedNames(){var s={};try{var all=(window.G&&window.G.users)||{};Object.keys(all).forEach(function(k){if(isBannedObj(all[k])) s[k]=true;});}catch(e){}return s;}
-function hideBannedRun(fn,ctx,args){
-  var ban=bannedNames();var hasBan=Object.keys(ban).length>0;
-  var bakUsers=null,bakPosts=null,bakArr=null;
-  if(hasBan&&window.G){
-    try{bakUsers=window.G.users;var nu={};Object.keys(bakUsers).forEach(function(k){if(!ban[k]) nu[k]=bakUsers[k];});window.G.users=nu;}catch(e){}
-    try{if(window.G.postsArr){bakArr=window.G.postsArr;window.G.postsArr=bakArr.filter(function(p){return !p||(!ban[p.u]&&!ban[p.user]&&!ban[p.name]);});}if(window.G.posts){bakPosts=window.G.posts;var np={};Object.keys(bakPosts).forEach(function(k){var p=bakPosts[k];if(!p||!ban[p.u]) np[k]=p;});window.G.posts=np;}}catch(e){}
-  }
-  var r=null;try{r=fn.apply(ctx,args);}catch(e){}
-  if(hasBan&&window.G){try{if(bakUsers)window.G.users=bakUsers;}catch(e){}try{if(bakArr)window.G.postsArr=bakArr;}catch(e){}try{if(bakPosts)window.G.posts=bakPosts;}catch(e){}}
-  return r;
-}
-try{var _c=localStorage.getItem('y_feed_cache')||'';var _f=document.getElementById('feed');if(_f&&_c&&_f.innerHTML.indexOf('Koi post nahi')>=0){_f.innerHTML=_c;}}catch(e){}
-var _oldFeed=window.loadFeed;
-if(_oldFeed && !_oldFeed._fixed){
-  var _nf=function(){
-    if((!window.G||!window.G.postsArr||window.G.postsArr.length===0)&&document.getElementById('feed')){
-      var _cc='';try{_cc=localStorage.getItem('y_feed_cache')||'';}catch(e){}
-      document.getElementById('feed').innerHTML=_cc?_cc:'<div class="card" style="text-align:center">⏳ Loading posts...</div>';return;
+// 1. Refresh pe Koi post nahi / 0 / 0 mat dikhao - jab tak Firebase se data na aaye, Loading dikhao
+var _oldLoadFeed = window.loadFeed;
+if(_oldLoadFeed && !_oldLoadFeed._fixed){
+  var _nf = function(){
+    if((!window.G || !window.G.postsArr || window.G.postsArr.length===0) && document.getElementById('feed')){
+      document.getElementById('feed').innerHTML='<div class="card" style="text-align:center">⏳ Loading posts...</div>';
+      return;
     }
-    var r=hideBannedRun(_oldFeed,this,arguments);
-    try{localStorage.setItem('y_feed_cache',document.getElementById('feed').innerHTML);}catch(e){}
-    return r;
-  };_nf._fixed=true;window.loadFeed=_nf;
+    return _oldLoadFeed.apply(this, arguments);
+  }; _nf._fixed=true; window.loadFeed=_nf;
 }
-var _oldOn=window.renderOnline;
-if(_oldOn && !_oldOn._fixed){
-  var _no=function(){
-    if((!window.G||!window.G.users||Object.keys(window.G.users).length===0)&&document.getElementById('onlineBar')){document.getElementById('onlineBar').innerHTML='⏳ Loading online...';return;}
-    return hideBannedRun(_oldOn,this,arguments);
-  };_no._fixed=true;window.renderOnline=_no;
+var _oldOnline = window.renderOnline;
+if(_oldOnline && !_oldOnline._fixed){
+  var _no = function(){
+    if((!window.G || !window.G.users || Object.keys(window.G.users).length===0) && document.getElementById('onlineBar')){
+      document.getElementById('onlineBar').innerHTML='⏳ Loading...';
+      return;
+    }
+    return _oldOnline.apply(this, arguments);
+  }; _no._fixed=true; window.renderOnline=_no;
 }
-['showLeader','loadTrend','loadProfile','searchUsers','renderStories','loadMehfil','loadInbox'].forEach(function(fn){
-  if(window[fn] && !window[fn]._hideBan){var _o=window[fn];var _n=function(){return hideBannedRun(_o,this,arguments);};_n._hideBan=true;window[fn]=_n;}
-});
-setInterval(function(){
-  try{
-    var ban=bannedNames();if(Object.keys(ban).length===0)return;
-    document.querySelectorAll('#onlineBar *, .onlineBar *, #leaderboard *, #leaderList *, .leaderRow').forEach(function(el){
-      try{var t=(el.innerText||'').trim();Object.keys(ban).forEach(function(b){if(t===b||t.indexOf(b+' ')===0){el.style.display='none';}});}catch(e){}
-    });
-  }catch(e){}
-},2000);
-function isBannedNow(){try{var u=localStorage.getItem('y_cur')||'';if(!u)return false;var d=(window.G&&window.G.users&&window.G.users[u])?window.G.users[u]:null;if(!d)return false;return (d.bannedUntil||0)>Date.now();}catch(e){return false;}}
-function kickBanned(){if(!isBannedNow())return;try{localStorage.removeItem('y_cur');localStorage.removeItem('y_page');}catch(e){}alert('⛔ Ye ID BAN hai - Leader se rabta karo');location.replace(location.pathname+'?v=10&banned=1');}
-setInterval(kickBanned,3000);
+// 3. Theme button - upar + Profile me dono jagah
 setInterval(function(){
   try{
     var top=document.querySelector('.topIcons');
-    if(top&&!top.querySelector('.themeBtn')){var b=document.createElement('span');b.className='themeBtn';b.innerText=localStorage.getItem('y_theme')==='white'?'🌙':'☀️';b.onclick=toggleTheme;top.prepend(b);}
+    if(top && !top.querySelector('.themeBtn')){var b=document.createElement('span');b.className='themeBtn';b.innerText=localStorage.getItem('y_theme')==='white'?'🌙':'☀️';b.onclick=toggleTheme;top.prepend(b);}
+    // Profile me bhi Theme ka button - Edit Profile ke paas
     var prof=document.getElementById('page-profile');
-    if(prof&&!document.getElementById('themeInProfile')){
+    if(prof && !document.getElementById('themeInProfile')){
       var btns=prof.querySelectorAll('button');
-      for(var i=0;i<btns.length;i++){if(btns[i].innerText.indexOf('Edit Profile')>=0){var nb=document.createElement('button');nb.id='themeInProfile';nb.type='button';nb.className='btnGold';nb.style.marginTop='8px';nb.innerHTML='☀️ / 🌙 Theme: <span id="themeLbl">'+(localStorage.getItem('y_theme')==='white'?'Black':'White')+'</span>';nb.onclick=toggleTheme;btns[i].parentNode.insertBefore(nb,btns[i].nextSibling);break;}}
+      for(var i=0;i<btns.length;i++){
+        if(btns[i].innerText.indexOf('Edit Profile')>=0){
+          var nb=document.createElement('button');nb.id='themeInProfile';nb.type='button';nb.className='btnGold';nb.style.marginTop='8px';nb.innerText=localStorage.getItem('y_theme')==='white'?'🌙 White Mode - Black Karo':'☀️ Black Mode - White Karo';nb.onclick=toggleTheme;btns[i].parentNode.insertBefore(nb,btns[i].nextSibling);break;
+        }
+      }
     }
+    var tb=document.getElementById('themeInProfile');
+    if(tb) tb.innerText=localStorage.getItem('y_theme')==='white'?'🌙 White Mode - Black Karo':'☀️ Black Mode - White Karo';
   }catch(e){}
 },2000);
 }catch(e){}
 })();
+</script>
+<script>
+(function(){
+try{
+function isBannedNow(){
+  try{
+    var u = localStorage.getItem('y_cur')||'';
+    if(!u) return false;
+    var d = (window.G && window.G.users && window.G.users[u]) ? window.G.users[u] : null;
+    if(!d) return false;
+    return (d.bannedUntil||0) > Date.now();
+  }catch(e){ return false; }
+}
+function kickBanned(){
+  if(!isBannedNow()) return;
+  try{ localStorage.removeItem('y_cur'); }catch(e){}
+  try{ localStorage.removeItem('y_page'); }catch(e){}
+  alert('⛔ Ye ID BAN hai - Leader se rabta karo');
+  location.replace(location.pathname+'?v=8&banned=1');
+}
+// Har 3 second me check - login ho ya na ho, ban hote hi bahar
+setInterval(kickBanned, 3000);
+// Koi bhi kaam karne se pehle ban check - Post, Comment, Msg, Ring sab band
+var _acts = ['addPost','quickPost','addStory','sendRing','sendPvt','doFollow','loadMehfilChat','addComment'];
+_acts.forEach(function(fn){
+  if(window[fn] && !window[fn]._banGuard){
+    var _old = window[fn];
+    var _nw = function(){
+      if(isBannedNow()){ kickBanned(); return; }
+      return _old.apply(this, arguments);
+    }; _nw._banGuard=true; window[fn]=_nw;
+  }
+});
+// Chat / Mehfil ka input bhi ban pe lock
+setInterval(function(){
+  try{
+    if(isBannedNow()){
+      var ins = document.querySelectorAll('input, textarea, button');
+      for(var i=0;i<ins.length;i++){ if(ins[i].id!=='lUser' && ins[i].id!=='lPass'){ ins[i].disabled=true; } }
+    }
+  }catch(e){}
+}, 3000);
+}catch(e){}
+})();
+        </script>
 </script>
 </body>
 </html>
