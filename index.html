@@ -717,6 +717,102 @@ setInterval(function(){
 })();
         </script>
 </script>
+<script>
+// ===== FINAL FIX v7 - ALL 5 IN ONE - Koi Purana Fix Kharab Nahi Hoga =====
+(function(){
+  // ---------- 3. THEME: Poora White / Poora Black ----------
+  var st = document.createElement('style');
+  st.id = 'fixV7Theme';
+  st.innerHTML =
+  "body[data-theme='white']{background:#fff!important}"+
+  "body[data-theme='white'] .top, body[data-theme='white'] .bottom, body[data-theme='white'] .card, body[data-theme='white'] .authBox{background:#fff!important;color:#000!important}"+
+  "body[data-theme='white'] .top b, body[data-theme='white'] .bottom button, body[data-theme='white'] b{color:#000!important}"+
+  "body[data-theme='white'] .top small, body[data-theme='white'] p{color:#333!important}"+
+  "body[data-theme='white'] input, body[data-theme='white'] textarea, body[data-theme='white'] select, body[data-theme='white'] .inp{background:#f2f2f2!important;color:#000!important}"+
+  "body[data-theme='black']{background:#000!important}"+
+  "body[data-theme='black'] .top, body[data-theme='black'] .bottom, body[data-theme='black'] .card, body[data-theme='black'] .authBox{background:#000!important;color:#fff!important}";
+  document.head.appendChild(st);
+  function applyTheme(){
+    var t = localStorage.getItem('y_theme') || 'black';
+    document.body.setAttribute('data-theme', t);
+    document.documentElement.setAttribute('data-theme', t);
+    document.body.style.background = t === 'white' ? '#fff' : '#000';
+  }
+  applyTheme();
+  window.toggleTheme = function(){
+    var cur = localStorage.getItem('y_theme') === 'white' ? 'black' : 'white';
+    localStorage.setItem('y_theme', cur);
+    applyTheme();
+  };
+
+  // ---------- 1+2. INSTANT LOAD: Login / Refresh pe 0/0 + Loading Khatam ----------
+  function instantShow(){
+    try{
+      if(window.renderOnline) window.renderOnline();
+      if(window.loadFeed) window.loadFeed();
+    }catch(e){}
+  }
+  setTimeout(instantShow, 200);
+  setTimeout(instantShow, 800);
+  setTimeout(instantShow, 2000);
+  var _oldSync = window.syncFirebase;
+  if(_oldSync && !_oldSync._v7){
+    var nwSync = function(){ var r = _oldSync.apply(this, arguments); setTimeout(instantShow, 500); return r; };
+    nwSync._v7 = true; window.syncFirebase = nwSync;
+  }
+  var _oldHome = window.showHomeNow;
+  if(_oldHome && !_oldHome._v7){
+    var nwHome = function(){ var r = _oldHome.apply(this, arguments); instantShow(); setTimeout(instantShow, 600); return r; };
+    nwHome._v7 = true; window.showHomeNow = nwHome;
+  }
+
+  // ---------- 4. BAN FIX: Admin ho ya Moderator - Ban hote hi Foran Bahar ----------
+  function forceKick(msg){
+    try{ localStorage.removeItem('y_cur'); }catch(e){}
+    try{ localStorage.removeItem('y_feed_cache'); }catch(e){}
+    alert(msg || '⛔ Ye ID BAN hai - Leader se rabta karo');
+    location.replace(location.pathname + '?v=7&banned=1');
+  }
+  setInterval(function(){
+    try{
+      var u = localStorage.getItem('y_cur') || '';
+      if(!u || !window.db) return;
+      window.db.ref('users/' + u + '/bannedUntil').once('value', function(s){
+        var v = s.val() || 0;
+        if(v > Date.now()){ forceKick(v > 4102444800000 ? '⛔ Ye ID PERMANENT BAN hai' : '⛔ Ye ID BAN hai - Leader se rabta karo'); }
+      });
+    }catch(e){}
+  }, 2000);
+
+  // ---------- 5. ADMIN LOGIN FIX: Reserved se Signup Band, Old Admin Login ON ----------
+  window.login = function(){
+    var uEl = document.getElementById('lUser');
+    var pEl = document.getElementById('lPass');
+    var u = uEl ? uEl.value.trim().replace(/\s+/g,'_') : '';
+    var p = pEl ? pEl.value : '';
+    if(!u || !p){ try{ showMsg('Naam + Password likho'); }catch(e){ alert('Naam + Password likho'); } return; }
+    try{ showMsg('Login ho raha hai...'); }catch(e){}
+    if(!window.db){ alert('Firebase nahi chala'); return; }
+    window.db.ref('users/' + u).once('value', function(s){
+      var d = s.val();
+      if(!d){ try{ showMsg('Account nahi mila - Signup karo'); showAuth('signup'); }catch(e){} return; }
+      if(d.bannedUntil && d.bannedUntil > Date.now()){
+        try{ showMsg(d.bannedUntil > 4102444800000 ? '⛔ Ye ID PERMANENT BAN hai' : '⛔ Ye ID BAN hai'); }catch(e){}
+        return;
+      }
+      if(String(d.p) !== String(p)){ try{ showMsg('Galat Password'); }catch(e){} return; }
+      if(d.status === 'pending'){ try{ showMsg('⏳ Tumhari ID abhi Pending hai'); }catch(e){} return; }
+      try{ window.db.ref('users/' + u).update({lastSeen: Date.now()}); }catch(e){}
+      try{ localStorage.setItem('y_cur', u); }catch(e){}
+      try{ window.cur = u; }catch(e){}
+      try{ showMsg('LOGIN HO GAYA ' + u); }catch(e){}
+      try{ if(window.showHomeNow) showHomeNow(); }catch(e){}
+      try{ if(window.syncFirebase) syncFirebase(); }catch(e){}
+      setTimeout(instantShow, 500);
+    });
+  };
+})();
+</script>
 </body>
 </html>
 
