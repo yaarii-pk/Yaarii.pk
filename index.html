@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="ur"><head><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><script>var APP_VERSION=11;var oldVer=localStorage.getItem('y_app_ver');if(oldVer&&oldVer!=String(APP_VERSION)){localStorage.setItem('y_app_ver',String(APP_VERSION));location.reload(true);}else{localStorage.setItem('y_app_ver',String(APP_VERSION));}</script><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Yaarii-PK 👑</title>
+<!DOCTYPE html><html lang="ur"><head><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><script>var APP_VERSION=12;var oldVer=localStorage.getItem('y_app_ver');if(oldVer&&oldVer!=String(APP_VERSION)){localStorage.setItem('y_app_ver',String(APP_VERSION));location.reload(true);}else{localStorage.setItem('y_app_ver',String(APP_VERSION));}</script><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Yaarii-PK 👑</title>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 <style>
@@ -702,28 +702,7 @@ setInterval(function(){
     localStorage.setItem('y_theme', cur);
     applyTheme();
   };
-
-  // ---------- 1+2. INSTANT LOAD: Login / Refresh pe 0/0 + Loading Khatam ----------
-  function instantShow(){
-    try{
-      if(window.renderOnline) window.renderOnline();
-      if(window.loadFeed) window.loadFeed();
-    }catch(e){}
-  }
-  setTimeout(instantShow, 200);
-  setTimeout(instantShow, 800);
-  setTimeout(instantShow, 2000);
-  var _oldSync = window.syncFirebase;
-  if(_oldSync && !_oldSync._v7){
-    var nwSync = function(){ var r = _oldSync.apply(this, arguments); setTimeout(instantShow, 500); return r; };
-    nwSync._v7 = true; window.syncFirebase = nwSync;
-  }
-  var _oldHome = window.showHomeNow;
-  if(_oldHome && !_oldHome._v7){
-    var nwHome = function(){ var r = _oldHome.apply(this, arguments); instantShow(); setTimeout(instantShow, 600); return r; };
-    nwHome._v7 = true; window.showHomeNow = nwHome;
-  }
-
+  
   // ---------- 4. BAN FIX: Admin ho ya Moderator - Ban hote hi Foran Bahar ----------
   function forceKick(msg){
     try{ localStorage.removeItem('y_cur'); }catch(e){}
@@ -766,79 +745,9 @@ setInterval(function(){
       try{ showMsg('LOGIN HO GAYA ' + u); }catch(e){}
       try{ if(window.showHomeNow) showHomeNow(); }catch(e){}
       try{ if(window.syncFirebase) syncFirebase(); }catch(e){}
-      setTimeout(instantShow, 500);
+  
     });
   };
-})();
-</script>
-<script>
-// === FINAL ONE FIX - Login / Refresh foran Online + Posts + Online Time ===
-(function(){
-  var lastMove = Date.now();
-
-  function fastLoad(){
-    try{
-      if(!window.db || !window.cur) return;
-      // 1. Users foran lao - sync ka wait nahi
-      window.db.ref('users').once('value', function(s){
-        try{
-          window.G = window.G || {};
-          window.G.users = s.val() || {};
-          if(window.renderOnline) window.renderOnline();
-        }catch(e){}
-      });
-      // 2. Posts foran lao
-      window.db.ref('posts').limitToLast(75).once('value', function(s){
-        try{
-          window.G = window.G || {};
-          var o = s.val() || {};
-          window.G.posts = o;
-          window.G.postsArr = Object.keys(o).map(function(k){ var v=o[k]; v._key=k; return v; });
-          window.__dataLoaded = true;
-          if(window.loadFeed) window.loadFeed();
-        }catch(e){}
-      });
-      // 3. Khud ko foran Online
-      window.db.ref('users/'+window.cur).update({lastSeen: Date.now(), online: true});
-      window.db.ref('users/'+window.cur+'/online').onDisconnect().set(false);
-      window.db.ref('users/'+window.cur+'/lastSeen').onDisconnect().set(Date.now());
-    }catch(e){}
-  }
-
-  function touch(){ lastMove = Date.now(); }
-  document.addEventListener('touchstart', touch);
-  document.addEventListener('click', touch);
-  document.addEventListener('scroll', touch);
-
-  // 4. 5 min hath na lagaya ya tab chhupa diya to khud Offline - 12 ghante wala masla khatam
-  setInterval(function(){
-    try{
-      if(!window.db || !window.cur) return;
-      if(document.hidden || Date.now() - lastMove > 5*60*1000){
-        window.db.ref('users/'+window.cur).update({online: false});
-      } else {
-        window.db.ref('users/'+window.cur).update({lastSeen: Date.now(), online: true});
-      }
-    }catch(e){}
-  }, 30000);
-
-  document.addEventListener('visibilitychange', function(){
-    try{
-      if(document.hidden && window.db && window.cur){
-        window.db.ref('users/'+window.cur).update({online: false, lastSeen: Date.now()});
-      }
-    }catch(e){}
-  });
-
-  // Login pe bhi, Refresh pe bhi
-  setTimeout(fastLoad, 300);
-  setTimeout(fastLoad, 1500);
-
-  var _oldShow = window.showHomeNow;
-  if(_oldShow && !_oldShow._finalOne){
-    var _nw = function(){ var r=_oldShow.apply(this,arguments); setTimeout(fastLoad,300); return r; };
-    _nw._finalOne = true; window.showHomeNow = _nw;
-  }
 })();
 </script>
 </body>
