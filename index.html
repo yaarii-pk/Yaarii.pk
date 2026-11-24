@@ -550,81 +550,6 @@ setInterval(addInPanel,3000);
 }catch(e){}
 </script>
 <script>
-// === YAARII-PK FIX PACK ===
-(function(){
-  try{
-    var cu = localStorage.getItem('yp_users_cache');
-    var cp = localStorage.getItem('yp_posts_cache');
-    if(cu && (!window.G || !window.G.users || !Object.keys(window.G.users).length)) {
-      window.G = window.G || {}; window.G.users = JSON.parse(cu);
-    }
-    if(cp && (!window.G || !window.G.postsArr || !window.G.postsArr.length)) {
-      window.G = window.G || {}; var po = JSON.parse(cp);
-      window.G.posts = po; window.G.postsArr = Object.keys(po).map(function(k){ var v=po[k]; v._key=k; return v; });
-      if(typeof loadFeed === 'function') setTimeout(loadFeed, 100);
-      if(typeof renderOnline === 'function') setTimeout(renderOnline, 100);
-    }
-  }catch(e){}
-  setInterval(function(){
-    try{
-      if(window.G && window.G.users) localStorage.setItem('yp_users_cache', JSON.stringify(window.G.users).slice(0, 900000));
-      if(window.G && window.G.posts) localStorage.setItem('yp_posts_cache', JSON.stringify(window.G.posts).slice(0, 900000));
-    }catch(e){}
-  }, 10000);
-})();
-
-</script>
-<script>
-// === YAARII-PK FINAL FIX - LAST WALA ===
-(function(){
-  // 1. Refresh pe foran purani feed dikhao, khaali mat dikhao
-  try{
-    var fh = localStorage.getItem('yp_feed_html');
-    var oh = localStorage.getItem('yp_online_html');
-    var oc = localStorage.getItem('yp_online_count');
-    if(fh && document.getElementById('feed')) document.getElementById('feed').innerHTML = fh;
-    if(oh && document.getElementById('onlineBar')) document.getElementById('onlineBar').innerHTML = oh;
-    if(oc && document.getElementById('onlineCount')) document.getElementById('onlineCount').innerText = oc;
-  }catch(e){}
-
-  // 2. Jab tak naya data na aaye, purana code feed ko mitane na paye
-  window.__dataLoaded = false;
-  var _oldLoadFeed = window.loadFeed;
-  if(_oldLoadFeed){
-    window.loadFeed = function(){
-      if(!window.__dataLoaded && localStorage.getItem('yp_feed_html')) return;
-      return _oldLoadFeed.apply(this, arguments);
-    };
-  }
-  var _oldRender = window.renderOnline;
-  if(_oldRender){
-    window.renderOnline = function(){
-      if(!window.__dataLoaded && localStorage.getItem('yp_online_html')) return;
-      return _oldRender.apply(this, arguments);
-    };
-  }
-
-  // 3. Har 2 sec me check karo, naya data aaya hai to lock khol do or save kar lo
-  setInterval(function(){
-    try{
-      if(window.G && window.G.postsArr && window.G.postsArr.length > 0){
-        window.__dataLoaded = true;
-      }
-      var f = document.getElementById('feed');
-      var o = document.getElementById('onlineBar');
-      var c = document.getElementById('onlineCount');
-      if(f && f.innerHTML && f.innerHTML.length > 100 && f.innerHTML.indexOf('Koi post nahi') < 0){
-        localStorage.setItem('yp_feed_html', f.innerHTML);
-      }
-      if(o && o.innerHTML && o.innerHTML.length > 100 && o.innerHTML.indexOf('Loading') < 0){
-        localStorage.setItem('yp_online_html', o.innerHTML);
-      }
-      if(c && c.innerText && c.innerText.indexOf('0 / 0') < 0){
-        localStorage.setItem('yp_online_count', c.innerText);
-      }
-    }catch(e){}
-  }, 2000);
-})();
 
 <style>
 .sonu-pill{
@@ -678,54 +603,6 @@ body[data-theme="white"] .small{color:#666!important}
 body[data-theme="white"] .bottom button{color:#333!important}
 .themeBtn{cursor:pointer;font-size:20px}
 </style>
-<script>
-(function(){
-try{
-function toggleTheme(){var t=localStorage.getItem('y_theme')==='white'?'black':'white';localStorage.setItem('y_theme',t);document.body.setAttribute('data-theme',t);document.querySelectorAll('.themeBtn').forEach(function(b){b.innerText=t==='white'?'🌙 White':'☀️ Black';});}
-if(localStorage.getItem('y_theme')) document.body.setAttribute('data-theme',localStorage.getItem('y_theme'));
-// 1. Refresh pe Koi post nahi / 0 / 0 mat dikhao - jab tak Firebase se data na aaye, Loading dikhao
-var _oldLoadFeed = window.loadFeed;
-if(_oldLoadFeed && !_oldLoadFeed._fixed){
-  var _nf = function(){
-    if((!window.G || !window.G.postsArr || window.G.postsArr.length===0) && document.getElementById('feed')){
-      document.getElementById('feed').innerHTML='<div class="card" style="text-align:center">⏳ Loading posts...</div>';
-      return;
-    }
-    return _oldLoadFeed.apply(this, arguments);
-  }; _nf._fixed=true; window.loadFeed=_nf;
-}
-var _oldOnline = window.renderOnline;
-if(_oldOnline && !_oldOnline._fixed){
-  var _no = function(){
-    if((!window.G || !window.G.users || Object.keys(window.G.users).length===0) && document.getElementById('onlineBar')){
-      document.getElementById('onlineBar').innerHTML='⏳ Loading...';
-      return;
-    }
-    return _oldOnline.apply(this, arguments);
-  }; _no._fixed=true; window.renderOnline=_no;
-}
-// 3. Theme button - upar + Profile me dono jagah
-setInterval(function(){
-  try{
-    var top=document.querySelector('.topIcons');
-    if(top && !top.querySelector('.themeBtn')){var b=document.createElement('span');b.className='themeBtn';b.innerText=localStorage.getItem('y_theme')==='white'?'🌙':'☀️';b.onclick=toggleTheme;top.prepend(b);}
-    // Profile me bhi Theme ka button - Edit Profile ke paas
-    var prof=document.getElementById('page-profile');
-    if(prof && !document.getElementById('themeInProfile')){
-      var btns=prof.querySelectorAll('button');
-      for(var i=0;i<btns.length;i++){
-        if(btns[i].innerText.indexOf('Edit Profile')>=0){
-          var nb=document.createElement('button');nb.id='themeInProfile';nb.type='button';nb.className='btnGold';nb.style.marginTop='8px';nb.innerText=localStorage.getItem('y_theme')==='white'?'🌙 White Mode - Black Karo':'☀️ Black Mode - White Karo';nb.onclick=toggleTheme;btns[i].parentNode.insertBefore(nb,btns[i].nextSibling);break;
-        }
-      }
-    }
-    var tb=document.getElementById('themeInProfile');
-    if(tb) tb.innerText=localStorage.getItem('y_theme')==='white'?'🌙 White Mode - Black Karo':'☀️ Black Mode - White Karo';
-  }catch(e){}
-},2000);
-}catch(e){}
-})();
-</script>
 <script>
 (function(){
 try{
