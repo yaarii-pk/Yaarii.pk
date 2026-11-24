@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="ur"><head><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><script>var APP_VERSION=4;var oldVer=localStorage.getItem('y_app_ver');if(oldVer&&oldVer!=String(APP_VERSION)){localStorage.setItem('y_app_ver',String(APP_VERSION));location.reload(true);}else{localStorage.setItem('y_app_ver',String(APP_VERSION));}</script><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Yaarii-PK 👑</title>
+<!DOCTYPE html><html lang="ur"><head><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><script>var APP_VERSION=5;var oldVer=localStorage.getItem('y_app_ver');if(oldVer&&oldVer!=String(APP_VERSION)){localStorage.setItem('y_app_ver',String(APP_VERSION));location.reload(true);}else{localStorage.setItem('y_app_ver',String(APP_VERSION));}</script><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Yaarii-PK 👑</title>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 <style>
@@ -63,11 +63,62 @@
 <div class="bottom"><button type="button" onclick="showPage('home')">🏠<br>HOME</button><button type="button" onclick="showPage('share')">📤<br>SHARE</button><button type="button" onclick="showPage('trending')">🔥<br>TREND</button><button type="button" onclick="showPage('inbox')">🔔<br>INBOX <span id="notifyBadge" style="display:none;background:#ff2d55;color:#fff;border-radius:10px;padding:1px 6px;font-size:10px;font-weight:bold"></span></button><button type="button" onclick="showPage('1on1')">🔒<br>1 ON 1</button><button type="button" onclick="showPage('mehfil')">💬<br>MEHFIL</button><button type="button" onclick="showPage('fun')">🎲<br>FUN</button><button type="button" onclick="showPage('more')">⚙️<br>MORE</button></div>
 <script>
 // ===== CLOUDINARY CONFIG - FIXED =====
-var CLOUD_NAME = 'phxyfr29';
-var UPLOAD_PRESET = 'yaarii_upload';
+var CLOUD_NAME = 'enuracal';
+var UPLOAD_PRESET = 'yaarii.pk';
+
+function compressImage(file, cb){
+  var img = new Image();
+  var url = URL.createObjectURL(file);
+  img.onload = function(){
+    var maxW = 1080;
+    var scale = Math.min(1, maxW / img.width);
+    var w = img.width * scale;
+    var h = img.height * scale;
+    var c = document.createElement('canvas');
+    c.width = w; c.height = h;
+    c.getContext('2d').drawImage(img, 0, 0, w, h);
+    c.toBlob(function(blob){
+      cb(new File([blob], file.name, {type:'image/jpeg'}));
+    }, 'image/jpeg', 0.70);
+  };
+  img.src = url;
+}
 
 function uploadToCloudinary(file, cb){
   if(!file){ cb(''); return; }
+
+  // VIDEO - 35 SEC MAX CHECK
+  if(file.type.indexOf('video') === 0){
+    var v = document.createElement('video');
+    v.preload = 'metadata';
+    v.onloadedmetadata = function(){
+      URL.revokeObjectURL(v.src);
+      if(v.duration > 35){
+        showMsg('❌ Video 35 sec se zyada hai! Choti video lagao');
+        cb(''); return;
+      }
+      if(file.size > 12*1024*1024){
+        showMsg('❌ Video 12MB se zyada hai!');
+        cb(''); return;
+      }
+      doUpload(file, cb);
+    };
+    v.src = URL.createObjectURL(file);
+    return;
+  }
+
+  // PHOTO - COMPRESS KARKE BHEJO
+  if(file.type.indexOf('image') === 0){
+    showMsg('⏳ Photo choti ki ja rahi hai...');
+    compressImage(file, function(smallFile){
+      doUpload(smallFile, cb);
+    });
+    return;
+  }
+  doUpload(file, cb);
+}
+
+function doUpload(file, cb){
   showMsg('⏳ Photo / Video upload ho rahi hai...');
   var fd = new FormData();
   fd.append('file', file);
@@ -76,12 +127,15 @@ function uploadToCloudinary(file, cb){
   var isAudio = file.type.indexOf('audio')===0;
   var url = 'https://api.cloudinary.com/v1_1/'+CLOUD_NAME+'/'+(isVideo||isAudio ? 'video' : 'image')+'/upload';
   fetch(url, {method:'POST', body:fd}).then(function(r){ return r.json(); }).then(function(d){
-    if(d.secure_url){ cb(d.secure_url); }
+    if(d.secure_url){
+      var finalUrl = d.secure_url.replace('/upload/', '/upload/f_auto,q_auto:low/');
+      cb(finalUrl);
+    }
     else { showMsg('Upload fail - dobara try karo'); cb(''); }
   }).catch(function(){ showMsg('Upload fail - net check karo'); cb(''); });
-}
+  }
 
-var firebaseConfig={apiKey:"AIzaSyBJ7y0Sh6IaNe0-k6MADWMT_6BS6a1Dtv8",authDomain:"yaarii-pk-new.firebaseapp.com",databaseURL:"https://yaarii-pk-new-default-rtdb.firebaseio.com",projectId:"yaarii-pk-new",storageBucket:"yaarii-pk-new.firebasestorage.app",messagingSenderId:"958838607539",appId:"1:958838607539:web:9a808364c9817978e3aac6"};
+var firebaseConfig={apiKey:"AIzaSyB4HgjBnvJUtDLgvGVMvQfuug2RMxEqRzs",authDomain:"yaarii-pk.firebaseapp.com",databaseURL:"https://yaarii-pk-default-rtdb.firebaseio.com",projectId:"yaarii-pk",storageBucket:"yaarii-pk.firebasestorage.app",messagingSenderId:"124612817211",appId:"1:124612817211:web:559f798ba2517c8087871e"};
 firebase.initializeApp(firebaseConfig);
 var db=firebase.database();
 var G={users:{},posts:{},postsArr:[],chat:[],stories:[],mehfils:[],inbox:[],pvt:[],blockedIPs:{},blockedDevices:{}};
