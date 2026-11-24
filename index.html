@@ -548,85 +548,8 @@ rt.ref("users/"+id).remove().then(function(){ refreshPending(); });
 }
 setInterval(addInPanel,3000);
 }catch(e){}
-</script>
-<script>
-// === YAARII-PK FIX PACK ===
-(function(){
-  try{
-    var cu = localStorage.getItem('yp_users_cache');
-    var cp = localStorage.getItem('yp_posts_cache');
-    if(cu && (!window.G || !window.G.users || !Object.keys(window.G.users).length)) {
-      window.G = window.G || {}; window.G.users = JSON.parse(cu);
-    }
-    if(cp && (!window.G || !window.G.postsArr || !window.G.postsArr.length)) {
-      window.G = window.G || {}; var po = JSON.parse(cp);
-      window.G.posts = po; window.G.postsArr = Object.keys(po).map(function(k){ var v=po[k]; v._key=k; return v; });
-      if(typeof loadFeed === 'function') setTimeout(loadFeed, 100);
-      if(typeof renderOnline === 'function') setTimeout(renderOnline, 100);
-    }
-  }catch(e){}
-  setInterval(function(){
-    try{
-      if(window.G && window.G.users) localStorage.setItem('yp_users_cache', JSON.stringify(window.G.users).slice(0, 900000));
-      if(window.G && window.G.posts) localStorage.setItem('yp_posts_cache', JSON.stringify(window.G.posts).slice(0, 900000));
-    }catch(e){}
-  }, 10000);
-})();
 
-</script>
-<script>
-// === YAARII-PK FINAL FIX - LAST WALA ===
-(function(){
-  // 1. Refresh pe foran purani feed dikhao, khaali mat dikhao
-  try{
-    var fh = localStorage.getItem('yp_feed_html');
-    var oh = localStorage.getItem('yp_online_html');
-    var oc = localStorage.getItem('yp_online_count');
-    if(fh && document.getElementById('feed')) document.getElementById('feed').innerHTML = fh;
-    if(oh && document.getElementById('onlineBar')) document.getElementById('onlineBar').innerHTML = oh;
-    if(oc && document.getElementById('onlineCount')) document.getElementById('onlineCount').innerText = oc;
-  }catch(e){}
-
-  // 2. Jab tak naya data na aaye, purana code feed ko mitane na paye
-  window.__dataLoaded = false;
-  var _oldLoadFeed = window.loadFeed;
-  if(_oldLoadFeed){
-    window.loadFeed = function(){
-      if(!window.__dataLoaded && localStorage.getItem('yp_feed_html')) return;
-      return _oldLoadFeed.apply(this, arguments);
-    };
-  }
-  var _oldRender = window.renderOnline;
-  if(_oldRender){
-    window.renderOnline = function(){
-      if(!window.__dataLoaded && localStorage.getItem('yp_online_html')) return;
-      return _oldRender.apply(this, arguments);
-    };
-  }
-
-  // 3. Har 2 sec me check karo, naya data aaya hai to lock khol do or save kar lo
-  setInterval(function(){
-    try{
-      if(window.G && window.G.postsArr && window.G.postsArr.length > 0){
-        window.__dataLoaded = true;
-      }
-      var f = document.getElementById('feed');
-      var o = document.getElementById('onlineBar');
-      var c = document.getElementById('onlineCount');
-      if(f && f.innerHTML && f.innerHTML.length > 100 && f.innerHTML.indexOf('Koi post nahi') < 0){
-        localStorage.setItem('yp_feed_html', f.innerHTML);
-      }
-      if(o && o.innerHTML && o.innerHTML.length > 100 && o.innerHTML.indexOf('Loading') < 0){
-        localStorage.setItem('yp_online_html', o.innerHTML);
-      }
-      if(c && c.innerText && c.innerText.indexOf('0 / 0') < 0){
-        localStorage.setItem('yp_online_count', c.innerText);
-      }
-    }catch(e){}
-  }, 2000);
-})();
-
-<style>
+  <style>
 .sonu-pill{
   background:#111!important; border:1px solid #FFD700!important; border-radius:999px!important;
   padding:4px 9px!important; margin:0!important; width:max-content!important;
@@ -678,32 +601,7 @@ body[data-theme="white"] .small{color:#666!important}
 body[data-theme="white"] .bottom button{color:#333!important}
 .themeBtn{cursor:pointer;font-size:20px}
 </style>
-<script>
-(function(){
-try{
-function toggleTheme(){var t=localStorage.getItem('y_theme')==='white'?'black':'white';localStorage.setItem('y_theme',t);document.body.setAttribute('data-theme',t);document.querySelectorAll('.themeBtn').forEach(function(b){b.innerText=t==='white'?'🌙 White':'☀️ Black';});}
-if(localStorage.getItem('y_theme')) document.body.setAttribute('data-theme',localStorage.getItem('y_theme'));
-// 1. Refresh pe Koi post nahi / 0 / 0 mat dikhao - jab tak Firebase se data na aaye, Loading dikhao
-var _oldLoadFeed = window.loadFeed;
-if(_oldLoadFeed && !_oldLoadFeed._fixed){
-  var _nf = function(){
-    if((!window.G || !window.G.postsArr || window.G.postsArr.length===0) && document.getElementById('feed')){
-      document.getElementById('feed').innerHTML='<div class="card" style="text-align:center">⏳ Loading posts...</div>';
-      return;
-    }
-    return _oldLoadFeed.apply(this, arguments);
-  }; _nf._fixed=true; window.loadFeed=_nf;
-}
-var _oldOnline = window.renderOnline;
-if(_oldOnline && !_oldOnline._fixed){
-  var _no = function(){
-    if((!window.G || !window.G.users || Object.keys(window.G.users).length===0) && document.getElementById('onlineBar')){
-      document.getElementById('onlineBar').innerHTML='⏳ Loading...';
-      return;
-    }
-    return _oldOnline.apply(this, arguments);
-  }; _no._fixed=true; window.renderOnline=_no;
-}
+
 // 3. Theme button - upar + Profile me dono jagah
 setInterval(function(){
   try{
@@ -799,26 +697,7 @@ setInterval(function(){
     applyTheme();
   };
 
-  // ---------- 1+2. INSTANT LOAD: Login / Refresh pe 0/0 + Loading Khatam ----------
-  function instantShow(){
-    try{
-      if(window.renderOnline) window.renderOnline();
-      if(window.loadFeed) window.loadFeed();
-    }catch(e){}
-  }
-  setTimeout(instantShow, 200);
-  setTimeout(instantShow, 800);
-  setTimeout(instantShow, 2000);
-  var _oldSync = window.syncFirebase;
-  if(_oldSync && !_oldSync._v7){
-    var nwSync = function(){ var r = _oldSync.apply(this, arguments); setTimeout(instantShow, 500); return r; };
-    nwSync._v7 = true; window.syncFirebase = nwSync;
-  }
-  var _oldHome = window.showHomeNow;
-  if(_oldHome && !_oldHome._v7){
-    var nwHome = function(){ var r = _oldHome.apply(this, arguments); instantShow(); setTimeout(instantShow, 600); return r; };
-    nwHome._v7 = true; window.showHomeNow = nwHome;
-  }
+  
 
   // ---------- 4. BAN FIX: Admin ho ya Moderator - Ban hote hi Foran Bahar ----------
   function forceKick(msg){
@@ -866,42 +745,7 @@ setInterval(function(){
     });
   };
 })();
-</script>
-<script>
-(function(){
-  // 1. Saare lock khol do - jo fix pack rok rahe thay
-  window.__dataLoaded = true;
 
-  // 2. Users ko BAR BAR suno, sirf 1 baar nahi
-  try{
-    db.ref('users').on('value', function(s){
-      G.users = s.val() || {};
-      if(typeof renderOnline === "function") renderOnline();
-      if(typeof updatePowerBox === "function") updatePowerBox();
-    });
-  }catch(e){}
-
-  // 3. Posts ko bhi BAR BAR suno
-  try{
-    db.ref('posts').limitToLast(75).on('value', function(s){
-      window.__dataLoaded = true;
-      var o = s.val() || {};
-      G.posts = o;
-      G.postsArr = Object.keys(o).map(function(k){ var v=o[k]; v._key=k; return v; });
-      if(typeof loadFeed === "function") loadFeed();
-    });
-  }catch(e){}
-
-  // 4. Agar phir bhi 5 sec me Loading rahe to khud dobara load karo
-  setInterval(function(){
-    try{
-      var f = document.getElementById('feed');
-      var b = document.getElementById('onlineBar');
-      if(f && f.innerHTML.indexOf('Loading posts') >= 0 && typeof loadFeed === "function") loadFeed();
-      if(b && b.innerHTML.indexOf('Loading') >= 0 && typeof renderOnline === "function") renderOnline();
-    }catch(e){}
-  }, 5000);
-})();
  </script>
 </body>
 </html>
