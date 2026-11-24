@@ -867,6 +867,42 @@ setInterval(function(){
   };
 })();
 </script>
+<script>
+(function(){
+  // 1. Saare lock khol do - jo fix pack rok rahe thay
+  window.__dataLoaded = true;
+
+  // 2. Users ko BAR BAR suno, sirf 1 baar nahi
+  try{
+    db.ref('users').on('value', function(s){
+      G.users = s.val() || {};
+      if(typeof renderOnline === "function") renderOnline();
+      if(typeof updatePowerBox === "function") updatePowerBox();
+    });
+  }catch(e){}
+
+  // 3. Posts ko bhi BAR BAR suno
+  try{
+    db.ref('posts').limitToLast(75).on('value', function(s){
+      window.__dataLoaded = true;
+      var o = s.val() || {};
+      G.posts = o;
+      G.postsArr = Object.keys(o).map(function(k){ var v=o[k]; v._key=k; return v; });
+      if(typeof loadFeed === "function") loadFeed();
+    });
+  }catch(e){}
+
+  // 4. Agar phir bhi 5 sec me Loading rahe to khud dobara load karo
+  setInterval(function(){
+    try{
+      var f = document.getElementById('feed');
+      var b = document.getElementById('onlineBar');
+      if(f && f.innerHTML.indexOf('Loading posts') >= 0 && typeof loadFeed === "function") loadFeed();
+      if(b && b.innerHTML.indexOf('Loading') >= 0 && typeof renderOnline === "function") renderOnline();
+    }catch(e){}
+  }, 5000);
+})();
+ </script>
 </body>
 </html>
 
