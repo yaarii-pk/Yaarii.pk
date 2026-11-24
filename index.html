@@ -602,28 +602,6 @@ body[data-theme="white"] .bottom button{color:#333!important}
 .themeBtn{cursor:pointer;font-size:20px}
 </style>
 
-// 3. Theme button - upar + Profile me dono jagah
-setInterval(function(){
-  try{
-    var top=document.querySelector('.topIcons');
-    if(top && !top.querySelector('.themeBtn')){var b=document.createElement('span');b.className='themeBtn';b.innerText=localStorage.getItem('y_theme')==='white'?'🌙':'☀️';b.onclick=toggleTheme;top.prepend(b);}
-    // Profile me bhi Theme ka button - Edit Profile ke paas
-    var prof=document.getElementById('page-profile');
-    if(prof && !document.getElementById('themeInProfile')){
-      var btns=prof.querySelectorAll('button');
-      for(var i=0;i<btns.length;i++){
-        if(btns[i].innerText.indexOf('Edit Profile')>=0){
-          var nb=document.createElement('button');nb.id='themeInProfile';nb.type='button';nb.className='btnGold';nb.style.marginTop='8px';nb.innerText=localStorage.getItem('y_theme')==='white'?'🌙 White Mode - Black Karo':'☀️ Black Mode - White Karo';nb.onclick=toggleTheme;btns[i].parentNode.insertBefore(nb,btns[i].nextSibling);break;
-        }
-      }
-    }
-    var tb=document.getElementById('themeInProfile');
-    if(tb) tb.innerText=localStorage.getItem('y_theme')==='white'?'🌙 White Mode - Black Karo':'☀️ Black Mode - White Karo';
-  }catch(e){}
-},2000);
-}catch(e){}
-})();
-</script>
 <script>
 (function(){
 try{
