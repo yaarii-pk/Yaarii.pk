@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="ur"><head><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><script>var APP_VERSION=12;if(location.search.indexOf('v='+APP_VERSION)<0){location.replace(location.pathname+'?v='+APP_VERSION);}</script><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Yaarii-PK 👑</title>
+<!DOCTYPE html><html lang="ur"><head><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><script>var APP_VERSION=14;if(location.search.indexOf('v='+APP_VERSION)<0){location.replace(location.pathname+'?v='+APP_VERSION);}</script><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Yaarii-PK 👑</title>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 <style>
@@ -727,24 +727,41 @@ setInterval(function(){
 })();
 </script>
 <script>
-// FINAL ONLINE v12
+// FINAL INSTANT v14 - Online + Post dono foran
 (function(){
+  // 1. پرانا ڈیٹا فوراً G میں ڈال دو
   try{
-    var el = document.getElementById('onlineList') || document.getElementById('onlineBox') || document.getElementById('onlineUsers');
-    var h = localStorage.getItem('y_online_html');
-    if(el && h && h.length > 50){ el.innerHTML = h; }
+    var _u = JSON.parse(localStorage.getItem('y_users_cache') || '{}');
+    var _p = JSON.parse(localStorage.getItem('y_posts_cache') || '{}');
+    if(window.G){
+      if(_u && Object.keys(_u).length > 0) window.G.users = _u;
+      if(_p && Object.keys(_p).length > 0){
+        window.G.posts = _p;
+        window.G.postsArr = Object.keys(_p).map(function(k){ var v=_p[k]; v._key=k; return v; });
+      }
+    }
   }catch(e){}
-  try{
-    var target = document.getElementById('onlineList') || document.getElementById('onlineBox') || document.body;
-    new MutationObserver(function(){
-      try{
-        var e2 = document.getElementById('onlineList') || document.getElementById('onlineBox') || document.getElementById('onlineUsers');
-        if(e2 && e2.innerHTML && e2.innerHTML.indexOf('0 / 0')===-1 && e2.innerHTML.length>50){ localStorage.setItem('y_online_html', e2.innerHTML); }
-      }catch(e){}
-    }).observe(target, {childList:true, subtree:true});
-  }catch(e){}
+  // 2. لاگ ان / ریفریش پر فوراً دکھا دو، Firebase کا انتظار مت کرو
+  function showNow(){
+    try{ if(window.cur && window.renderOnline) window.renderOnline(); }catch(e){}
+    try{ if(window.cur && window.loadFeed) window.loadFeed(); }catch(e){}
+    try{ if(window.cur && window.updatePowerBox) window.updatePowerBox(); }catch(e){}
+  }
+  setTimeout(showNow, 50);
+  setTimeout(showNow, 500);
+  // 3. جب بھی نیا ڈیٹا آئے، اس کو کیش میں سیو کر لو
+  setInterval(function(){
+    try{
+      if(window.G && window.G.users && Object.keys(window.G.users).length > 0){
+        localStorage.setItem('y_users_cache', JSON.stringify(window.G.users));
+      }
+      if(window.G && window.G.posts && Object.keys(window.G.posts).length > 0){
+        localStorage.setItem('y_posts_cache', JSON.stringify(window.G.posts));
+      }
+    }catch(e){}
+  }, 2000);
 })();
-
+        </script>
 </script>
 </body>
 </html>
