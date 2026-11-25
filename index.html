@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="ur"><head><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><script>var APP_VERSION=14;if(location.search.indexOf('v='+APP_VERSION)<0){location.replace(location.pathname+'?v='+APP_VERSION);}</script><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Yaarii-PK 👑</title>
+<!DOCTYPE html><html lang="ur"><head><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><script>var APP_VERSION=15;if(location.search.indexOf('v='+APP_VERSION)<0){location.replace(location.pathname+'?v='+APP_VERSION);}</script><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Yaarii-PK 👑</title>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 <style>
@@ -597,14 +597,7 @@ lastFinal();
 /* 2. General wala bara dabba - chota pill banao */
 .post>div:first-child{display:flex!important;justify-content:space-between!important;align-items:flex-start!important;gap:8px!important}
 .badge{display:inline-block!important;width:max-content!important;max-width:45%!important;background:#111!important;border:1px solid #FFD700!important;color:#FFD700!important;border-radius:999px!important;padding:4px 9px!important;font-size:11px!important;font-weight:800!important;line-height:1!important;white-space:nowrap!important;flex-shrink:0!important}
-/* 3. White theme */
-body[data-theme="white"]{background:#f2f2f2!important;color:#111!important}
-body[data-theme="white"] .top,body[data-theme="white"] .bottom{background:#fff!important}
-body[data-theme="white"] .card,body[data-theme="white"] .post,body[data-theme="white"] .authBox{background:#fff!important;border-color:#ddd!important;color:#111!important}
-body[data-theme="white"] .inp,body[data-theme="white"] input,body[data-theme="white"] select,body[data-theme="white"] textarea{background:#eee!important;color:#111!important;border-color:#ccc!important}
-body[data-theme="white"] .small{color:#666!important}
-body[data-theme="white"] .bottom button{color:#333!important}
-.themeBtn{cursor:pointer;font-size:20px}
+
 </style>
 <script>
 (function(){
@@ -654,30 +647,7 @@ setInterval(function(){
 <script>
 // ===== FINAL FIX v7 - ALL 5 IN ONE - Koi Purana Fix Kharab Nahi Hoga =====
 (function(){
-  // ---------- 3. THEME: Poora White / Poora Black ----------
-  var st = document.createElement('style');
-  st.id = 'fixV7Theme';
-  st.innerHTML =
-  "body[data-theme='white']{background:#fff!important}"+
-  "body[data-theme='white'] .top, body[data-theme='white'] .bottom, body[data-theme='white'] .card, body[data-theme='white'] .authBox{background:#fff!important;color:#000!important}"+
-  "body[data-theme='white'] .top b, body[data-theme='white'] .bottom button, body[data-theme='white'] b{color:#000!important}"+
-  "body[data-theme='white'] .top small, body[data-theme='white'] p{color:#333!important}"+
-  "body[data-theme='white'] input, body[data-theme='white'] textarea, body[data-theme='white'] select, body[data-theme='white'] .inp{background:#f2f2f2!important;color:#000!important}"+
-  "body[data-theme='black']{background:#000!important}"+
-  "body[data-theme='black'] .top, body[data-theme='black'] .bottom, body[data-theme='black'] .card, body[data-theme='black'] .authBox{background:#000!important;color:#fff!important}";
-  document.head.appendChild(st);
-  function applyTheme(){
-    var t = localStorage.getItem('y_theme') || 'black';
-    document.body.setAttribute('data-theme', t);
-    document.documentElement.setAttribute('data-theme', t);
-    document.body.style.background = t === 'white' ? '#fff' : '#000';
-  }
-  applyTheme();
-  window.toggleTheme = function(){
-    var cur = localStorage.getItem('y_theme') === 'white' ? 'black' : 'white';
-    localStorage.setItem('y_theme', cur);
-    applyTheme();
-  };
+
 
   // ---------- 4. BAN FIX: Admin ho ya Moderator - Ban hote hi Foran Bahar ----------
   function forceKick(msg){
@@ -763,6 +733,69 @@ setInterval(function(){
 })();
         </script>
 </script>
+<script>
+// FINAL THEMES v15 - 6 Themes + Profile Picker
+(function(){
+  var THEMES = {
+    black:  {bg:'#000000', card:'#0d0d0d', card2:'#1a1a1a', txt:'#ffffff', mut:'#aaaaaa', inp:'#1a1a1a', bord:'#333333', acc:'#FFD700'},
+    white:  {bg:'#ffffff', card:'#ffffff', card2:'#f2f2f2', txt:'#111111', mut:'#666666', inp:'#eeeeee', bord:'#dddddd', acc:'#FFB800'},
+    ocean:  {bg:'#001f3f', card:'#003366', card2:'#004080', txt:'#ffffff', mut:'#b3d9ff', inp:'#00264d', bord:'#0059b3', acc:'#00ccff'},
+    forest: {bg:'#0a2a12', card:'#123d1f', card2:'#1a4d2a', txt:'#ffffff', mut:'#b8e6c3', inp:'#0f331b', bord:'#2e7d32', acc:'#4dff88'},
+    rose:   {bg:'#2b0012', card:'#4a0020', card2:'#5c0028', txt:'#ffffff', mut:'#ffb3c8', inp:'#3d0018', bord:'#ff2d55', acc:'#ff4d6d'},
+    golden: {bg:'#1a1200', card:'#2a1e00', card2:'#3d2c00', txt:'#fff8dc', mut:'#ffdf80', inp:'#241a00', bord:'#FFD700', acc:'#FFD700'}
+  };
+  var css = '';
+  Object.keys(THEMES).forEach(function(k){
+    var t = THEMES[k];
+    css += "body[data-theme='"+k+"']{background:"+t.bg+"!important;color:"+t.txt+"!important}"+
+    "body[data-theme='"+k+"'] .top,body[data-theme='"+k+"'] .bottom{background:"+t.bg+"!important;border-color:"+t.bord+"!important;color:"+t.txt+"!important}"+
+    "body[data-theme='"+k+"'] .card,body[data-theme='"+k+"'] .post,body[data-theme='"+k+"'] .authBox{background:"+t.card+"!important;border-color:"+t.bord+"!important;color:"+t.txt+"!important}"+
+    "body[data-theme='"+k+"'] .inp,body[data-theme='"+k+"'] input,body[data-theme='"+k+"'] select,body[data-theme='"+k+"'] textarea{background:"+t.inp+"!important;color:"+t.txt+"!important;border-color:"+t.bord+"!important}"+
+    "body[data-theme='"+k+"'] .small,body[data-theme='"+k+"'] .top small{color:"+t.mut+"!important}"+
+    "body[data-theme='"+k+"'] .bottom button{color:"+t.txt+"!important}"+
+    "body[data-theme='"+k+"'] .filter button{background:"+t.card2+"!important;color:"+t.txt+"!important}"+
+    "body[data-theme='"+k+"'] .uCircle div,body[data-theme='"+k+"'] .story div{background:"+t.card2+"!important}";
+  });
+  var st = document.createElement('style'); st.id = 'finalThemesV15'; st.innerHTML = css;
+  document.head.appendChild(st);
+  function applyTheme(){
+    var t = localStorage.getItem('y_theme') || 'black';
+    if(!THEMES[t]) t = 'black';
+    document.body.setAttribute('data-theme', t);
+    document.documentElement.setAttribute('data-theme', t);
+    document.body.style.background = THEMES[t].bg;
+    var cur = document.getElementById('themeCurName');
+    if(cur) cur.innerText = t;
+  }
+  window.setTheme = function(name){
+    localStorage.setItem('y_theme', name);
+    applyTheme();
+    try{ showMsg('Theme lag gaya: ' + name); }catch(e){}
+  };
+  window.toggleTheme = function(){ window.setTheme(localStorage.getItem('y_theme')==='white' ? 'black' : 'white'); };
+  applyTheme();
+  // Profile me picker lagao
+  setInterval(function(){
+    if(document.getElementById('themePickerBox')) return;
+    var prof = document.querySelector('#page-profile .card');
+    if(!prof) return;
+    var box = document.createElement('div');
+    box.id = 'themePickerBox';
+    box.style = 'margin-top:10px;padding:12px;border-radius:12px;border:1px solid #FFD700;text-align:center';
+    box.innerHTML = '<h3>🎨 Theme Badlo</h3><p class="small">Abhi: <b id="themeCurName">black</b></p>' +
+    '<div style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:8px">' +
+    '<button onclick="setTheme(\'black\')" style="flex:1;min-width:80px;background:#000;color:#fff;border:1px solid #FFD700;padding:10px;border-radius:10px;font-weight:bold">⬛ Black</button>' +
+    '<button onclick="setTheme(\'white\')" style="flex:1;min-width:80px;background:#fff;color:#000;border:1px solid #ccc;padding:10px;border-radius:10px;font-weight:bold">⬜ White</button>' +
+    '<button onclick="setTheme(\'ocean\')" style="flex:1;min-width:80px;background:#003366;color:#fff;border:1px solid #00ccff;padding:10px;border-radius:10px;font-weight:bold">🌊 Ocean</button>' +
+    '<button onclick="setTheme(\'forest\')" style="flex:1;min-width:80px;background:#123d1f;color:#fff;border:1px solid #4dff88;padding:10px;border-radius:10px;font-weight:bold">🌲 Forest</button>' +
+    '<button onclick="setTheme(\'rose\')" style="flex:1;min-width:80px;background:#4a0020;color:#fff;border:1px solid #ff4d6d;padding:10px;border-radius:10px;font-weight:bold">🌹 Red Rose</button>' +
+    '<button onclick="setTheme(\'golden\')" style="flex:1;min-width:80px;background:#2a1e00;color:#FFD700;border:1px solid #FFD700;padding:10px;border-radius:10px;font-weight:bold">👑 Golden</button>' +
+    '</div>';
+    prof.appendChild(box);
+    applyTheme();
+  }, 1000);
+})();
+      </script>
 </body>
 </html>
 
