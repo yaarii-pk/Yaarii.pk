@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="ur"><head><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><script>var APP_VERSION=42;if(location.search.indexOf('v='+APP_VERSION)<0){location.replace(location.pathname+'?v='+APP_VERSION);}</script><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Yaarii-PK 👑</title>
+<!DOCTYPE html><html lang="ur"><head><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><script>var APP_VERSION=44;if(location.search.indexOf('v='+APP_VERSION)<0){location.replace(location.pathname+'?v='+APP_VERSION);}</script><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Yaarii-PK 👑</title>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 <style>
@@ -796,461 +796,563 @@ setInterval(function(){
   }, 1000);
 })();
 
+</script> 
 <script>
-// FINAL v42 - ALL 42 POINTS IN ONE - sirf yehi ek, koi doosra fix nahi
+// FINAL v44 - PART 1/4 - POINT 1 se 30 tak ka hisab
 (function(){
-  // Purane fix ke style hatao taake double na ho
-  ['fixV16Btns','fixV18','fixV20','fixV22','fixV22Final','fixV23','fixV24','fixV25','fixV26','fixV27','fixV28','fixV29','fixV30'].forEach(function(id){ var e=document.getElementById(id); if(e) e.remove(); });
-  var st=document.createElement('style'); st.id='fixV42FINAL';
-  st.innerHTML=
-  ".pBtns{display:flex!important;flex-wrap:nowrap!important;gap:4px!important;overflow-x:auto!important;padding:4px 0!important;scrollbar-width:none!important}"+
-  ".pBtns::-webkit-scrollbar{display:none!important}"+
-  ".pBtns button{flex:0 0 auto!important;padding:6px 9px!important;font-size:10px!important;font-weight:700!important;white-space:nowrap!important;border-radius:999px!important;border:1px solid #FF69B4!important;background:#1a1a1a!important;color:#fff!important;line-height:1!important}"+
-  ".pBtns button::before,.pBtns button::after{content:none!important;display:none!important}"+
-  ".post{border-radius:14px!important}"+
-  ".frame-admin{border:3px solid #FFD700!important;box-shadow:0 0 12px #FFD700,0 0 22px #FFE600,0 0 32px #FFD700!important}"+
-  ".frame-mod{border:3px solid #FF0000!important;box-shadow:0 0 12px #FF0000,0 0 22px #FF2D55,0 0 32px #FF0000!important}"+
-  "#page-leader .lead{display:flex!important;justify-content:space-between!important;visibility:visible!important}"+
-  ".v42cmt{display:flex!important;gap:7px!important;align-items:flex-start!important;margin-top:6px!important}"+
-  ".v42cmtDp{width:26px!important;height:26px!important;border-radius:50%!important;background:#FFD700!important;color:#000!important;display:flex!important;align-items:center!important;justify-content:center!important;font-weight:900!important;font-size:12px!important;flex-shrink:0!important;object-fit:cover!important}";
-  document.head.appendChild(st);
+  function safe(fn){ try{ fn(); }catch(e){} }
+  // POINT 32 - Animal 5
+  var ANIMALS = ['🐯','🐆','🐺','🦅','🦈'];
+  // POINT 34 - Star colors - 1 Yellow, 2 Green, 3 Blue, 4 Light Purple, 5 Light Pink
+  var STAR_COLORS = ['#FFD700','#00E676','#448AFF','#CE93D8','#FFB6E6'];
 
-  var ANIMALS=['🐯','🐆','🐺','🦅','🦈'];
-  var STAR_COLORS=['#FFD700','#00E676','#448AFF','#CE93D8','#FFB6E6'];
-
+  // POINT 12 + 13 - Trending = Image + 3 Likes, zyada Trending Images = Top 1
   function getData(){
-    var trendMap={}; var likesBy={}; var pts={};
+    var trendMap = {}, likesBy = {}, pts = {};
     try{
       getPosts().forEach(function(p){
         if(!p.u) return;
-        likesBy[p.u]=(likesBy[p.u]||0)+(p.likes||0);
-        var hasPic=!!(p.pic||p.img||p.media||p.image);
-        if(hasPic && Number(p.likes||0)>=3) trendMap[p.u]=(trendMap[p.u]||0)+1;
+        likesBy[p.u] = (likesBy[p.u]||0) + (p.likes||0);
+        var hasPic = !!(p.pic || p.img || p.media || p.image);
+        if(hasPic && Number(p.likes||0) >= 3) trendMap[p.u] = (trendMap[p.u]||0) + 1;
       });
-      Object.values(getUsers()).forEach(function(u){ if(u && u.u) pts[u.u]=Number(u.points||0); });
+      Object.values(getUsers()).forEach(function(u){
+        if(u && u.u) pts[u.u] = Number(u.points||0);
+      });
     }catch(e){}
     return {trendMap:trendMap, likesBy:likesBy, pts:pts};
   }
+
+  // POINT 18 + 19 - Leader gayab, khali / undefined / Ban na aaye
   function cleanUsers(){
-    return Object.keys(getUsers()).filter(function(n){ return n && !isLeaderName(n) && n!=='undefined' && n!=='null' && n.trim()!==''; });
-  }
-  function topTrending(){
-    var d=getData(); var all=cleanUsers();
-    all.sort(function(a,b){ var x=(d.trendMap[b]||0)-(d.trendMap[a]||0); if(x!==0) return x; return (d.likesBy[b]||0)-(d.likesBy[a]||0); });
-    return all.filter(function(n){ return (d.trendMap[n]||0)>0; }).slice(0,5);
-  }
-function topStar(){
-    var d=getData(); var all=cleanUsers();
-    all.sort(function(a,b){ return (d.likesBy[b]||0)-(d.likesBy[a]||0); });
-    return all.slice(0,5);
-  }
-  function topScorer(){
-    var d=getData(); var all=cleanUsers();
-    all.sort(function(a,b){ return (d.pts[b]||0)-(d.pts[a]||0); });
-    return all.slice(0,5);
-  }
-  window.topTrending=function(){ return topTrending(); };
-
-  // ---- Fire / Star / Animal ----
-  window.isFireUser=function(n){ return topTrending().indexOf(n)>=0; };
-  window.getFireHtml=function(n){ return window.isFireUser(n)?' 🔥':''; };
-  window.isTrendingCreator=function(u){ if(!u) return false; return topTrending().indexOf(u)>=0; };
-  window.getLikeScore=function(){ return window.isTrendingCreator(cur) ? 5000 : 5; };
-  window.getChapairScore=function(){ return window.isTrendingCreator(cur) ? 5000 : 5; };
-
-  window.displayName=function(n){
-    if(!n) return '';
-    if(isLeaderName(n)) return '<span style="color:#FFD700;text-shadow:0 0 10px #FFD700">🦁👑 '+n+'</span>';
-    var u=getUsers()[n];
-    var trend=topTrending(); var star=topStar(); var scorer=topScorer();
-    var badge='';
-    var ti=trend.indexOf(n);
-    if(ti>=0){
-      badge+=' <span style="color:'+STAR_COLORS[ti]+';font-size:14px;font-weight:bold">★</span>';
-      badge+=' <span>🔥</span>';
-    } else {
-      var si=star.indexOf(n);
-      if(si>=0) badge+=' <span style="color:'+STAR_COLORS[si]+';font-size:14px;font-weight:bold">★</span>';
-    }
-    var ai=scorer.indexOf(n);
-    if(ai>=0) badge+=' <span style="font-size:13px">'+ANIMALS[ai]+'</span>';
-    if(u && u.role==='MODERATOR'){
-      return '<span style="color:#fff;text-shadow:0 0 10px #FF0000"><span style="color:#FF2D55">★</span> '+n+' <span style="color:#FF2D55">★</span></span>'+badge;
-    }
-    return n+badge;
-  };
-  window.userBadgeLine=function(u){
-    var me=(getUsers()[u]||{});
-    var line='';
-    if(me.role && me.role.toLowerCase().indexOf('moderator')>=0) line+='<span style="background:#FF0000;color:#fff;font-size:10px;font-weight:bold;padding:1px 8px;border-radius:10px">MODERATOR</span> ';
-    if(me.role && me.role.toLowerCase().indexOf('admin')>=0) line+='<span style="background:#FFD700;color:#000;font-size:10px;font-weight:bold;padding:1px 8px;border-radius:10px">ADMIN</span> ';
-    if(window.isFireUser(u)) line+='<div style="font-size:11px;color:#FFD700">🔥 Fire Power</div>';
-    line+='<div style="font-size:11px;color:#FFD700">⭐ '+(me.points||0)+'</div>';
-    return line;
-  };
-
-  window.getDPHtml=function(name){
-    var u=(window.G && window.G.users && window.G.users[name])||{};
-    if(u.dp && u.dp.length>10) return '<img src="'+u.dp+'" style="width:32px;height:32px;border-radius:50%;object-fit:cover;display:inline-block;vertical-align:middle;margin-right:6px">';
-    var ch=(name||'?').charAt(0).toUpperCase();
-    return '<span style="width:32px;height:32px;border-radius:50%;background:#FFD700;color:#000;display:inline-flex;align-items:center;justify-content:center;font-weight:900;vertical-align:middle;margin-right:6px">'+ch+'</span>';
-  };
-
-  window.showLeader=function(type){
-    var el=document.getElementById('leaderList'); if(!el) return;
-    var d=getData();
-    var users=Object.values(getUsers()).filter(function(u){
-      if(!u || !u.u) return false;
-      if(isLeaderName(u.u)) return false;
-      if(u.u==='undefined' || u.u==='null' || u.u.trim()==='') return false;
-      if(u.bannedUntil && u.bannedUntil>Date.now()) return false;
-      return true;
-    });
-    if(type==='star'){
-      users.sort(function(a,b){ return (d.likesBy[b.u]||0)-(d.likesBy[a.u]||0); });
-      el.innerHTML=users.slice(0,20).map(function(u,i){
-        return '<div class="lead"><span>'+(i+1)+'. '+displayName(u.u)+getTopBadge(u.u)+'</span><span>★ '+(d.likesBy[u.u]||0)+' Likes</span></div>';
-      }).join('');
-    } else {
-      users.sort(function(a,b){ return (b.points||0)-(a.points||0); });
-      el.innerHTML=users.slice(0,20).map(function(u,i){
-        return '<div class="lead"><span>'+(i+1)+'. '+displayName(u.u)+getTopBadge(u.u)+'</span><span>⭐ '+(u.points||0)+'</span></div>';
-      }).join('');
-    }
-  };
-   // ---- Like - EXACT +5 / +5000, Chapair - EXACT -5 / -5000 ----
-  window.doLike=function(key){
-    var p=G.posts[key]; if(!p) return;
-    if((p.likedBy||[]).indexOf(cur)>=0){ showMsg('Pehle se like kiya hua hai'); return; }
-    var isTrend=window.isTrendingCreator(cur);
-    var give=isTrend ? 5000 : 5;
-    var newLiked=(p.likedBy||[]).slice(); newLiked.push(cur);
-    var newLikes=(p.likes||0)+1;
-    var upd={likedBy:newLiked, likes:newLikes};
-    if(newLikes>=3) upd.trending=true;
-    if(isTrend) upd.trendingCreatorLike=true;
-    db.ref('posts/'+key).update(upd);
-    addPointsTo(p.u, give);
-    if(p.u!==cur) pushInbox(p.u,{from:cur,text:(isTrend?'🔥 ':'❤️ ')+cur+' ne apki post like ki (+'+give+')',type:'like'});
-    playPop(); showMsg('Like Ho Gaya! ✅');
-  };
-  window.doChapair=function(key){
-    var p=G.posts[key]; if(!p) return;
-    if(p.u===cur){ showMsg('Apni post ko Chapair nahi maar sakte'); return; }
-    if((p.chapairBy||[]).indexOf(cur)>=0){ showMsg('Pehle se Chapair mara hua hai'); return; }
-    var isTrend=window.isTrendingCreator(cur);
-    var minus=isTrend ? 5000 : 5;
-    var newArr=(p.chapairBy||[]).slice(); newArr.push(cur);
-    db.ref('posts/'+key).update({chapairBy:newArr, chapair:(p.chapair||0)+1});
-    addPointsTo(p.u, -minus);
-    if(p.u!==cur) pushInbox(p.u,{from:cur,text:'👋 '+cur+(isTrend?' (Top Trending)':'')+' ne tumhe CHAPAIR mara (-'+minus+')',type:'chapair'});
-    playSlap(); showMsg('Chapair Maar Diya 👋 -'+minus);
-  };
-  window.doBlockV42=function(name){
-    if(!name || name===cur){ showMsg('Khud ko Block nahi kar sakte'); return; }
-    if(!confirm(name+' ko Block karna hai?')) return;
     try{
-      var me=getUsers()[cur]||{}; var arr=(me.blocked||[]).slice();
-      if(arr.indexOf(name)<0) arr.push(name);
+      return Object.keys(getUsers()).filter(function(n){
+        if(!n) return false;
+        if(isLeaderName(n)) return false;
+        if(n === 'undefined' || n === 'null' || n.trim() === '') return false;
+        return true;
+      });
+    }catch(e){ return []; }
+  }
+
+  // POINT 11 + 13 + 16 - Fire Top 5 Trending, Top 1 gayab na ho
+  function topTrending(){
+    try{
+      var d = getData(); var all = cleanUsers();
+      all.sort(function(a,b){
+        var x = (d.trendMap[b]||0) - (d.trendMap[a]||0);
+        if(x !== 0) return x;
+        return (d.likesBy[b]||0) - (d.likesBy[a]||0);
+      });
+      return all.filter(function(n){ return (d.trendMap[n]||0) > 0; }).slice(0,5);
+    }catch(e){ return []; }
+  }
+
+  // POINT 14 - Star sirf Top 5
+  function topStar(){
+    try{
+      var d = getData(); var all = cleanUsers();
+      all.sort(function(a,b){ return (d.likesBy[b]||0) - (d.likesBy[a]||0); });
+      return all.slice(0,5);
+    }catch(e){ return []; }
+  }
+
+  // POINT 15 - Animal sirf Top 5 Scorer
+  function topScorer(){
+    try{
+      var d = getData(); var all = cleanUsers();
+      all.sort(function(a,b){ return (d.pts[b]||0) - (d.pts[a]||0); });
+      return all.slice(0,5);
+    }catch(e){ return []; }
+  }
+
+  window.topTrending = function(){ return topTrending(); };
+
+  // POINT 10 + 11 - Fire sirf Trending, sirf Top 5 Trending
+  window.isFireUser = function(n){ try{ return topTrending().indexOf(n) >= 0; }catch(e){ return false; } };
+  window.getFireHtml = function(n){ return window.isFireUser(n) ? ' 🔥' : ''; };
+  window.isTrendingCreator = function(u){ if(!u) return false; try{ return topTrending().indexOf(u) >= 0; }catch(e){ return false; } };
+
+  // POINT 25 + 26 + 30 - Moderator Red Star, Leader Gold, Badge har jagah
+  window.displayName = function(n){
+    try{
+      if(!n) return '';
+      if(isLeaderName(n)) return '<span style="color:#FFD700;text-shadow:0 0 10px #FFD700">🦁👑 '+n+'</span>';
+      var u = getUsers()[n];
+      var trend = topTrending(); var star = topStar(); var scorer = topScorer();
+      var badge = '';
+      var ti = trend.indexOf(n);
+      if(ti >= 0){
+        badge += ' <span style="color:'+STAR_COLORS[ti]+';font-size:14px;font-weight:bold">★</span>';
+        badge += ' <span>🔥</span>';
+      } else {
+        var si = star.indexOf(n);
+        if(si >= 0) badge += ' <span style="color:'+STAR_COLORS[si]+';font-size:14px;font-weight:bold">★</span>';
+      }
+      var ai = scorer.indexOf(n);
+      if(ai >= 0) badge += ' <span style="font-size:13px">'+ANIMALS[ai]+'</span>';
+      if(u && u.role === 'MODERATOR'){
+        return '<span style="color:#fff;text-shadow:0 0 10px #FF0000"><span style="color:#FF2D55">★</span> '+n+' <span style="color:#FF2D55">★</span></span>' + badge;
+      }
+      return n + badge;
+    }catch(e){ return n || ''; }
+  };
+
+  // POINT 29 - Fire Power line sirf Trending ko
+  window.userBadgeLine = function(u){
+    try{
+      var me = (getUsers()[u] || {});
+      var line = '';
+      if(me.role && me.role.toLowerCase().indexOf('moderator') >= 0) line += '<span style="background:#FF0000;color:#fff;font-size:10px;font-weight:bold;padding:1px 8px;border-radius:10px">MODERATOR</span> ';
+      if(me.role && me.role.toLowerCase().indexOf('admin') >= 0) line += '<span style="background:#FFD700;color:#000;font-size:10px;font-weight:bold;padding:1px 8px;border-radius:10px">ADMIN</span> ';
+      if(window.isFireUser(u)) line += '<div style="font-size:11px;color:#FFD700">🔥 Fire Power</div>';
+      line += '<div style="font-size:11px;color:#FFD700">⭐ '+(me.points||0)+'</div>';
+      return line;
+    }catch(e){ return ''; }
+  };
+
+  // POINT 4 + 5 - DP ho, na ho to naam wala circle, 👤 na ho
+  window.getDPHtml = function(name){
+    try{
+      var u = (window.G && window.G.users && window.G.users[name]) || {};
+      if(u.dp && u.dp.length > 10) return '<img src="'+u.dp+'" style="width:32px;height:32px;border-radius:50%;object-fit:cover;display:inline-block;vertical-align:middle;margin-right:6px">';
+      var ch = (name || '?').charAt(0).toUpperCase();
+      return '<span style="width:32px;height:32px;border-radius:50%;background:#FFD700;color:#000;display:inline-flex;align-items:center;justify-content:center;font-weight:900;vertical-align:middle;margin-right:6px">'+ch+'</span>';
+    }catch(e){ return ''; }
+  };
+
+  // POINT 17 + 18 + 19 + 20 + 21 - Leaderboard
+  // 17: Top 1 se 20, 18: Leader gayab, 19: khali / undefined / Ban na aaye, 20: Star me Likes, 21: Points me Points
+  window.showLeader = function(type){
+    try{
+      var el = document.getElementById('leaderList'); if(!el) return;
+      var d = getData();
+      var users = Object.values(getUsers()).filter(function(u){
+        if(!u || !u.u) return false;
+        if(isLeaderName(u.u)) return false;
+        if(u.u === 'undefined' || u.u === 'null' || u.u.trim() === '') return false;
+        if(u.bannedUntil && u.bannedUntil > Date.now()) return false;
+        return true;
+      });
+      if(type === 'star'){
+        users.sort(function(a,b){ return (d.likesBy[b.u]||0) - (d.likesBy[a.u]||0); });
+        el.innerHTML = users.slice(0,20).map(function(u,i){
+          return '<div class="lead"><span>'+(i+1)+'. '+displayName(u.u)+getTopBadge(u.u)+'</span><span>★ '+(d.likesBy[u.u]||0)+' Likes</span></div>';
+        }).join('');
+      } else {
+        users.sort(function(a,b){ return (b.points||0) - (a.points||0); });
+        el.innerHTML = users.slice(0,20).map(function(u,i){
+          return '<div class="lead"><span>'+(i+1)+'. '+displayName(u.u)+getTopBadge(u.u)+'</span><span>⭐ '+(u.points||0)+' Points</span></div>';
+        }).join('');
+      }
+    }catch(e){}
+  };
+    // POINT 22 - Like = Trending +5000, Normal +5, double na ho
+  window.doLike = function(key){
+    try{
+      var p = G.posts[key]; if(!p) return;
+      if((p.likedBy||[]).indexOf(cur) >= 0){ showMsg('Pehle se like kiya hua hai'); return; }
+      var isTrend = window.isTrendingCreator(cur);
+      var give = isTrend ? 5000 : 5;
+      var newLiked = (p.likedBy||[]).slice(); newLiked.push(cur);
+      var newLikes = (p.likes||0) + 1;
+      var upd = {likedBy:newLiked, likes:newLikes};
+      if(newLikes >= 3) upd.trending = true;
+      if(isTrend) upd.trendingCreatorLike = true;
+      db.ref('posts/'+key).update(upd);
+      addPointsTo(p.u, give);
+      if(p.u !== cur) pushInbox(p.u,{from:cur,text:(isTrend?'🔥 ':'❤️ ')+cur+' ne apki post like ki (+'+give+')',type:'like'});
+      playPop(); showMsg('Like Ho Gaya! ✅');
+    }catch(e){}
+  };
+
+  // POINT 23 - Chapair = Trending -5000, Normal -5, double na ho
+  window.doChapair = function(key){
+    try{
+      var p = G.posts[key]; if(!p) return;
+      if(p.u === cur){ showMsg('Apni post ko Chapair nahi maar sakte'); return; }
+      if((p.chapairBy||[]).indexOf(cur) >= 0){ showMsg('Pehle se Chapair mara hua hai'); return; }
+      var isTrend = window.isTrendingCreator(cur);
+      var minus = isTrend ? 5000 : 5;
+      var newArr = (p.chapairBy||[]).slice(); newArr.push(cur);
+      db.ref('posts/'+key).update({chapairBy:newArr, chapair:(p.chapair||0)+1});
+      addPointsTo(p.u, -minus);
+      if(p.u !== cur) pushInbox(p.u,{from:cur,text:'👋 '+cur+(isTrend?' (Top Trending)':'')+' ne tumhe CHAPAIR mara (-'+minus+')',type:'chapair'});
+      playSlap(); showMsg('Chapair Maar Diya 👋 -'+minus);
+    }catch(e){}
+  };
+
+  // POINT 3 - BLOCK wala kaam
+  window.doBlockV44 = function(name){
+    try{
+      if(!name || name === cur){ showMsg('Khud ko Block nahi kar sakte'); return; }
+      if(!confirm(name+' ko Block karna hai?')) return;
+      var me = getUsers()[cur] || {}; var arr = (me.blocked||[]).slice();
+      if(arr.indexOf(name) < 0) arr.push(name);
       db.ref('users/'+cur+'/blocked').set(arr);
       showMsg(name+' ko Block kar diya 🚫');
-      setTimeout(function(){ if(window.loadFeed) loadFeed(); }, 500);
-    }catch(e){ showMsg(name+' ko Block kar diya 🚫'); }
-  };
-  window.sendRing=function(to){
-    if(!to||to===cur) return;
-    pushInbox(to,{from:cur,text:'🔔 '+cur+' ne tumhe RING kiya - Online aao!',type:'ring'});
-    showMsg(to+' ko RING kar diya 🔔');
+      setTimeout(function(){ try{ if(window.loadFeed) loadFeed(); }catch(e){} },500);
+    }catch(e){ showMsg('Block kar diya 🚫'); }
   };
 
-  // ---- POST FRAME ----
+  window.sendRing = function(to){
+    try{
+      if(!to || to === cur) return;
+      pushInbox(to,{from:cur,text:'🔔 '+cur+' ne tumhe RING kiya - Online aao!',type:'ring'});
+      showMsg(to+' ko RING kar diya 🔔');
+    }catch(e){}
+  };
+
+  // POINT 33 + 34 + 35 + 36 - Frame
+  // 33: Top 5 ko frame 4 taraf, 34: Star colors, 35: Top 5 frame simple no shining, 36: Admin Yellow shining, Moderator Red shining
   function applyFrames(){
-    var star=topStar(); var trend=topTrending();
-    document.querySelectorAll('.post').forEach(function(post){
-      if(post.dataset.frameDone==='1') return;
-      var b=post.querySelector('b'); if(!b) return;
-      var nm=(b.innerText||'').replace(/[^A-Za-z0-9_]/g,'');
-      if(!nm) return;
-      var u=getUsers()[nm]||{};
-      var isAdmin=(u.role==='ADMIN' || isLeaderName(nm));
-      var isMod=(u.role==='MODERATOR');
-      if(isAdmin){ post.classList.add('frame-admin'); post.dataset.frameDone='1'; return; }
-      if(isMod){ post.classList.add('frame-mod'); post.dataset.frameDone='1'; return; }
-      var idx=star.indexOf(nm); if(idx<0) idx=trend.indexOf(nm);
-      if(idx>=0){ post.style.border='2px solid '+STAR_COLORS[idx]; post.style.boxShadow='none'; post.dataset.frameDone='1'; }
-    });
+    try{
+      var star = topStar(); var trend = topTrending();
+      document.querySelectorAll('.post').forEach(function(post){
+        try{
+          if(post.dataset.frameDone === '1') return;
+          var b = post.querySelector('b'); if(!b) return;
+          var nm = (b.innerText||'').replace(/[^A-Za-z0-9_]/g,''); if(!nm) return;
+          var u = getUsers()[nm] || {};
+          var isAdmin = (u.role === 'ADMIN' || isLeaderName(nm));
+          var isMod = (u.role === 'MODERATOR');
+          if(isAdmin){ post.classList.add('frame-admin'); post.dataset.frameDone='1'; return; }
+          if(isMod){ post.classList.add('frame-mod'); post.dataset.frameDone='1'; return; }
+          var idx = star.indexOf(nm); if(idx < 0) idx = trend.indexOf(nm);
+          if(idx >= 0){ post.style.border = '2px solid '+STAR_COLORS[idx]; post.style.boxShadow = 'none'; post.dataset.frameDone='1'; }
+        }catch(e){}
+      });
+    }catch(e){}
   }
 
-  // ---- COMMENTS - neeche show + Reply ----
+  // POINT 7 + 8 + 9 - Comment neeche, Reply, sab ko dikhe
   function getPostByKey(key){
     try{
       if(window.G && window.G.posts && window.G.posts[key]) return window.G.posts[key];
-      var arr=getPosts(); for(var i=0;i<arr.length;i++){ if(arr[i]._key===key) return arr[i]; }
+      var arr = getPosts(); for(var i=0;i<arr.length;i++){ if(arr[i]._key === key) return arr[i]; }
     }catch(e){}
     return null;
   }
   function renderOneCmtList(postEl, key){
-    var wrap=postEl.querySelector('#cmtWrap-'+key);
-    if(!wrap){
-      wrap=document.createElement('div'); wrap.id='cmtWrap-'+key;
-      wrap.innerHTML='<button type="button" style="background:#222;color:#FFD700;border:1px solid #FFD700;border-radius:10px;padding:8px;font-weight:bold;width:100%;margin-top:8px">💬 Comments (<span id="cmtCnt-'+key+'">0</span>) - Dekho / Reply Karo</button><div id="cmtBox-'+key+'" style="display:none;margin-top:6px"><div id="cmtList-'+key+'"></div></div>';
-      postEl.appendChild(wrap);
-      var btn=wrap.querySelector('button');
-      btn.onclick=function(){ var b=document.getElementById('cmtBox-'+key); if(b) b.style.display=(b.style.display==='none'?'block':'none'); };
-    }
-    var p=getPostByKey(key); var arr=(p && p.comments) ? p.comments : [];
-    try{ var loc=JSON.parse(localStorage.getItem('y_cmt_'+key)||'[]'); if(loc.length && arr.length<loc.length) arr=loc; }catch(e){}
-    var list=document.getElementById('cmtList-'+key);
-    var cnt=document.getElementById('cmtCnt-'+key);
-    if(cnt) cnt.innerText=arr.length;
-    if(!list) return;
-    if(!arr.length){ list.innerHTML='<p class="small" style="color:#888">Abhi koi comment nahi - pehla comment karo!</p>'; return; }
-    list.innerHTML=arr.map(function(c, idx){
-      var nm=c.u||c.from||'User';
-      var u=(window.G && window.G.users && window.G.users[nm])||{};
-      var dpHtml=(u.dp && u.dp.length>10) ? '<img class="v42cmtDp" src="'+u.dp+'">' : '<span class="v42cmtDp">'+nm.charAt(0).toUpperCase()+'</span>';
-      var repsHtml='';
-      if(c.reps && c.reps.length){
-        repsHtml=c.reps.map(function(r){ return '<div class="v42cmt" style="margin-left:33px"><span class="v42cmtDp" style="width:22px;height:22px;font-size:10px">'+(r.u||'U').charAt(0).toUpperCase()+'</span><div><b style="font-size:12px">'+(r.u||'')+'</b> <span style="font-size:12px">'+(r.t||r.text||'')+'</span></div></div>'; }).join('');
+    try{
+      var wrap = document.getElementById('cmtWrap-'+key);
+      if(!wrap){
+        wrap = document.createElement('div'); wrap.id = 'cmtWrap-'+key;
+        wrap.innerHTML = '<button type="button" style="background:#222;color:#FFD700;border:1px solid #FFD700;border-radius:10px;padding:8px;font-weight:bold;width:100%;margin-top:8px">💬 Comments (<span id="cmtCnt-'+key+'">0</span>) - Dekho / Reply Karo</button><div id="cmtBox-'+key+'" style="display:none;margin-top:6px"><div id="cmtList-'+key+'"></div></div>';
+        postEl.appendChild(wrap);
+        var btn = wrap.querySelector('button');
+        btn.onclick = function(){ var b = document.getElementById('cmtBox-'+key); if(b) b.style.display = (b.style.display === 'none' ? 'block' : 'none'); };
       }
-      return '<div><div class="v42cmt">'+dpHtml+'<div><b style="font-size:12px">'+nm+'</b> <span style="font-size:13px">'+(c.text||c.t||'')+'</span> <button type="button" onclick="document.getElementById(\'rep-'+key+'-'+idx+'\').style.display=document.getElementById(\'rep-'+key+'-'+idx+'\').style.display===\'none\'?\'block\':\'none\'" style="background:none;border:none;color:#FFD700;font-size:11px">Reply</button></div></div><div id="rep-'+key+'-'+idx+'" style="display:none;margin:4px 0 4px 33px"><input id="repInp-'+key+'-'+idx+'" placeholder="Reply..." style="width:70%"><button type="button" onclick="window.sendReplyV42(\''+key+'\','+idx+')" style="background:#FFD700;color:#000;border:none;border-radius:8px;padding:6px 10px;font-weight:bold">Bhejo</button></div>'+repsHtml+'</div>';
-    }).join('');
-  }
-  window.sendReplyV42=function(key, idx){
-    var inp=document.getElementById('repInp-'+key+'-'+idx); if(!inp) return;
-    var txt=inp.value.trim(); if(!txt) return;
-    var p=getPostByKey(key); if(!p) return;
-    var arr=(p.comments||[]).slice();
-    if(!arr[idx]) return;
-    arr[idx].reps=arr[idx].reps||[]; arr[idx].reps.push({u:cur, t:txt, time:Date.now()});
-    db.ref('posts/'+key+'/comments').set(arr);
-    try{ localStorage.setItem('y_cmt_'+key, JSON.stringify(arr)); }catch(e){}
-    inp.value='';
-  };
-  var _oldCmt=window.doComment;
-  window.doComment=function(key){
-    if(_oldCmt) _oldCmt(key);
-    var inp=document.getElementById('cmt-'+key); if(inp) inp.value='';
-    setTimeout(function(){ var postEl=inp ? inp.closest('.post') : null; if(postEl) renderOneCmtList(postEl, key); }, 600);
-  };
-
-  // ---- INBOX REPLY ----
-  function addInboxReply(){
-    document.querySelectorAll('#notifList > div, #inboxList > div, #notifList .card, #inboxList .card').forEach(function(card){
-      if(card.dataset.replyDone==='1') return;
-      var txt=card.innerText||'';
-      var sender=(txt.split('\n')[0]||'').trim().split(' ')[0];
-      if(!sender || sender.length<2) return;
-      card.dataset.replyDone='1';
-      var wrap=document.createElement('div');
-      wrap.style='display:flex;gap:6px;margin-top:6px';
-      wrap.innerHTML='<input placeholder="Reply '+sender+' ko..." style="flex:1;padding:8px;border-radius:10px;border:1px solid #FFD700;background:#111;color:#fff">'
-        +'<button type="button" style="background:#FFD700;color:#000;border:none;border-radius:10px;padding:8px 12px;font-weight:800">↩️ Reply</button>';
-      card.appendChild(wrap);
-      var btn=wrap.querySelector('button');
-      btn.onclick=function(){
-        var inp=wrap.querySelector('input');
-        var msg=inp.value.trim(); if(!msg) return;
-        try{ if(window.pushInbox) pushInbox(sender,{from:cur,text:'↩️ '+cur+' ne reply kiya: '+msg,type:'reply'}); showMsg(sender+' ko Reply bhej diya ✅'); inp.value=''; }catch(e){ showMsg('Reply bhej diya ✅'); }
-      };
-    });
-  }
-  // ---- PRIVATE CHAT PROPER ----
-  function buildPrivateChat(){
-    var page=document.getElementById('page-1on1')||document.querySelector('[id*="1on1"]');
-    if(!page) return;
-    if(document.getElementById('pvtProBox')) return;
-    var box=document.createElement('div'); box.id='pvtProBox';
-    box.style='background:#111;border:2px solid #FFD700;border-radius:14px;padding:10px;margin:10px 0';
-    var users=Object.keys(getUsers()||{}).filter(function(n){ return n && n!==cur && !isLeaderName(n); }).slice(0,100);
-    var opts=users.map(function(u){ return '<option value="'+u+'">'+u+'</option>'; }).join('');
-    box.innerHTML='<h3 style="text-align:center">💬 Private Chat</h3>'
-      +'<p class="small" style="text-align:center">Kisko message karna hai, select karo</p>'
-      +'<select id="pvtSelect" style="width:100%;padding:10px;border-radius:10px;background:#000;color:#fff;border:1px solid #FFD700"><option value="">-- User Select Karo --</option>'+opts+'</select>'
-      +'<div id="pvtHead" style="text-align:center;margin:10px 0;font-weight:900;font-size:16px;color:#FFD700">Koi user select karo</div>'
-      +'<div id="pvtMsgs" style="max-height:300px;overflow-y:auto;display:flex;flex-direction:column;gap:6px"></div>'
-      +'<div style="display:flex;gap:6px;margin-top:8px"><input id="pvtInput" placeholder="Private message likho..." style="flex:1;padding:10px;border-radius:10px;border:1px solid #FFD700;background:#000;color:#fff"><button type="button" id="pvtSend" style="background:#FFD700;color:#000;border:none;border-radius:10px;padding:10px 14px;font-weight:800">Bhejo 🔒</button></div>';
-    page.insertBefore(box, page.firstChild);
-    var sel=document.getElementById('pvtSelect');
-    var head=document.getElementById('pvtHead');
-    var msgs=document.getElementById('pvtMsgs');
-    function loadMsgs(){
-      var to=sel.value; if(!to) return;
-      head.innerText='💬 '+to+' - Private Chat 🔒';
-      var key='y_pvt_'+[cur,to].sort().join('_');
-      var arr=[]; try{ arr=JSON.parse(localStorage.getItem(key)||'[]'); }catch(e){}
-      msgs.innerHTML=arr.length ? arr.map(function(m){
-        var mine=m.u===cur;
-        return '<div style="align-self:'+(mine?'flex-end':'flex-start')+';max-width:85%;background:'+(mine?'#FFD700;color:#000':'#222;color:#fff')+';padding:8px 10px;border-radius:12px"><b style="font-size:11px;display:block">'+(m.u||'')+'</b><span style="font-size:13px">'+(m.t||m.text||'')+'</span></div>';
-      }).join('') : '<p class="small" style="text-align:center">Abhi koi private baat nahi - pehla message bhejo!</p>';
-      msgs.scrollTop=msgs.scrollHeight;
-    }
-    sel.onchange=loadMsgs;
-    document.getElementById('pvtSend').onclick=function(){
-      var to=sel.value; if(!to){ showMsg('Pehle user select karo'); return; }
-      var inp=document.getElementById('pvtInput');
-      var txt=inp.value.trim(); if(!txt) return;
-      var key='y_pvt_'+[cur,to].sort().join('_');
-      var arr=[]; try{ arr=JSON.parse(localStorage.getItem(key)||'[]'); }catch(e){}
-      arr.push({u:cur, t:txt, time:Date.now()});
-      try{ localStorage.setItem(key, JSON.stringify(arr)); }catch(e){}
-      try{ if(window.pushInbox) pushInbox(to,{from:cur,text:'🔒 Private: '+txt,type:'private'}); }catch(e){}
-      inp.value=''; loadMsgs(); showMsg(to+' ko Private bhej diya 🔒');
-    };
-  }
-   // ---- FUN Hatao, THEME Lao ----
-  function replaceFunWithTheme(){
-    document.querySelectorAll('button, a, div').forEach(function(el){
-      if(!el || !el.innerText) return;
-      if(el.children.length>2) return;
-      var t=(el.innerText||'').trim().toUpperCase();
-if(t.indexOf('FUN')>=0 && t.indexOf('FUNNY')<0 && t.indexOf('FUN ZONE')<0){
-      if(el.dataset.themeReplaced==='1') return;
-        el.dataset.themeReplaced='1';
-        el.innerHTML='🎨 Theme';
-        el.style.background='#FFD700'; el.style.color='#000'; el.style.fontWeight='900';
-        el.onclick=function(e){
-          e.preventDefault(); e.stopPropagation();
-          if(document.getElementById('themePickOverlay')) return;
-          var ov=document.createElement('div'); ov.id='themePickOverlay';
-          ov.style='position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9999;display:flex;align-items:center;justify-content:center';
-          ov.innerHTML='<div style="background:#111;border:2px solid #FFD700;border-radius:16px;padding:16px;width:90%;max-width:360px;text-align:center">'
-            +'<h3>🎨 Theme Badlo</h3><p class="small">Koi ek theme select karo</p>'
-            +'<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:10px">'
-            +'<button type="button" data-th="black" style="padding:12px;border-radius:10px;background:#000;color:#fff;border:1px solid #FFD700">⬛ Black</button>'
-            +'<button type="button" data-th="white" style="padding:12px;border-radius:10px;background:#fff;color:#000">⬜ White</button>'
-            +'<button type="button" data-th="ocean" style="padding:12px;border-radius:10px;background:#0A3D62;color:#fff">🌊 Ocean</button>'
-            +'<button type="button" data-th="forest" style="padding:12px;border-radius:10px;background:#1B5E20;color:#fff">🌲 Forest</button>'
-            +'<button type="button" data-th="red" style="padding:12px;border-radius:10px;background:#880E4F;color:#fff">🌹 Red Rose</button>'
-            +'<button type="button" data-th="golden" style="padding:12px;border-radius:10px;background:#FFD700;color:#000">👑 Golden</button>'
-            +'</div><button type="button" id="themeClose" style="margin-top:12px;padding:10px 20px;border-radius:10px;background:#222;color:#fff;border:1px solid #FFD700">Band Karo</button></div>';
-          document.body.appendChild(ov);
-          ov.querySelectorAll('[data-th]').forEach(function(b){
-            b.onclick=function(){
-              var th=b.getAttribute('data-th');
-              try{ localStorage.setItem('y_theme', th); localStorage.setItem('theme', th); }catch(e){}
-              try{ if(window.applyTheme) window.applyTheme(); }catch(e){}
-              try{ var map={black:'#000000',white:'#ffffff',ocean:'#0A3D62',forest:'#1B5E20',red:'#880E4F',golden:'#FFD700'}; document.body.style.background=map[th]||'#000'; }catch(e){}
-              showMsg('Theme badal gaya: '+th+' ✅'); ov.remove();
-            };
-          });
-          document.getElementById('themeClose').onclick=function(){ ov.remove(); };
-        };
-      }
-    });
-    var funPage=document.getElementById('page-fun');
-    if(funPage) funPage.style.display='none';
-  }
-  // ---- CITY + STAR ki poori list ----
-  var CITIES=['Lahore','Karachi','Islamabad','Rawalpindi','Faisalabad','Multan','Hyderabad','Peshawar','Quetta','Sialkot','Gujranwala','Bahawalpur','Sargodha','Abbottabad','Jhelum','Gujrat','Sahiwal','Okara','Chakwal','Mandi Bahauddin','Sheikhupura','Kasur','Mianwali','Attock','Dera Ghazi Khan','Rahim Yar Khan','Bannu','Kohat','Swat','Mardan','Charsadda','Nowshera','Dera Ismail Khan','Zhob','Gwadar','Turbat','Khuzdar','Sukkur','Larkana','Nawabshah','Mirpur Khas','Jacobabad','Khairpur','Muzaffarabad','Mirpur','Kotli','Gilgit','Skardu','Hunza','Chitral','Other'];
-  var STARS=['Aries ♈','Taurus ♉','Gemini ♊','Cancer ♋','Leo ♌','Virgo ♍','Libra ♎','Scorpio ♏','Sagittarius ♐','Capricorn ♑','Aquarius ♒','Pisces ♓'];
-  function makeDropdowns(){
-    document.querySelectorAll('input').forEach(function(inp){
-      var ph=(inp.placeholder||'').toLowerCase();
-      var isCity=ph.indexOf('city')>=0;
-      var isStar=ph.indexOf('star')>=0;
-      if(!isCity && !isStar) return;
-      if(inp.dataset.dropDone==='1') return;
-      inp.dataset.dropDone='1';
-      var sel=document.createElement('select');
-      sel.style='width:100%;padding:10px;border-radius:10px;background:#000;color:#fff;border:1px solid #FFD700;margin-top:6px';
-      var list=isCity ? CITIES : STARS;
-      var title=isCity ? '-- City Select Karo --' : '-- Star Select Karo --';
-      sel.innerHTML='<option value="">'+title+'</option>'+list.map(function(x){ return '<option value="'+x+'">'+x+'</option>'; }).join('');
-      sel.onchange=function(){ inp.value=sel.value; };
-      if(inp.value) sel.value=inp.value;
-      inp.parentNode.insertBefore(sel, inp.nextSibling);
-      inp.onclick=function(){ sel.focus(); };
-    });
-  }
-
-  // ---- CATEGORY ki poori list ----
-  var ALL_CATS=['General','Shayari','Funny','Gaming','Cricket','Music','Love','News','Aseel','Motovlog','Sports','Football','Automotive','Politics','Religion','History','Psychology','Motivation','Quotes','Weather','Jobs','Local Community','Questions','DP Competition','Entertainment','Memes','Movies','Art','Drama','Anime','Bollywood','Hollywood','K-Pop','Comedy','Poetry & Literature','Sad Poetry','Love Poetry','Urdu Ghazal','Sufi Poetry','Deep Lines','Attitude Poetry','Funny Poetry','Punjabi Poetry','Islamic Poetry','Literature','Books','Parveen Shakir','Jaun Elia','Allama Iqbal','Mirza Ghalib','Pashto Poetry','Sindhi Poetry','Lifestyle','Photography','Travel','Home Decor','Food','Health','Self Care','Beauty','Relationships','Parenting','DIY & Crafts','Cooking','Vlog','Pets','Gardening','Tech','AI','Coding','Education','Business','Freelancing','Crypto','Science','Space','Gadgets','Learning Urdu'];
-  function expandCategories(){
-    document.querySelectorAll('select').forEach(function(sel){
-      var txt=sel.innerText||'';
-      if(txt.indexOf('General')<0) return;
-      if(sel.dataset.catsDone==='1') return;
-      if(sel.options.length>20) return;
-      sel.dataset.catsDone='1';
-      var curVal=sel.value;
-      sel.innerHTML=ALL_CATS.map(function(c){ return '<option value="'+c+'">'+c+'</option>'; }).join('');
-      if(curVal) sel.value=curVal;
-    });
-    if(!document.getElementById('allCatsRow')){
-      var rows=document.querySelectorAll('div');
-      for(var i=0;i<rows.length;i++){
-        if((rows[i].innerText||'').indexOf('FOR ME')>=0 && rows[i].querySelectorAll('button').length>=3){
-          var div=document.createElement('div'); div.id='allCatsRow';
-          div.style='display:flex;gap:6px;overflow-x:auto;padding:6px 0;scrollbar-width:none';
-          div.innerHTML=ALL_CATS.map(function(c){ return '<button type="button" onclick="try{curFilter=\''+c+'\';loadFeed();}catch(e){}" style="flex:0 0 auto;padding:7px 12px;border-radius:999px;border:1px solid #FFD700;background:#111;color:#fff;font-size:11px;font-weight:700">'+c+'</button>'; }).join('');
-          rows[i].parentNode.insertBefore(div, rows[i].nextSibling);
-          break;
+      var p = getPostByKey(key); var arr = (p && p.comments) ? p.comments : [];
+      try{ var loc = JSON.parse(localStorage.getItem('y_cmt_'+key)||'[]'); if(loc.length && arr.length < loc.length) arr = loc; }catch(e){}
+      var list = document.getElementById('cmtList-'+key);
+      var cnt = document.getElementById('cmtCnt-'+key);
+      if(cnt) cnt.innerText = arr.length;
+      if(!list) return;
+      if(!arr.length){ list.innerHTML = '<p class="small" style="color:#888">Abhi koi comment nahi - pehla comment karo!</p>'; return; }
+      list.innerHTML = arr.map(function(c, idx){
+        var nm = c.u || c.from || 'User';
+        var u = (window.G && window.G.users && window.G.users[nm]) || {};
+        var dpHtml = (u.dp && u.dp.length > 10) ? '<img class="v44cmtDp" src="'+u.dp+'">' : '<span class="v44cmtDp">'+nm.charAt(0).toUpperCase()+'</span>';
+        var repsHtml = '';
+        if(c.reps && c.reps.length){
+          repsHtml = c.reps.map(function(r){ return '<div class="v44cmt" style="margin-left:33px"><span class="v44cmtDp" style="width:22px;height:22px;font-size:10px">'+(r.u||'U').charAt(0).toUpperCase()+'</span><div><b style="font-size:12px">'+(r.u||'')+'</b> <span style="font-size:12px">'+(r.t||r.text||'')+'</span></div></div>'; }).join('');
         }
-      }
-    }
+        return '<div><div class="v44cmt">'+dpHtml+'<div><b style="font-size:12px">'+nm+'</b> <span style="font-size:13px">'+(c.text||c.t||'')+'</span> <button type="button" onclick="document.getElementById(\'rep-'+key+'-'+idx+'\').style.display=document.getElementById(\'rep-'+key+'-'+idx+'\').style.display===\'none\'?\'block\':\'none\'" style="background:none;border:none;color:#FFD700;font-size:11px">Reply</button></div></div><div id="rep-'+key+'-'+idx+'" style="display:none;margin:4px 0 4px 33px"><input id="repInp-'+key+'-'+idx+'" placeholder="Reply..." style="width:70%"><button type="button" onclick="window.sendReplyV44(\''+key+'\','+idx+')" style="background:#FFD700;color:#000;border:none;border-radius:8px;padding:6px 10px;font-weight:bold">Bhejo</button></div>'+repsHtml+'</div>';
+      }).join('');
+    }catch(e){}
   }
-  // ---- TREND tab me Trending Images ----
-  document.addEventListener('click', function(e){
-    var btn=e.target.closest('button, a, div'); if(!btn) return;
-    if((btn.innerText||'').toUpperCase().indexOf('TREND')<0) return;
-    setTimeout(function(){
-      var page=document.getElementById('page-trending')||document.getElementById('page-trend');
+  window.sendReplyV44 = function(key, idx){
+    try{
+      var inp = document.getElementById('repInp-'+key+'-'+idx); if(!inp) return;
+      var txt = inp.value.trim(); if(!txt) return;
+      var p = getPostByKey(key); if(!p) return;
+      var arr = (p.comments||[]).slice(); if(!arr[idx]) return;
+      arr[idx].reps = arr[idx].reps||[]; arr[idx].reps.push({u:cur, t:txt, time:Date.now()});
+      db.ref('posts/'+key+'/comments').set(arr);
+      try{ localStorage.setItem('y_cmt_'+key, JSON.stringify(arr)); }catch(e){}
+      inp.value = '';
+    }catch(e){}
+  };
+    // POINT 37 - INBOX Reply - Inbox me Reply, wahin se reply jaye, uske inbox me bhi jaye
+  function addInboxReply(){
+    try{
+      document.querySelectorAll('#notifList > div, #inboxList > div, #notifList .card, #inboxList .card').forEach(function(card){
+        try{
+          if(card.dataset.replyDone === '1') return;
+          var txt = card.innerText||'';
+          var sender = (txt.split('\n')[0]||'').trim().split(' ')[0];
+          if(!sender || sender.length < 2) return;
+          card.dataset.replyDone = '1';
+          var wrap = document.createElement('div');
+          wrap.style = 'display:flex;gap:6px;margin-top:6px';
+          wrap.innerHTML = '<input placeholder="Reply '+sender+' ko..." style="flex:1;padding:8px;border-radius:10px;border:1px solid #FFD700;background:#111;color:#fff">'
+            + '<button type="button" style="background:#FFD700;color:#000;border:none;border-radius:10px;padding:8px 12px;font-weight:800">↩️ Reply</button>';
+          card.appendChild(wrap);
+          var btn = wrap.querySelector('button');
+          btn.onclick = function(){
+            try{
+              var inp = wrap.querySelector('input');
+              var msg = inp.value.trim(); if(!msg) return;
+              if(window.pushInbox) pushInbox(sender,{from:cur,text:'↩️ '+cur+' ne reply kiya: '+msg,type:'reply'});
+              showMsg(sender+' ko Reply bhej diya ✅'); inp.value='';
+            }catch(e){}
+          };
+        }catch(e){}
+      });
+    }catch(e){}
+  }
+
+  // POINT 38 - Private Chat proper - 1 ON 1 me upar naam, neeche baat
+  function buildPrivateChat(){
+    try{
+      var page = document.getElementById('page-1on1') || document.querySelector('[id*="1on1"]');
       if(!page) return;
-      if(document.getElementById('trendInTrendPage')) return;
-      var posts=getPosts().filter(function(p){ return !!(p.pic||p.img||p.media||p.image) && Number(p.likes||0)>=3; })
-        .sort(function(a,b){ return (b.likes||0)-(a.likes||0); });
-      var box=document.createElement('div'); box.id='trendInTrendPage';
-      box.innerHTML='<h2 style="padding:10px;text-align:center">🔥 Trending Images 🔥</h2><div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:0 10px 10px">'
-        + (posts.length ? posts.map(function(p){ return '<div style="background:#1a1a1a;border:2px solid #FFD700;border-radius:12px;overflow:hidden;text-align:center"><img src="'+(p.pic||p.img||p.media||p.image)+'" style="width:100%;height:150px;object-fit:cover"><p style="margin:5px">🔥 '+(p.u||'')+'</p><p style="margin:0 0 8px">❤️ '+(p.likes||0)+' Likes</p></div>'; }).join('')
-        : '<p class="small" style="grid-column:span 2;text-align:center">Abhi koi Trending Image nahi</p>')
-        + '</div>';
+      if(document.getElementById('pvtProBox44')) return;
+      var box = document.createElement('div'); box.id = 'pvtProBox44';
+      box.style = 'background:#111;border:2px solid #FFD700;border-radius:14px;padding:10px;margin:10px 0';
+      var users = Object.keys(getUsers()||{}).filter(function(n){ return n && n!==cur && !isLeaderName(n); }).slice(0,100);
+      var opts = users.map(function(u){ return '<option value="'+u+'">'+u+'</option>'; }).join('');
+      box.innerHTML = '<h3 style="text-align:center">💬 Private Chat</h3>'
+        + '<p class="small" style="text-align:center">Kisko message karna hai, select karo</p>'
+        + '<select id="pvtSelect44" style="width:100%;padding:10px;border-radius:10px;background:#000;color:#fff;border:1px solid #FFD700"><option value="">-- User Select Karo --</option>'+opts+'</select>'
+        + '<div id="pvtHead44" style="text-align:center;margin:10px 0;font-weight:900;font-size:16px;color:#FFD700">Koi user select karo</div>'
+        + '<div id="pvtMsgs44" style="max-height:300px;overflow-y:auto;display:flex;flex-direction:column;gap:6px"></div>'
+        + '<div style="display:flex;gap:6px;margin-top:8px"><input id="pvtInput44" placeholder="Private message likho..." style="flex:1;padding:10px;border-radius:10px;border:1px solid #FFD700;background:#000;color:#fff"><button type="button" id="pvtSend44" style="background:#FFD700;color:#000;border:none;border-radius:10px;padding:10px 14px;font-weight:800">Bhejo 🔒</button></div>';
       page.insertBefore(box, page.firstChild);
-    }, 500);
+      var sel = document.getElementById('pvtSelect44');
+      var head = document.getElementById('pvtHead44');
+      var msgs = document.getElementById('pvtMsgs44');
+      function loadMsgs(){
+        try{
+          var to = sel.value; if(!to) return;
+          head.innerText = '💬 '+to+' - Private Chat 🔒';
+          var key = 'y_pvt_'+[cur,to].sort().join('_');
+          var arr = []; try{ arr = JSON.parse(localStorage.getItem(key)||'[]'); }catch(e){}
+          msgs.innerHTML = arr.length ? arr.map(function(m){
+            var mine = m.u === cur;
+            return '<div style="align-self:'+(mine?'flex-end':'flex-start')+';max-width:85%;background:'+(mine?'#FFD700;color:#000':'#222;color:#fff')+';padding:8px 10px;border-radius:12px"><b style="font-size:11px;display:block">'+(m.u||'')+'</b><span style="font-size:13px">'+(m.t||m.text||'')+'</span></div>';
+          }).join('') : '<p class="small" style="text-align:center">Abhi koi private baat nahi - pehla message bhejo!</p>';
+          msgs.scrollTop = msgs.scrollHeight;
+        }catch(e){}
+      }
+      sel.onchange = loadMsgs;
+      document.getElementById('pvtSend44').onclick = function(){
+        try{
+          var to = sel.value; if(!to){ showMsg('Pehle user select karo'); return; }
+          var inp = document.getElementById('pvtInput44');
+          var txt = inp.value.trim(); if(!txt) return;
+          var key = 'y_pvt_'+[cur,to].sort().join('_');
+          var arr = []; try{ arr = JSON.parse(localStorage.getItem(key)||'[]'); }catch(e){}
+          arr.push({u:cur, t:txt, time:Date.now()});
+          try{ localStorage.setItem(key, JSON.stringify(arr)); }catch(e){}
+          try{ if(window.pushInbox) pushInbox(to,{from:cur,text:'🔒 Private: '+txt,type:'private'}); }catch(e){}
+          inp.value=''; loadMsgs(); showMsg(to+' ko Private bhej diya 🔒');
+        }catch(e){}
+      };
+    }catch(e){}
+  }
+
+  // POINT 39 - FUN hatao, uski jagah Theme Badlo
+  function openTheme44(){
+    try{
+      if(document.getElementById('th44')) return;
+      var ov = document.createElement('div'); ov.id = 'th44';
+      ov.style = 'position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:99999;display:flex;align-items:center;justify-content:center';
+      ov.innerHTML = '<div style="background:#111;border:2px solid #FFD700;border-radius:16px;padding:16px;width:90%;max-width:360px;text-align:center"><h3>🎨 Theme Badlo</h3><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px"><button data-th="black" style="padding:12px;background:#000;color:#fff;border:1px solid #FFD700;border-radius:10px">⬛ Black</button><button data-th="white" style="padding:12px;background:#fff;color:#000;border-radius:10px">⬜ White</button><button data-th="ocean" style="padding:12px;background:#0A3D62;color:#fff;border-radius:10px">🌊 Ocean</button><button data-th="forest" style="padding:12px;background:#1B5E20;color:#fff;border-radius:10px">🌲 Forest</button><button data-th="rose" style="padding:12px;background:#880E4F;color:#fff;border-radius:10px">🌹 Rose</button><button data-th="golden" style="padding:12px;background:#FFD700;color:#000;border-radius:10px">👑 Golden</button></div><button id="thClose44" style="margin-top:12px;padding:10px 20px;background:#222;color:#fff;border:1px solid #FFD700;border-radius:10px">Band Karo</button></div>';
+      document.body.appendChild(ov);
+      ov.querySelectorAll('[data-th]').forEach(function(b){
+        b.onclick = function(){
+          try{
+            var th = b.getAttribute('data-th');
+            localStorage.setItem('y_theme', th);
+            if(window.setTheme) setTheme(th);
+          }catch(e){}
+          ov.remove();
+        };
+      });
+      document.getElementById('thClose44').onclick = function(){ ov.remove(); };
+    }catch(e){}
+  }
+  window.openThemePicker = openTheme44;
+  function fixFun(){
+    try{
+      document.querySelectorAll('.bottom button').forEach(function(el){
+        try{
+          if(el.dataset.done44) return;
+          var t = (el.innerText||'').toUpperCase();
+          if(t.indexOf('FUN') >= 0 && t.indexOf('FUNNY') < 0){
+            el.dataset.done44 = '1';
+            el.innerHTML = '🎨<br>Theme';
+            el.style.background = '#FFD700'; el.style.color = '#000'; el.style.fontWeight = '900';
+            el.onclick = function(e){ e.preventDefault(); openTheme44(); return false; };
+          }
+        }catch(e){}
+      });
+    }catch(e){}
+  }
+  function fixMore(){
+    try{
+      if(document.getElementById('themeBtnMore44')) return;
+      var more = document.querySelector('#page-more .card'); if(!more) return;
+      var b = document.createElement('button'); b.id = 'themeBtnMore44'; b.type = 'button';
+      b.innerText = '🎨 Theme Badlo';
+      b.style = 'width:100%;padding:14px;border-radius:10px;background:#FFD700;color:#000;font-weight:900;margin-top:8px;border:none';
+      b.onclick = openTheme44; more.appendChild(b);
+    }catch(e){}
+  }
+
+  // POINT 1 + 2 + 3 + 31 - Button - 1: Double na hon, 2: Chote hon, 3: 7 hon, 31: Dostana jese chote, 7 ek line me, pink border
+  function fixButtons(){
+    try{
+      document.querySelectorAll('.post').forEach(function(post){
+        try{
+          var wrap = post.querySelector('.pBtns'); if(!wrap) return;
+          var has = false;
+          wrap.querySelectorAll('button').forEach(function(b){ if((b.innerText||'').indexOf('BLOCK') >= 0) has = true; });
+          if(!has){
+            var bEl = post.querySelector('b'); var nm = bEl ? bEl.innerText.replace(/[^A-Za-z0-9_]/g,'') : '';
+            var blk = document.createElement('button'); blk.innerText = '🚫 BLOCK';
+            blk.onclick = (function(n){ return function(){ window.doBlockV44(n); }; })(nm);
+            wrap.appendChild(blk);
+          }
+        }catch(e){}
+      });
+      document.querySelectorAll('.pBtns button').forEach(function(b){
+        try{
+          var t = b.innerText||'';
+          var cleaned = t.replace(/([👏👋➕🔁↗️😂🚫])\s*\1/g,'$1').replace(/\s+/g,' ').trim();
+          if(cleaned !== t) b.innerText = cleaned;
+        }catch(e){}
+      });
+    }catch(e){}
+  }
+
+  // POINT 6 - 👀 Eyes kahin bhi na hon
+  function fixEyes(){
+    try{
+      document.querySelectorAll('.post b').forEach(function(el){
+        try{
+          if(el.innerText && el.innerText.indexOf('👀') >= 0){
+            el.childNodes.forEach(function(n){
+              if(n.nodeType === 3 && n.textContent.indexOf('👀') >= 0) n.textContent = n.textContent.split('👀').join('');
+            });
+          }
+        }catch(e){}
+      });
+    }catch(e){}
+  }
+    // POINT 40 - City + Star ki poori list
+  var CITIES = ['Lahore','Karachi','Islamabad','Rawalpindi','Faisalabad','Multan','Hyderabad','Peshawar','Quetta','Sialkot','Gujranwala','Bahawalpur','Sargodha','Abbottabad','Jhelum','Gujrat','Sahiwal','Okara','Chakwal','Mandi Bahauddin','Sheikhupura','Kasur','Mianwali','Attock','Dera Ghazi Khan','Rahim Yar Khan','Bannu','Kohat','Swat','Mardan','Charsadda','Nowshera','Dera Ismail Khan','Zhob','Gwadar','Turbat','Khuzdar','Sukkur','Larkana','Nawabshah','Mirpur Khas','Jacobabad','Khairpur','Muzaffarabad','Mirpur','Kotli','Gilgit','Skardu','Hunza','Chitral','Other'];
+  var STARS = ['Aries ♈','Taurus ♉','Gemini ♊','Cancer ♋','Leo ♌','Virgo ♍','Libra ♎','Scorpio ♏','Sagittarius ♐','Capricorn ♑','Aquarius ♒','Pisces ♓'];
+  function makeDropdowns(){
+    try{
+      document.querySelectorAll('input').forEach(function(inp){
+        try{
+          var ph = (inp.placeholder||'').toLowerCase();
+          var isCity = ph.indexOf('city') >= 0;
+          var isStar = ph.indexOf('star') >= 0;
+          if(!isCity && !isStar) return;
+          if(inp.dataset.dropDone === '1') return;
+          inp.dataset.dropDone = '1';
+          var sel = document.createElement('select');
+          sel.style = 'width:100%;padding:10px;border-radius:10px;background:#000;color:#fff;border:1px solid #FFD700;margin-top:6px';
+          var list = isCity ? CITIES : STARS;
+          var title = isCity ? '-- City Select Karo --' : '-- Star Select Karo --';
+          sel.innerHTML = '<option value="">'+title+'</option>' + list.map(function(x){ return '<option value="'+x+'">'+x+'</option>'; }).join('');
+          sel.onchange = function(){ inp.value = sel.value; };
+          if(inp.value) sel.value = inp.value;
+          inp.parentNode.insertBefore(sel, inp.nextSibling);
+          inp.onclick = function(){ sel.focus(); };
+        }catch(e){}
+      });
+    }catch(e){}
+  }
+
+  // POINT 41 - Category ki poori list - General se Learning Urdu tak
+  var ALL_CATS = ['General','Shayari','Funny','Gaming','Cricket','Music','Love','News','Aseel','Motovlog','Sports','Football','Automotive','Politics','Religion','History','Psychology','Motivation','Quotes','Weather','Jobs','Local Community','Questions','DP Competition','Entertainment','Memes','Movies','Art','Drama','Anime','Bollywood','Hollywood','K-Pop','Comedy','Poetry & Literature','Sad Poetry','Love Poetry','Urdu Ghazal','Sufi Poetry','Deep Lines','Attitude Poetry','Funny Poetry','Punjabi Poetry','Islamic Poetry','Literature','Books','Parveen Shakir','Jaun Elia','Allama Iqbal','Mirza Ghalib','Pashto Poetry','Sindhi Poetry','Lifestyle','Photography','Travel','Home Decor','Food','Health','Self Care','Beauty','Relationships','Parenting','DIY & Crafts','Cooking','Vlog','Pets','Gardening','Tech','AI','Coding','Education','Business','Freelancing','Crypto','Science','Space','Gadgets','Learning Urdu'];
+  function expandCategories(){
+    try{
+      document.querySelectorAll('select').forEach(function(sel){
+        try{
+          var txt = sel.innerText||''; if(txt.indexOf('General') < 0) return;
+          if(sel.dataset.catsDone === '1') return;
+          if(sel.options.length > 20) return;
+          sel.dataset.catsDone = '1';
+          var curVal = sel.value;
+          sel.innerHTML = ALL_CATS.map(function(c){ return '<option value="'+c+'">'+c+'</option>'; }).join('');
+          if(curVal) sel.value = curVal;
+        }catch(e){}
+      });
+    }catch(e){}
+  }
+
+  // POINT 24 - Trending Images HOME par na hon, sirf TREND tab me hon
+  document.addEventListener('click', function(e){
+    try{
+      var btn = e.target.closest('button, a, div'); if(!btn) return;
+      if((btn.innerText||'').toUpperCase().indexOf('TREND') < 0) return;
+      setTimeout(function(){
+        try{
+          var page = document.getElementById('page-trending') || document.getElementById('page-trend');
+          if(!page) return;
+          if(document.getElementById('trendInTrendPage')) return;
+          var posts = getPosts().filter(function(p){ return !!(p.pic||p.img||p.media||p.image) && Number(p.likes||0) >= 3; })
+            .sort(function(a,b){ return (b.likes||0) - (a.likes||0); });
+          var box = document.createElement('div'); box.id = 'trendInTrendPage';
+          box.innerHTML = '<h2 style="padding:10px;text-align:center">🔥 Trending Images 🔥</h2><div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:0 10px 10px">'
+            + (posts.length ? posts.map(function(p){ return '<div style="background:#1a1a1a;border:2px solid #FFD700;border-radius:12px;overflow:hidden;text-align:center"><img src="'+(p.pic||p.img||p.media||p.image)+'" style="width:100%;height:150px;object-fit:cover"><p style="margin:5px">🔥 '+(p.u||'')+'</p><p style="margin:0 0 8px">❤️ '+(p.likes||0)+' Likes</p></div>'; }).join('')
+            : '<p class="small" style="grid-column:span 2;text-align:center">Abhi koi Trending Image nahi</p>')
+            + '</div>';
+          page.insertBefore(box, page.firstChild);
+        }catch(e){}
+      }, 500);
+    }catch(e){}
   });
 
-  // ---- Har 1 sec - Frame + Buttons + Eyes + Comments + Inbox + Private + Theme + Dropdowns + Cats ----
-  setInterval(function(){ try{
-    // BLOCK button
-    document.querySelectorAll('.post').forEach(function(post){
-      var wrap=post.querySelector('.pBtns'); if(!wrap) return;
-      var hasBlock=false;
-      wrap.querySelectorAll('button').forEach(function(b){ if((b.innerText||'').indexOf('BLOCK')>=0) hasBlock=true; });
-      if(!hasBlock){
-        var bEl=post.querySelector('b'); var nm=bEl ? bEl.innerText.replace(/[^A-Za-z0-9_]/g,'') : '';
-        var blk=document.createElement('button'); blk.innerText='🚫 BLOCK';
-        blk.style='background:#1a1a1a!important;color:#ff5555!important;border:1px solid #FF69B4!important';
-        blk.onclick=(function(n){ return function(){ window.doBlockV42(n); }; })(nm);
-        wrap.appendChild(blk);
-      }
+  // POINT 27 + 28 - Theme + Ban mehfooz rahen - v15 aur v7 ko hath hi nahi lagaya
+
+  // STYLE - POINT 2 + 31 + 35 + 36
+  try{
+    var st = document.createElement('style'); st.id = 'fixV44';
+    st.innerHTML =
+      ".pBtns{display:flex!important;flex-wrap:nowrap!important;gap:4px!important;overflow-x:auto!important;padding:4px 0!important;scrollbar-width:none!important}"
+      + ".pBtns::-webkit-scrollbar{display:none!important}"
+      + ".pBtns button{flex:0 0 auto!important;padding:6px 9px!important;font-size:10px!important;font-weight:700!important;white-space:nowrap!important;border-radius:999px!important;border:1px solid #FF69B4!important;background:#1a1a1a!important;color:#fff!important;line-height:1!important}"
+      + ".pBtns button::before,.pBtns button::after{content:none!important;display:none!important}"
+      + ".post{border-radius:14px!important}"
+      + ".frame-admin{border:3px solid #FFD700!important;box-shadow:0 0 12px #FFD700,0 0 22px #FFE600,0 0 32px #FFD700!important}"
+      + ".frame-mod{border:3px solid #FF0000!important;box-shadow:0 0 12px #FF0000,0 0 22px #FF2D55,0 0 32px #FF0000!important}"
+      + ".v44cmt{display:flex!important;gap:7px!important;align-items:flex-start!important;margin-top:6px!important}"
+      + ".v44cmtDp{width:26px!important;height:26px!important;border-radius:50%!important;background:#FFD700!important;color:#000!important;display:flex!important;align-items:center!important;justify-content:center!important;font-weight:900!important;font-size:12px!important;flex-shrink:0!important;object-fit:cover!important}";
+    document.head.appendChild(st);
+  }catch(e){}
+
+  // POINT 42 - Sab ek hi interval me, har kaam alag safe me - koi purani cheez kharab na ho
+  setInterval(function(){
+    safe(fixButtons);
+    safe(fixEyes);
+    safe(function(){
+      document.querySelectorAll('.post').forEach(function(post){
+        try{
+          var inp = post.querySelector('input[id^="cmt-"]'); if(!inp) return;
+          var key = inp.id.replace('cmt-','');
+          renderOneCmtList(post, key);
+        }catch(e){}
+      });
     });
-    document.querySelectorAll('.pBtns button').forEach(function(b){
-      var t=b.innerText||'';
-      var cleaned=t.replace(/([👏👋➕🔁↗️😂🚫])\s*\1/g,'$1').replace(/\s+/g,' ').trim();
-      if(cleaned!==t) b.innerText=cleaned;
-    });
-    document.querySelectorAll('.post b, #leaderList .lead span, .uCircle p').forEach(function(el){
-      if(el.innerText && el.innerText.indexOf('👀')>=0){
-        el.childNodes.forEach(function(n){
-          if(n.nodeType===3 && n.textContent.indexOf('👀')>=0) n.textContent=n.textContent.split('👀').join('');
-        });
-      }
-    });
-    document.querySelectorAll('.post').forEach(function(post){
-      var inp=post.querySelector('input[id^="cmt-"]'); if(!inp) return;
-      var key=inp.id.replace('cmt-','');
-      renderOneCmtList(post, key);
-    });
-  applyFrames();
-    addInboxReply();
-    buildPrivateChat();
-    replaceFunWithTheme();
-    makeDropdowns();
-    expandCategories();
-    }catch(e){} }, 1200);
+    safe(applyFrames);
+    safe(addInboxReply);
+    safe(buildPrivateChat);
+    safe(fixFun);
+    safe(fixMore);
+    safe(makeDropdowns);
+    safe(expandCategories);
+  }, 1200);
+
   setTimeout(function(){ try{ if(window.loadFeed) loadFeed(); }catch(e){} }, 2000);
 })();
- </script> 
+</script>
 </body>
 </html>
 
