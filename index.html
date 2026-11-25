@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="ur"><head><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><script>var APP_VERSION=8;var oldVer=localStorage.getItem('y_app_ver');if(oldVer&&oldVer!=String(APP_VERSION)){localStorage.setItem('y_app_ver',String(APP_VERSION));location.reload(true);}else{localStorage.setItem('y_app_ver',String(APP_VERSION));}</script><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Yaarii-PK 👑</title>
+<!DOCTYPE html><html lang="ur"><head><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><script>var APP_VERSION=9;var oldVer=localStorage.getItem('y_app_ver');if(oldVer&&oldVer!=String(APP_VERSION)){localStorage.setItem('y_app_ver',String(APP_VERSION));location.reload(true);}else{localStorage.setItem('y_app_ver',String(APP_VERSION));}</script><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Yaarii-PK 👑</title>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 <style>
@@ -199,10 +199,10 @@ function syncFirebase(){
 db.ref('users/Leader').once('value',function(s){if(!s.val()){db.ref('users/Leader').set({u:'Leader',p:'05121472',age:'?',city:'Lahore',star:'Leo ♌',bio:'Yaarii-PK Ka Admin 👑',dp:'👑',points:10000,power:5000,lastSeen:Date.now(),id:1001,role:'ADMIN',status:'approved',following:[],blocked:[],bannedUntil:0,likeOn:true,chapairOn:true})}});
 db.ref('blockedIPs').on('value',function(s){G.blockedIPs=s.val()||{}});
 db.ref('blockedDevices').on('value',function(s){G.blockedDevices=s.val()||{}});
-db.ref('users').once('value',function(s){G.users=s.val()||{};if(cur&&!document.getElementById('page-home').classList.contains('hidden')){renderOnline();updatePowerBox();}if(cur&&!document.getElementById('page-profile').classList.contains('hidden')){loadProfile();}if(cur&&!document.getElementById('page-leaderpanel').classList.contains('hidden')){showLeaderPanel();}});
+db.ref('users').once('value',function(s){G.users=s.val()||{};window.__usersLoaded=true;if(cur){renderOnline();updatePowerBox();}if(cur&&!document.getElementById('page-profile').classList.contains('hidden')){loadProfile();}if(cur&&!document.getElementById('page-leaderpanel').classList.contains('hidden')){showLeaderPanel();}});
 db.ref('users').on('child_changed',function(s){G.users[s.key]=s.val();if(cur&&!document.getElementById('page-home').classList.contains('hidden')){renderOnline();updatePowerBox();}if(cur&&!document.getElementById('page-profile').classList.contains('hidden')){loadProfile();}if(cur&&!document.getElementById('page-leaderpanel').classList.contains('hidden')){showLeaderPanel();}});
 db.ref('users').on('child_added',function(s){if(!G.users[s.key]){G.users[s.key]=s.val();if(cur&&!document.getElementById('page-home').classList.contains('hidden')){renderOnline();}}});
-db.ref('posts').limitToLast(75).on('value',function(s){window.__dataLoaded=true;var o=s.val()||{};G.posts=o;G.postsArr=Object.keys(o).map(function(k){var v=o[k];v._key=k;return v});if(!document.getElementById('page-home').classList.contains('hidden'))loadFeed();if(!document.getElementById('page-trending').classList.contains('hidden'))loadTrend()});
+db.ref('posts').limitToLast(75).on('value',function(s){window.__dataLoaded=true;var o=s.val()||{};G.posts=o;G.postsArr=Object.keys(o).map(function(k){var v=o[k];v._key=k;return v});if(cur)loadFeed();if(!document.getElementById('page-trending').classList.contains('hidden'))loadTrend()});
 db.ref('chat').limitToLast(30).on('value',function(s){var o=s.val()||{};G.chat=Object.keys(o).map(function(k){return o[k]});if(!document.getElementById('page-mehfil').classList.contains('hidden'))loadMehfilChat()});
 db.ref('stories').on('value',function(s){var o=s.val()||{};G.stories=Object.keys(o).map(function(k){return o[k]});if(!document.getElementById('page-home').classList.contains('hidden'))renderStories()});
 db.ref('mehfils').on('value',function(s){var v=s.val();G.mehfils=Array.isArray(v)?v:(v?Object.keys(v).map(function(k){return v[k]}):["Sab Ki Mehfil"]);if(!document.getElementById('page-mehfil').classList.contains('hidden'))loadMehfil()});
@@ -321,9 +321,9 @@ if(me.lastSeen) line+='<div style="font-size:10px;color:#aaa">Last seen '+timeAg
 return line;
 }
 function loadFeed(){
-if(__feedBusy) return;
-__feedBusy=true;
-setTimeout(function(){__feedBusy=false},500);
+if(!window.__dataLoaded && !getPosts().length) return;
+var feedEl=document.getElementById('feed');
+if(!feedEl) return;
 var all=getPosts();
 var blocked=getBlockedList();
 var isMod=isModOrAdmin();
@@ -334,11 +334,12 @@ if(curFilter && curFilter!=='ALL' && curFilter!=='FORME'){
 var keys=all.map(function(_,i){return i}).reverse();
 keys=keys.slice(0,FEED_LIMIT);
 if(!keys.length){
-if(document.getElementById('feed').innerHTML.length > 100) return;
-document.getElementById('feed').innerHTML='<p style="text-align:center;padding:20px;color:#aaa">Koi post nahi</p>';
+if(!window.__dataLoaded) return;
+if(feedEl.innerHTML.length > 100) return;
+feedEl.innerHTML='<p style="text-align:center;padding:20px;color:#aaa">Koi post nahi</p>';
 return;
 }
-document.getElementById('feed').innerHTML=keys.map(function(i){
+feedEl.innerHTML=keys.map(function(i){
 var p=all[i];
 if(p.hidden && p.u!=cur && !isMod) return '';
 var timeTxt=p.time?timeAgo(p.time):(p.t||'');
@@ -367,6 +368,7 @@ likersTxt+='<div style="font-size:13px;color:#FFD700;margin-top:2px">🔥 Trendi
 }
 return '<div class="post"><div style="display:flex;justify-content:space-between"><div><b style="cursor:pointer" onclick="viewUser(\''+p.u+'\')">'+getDPHtml(p.u)+displayName(p.u)+' 👀</b><div style="text-align:left">'+userBadgeLine(p.u)+'</div></div><span class="badge">'+p.cat+' • '+timeTxt+'</span></div><p style="margin:10px 0;font-size:16px">'+mentionify(p.text||'')+'</p>'+mediaHtml(p)+'<div style="margin:6px 0">'+editBtn+delBtn+hideBtn+'</div><div class="pBtns"><button class="gold" onclick="doLike(\''+p._key+'\');new Audio(\'https://res.cloudinary.com/phxyfr29/video/upload/v1795095447/Fahh__-_meme_sound_effect_128k.mp3\').play()">👏 LIKE '+(p.likes||0)+'</button><button onclick="doChapair(\''+p._key+'\')">👋 CHAPAIR '+(p.chapair||0)+'</button>'+followBtn+repostBtn+'<button onclick="doShare(\''+p._key+'\')">SHARE</button><button onclick="let n=(parseInt(this.textContent.replace(/[^0-9]/g,\'\')||0)+1);this.innerHTML=\'😂 FUNNY \'+n;new Audio(\'https://res.cloudinary.com/phxyfr29/video/upload/v1795096116/128k.mp3\').play()">😂 FUNNY 0</button></div>'+likersTxt+'<div style="font-size:12px;color:#FFD700;margin-top:4px">Post=+10 | Like=+5 | Chapair=-5 | Trending Creator Like=+5000'+fireTxt+'</div><div style="display:flex;gap:6px;margin-top:8px"><input id="cmt-'+p._key+'" placeholder="Comment..."><button onclick="doComment(\''+p._key+'\')" style="width:70px;background:#FFD700;color:#000;border:none;border-radius:8px;font-weight:bold">Bhejo</button></div></div>';
 }).join('')+'<button onclick="FEED_LIMIT+=15;loadFeed()" style="width:100%;padding:12px;background:#222;color:#FFD700;border:1px solid #FFD700;border-radius:10px;margin-top:10px;font-weight:bold">⬇️ AUR POSTS DEKHO</button>';
+try{localStorage.setItem('y_feed_cache',feedEl.innerHTML)}catch(e){}
   }
 function hidePost(key){ var p=G.posts[key]; if(!p) return; db.ref('posts/'+key).update({hidden:!p.hidden}); showMsg(p.hidden?'Post SHOW kar di ✅':'Post HIDE kar di 👁️'); }
 function doLike(key){
