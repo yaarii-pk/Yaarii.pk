@@ -1104,8 +1104,8 @@ function topStar(){
       if(!el || !el.innerText) return;
       if(el.children.length>2) return;
       var t=(el.innerText||'').trim().toUpperCase();
-      if(t==='FUN' || t.indexOf('🎉 FUN')>=0){
-        if(el.dataset.themeReplaced==='1') return;
+if(t.indexOf('FUN')>=0 && t.indexOf('FUNNY')<0 && t.indexOf('FUN ZONE')<0){
+      if(el.dataset.themeReplaced==='1') return;
         el.dataset.themeReplaced='1';
         el.innerHTML='🎨 Theme';
         el.style.background='#FFD700'; el.style.color='#000'; el.style.fontWeight='900';
@@ -1210,7 +1210,7 @@ function topStar(){
   });
 
   // ---- Har 1 sec - Frame + Buttons + Eyes + Comments + Inbox + Private + Theme + Dropdowns + Cats ----
-  setInterval(function(){
+  setInterval(function(){ try{
     // BLOCK button
     document.querySelectorAll('.post').forEach(function(post){
       var wrap=post.querySelector('.pBtns'); if(!wrap) return;
@@ -1247,7 +1247,7 @@ function topStar(){
     replaceFunWithTheme();
     makeDropdowns();
     expandCategories();
-  }, 1200);
+    }catch(e){} }, 1200);
   setTimeout(function(){ try{ if(window.loadFeed) loadFeed(); }catch(e){} }, 2000);
 })();
  </script> 
