@@ -804,8 +804,7 @@ setInterval(function(){
   // POINT 32 - Animal 5
   var ANIMALS = ['🐯','🐆','🐺','🦅','🦈'];
   // POINT 34 - Star colors - 1 Yellow, 2 Green, 3 Blue, 4 Light Purple, 5 Light Pink
-  var STAR_COLORS = ['#FFD700','#00E676','#448AFF','#CE93D8','#FFB6E6'];
-
+var STAR_COLORS = ['#FFE600','#39FF14','#00D5FF','#FF6B6B','#FF9DE2'];
   // POINT 12 + 13 - Trending = Image + 3 Likes, zyada Trending Images = Top 1
   function getData(){
     var trendMap = {}, likesBy = {}, pts = {};
@@ -1010,9 +1009,12 @@ setInterval(function(){
       var star = topStar(); var trend = topTrending();
       document.querySelectorAll('.post').forEach(function(post){
         try{
-          if(post.dataset.frameDone === '1') return;
-          var b = post.querySelector('b'); if(!b) return;
-          var nm = (b.innerText||'').replace(/[^A-Za-z0-9_]/g,''); if(!nm) return;
+          var nm = ''; var allB = post.querySelectorAll('b');
+for(var bi=0; bi<allB.length; bi++){
+  var clean = (allB[bi].innerText||'').replace(/[^A-Za-z0-9_]/g,'');
+  if(clean && getUsers()[clean]){ nm = clean; break; }
+}
+if(!nm) return;
           var u = getUsers()[nm] || {};
           var isAdmin = (u.role === 'ADMIN' || isLeaderName(nm));
           var isMod = (u.role === 'MODERATOR');
@@ -1184,8 +1186,8 @@ setInterval(function(){
           if(t.indexOf('FUN') >= 0 && t.indexOf('FUNNY') < 0){
             el.dataset.done44 = '1';
             el.innerHTML = '🎨<br>Theme';
-            el.style.background = '#FFD700'; el.style.color = '#000'; el.style.fontWeight = '900';
-            el.onclick = function(e){ e.preventDefault(); openTheme44(); return false; };
+            el.style.background = ''; el.style.color = ''; el.style.fontWeight = '';
+           el.onclick = function(e){ e.preventDefault(); openTheme44(); return false; };
           }
         }catch(e){}
       });
