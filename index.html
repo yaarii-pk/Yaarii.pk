@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="ur"><head><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><script>var APP_VERSION=10;if(location.search.indexOf('v='+APP_VERSION)<0){location.replace(location.pathname+'?v='+APP_VERSION);}</script><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Yaarii-PK 👑</title>
+<!DOCTYPE html><html lang="ur"><head><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><script>var APP_VERSION=11;if(location.search.indexOf('v='+APP_VERSION)<0){location.replace(location.pathname+'?v='+APP_VERSION);}</script><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Yaarii-PK 👑</title>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 <style>
@@ -745,6 +745,36 @@ setInterval(function(){
       setTimeout(instantShow, 500);
     });
   };
+})();
+</script>
+<script>
+// FINAL ONLINE INSTANT - v15
+(function(){
+  var _old = window.renderOnline;
+  if(!_old || _old._v15) return;
+  function getOnlineEl(){
+    return document.getElementById('onlineList') || document.getElementById('onlineBox') || document.getElementById('onlineUsers') || document.getElementById('online');
+  }
+  // 1. پرانی آن لائن لسٹ فوراً دکھا دو
+  try{
+    var _h = localStorage.getItem('y_online_html');
+    var _el = getOnlineEl();
+    if(_h && _el){ _el.innerHTML = _h; }
+  }catch(e){}
+  // 2. جب بھی renderOnline چلے، اس کو سیو کر لو
+  var _nw = function(){
+    var r = _old.apply(this, arguments);
+    try{
+      var el = getOnlineEl();
+      if(el && el.innerHTML.length > 50){ localStorage.setItem('y_online_html', el.innerHTML); }
+    }catch(e){}
+    return r;
+  };
+  _nw._v15 = true;
+  window.renderOnline = _nw;
+  // 3. لاگ ان / ریفریش پر فوراً چلاؤ، Firebase کا انتظار مت کرو
+  setTimeout(function(){ try{ if(typeof cur!=='undefined' && cur) window.renderOnline(); }catch(e){} }, 50);
+  setTimeout(function(){ try{ if(typeof cur!=='undefined' && cur) window.renderOnline(); }catch(e){} }, 500);
 })();
 </script>
 </body>
