@@ -1005,7 +1005,11 @@ var ANIMAL_FRAME_COLORS = {tiger:'#FF8C00',cheetah:'#FFFF00',wolf:'#00BFFF',eagl
   function applyFrames(){
 try{
       var starRaw = topScorer(); var trendRaw = topScorer();
-      // Naam nikalna - chahe string ho ya object ho
+
+      // SAB SE STRONG NORM - sirf a-z aur 0-9 rakhega, baaki sab uda dega
+      function norm(s){
+        return String(s || '').toLowerCase().replace(/[^a-z0-9]/gi, '');
+      }
       function toNames(arr){
         if(!arr) return [];
         return arr.map(function(x){
@@ -1018,7 +1022,9 @@ try{
       }
       var star = toNames(starRaw);
       var trend = toNames(trendRaw);
-      console.log("STAR:", star, "TREND:", trend);
+      var starNorm = star.map(norm);
+      var trendNorm = trend.map(norm);
+
       var FRAME_COLORS = ['#FF8C00','#FFFF00','#00BFFF','#D9D9D9','#FFB6E6'];
       document.querySelectorAll('.post').forEach(function(post){
         try{
@@ -1028,7 +1034,6 @@ try{
             var oc = b.getAttribute('onclick') || '';
             var m = oc.match(/viewUser\('([^']+)'\)/);
             if(m) nm = m[1];
-            // Agar onclick me naam na mile to <b> ka text le lo
             if(!nm && b.textContent) nm = b.textContent.trim();
           }
           if(!nm){
@@ -1045,7 +1050,11 @@ try{
           var isMod = (u.role === 'MODERATOR');
           if(isAdmin){ post.classList.add('frame-admin'); post.style.setProperty('border','3px solid #FFD700','important'); post.style.setProperty('box-shadow','0 0 12px #FFD700','important'); return; }
           if(isMod){ post.classList.add('frame-mod'); post.style.setProperty('border','3px solid #FF0000','important'); post.style.setProperty('box-shadow','0 0 12px #FF0000','important'); return; }
-          var idx = star.indexOf(nm); if(idx < 0) idx = trend.indexOf(nm);
+
+          var nmNorm = norm(nm);
+          var idx = starNorm.indexOf(nmNorm);
+          if(idx < 0) idx = trendNorm.indexOf(nmNorm);
+
           if(idx >= 0){
             post.style.setProperty('border','2px solid ' + FRAME_COLORS[idx],'important');
             post.style.setProperty('box-shadow','none','important');
@@ -1056,12 +1065,8 @@ try{
           }
         }catch(e){}
       });
-    }catch(e){ console.log("applyFrames error", e); }
+    }catch(e){}
 }
-applyFrames();
-setInterval(applyFrames, 2000);
-
-// --- YE 2 LINE SAB SE IMPORTANT HAIN, INKE BAGAIR FRAME NAHI AAYEGA ---
 applyFrames();
 setInterval(applyFrames, 2000);
 
