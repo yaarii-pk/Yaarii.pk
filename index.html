@@ -881,8 +881,9 @@ var STAR_COLORS = ['#FFE600','#39FF14','#00D5FF','#E8E8E8','#FF9DE2'];
       var u = getUsers()[n];
       var trend = topTrending(); var star = topStar(); var scorer = topScorer();
       var badge = '';
-            var si = star.indexOf(n);
-      if(si >= 0) badge += ' <span style="color:'+STAR_COLORS[si]+';font-size:14px;font-weight:bold">★</span>';
+      var MY_STAR_COLORS = ['#FFE600','#39FF14','#00D5FF','#E8E8E8','#FF9DE2'];
+      var si = star.indexOf(n);
+      if(si >= 0) badge += ' <span style="color:'+MY_STAR_COLORS[si]+';font-size:14px;font-weight:bold">★</span>';
       var ti = trend.indexOf(n);
       if(ti >= 0) badge += ' <span>🔥</span>';
       var ai = scorer.indexOf(n);
@@ -1003,22 +1004,31 @@ var STAR_COLORS = ['#FFE600','#39FF14','#00D5FF','#E8E8E8','#FF9DE2'];
   // 33: Top 5 ko frame 4 taraf, 34: Star colors, 35: Top 5 frame simple no shining, 36: Admin Yellow shining, Moderator Red shining
   function applyFrames(){
     try{
-      var star = topStar(); var trend = topTrending();
+      var star = topScorer(); var trend = topScorer();
+      var FRAME_COLORS = ['#FFE600','#39FF14','#00D5FF','#E8E8E8','#FF9DE2'];
       document.querySelectorAll('.post').forEach(function(post){
         try{
           var nm = ''; var allB = post.querySelectorAll('b');
-for(var bi=0; bi<allB.length; bi++){
-  var clean = (allB[bi].innerText||'').replace(/[^A-Za-z0-9_]/g,'');
-  if(clean && getUsers()[clean]){ nm = clean; break; }
-}
-if(!nm) return;
+          for(var bi=0; bi<allB.length; bi++){
+            var clean = (allB[bi].innerText||'').replace(/[^A-Za-z0-9_]/g,'');
+            if(clean && getUsers()[clean]){ nm = clean; break; }
+          }
+          if(!nm) return;
           var u = getUsers()[nm] || {};
           var isAdmin = (u.role === 'ADMIN' || isLeaderName(nm));
           var isMod = (u.role === 'MODERATOR');
-          if(isAdmin){ post.classList.add('frame-admin'); post.dataset.frameDone='1'; return; }
-          if(isMod){ post.classList.add('frame-mod'); post.dataset.frameDone='1'; return; }
+          if(isAdmin){ post.classList.add('frame-admin'); post.style.border = ''; post.style.boxShadow = ''; post.dataset.frameDone='1'; return; }
+          if(isMod){ post.classList.add('frame-mod'); post.style.border = ''; post.style.boxShadow = ''; post.dataset.frameDone='1'; return; }
           var idx = star.indexOf(nm); if(idx < 0) idx = trend.indexOf(nm);
-          if(idx >= 0){ var aName = ['tiger','cheetah','wolf','eagle','shark'][idx]; var col = ANIMAL_FRAME_COLORS[aName] || '#888888'; post.style.border = '2px solid ' + col; post.style.borderRadius = '10px'; }
+          if(idx >= 0){
+            post.style.border = '2px solid ' + FRAME_COLORS[idx];
+            post.style.boxShadow = 'none';
+            post.style.borderRadius = '10px';
+            post.dataset.frameDone='1';
+          } else {
+            post.style.border = '';
+            post.style.boxShadow = '';
+          }
         }catch(e){}
       });
     }catch(e){}
