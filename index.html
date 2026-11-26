@@ -1003,7 +1003,7 @@ var ANIMAL_FRAME_COLORS = {tiger:'#FF8C00',cheetah:'#FFFF00',wolf:'#00BFFF',eagl
   // POINT 33 + 34 + 35 + 36 - Frame
   // 33: Top 5 ko frame 4 taraf, 34: Star colors, 35: Top 5 frame simple no shining, 36: Admin Yellow shining, Moderator Red shining
   function applyFrames(){
-  try{
+try{
       var star = topScorer(); var trend = topScorer();
       var FRAME_COLORS = ['#FF8C00','#FFFF00','#00BFFF','#D9D9D9','#FFB6E6'];
       document.querySelectorAll('.post').forEach(function(post){
@@ -1041,7 +1041,11 @@ var ANIMAL_FRAME_COLORS = {tiger:'#FF8C00',cheetah:'#FFFF00',wolf:'#00BFFF',eagl
         }catch(e){}
       });
     }catch(e){}
-    }
+}
+
+// --- YE 2 LINE SAB SE IMPORTANT HAIN, INKE BAGAIR FRAME NAHI AAYEGA ---
+applyFrames();
+setInterval(applyFrames, 2000);
 
   // POINT 7 + 8 + 9 - Comment neeche, Reply, sab ko dikhe
   function getPostByKey(key){
