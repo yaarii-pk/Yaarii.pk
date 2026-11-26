@@ -1008,23 +1008,32 @@ var STAR_COLORS = ['#FFE600','#39FF14','#00D5FF','#E8E8E8','#FF9DE2'];
       var FRAME_COLORS = ['#FFE600','#39FF14','#00D5FF','#E8E8E8','#FF9DE2'];
       document.querySelectorAll('.post').forEach(function(post){
         try{
-          var nm = ''; var allB = post.querySelectorAll('b');
-          for(var bi=0; bi<allB.length; bi++){
-            var clean = (allB[bi].innerText||'').replace(/[^A-Za-z0-9_]/g,'');
-            if(clean && getUsers()[clean]){ nm = clean; break; }
+          var nm = '';
+          var b = post.querySelector('b');
+          if(b){
+            var oc = b.getAttribute('onclick') || '';
+            var m = oc.match(/viewUser\('([^']+)'\)/);
+            if(m) nm = m[1];
+          }
+          if(!nm){
+            var allB = post.querySelectorAll('b');
+            for(var bi=0; bi<allB.length; bi++){
+              var oc2 = allB[bi].getAttribute('onclick') || '';
+              var m2 = oc2.match(/viewUser\('([^']+)'\)/);
+              if(m2){ nm = m2[1]; break; }
+            }
           }
           if(!nm) return;
           var u = getUsers()[nm] || {};
           var isAdmin = (u.role === 'ADMIN' || isLeaderName(nm));
           var isMod = (u.role === 'MODERATOR');
-          if(isAdmin){ post.classList.add('frame-admin'); post.style.border = ''; post.style.boxShadow = ''; post.dataset.frameDone='1'; return; }
-          if(isMod){ post.classList.add('frame-mod'); post.style.border = ''; post.style.boxShadow = ''; post.dataset.frameDone='1'; return; }
+          if(isAdmin){ post.classList.add('frame-admin'); post.style.setProperty('border','3px solid #FFD700','important'); post.style.setProperty('box-shadow','0 0 12px #FFD700','important'); return; }
+          if(isMod){ post.classList.add('frame-mod'); post.style.setProperty('border','3px solid #FF0000','important'); post.style.setProperty('box-shadow','0 0 12px #FF0000','important'); return; }
           var idx = star.indexOf(nm); if(idx < 0) idx = trend.indexOf(nm);
           if(idx >= 0){
-            post.style.border = '2px solid ' + FRAME_COLORS[idx];
-            post.style.boxShadow = 'none';
+            post.style.setProperty('border','2px solid ' + FRAME_COLORS[idx],'important');
+            post.style.setProperty('box-shadow','none','important');
             post.style.borderRadius = '10px';
-            post.dataset.frameDone='1';
           } else {
             post.style.border = '';
             post.style.boxShadow = '';
