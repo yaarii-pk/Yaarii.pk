@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="ur"><head><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><script>var APP_VERSION=50;if(location.search.indexOf('v='+APP_VERSION)<0){location.replace(location.pathname+'?v='+APP_VERSION);}</script><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Yaarii-PK 👑</title>
+<!DOCTYPE html><html lang="ur"><head><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><script>var APP_VERSION=51;if(location.search.indexOf('v='+APP_VERSION)<0){location.replace(location.pathname+'?v='+APP_VERSION);}</script><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Yaarii-PK 👑</title>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 <style>
@@ -1000,13 +1000,13 @@ var ANIMAL_FRAME_COLORS = {tiger:'#FF8C00',cheetah:'#FFFF00',wolf:'#00BFFF',eagl
 
   // POINT 33 + 34 + 35 + 36 - Frame
   // 33: Top 5 ko frame 4 taraf, 34: Star colors, 35: Top 5 frame simple no shining, 36: Admin Yellow shining, Moderator Red shining
-  // --- FRAMES FINAL V50 : FULL CODE - COPY PASTE ---
+  // --- FRAMES FINAL V51 : ONLINE FIX + TOP5 LIGHT SHINE ---
 (function(){
   var css=document.createElement('style');
   css.innerHTML=`
   @keyframes frameBolt{0%,100%{box-shadow:0 0 6px var(--fc),0 0 12px var(--fc);}50%{box-shadow:0 0 16px var(--fc),0 0 30px var(--fc),0 0 40px #fff;}}
   @keyframes frameShine{0%{filter:brightness(1);}50%{filter:brightness(1.7);}100%{filter:brightness(1);}}
-  .frame-dp{ border-radius:50% !important; padding:2px !important; }
+  @keyframes frameShineLight{0%{filter:brightness(1);}50%{filter:brightness(1.25);}100%{filter:brightness(1);}}
   `;
   document.head.appendChild(css);
 })();
@@ -1030,7 +1030,7 @@ try{
       var trendNorm = trend.map(norm);
       var FRAME_COLORS = ['#FF8C00','#39FF14','#00D5FF','#E8E8E8','#FF9DE2'];
 
-      function paint(el, nm){
+      function paint(el, nm, force){
         if(!nm || !el) return '';
         var u = getUsers()[nm] || {};
         var isAdmin = (u.role === 'ADMIN' || isLeaderName(nm));
@@ -1039,8 +1039,7 @@ try{
         var idx = starNorm.indexOf(nn);
         if(idx < 0) idx = trendNorm.indexOf(nn);
         el.classList.remove('frame-admin','frame-mod','frame-corner');
-        el.style.setProperty('--fc','');
-        // ADMIN / LEADER : Yellow - Lightning + Shining - Center line NAHI
+        // ADMIN : Yellow - Lightning + FULL Shining
         if(isAdmin){
           el.classList.add('frame-admin');
           el.style.setProperty('border','3px solid #FFD700','important');
@@ -1050,7 +1049,7 @@ try{
           el.style.borderRadius = '12px';
           return 'admin';
         }
-        // MODERATOR : Purple - LIKE / Chupair / Share wale box wala - Lightning + Shining - Center line NAHI
+        // MOD : Purple #B388FF - Lightning + FULL Shining - Purana RED khatam
         if(isMod){
           el.classList.add('frame-mod');
           el.style.setProperty('border','3px solid #B388FF','important');
@@ -1060,11 +1059,11 @@ try{
           el.style.borderRadius = '12px';
           return 'mod';
         }
-        // TOP 5 : Sirf Lightning - Shining NAHI - taake Admin/Mod se match na ho
+        // TOP 5 : Lightning + HALKI Shining - Admin/Mod jitni zyada NAHI
         if(idx >= 0 && idx < 5){
           el.style.setProperty('border','3px solid ' + FRAME_COLORS[idx],'important');
           el.style.setProperty('box-shadow','0 0 12px ' + FRAME_COLORS[idx] + ', 0 0 22px ' + FRAME_COLORS[idx],'important');
-          el.style.setProperty('animation','frameBolt ' + (1.0 + idx*0.15) + 's infinite','important');
+          el.style.setProperty('animation','frameBolt ' + (1.0 + idx*0.15) + 's infinite, frameShineLight ' + (1.0 + idx*0.15) + 's infinite','important');
           el.style.setProperty('--fc', FRAME_COLORS[idx]);
           el.style.borderRadius = '10px';
           return 'top'+idx;
@@ -1072,7 +1071,7 @@ try{
         return '';
       }
 
-      // 1. POSTS
+      // 1. POSTS - waisa hi jaisa pehle tha
       document.querySelectorAll('.post').forEach(function(post){
         try{
           var nm = '';
@@ -1097,52 +1096,68 @@ try{
         }catch(e){}
       });
 
-      // 2. ONLINE LIST - Jaisa Post me hai waisa hi yahan - poori card pe frame
-      document.querySelectorAll('div').forEach(function(el){
+      // 2. ONLINE LIST - NAYA FIX - LEADER / MODERATOR badge se card pakro
+      document.querySelectorAll('*').forEach(function(el){
         try{
-          if(el.classList.contains('post')) return;
-          if(el.children.length > 6) return;
-          var txt = el.innerText || '';
-          if(txt.length < 3 || txt.length > 200) return;
-          if(txt.indexOf('Online')===-1 && txt.indexOf('1 ghante')===-1 && txt.indexOf('Online hai')===-1 && txt.indexOf('RING')===-1) return;
+          var t = el.innerText || '';
+          if(t !== 'LEADER' && t !== 'MODERATOR' && t !== 'Owner') return;
+          // badge se upar 4 level tak card dhoondo
+          var card = el;
+          for(var k=0;k<4;k++){ if(card.parentElement) card = card.parentElement; }
+          if(!card || card.classList.contains('post')) return;
+          // card ke andar naam dhoondo
           var nm = '';
-          var bb = el.querySelector('b');
-          if(bb) nm = bb.textContent.trim();
-          if(!nm){
-            var m = txt.match(/([A-Za-z0-9_]{3,20})/);
-            if(m) nm = m[1];
+          var all = card.querySelectorAll('div, span, b');
+          for(var i=0;i<all.length;i++){
+            var tt = (all[i].innerText||'').trim();
+            if(getUsers()[tt]){ nm = tt; break; }
           }
           if(!nm) return;
-          if(!getUsers()[nm]) return;
-          paint(el, nm);
+          // sirf us card ko paint karo jisme DP bhi ho - taake poori list na paint ho
+          if(!card.querySelector('img')) return;
+          paint(card, nm, true);
+          // DP pe bhi frame
+          var dp = card.querySelector('img');
+          if(dp){
+            var u2 = getUsers()[nm] || {};
+            if(u2.role==='ADMIN' || isLeaderName(nm)){
+              dp.style.setProperty('border','3px solid #FFD700','important');
+              dp.style.setProperty('box-shadow','0 0 12px #FFD700','important');
+              dp.style.setProperty('animation','frameBolt .7s infinite, frameShine .7s infinite','important');
+            } else if(u2.role==='MODERATOR'){
+              dp.style.setProperty('border','3px solid #B388FF','important');
+              dp.style.setProperty('box-shadow','0 0 12px #B388FF','important');
+              dp.style.setProperty('animation','frameBolt .8s infinite, frameShine .8s infinite','important');
+            }
+          }
         }catch(e){}
       });
 
-      // 3. DP pe bhi frame - Online + Post dono me
-      document.querySelectorAll('img').forEach(function(img){
+      // 3. ONLINE TOP 5 - naam se pakro, badge na ho tab bhi
+      document.querySelectorAll('div').forEach(function(el){
         try{
-          var card = img.closest('div');
-          if(!card) return;
-          var b2 = card.querySelector('b');
-          var nm2 = b2 ? b2.textContent.trim() : '';
-          if(!nm2) return;
-          var u2 = getUsers()[nm2] || {};
-          var isA = (u2.role==='ADMIN' || isLeaderName(nm2));
-          var isM = (u2.role==='MODERATOR');
-          var nn2 = norm(nm2);
-          var ii = starNorm.indexOf(nn2); if(ii<0) ii = trendNorm.indexOf(nn2);
-          if(isA){
-            img.style.setProperty('border','3px solid #FFD700','important');
-            img.style.setProperty('box-shadow','0 0 12px #FFD700','important');
-            img.style.setProperty('animation','frameBolt .7s infinite, frameShine .7s infinite','important');
-          } else if(isM){
-            img.style.setProperty('border','3px solid #B388FF','important');
-            img.style.setProperty('box-shadow','0 0 12px #B388FF','important');
-            img.style.setProperty('animation','frameBolt .8s infinite, frameShine .8s infinite','important');
-          } else if(ii>=0 && ii<5){
-            img.style.setProperty('border','3px solid '+FRAME_COLORS[ii],'important');
-            img.style.setProperty('box-shadow','0 0 10px '+FRAME_COLORS[ii],'important');
-            img.style.setProperty('animation','frameBolt 1s infinite','important');
+          if(el.classList.contains('post')) return;
+          if(!el.querySelector('img')) return;
+          if(el.querySelectorAll('img').length > 1) return;
+          var txt = el.innerText || '';
+          if(txt.length > 150) return;
+          var nm = '';
+          var all2 = el.querySelectorAll('div, span, b');
+          for(var j=0;j<all2.length;j++){
+            var tt2 = (all2[j].innerText||'').trim();
+            if(getUsers()[tt2]){ nm = tt2; break; }
+          }
+          if(!nm) return;
+          var nn = norm(nm);
+          var ii = starNorm.indexOf(nn); if(ii<0) ii = trendNorm.indexOf(nn);
+          if(ii>=0 && ii<5){
+            paint(el, nm, true);
+            var dp2 = el.querySelector('img');
+            if(dp2){
+              dp2.style.setProperty('border','3px solid '+FRAME_COLORS[ii],'important');
+              dp2.style.setProperty('box-shadow','0 0 10px '+FRAME_COLORS[ii],'important');
+              dp2.style.setProperty('animation','frameBolt 1s infinite, frameShineLight 1s infinite','important');
+            }
           }
         }catch(e){}
       });
@@ -1150,9 +1165,8 @@ try{
     }catch(e){}
 }
 applyFrames();
-setInterval(applyFrames, 2000);
-// --- FRAMES FINAL V50 END ---
-
+setInterval(applyFrames, 1000);
+// --- FRAMES FINAL V51 END ---
       
     
     // POINT 37 - INBOX Reply - Inbox me Reply, wahin se reply jaye, uske inbox me bhi jaye
