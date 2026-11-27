@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="ur"><head><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><script>var APP_VERSION=57;if(location.search.indexOf('v='+APP_VERSION)<0){location.replace(location.pathname+'?v='+APP_VERSION);}</script><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Yaarii-PK 👑</title>
+<!DOCTYPE html><html lang="ur"><head><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><script>var APP_VERSION=58;if(location.search.indexOf('v='+APP_VERSION)<0){location.replace(location.pathname+'?v='+APP_VERSION);}</script><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Yaarii-PK 👑</title>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 <style>
@@ -1000,12 +1000,14 @@ var ANIMAL_FRAME_COLORS = {tiger:'#FF8C00',cheetah:'#FFFF00',wolf:'#00BFFF',eagl
 
   // POINT 33 + 34 + 35 + 36 - Frame
   // 33: Top 5 ko frame 4 taraf, 34: Star colors, 35: Top 5 frame simple no shining, 36: Admin Yellow shining, Moderator Red shining
-    // --- FRAMES FINAL V57 : LEADER YELLOW + MOD PURPLE + LIGHT TOP4 ---
+ // --- FRAMES FINAL V58 : LEADER YELLOW + MOD PURPLE + RED KILLER ---
 (function(){
   var css=document.createElement('style');
   css.innerHTML=`
   @keyframes frameSoft{0%,100%{box-shadow:0 0 2px var(--fc),0 0 4px var(--fc); filter:brightness(1);}50%{box-shadow:0 0 3px var(--fc),0 0 6px var(--fc); filter:brightness(1.05);}}
   @keyframes frameSoftStrong{0%,100%{box-shadow:0 0 4px var(--fc),0 0 8px var(--fc); filter:brightness(1);}50%{box-shadow:0 0 6px var(--fc),0 0 12px var(--fc); filter:brightness(1.12);}}
+  /* RED KILLER - MODERATOR KABHI RED NAHI HOGA */
+  .uCircle:has(.modStar), .post:has(.modStar){border-color:#C4A6FF !important; box-shadow:0 0 6px #C4A6FF, 0 0 12px #C4A6FF !important;}
   `;
   document.head.appendChild(css);
 })();
@@ -1027,9 +1029,8 @@ try{
       var trend = toNames(trendRaw);
       var starNorm = star.map(norm);
       var trendNorm = trend.map(norm);
-      // TOP 5 - TOP1 = PURPLE (kyunke TOP1 pe MOD hai)
+      // TOP1 = PURPLE - KYUNKE MOD HI TOP1 HAI
       var FRAME_COLORS = ['#C4A6FF','#A8E6A1','#A8D8FF','#C0C0C0','#FFC2E0'];
-      // COLOR YAHAN SE BADLEGA
       var C_ADMIN = '#FFE89A'; // LEADER - YELLOW
       var C_MOD = '#C4A6FF'; // MODERATOR - PURPLE
 
@@ -1042,7 +1043,6 @@ try{
         var idx = starNorm.indexOf(nn);
         if(idx < 0) idx = trendNorm.indexOf(nn);
         el.classList.remove('frame-admin','frame-mod','frame-corner');
-        // ADMIN - YELLOW, THODI ZYADA SHINE
         if(isAdmin){
           el.classList.add('frame-admin');
           el.style.setProperty('border','2px solid '+C_ADMIN,'important');
@@ -1052,7 +1052,6 @@ try{
           el.style.borderRadius = '12px';
           return 'admin';
         }
-        // MOD - PURPLE, THODI ZYADA SHINE
         if(isMod){
           el.classList.add('frame-mod');
           el.style.setProperty('border','2px solid '+C_MOD,'important');
@@ -1062,7 +1061,6 @@ try{
           el.style.borderRadius = '12px';
           return 'mod';
         }
-        // TOP 5 - BILKUL HALKI SHINE
         if(idx >= 0 && idx < 5){
           el.style.setProperty('border','2px solid ' + FRAME_COLORS[idx],'important');
           el.style.setProperty('box-shadow','0 0 3px ' + FRAME_COLORS[idx] + ', 0 0 6px ' + FRAME_COLORS[idx],'important');
@@ -1125,7 +1123,7 @@ try{
         }catch(e){}
       });
 
-      // 2. ONLINE LIST - .uCircle se seedha
+      // 2. ONLINE LIST
       document.querySelectorAll('.onlineBar .uCircle').forEach(function(card){
         try{
           var nm = '';
@@ -1148,11 +1146,37 @@ try{
         }catch(e){}
       });
 
+      // 3. RED KILLER - MODERATOR JAHAN BHI HO, RED KO PURPLE KAR DO
+      document.querySelectorAll('.uCircle, .post').forEach(function(card){
+        try{
+          var txt = card.innerText || '';
+          if(txt.indexOf('MODERATOR') < 0) return;
+          // Agar is card ka naam MOD hai, to force purple
+          card.style.setProperty('border','2px solid #C4A6FF','important');
+          card.style.setProperty('box-shadow','0 0 6px #C4A6FF, 0 0 12px #C4A6FF','important');
+          card.style.setProperty('animation','frameSoftStrong 3s infinite','important');
+          card.style.setProperty('--fc','#C4A6FF');
+          var dp = card.querySelector(':scope > div');
+          if(dp){
+            dp.style.setProperty('border','2px solid #C4A6FF','important');
+            dp.style.setProperty('box-shadow','0 0 4px #C4A6FF, 0 0 8px #C4A6FF','important');
+          }
+          // andar wala RED tag bhi purple
+          card.querySelectorAll('.redStarTag').forEach(function(t){
+            t.style.setProperty('background','#C4A6FF','important');
+            t.style.setProperty('box-shadow','0 0 4px #C4A6FF','important');
+          });
+          card.querySelectorAll('.redStar, .redBolt').forEach(function(s){
+            s.style.setProperty('color','#C4A6FF','important');
+          });
+        }catch(e){}
+      });
+
     }catch(e){}
 }
 applyFrames();
-setInterval(applyFrames, 1000);
-// --- FRAMES FINAL V57 END ---                  
+setInterval(applyFrames, 500);
+// --- FRAMES FINAL V58 END ---
       
     
     // POINT 37 - INBOX Reply - Inbox me Reply, wahin se reply jaye, uske inbox me bhi jaye
