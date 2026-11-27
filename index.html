@@ -1001,14 +1001,13 @@ var ANIMAL_FRAME_COLORS = {tiger:'#FF8C00',cheetah:'#FFFF00',wolf:'#00BFFF',eagl
   // POINT 33 + 34 + 35 + 36 - Frame
   // 33: Top 5 ko frame 4 taraf, 34: Star colors, 35: Top 5 frame simple no shining, 36: Admin Yellow shining, Moderator Red shining
      
-    // --- FRAMES FINAL V58 FIXED : SAME V58 + LEADER BUTTON FIX ---
+    // --- FRAMES FINAL V58 FIXED V5 : LEADER BUTTON SIRF PROFILE ME, SIRF OWNER KO ---
 (function(){
   var css=document.createElement('style');
   css.innerHTML=`
-  @keyframes frameSoft{0%,100%{box-shadow:0 0 2px var(--fc),0 0 4px var(--fc); filter:brightness(1);}50%{box-shadow:0 0 3px var(--fc),0 0 6px var(--fc); filter:brightness(1.05);}}
-  @keyframes frameSoftStrong{0%,100%{box-shadow:0 0 4px var(--fc),0 0 8px var(--fc); filter:brightness(1);}50%{box-shadow:0 0 6px var(--fc),0 0 12px var(--fc); filter:brightness(1.12);}}
-  .uCircle:has(.modStar), .post:has(.modStar){border-color:#C4A6FF !important; box-shadow:0 0 6px #C4A6FF, 0 0 12px #C4A6FF !important;}
-  .leaderPowerBtn{position:fixed; bottom:70px; right:12px; z-index:99999; background:#FFE89A; color:#000; font-weight:bold; padding:9px 13px; border-radius:20px; border:none; box-shadow:0 0 10px #FFE89A; cursor:pointer;}
+  @keyframes frameSoft{0%,100%{box-shadow:0 0 2px var(--fc),0 0 4px var(--fc); filter:brightness(1);}50%{box-shadow:0 0 4px var(--fc),0 0 8px var(--fc); filter:brightness(1.08);}}
+  @keyframes frameLeaderGlow{0%,100%{box-shadow:0 0 4px #FFE89A, 0 0 8px #FFE89A; border-color:#FFE89A; filter:brightness(1);}50%{box-shadow:0 0 12px #FFE89A, 0 0 24px #FFE89A, 0 0 32px #FFE89A; border-color:#FFFACD; filter:brightness(1.4);}}
+  @keyframes frameModGlow{0%,100%{box-shadow:0 0 3px #C4A6FF, 0 0 6px #C4A6FF; border-color:#C4A6FF; filter:brightness(1);}50%{box-shadow:0 0 8px #C4A6FF, 0 0 16px #C4A6FF; border-color:#E6D8FF; filter:brightness(1.2);}}
   .leaderPanel{position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); z-index:100000; background:#111; border:2px solid #FFE89A; border-radius:14px; padding:14px; width:300px; color:#fff;}
   .leaderPanel input, .leaderPanel select{width:100%; margin:5px 0; padding:7px; border-radius:8px; border:none; background:#222; color:#fff;}
   .leaderPanel button{width:100%; margin-top:6px; padding:8px; border-radius:8px; border:none; font-weight:bold; cursor:pointer;}
@@ -1016,7 +1015,6 @@ var ANIMAL_FRAME_COLORS = {tiger:'#FF8C00',cheetah:'#FFFF00',wolf:'#00BFFF',eagl
   document.head.appendChild(css);
 })();
 
-// MERA NAAM DHUNDO - localStorage SE
 function getMyName(){
   try{
     if(window.myName) return window.myName;
@@ -1025,15 +1023,11 @@ function getMyName(){
     var users = Object.keys(getUsers()||{});
     for(var i=0;i<localStorage.length;i++){
       var v = localStorage.getItem(localStorage.key(i))||'';
-      for(var j=0;j<users.length;j++){
-        if(v.indexOf(users[j])>=0 && isLeaderName(users[j])) return users[j];
-      }
+      for(var j=0;j<users.length;j++){ if(v.indexOf(users[j])>=0 && isLeaderName(users[j])) return users[j]; }
     }
     for(var k=0;k<sessionStorage.length;k++){
       var v2 = sessionStorage.getItem(sessionStorage.key(k))||'';
-      for(var j2=0;j2<users.length;j2++){
-        if(v2.indexOf(users[j2])>=0 && isLeaderName(users[j2])) return users[j2];
-      }
+      for(var j2=0;j2<users.length;j2++){ if(v2.indexOf(users[j2])>=0 && isLeaderName(users[j2])) return users[j2]; }
     }
   }catch(e){}
   return '';
@@ -1071,12 +1065,11 @@ try{
         var idx = starNorm.indexOf(nn);
         if(idx < 0) idx = trendNorm.indexOf(nn);
         el.classList.remove('frame-admin','frame-mod','frame-corner');
-        // CUSTOM - LEADER NE DIYA
         var custom = getCustomFrames()[nm] || null;
         if(custom){
           el.style.setProperty('border','2px solid '+(custom.color||'#FFE89A'),'important');
           el.style.setProperty('box-shadow','0 0 6px '+(custom.color||'#FFE89A')+', 0 0 12px '+(custom.color||'#FFE89A'),'important');
-          el.style.setProperty('animation', custom.shine ? 'frameSoftStrong 3s infinite' : 'none','important');
+          el.style.setProperty('animation', custom.shine ? 'frameModGlow 2.5s infinite' : 'none','important');
           el.style.setProperty('--fc', custom.color||'#FFE89A');
           el.style.borderRadius = '12px';
           return 'custom';
@@ -1085,7 +1078,7 @@ try{
           el.classList.add('frame-admin');
           el.style.setProperty('border','2px solid '+C_ADMIN,'important');
           el.style.setProperty('box-shadow','0 0 6px '+C_ADMIN+', 0 0 12px '+C_ADMIN,'important');
-          el.style.setProperty('animation','frameSoftStrong 3s infinite','important');
+          el.style.setProperty('animation','frameLeaderGlow 2s infinite','important');
           el.style.setProperty('--fc',C_ADMIN);
           el.style.borderRadius = '12px';
           return 'admin';
@@ -1093,8 +1086,8 @@ try{
         if(isMod){
           el.classList.add('frame-mod');
           el.style.setProperty('border','2px solid '+C_MOD,'important');
-          el.style.setProperty('box-shadow','0 0 6px '+C_MOD+', 0 0 12px '+C_MOD,'important');
-          el.style.setProperty('animation','frameSoftStrong 3s infinite','important');
+          el.style.setProperty('box-shadow','0 0 4px '+C_MOD+', 0 0 8px '+C_MOD,'important');
+          el.style.setProperty('animation','frameModGlow 2.5s infinite','important');
           el.style.setProperty('--fc',C_MOD);
           el.style.borderRadius = '12px';
           return 'mod';
@@ -1112,6 +1105,7 @@ try{
 
       function paintDp(card, nm){
         try{
+          if(!card.classList.contains('uCircle')) return;
           var dpDiv = card.querySelector(':scope > div');
           if(!dpDiv) dpDiv = card.querySelector('div');
           if(!dpDiv) return;
@@ -1128,12 +1122,12 @@ try{
           }
           if(isA){
             dpDiv.style.setProperty('border','2px solid '+C_ADMIN,'important');
-            dpDiv.style.setProperty('box-shadow','0 0 4px '+C_ADMIN+', 0 0 8px '+C_ADMIN,'important');
-            dpDiv.style.setProperty('animation','frameSoftStrong 3s infinite','important');
+            dpDiv.style.setProperty('box-shadow','0 0 6px '+C_ADMIN+', 0 0 12px '+C_ADMIN,'important');
+            dpDiv.style.setProperty('animation','frameLeaderGlow 2s infinite','important');
           } else if(isM){
             dpDiv.style.setProperty('border','2px solid '+C_MOD,'important');
-            dpDiv.style.setProperty('box-shadow','0 0 4px '+C_MOD+', 0 0 8px '+C_MOD,'important');
-            dpDiv.style.setProperty('animation','frameSoftStrong 3s infinite','important');
+            dpDiv.style.setProperty('box-shadow','0 0 3px '+C_MOD+', 0 0 6px '+C_MOD,'important');
+            dpDiv.style.setProperty('animation','frameModGlow 2.5s infinite','important');
           } else if(ii>=0 && ii<5){
             dpDiv.style.setProperty('border','2px solid '+FRAME_COLORS[ii],'important');
             dpDiv.style.setProperty('box-shadow','0 0 3px '+FRAME_COLORS[ii],'important');
@@ -1163,6 +1157,12 @@ try{
           if(!nm) return;
           var r = paint(post, nm);
           if(!r){ post.style.border=''; post.style.boxShadow=''; post.style.animation=''; }
+          var innerDivs = post.querySelectorAll('div');
+          innerDivs.forEach(function(d){
+            if(d.style.border && d.style.border.indexOf('C4A6FF')>=0){
+              d.style.border=''; d.style.boxShadow=''; d.style.animation='';
+            }
+          });
         }catch(e){}
       });
 
@@ -1193,13 +1193,16 @@ try{
           var txt = card.innerText || '';
           if(txt.indexOf('MODERATOR') < 0) return;
           card.style.setProperty('border','2px solid #C4A6FF','important');
-          card.style.setProperty('box-shadow','0 0 6px #C4A6FF, 0 0 12px #C4A6FF','important');
-          card.style.setProperty('animation','frameSoftStrong 3s infinite','important');
+          card.style.setProperty('box-shadow','0 0 4px #C4A6FF, 0 0 8px #C4A6FF','important');
+          card.style.setProperty('animation','frameModGlow 2.5s infinite','important');
           card.style.setProperty('--fc','#C4A6FF');
-          var dp = card.querySelector(':scope > div');
-          if(dp){
-            dp.style.setProperty('border','2px solid #C4A6FF','important');
-            dp.style.setProperty('box-shadow','0 0 4px #C4A6FF, 0 0 8px #C4A6FF','important');
+          if(card.classList.contains('uCircle')){
+            var dp = card.querySelector(':scope > div');
+            if(dp){
+              dp.style.setProperty('border','2px solid #C4A6FF','important');
+              dp.style.setProperty('box-shadow','0 0 3px #C4A6FF, 0 0 6px #C4A6FF','important');
+              dp.style.setProperty('animation','frameModGlow 2.5s infinite','important');
+            }
           }
           card.querySelectorAll('.redStarTag').forEach(function(t){
             t.style.setProperty('background','#C4A6FF','important');
@@ -1211,28 +1214,25 @@ try{
         }catch(e){}
       });
 
-      // LEADER BUTTON - FIXED - AB PAKA AAYEGA
+      // LEADER BUTTON - SIRF PROFILE ME, SIRF OWNER KO - NICHE WALA KHATAM
       try{
+        // Purana neeche wala button ho to hata do
+        document.querySelectorAll('.leaderPowerBtn').forEach(function(x){ x.remove(); });
         var me = getMyName();
-        if(me && isLeaderName(me) && !document.querySelector('.leaderPowerBtn')){
-          var btn = document.createElement('button');
-          btn.className = 'leaderPowerBtn';
-          btn.textContent = '👑 Leader Power';
-          btn.onclick = function(){ openLeaderPanel(); };
-          document.body.appendChild(btn);
-        }
-        // PROFILE ME BHI - AGAR APNI PROFILE KHOLI HO
+        // Agar me leader/owner nahi hai to kuch nahi dikhana
+        if(!me || !isLeaderName(me)) return;
         var profileBox = document.querySelector('.profileView, .userProfile, .modal, [class*="profile"]');
-        if(profileBox && me && isLeaderName(me)){
-          var txt2 = profileBox.innerText || '';
-          if(txt2.indexOf(me) >= 0 && !profileBox.querySelector('.leaderPowerBtnInProfile')){
-            var b2 = document.createElement('button');
-            b2.className = 'leaderPowerBtnInProfile';
-            b2.textContent = '👑 Leader Power';
-            b2.style.cssText = 'background:#FFE89A;color:#000;font-weight:bold;padding:8px 12px;border-radius:20px;border:none;margin:8px;cursor:pointer;';
-            b2.onclick = function(){ openLeaderPanel(); };
-            profileBox.prepend(b2);
-          }
+        if(!profileBox) return;
+        var txt2 = profileBox.innerText || '';
+        // Profile meri apni ho tab hi dikhao, kisi aur ki profile me nahi
+        if(txt2.indexOf(me) < 0) return;
+        if(!profileBox.querySelector('.leaderPowerBtnInProfile')){
+          var b2 = document.createElement('button');
+          b2.className = 'leaderPowerBtnInProfile';
+          b2.textContent = '👑 Leader Power';
+          b2.style.cssText = 'background:#FFE89A;color:#000;font-weight:bold;padding:8px 12px;border-radius:20px;border:none;margin:8px;cursor:pointer;';
+          b2.onclick = function(){ openLeaderPanel(); };
+          profileBox.prepend(b2);
         }
       }catch(e){}
 
@@ -1276,7 +1276,8 @@ function openLeaderPanel(){
 }
 applyFrames();
 setInterval(applyFrames, 500);
-// --- FRAMES FINAL V58 FIXED END ---   
+// --- FRAMES FINAL V58 FIXED V5 END ---
+      
 
 
       
