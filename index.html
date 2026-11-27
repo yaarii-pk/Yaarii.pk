@@ -1000,17 +1000,21 @@ var ANIMAL_FRAME_COLORS = {tiger:'#FF8C00',cheetah:'#FFFF00',wolf:'#00BFFF',eagl
 
   // POINT 33 + 34 + 35 + 36 - Frame
   // 33: Top 5 ko frame 4 taraf, 34: Star colors, 35: Top 5 frame simple no shining, 36: Admin Yellow shining, Moderator Red shining
-     
-   // --- FRAMES FINAL V58 FIXED V7 : BUTTON LEADER PANEL ME - OWNER ONLY ---
+    // --- FRAMES FINAL V58 V8 : FULL LEADER STUDIO - COLOR + STAR + SPECIAL + ANIMAL ---
 (function(){
   var css=document.createElement('style');
   css.innerHTML=`
   @keyframes frameSoft{0%,100%{box-shadow:0 0 2px var(--fc),0 0 4px var(--fc); filter:brightness(1);}50%{box-shadow:0 0 4px var(--fc),0 0 8px var(--fc); filter:brightness(1.08);}}
   @keyframes frameLeaderGlow{0%,100%{box-shadow:0 0 4px #FFE89A, 0 0 8px #FFE89A; border-color:#FFE89A; filter:brightness(1);}50%{box-shadow:0 0 12px #FFE89A, 0 0 24px #FFE89A, 0 0 32px #FFE89A; border-color:#FFFACD; filter:brightness(1.4);}}
-  @keyframes frameModGlow{0%,100%{box-shadow:0 0 3px #C4A6FF, 0 0 6px #C4A6FF; border-color:#C4A6FF; filter:brightness(1);}50%{box-shadow:0 0 8px #C4A6FF, 0 0 16px #C4A6FF; border-color:#E6D8FF; filter:brightness(1.2);}}
-  .leaderPanel{position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); z-index:100000; background:#111; border:2px solid #FFE89A; border-radius:14px; padding:14px; width:300px; color:#fff;}
-  .leaderPanel input, .leaderPanel select{width:100%; margin:5px 0; padding:7px; border-radius:8px; border:none; background:#222; color:#fff;}
+  @keyframes frameModGlow{0%,100%{box-shadow:0 0 3px var(--fc), 0 0 6px var(--fc); border-color:var(--fc); filter:brightness(1);}50%{box-shadow:0 0 8px var(--fc), 0 0 16px var(--fc); border-color:var(--fc); filter:brightness(1.2);}}
+  @keyframes frameExtraGlow{0%,100%{box-shadow:0 0 6px var(--fc), 0 0 12px var(--fc); border-color:var(--fc); filter:brightness(1);}50%{box-shadow:0 0 18px var(--fc), 0 0 36px var(--fc), 0 0 50px var(--fc); border-color:#fff; filter:brightness(1.6);}}
+  @keyframes frameLightGlow{0%,100%{box-shadow:0 0 1px var(--fc); filter:brightness(1);}50%{box-shadow:0 0 4px var(--fc), 0 0 6px var(--fc); filter:brightness(1.05);}}
+  .leaderPanel{position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); z-index:100000; background:#111; border:2px solid #FFE89A; border-radius:14px; padding:14px; width:320px; color:#fff; max-height:90vh; overflow-y:auto;}
+  .leaderPanel input, .leaderPanel select{width:100%; margin:4px 0; padding:7px; border-radius:8px; border:none; background:#222; color:#fff;}
   .leaderPanel button{width:100%; margin-top:6px; padding:8px; border-radius:8px; border:none; font-weight:bold; cursor:pointer;}
+  .leaderPanel label{font-size:12px; color:#FFE89A; font-weight:bold;}
+  .frameDecor{position:absolute; top:-10px; left:8px; right:8px; display:flex; justify-content:space-between; pointer-events:none; font-size:16px; z-index:10;}
+  .post, .uCircle{position:relative;}
   `;
   document.head.appendChild(css);
 })();
@@ -1021,18 +1025,33 @@ function getMyName(){
     if(window.currentUser) return typeof window.currentUser==='string' ? window.currentUser : (window.currentUser.name||window.currentUser.username||'');
     if(window.myUser) return window.myUser;
     var users = Object.keys(getUsers()||{});
-    for(var i=0;i<localStorage.length;i++){
-      var v = localStorage.getItem(localStorage.key(i))||'';
-      for(var j=0;j<users.length;j++){ if(v.indexOf(users[j])>=0 && isLeaderName(users[j])) return users[j]; }
-    }
-    for(var k=0;k<sessionStorage.length;k++){
-      var v2 = sessionStorage.getItem(sessionStorage.key(k))||'';
-      for(var j2=0;j2<users.length;j2++){ if(v2.indexOf(users[j2])>=0 && isLeaderName(users[j2])) return users[j2]; }
-    }
+    for(var i=0;i<localStorage.length;i++){ var v = localStorage.getItem(localStorage.key(i))||''; for(var j=0;j<users.length;j++){ if(v.indexOf(users[j])>=0 && isLeaderName(users[j])) return users[j]; } }
+    for(var k=0;k<sessionStorage.length;k++){ var v2 = sessionStorage.getItem(sessionStorage.key(k))||''; for(var j2=0;j2<users.length;j2++){ if(v2.indexOf(users[j2])>=0 && isLeaderName(users[j2])) return users[j2]; } }
   }catch(e){}
   return '';
 }
 function getCustomFrames(){ try{ return JSON.parse(localStorage.getItem('yaarii_custom_frames')||'{}'); }catch(e){ return {}; } }
+function getModColor(){ return localStorage.getItem('yaarii_mod_color') || '#C4A6FF'; }
+function getLeaderColor(){ return localStorage.getItem('yaarii_leader_color') || '#FFE89A'; }
+function getShineAnim(level, color){
+  if(level==='0') return 'none';
+  if(level==='1') return 'frameLightGlow 3s infinite';
+  if(level==='2') return 'frameModGlow 2.5s infinite';
+  if(level==='3') return 'frameLeaderGlow 2s infinite';
+  if(level==='4') return 'frameExtraGlow 1.5s infinite';
+  return 'frameModGlow 2.5s infinite';
+}
+function getSpecialEmojis(special){
+  if(special==='butterfly') return '🦋 🦋 🦋 🦋';
+  if(special==='flower') return '🌸 🌺 🌸 🌺';
+  if(special==='heart') return '❤️ 💖 ❤️ 💖';
+  if(special==='crown') return '👑 ✨ 👑 ✨';
+  if(special==='fire') return '🔥 🔥 🔥 🔥';
+  if(special==='snow') return '❄️ ✨ ❄️ ✨';
+  if(special==='rose') return '🌹 🌹 🌹 🌹';
+  if(special==='star') return '⭐ 🌟 ⭐ 🌟';
+  return '';
+}
 
 function applyFrames(){
 try{
@@ -1048,13 +1067,32 @@ try{
           return String(x);
         });
       }
-      var star = toNames(starRaw);
-      var trend = toNames(trendRaw);
-      var starNorm = star.map(norm);
-      var trendNorm = trend.map(norm);
+      var star = toNames(starRaw); var trend = toNames(trendRaw);
+      var starNorm = star.map(norm); var trendNorm = trend.map(norm);
       var FRAME_COLORS = ['#C4A6FF','#A8E6A1','#A8D8FF','#C0C0C0','#FFC2E0'];
-      var C_ADMIN = '#FFE89A';
-      var C_MOD = '#C4A6FF';
+      var C_ADMIN = getLeaderColor();
+      var C_MOD = getModColor();
+
+      function addDecor(el, custom){
+        try{
+          var old = el.querySelector('.frameDecor');
+          if(old) old.remove();
+          var txt = '';
+          if(custom){
+            if(custom.special) txt += getSpecialEmojis(custom.special) + ' ';
+            if(custom.animal) txt += custom.animal + ' ';
+            if(custom.star && custom.star!=='0'){
+              var sc = custom.starColor || '#FFD700';
+              txt += '<span style="color:'+sc+';">⭐</span> ';
+            }
+          }
+          if(!txt) return;
+          var d = document.createElement('div');
+          d.className = 'frameDecor';
+          d.innerHTML = txt;
+          el.prepend(d);
+        }catch(e){}
+      }
 
       function paint(el, nm){
         if(!nm || !el) return '';
@@ -1067,11 +1105,13 @@ try{
         el.classList.remove('frame-admin','frame-mod','frame-corner');
         var custom = getCustomFrames()[nm] || null;
         if(custom){
-          el.style.setProperty('border','2px solid '+(custom.color||'#FFE89A'),'important');
-          el.style.setProperty('box-shadow','0 0 6px '+(custom.color||'#FFE89A')+', 0 0 12px '+(custom.color||'#FFE89A'),'important');
-          el.style.setProperty('animation', custom.shine ? 'frameModGlow 2.5s infinite' : 'none','important');
-          el.style.setProperty('--fc', custom.color||'#FFE89A');
+          var col = custom.color || '#FFE89A';
+          el.style.setProperty('border','2px solid '+col,'important');
+          el.style.setProperty('box-shadow','0 0 6px '+col+', 0 0 12px '+col,'important');
+          el.style.setProperty('animation', getShineAnim(custom.shineLevel||custom.shine||'2', col),'important');
+          el.style.setProperty('--fc', col);
           el.style.borderRadius = '12px';
+          addDecor(el, custom);
           return 'custom';
         }
         if(isAdmin){
@@ -1116,8 +1156,10 @@ try{
           var ii = starNorm.indexOf(nn); if(ii<0) ii = trendNorm.indexOf(nn);
           var custom = getCustomFrames()[nm] || null;
           if(custom){
-            dpDiv.style.setProperty('border','2px solid '+(custom.color||'#FFE89A'),'important');
-            dpDiv.style.setProperty('box-shadow','0 0 4px '+(custom.color||'#FFE89A'),'important');
+            var col2 = custom.color || '#FFE89A';
+            dpDiv.style.setProperty('border','2px solid '+col2,'important');
+            dpDiv.style.setProperty('box-shadow','0 0 4px '+col2,'important');
+            dpDiv.style.setProperty('animation', getShineAnim(custom.shineLevel||'2', col2),'important');
             return;
           }
           if(isA){
@@ -1140,29 +1182,13 @@ try{
         try{
           var nm = '';
           var b = post.querySelector('b');
-          if(b){
-            var oc = b.getAttribute('onclick') || '';
-            var m = oc.match(/viewUser\('([^']+)'\)/);
-            if(m) nm = m[1];
-            if(!nm && b.textContent) nm = b.textContent.trim();
-          }
-          if(!nm){
-            var allB = post.querySelectorAll('b');
-            for(var bi=0; bi<allB.length; bi++){
-              var oc2 = allB[bi].getAttribute('onclick') || '';
-              var m2 = oc2.match(/viewUser\('([^']+)'\)/);
-              if(m2){ nm = m2[1]; break; }
-            }
-          }
+          if(b){ var oc = b.getAttribute('onclick') || ''; var m = oc.match(/viewUser\('([^']+)'\)/); if(m) nm = m[1]; if(!nm && b.textContent) nm = b.textContent.trim(); }
+          if(!nm){ var allB = post.querySelectorAll('b'); for(var bi=0; bi<allB.length; bi++){ var oc2 = allB[bi].getAttribute('onclick') || ''; var m2 = oc2.match(/viewUser\('([^']+)'\)/); if(m2){ nm = m2[1]; break; } } }
           if(!nm) return;
           var r = paint(post, nm);
           if(!r){ post.style.border=''; post.style.boxShadow=''; post.style.animation=''; }
           var innerDivs = post.querySelectorAll('div');
-          innerDivs.forEach(function(d){
-            if(d.style.border && d.style.border.indexOf('C4A6FF')>=0){
-              d.style.border=''; d.style.boxShadow=''; d.style.animation='';
-            }
-          });
+          innerDivs.forEach(function(d){ if(d.classList.contains('frameDecor')) return; if(d.style.border && d.style.border.indexOf('C4A6FF')>=0){ d.style.border=''; d.style.boxShadow=''; d.style.animation=''; } });
         }catch(e){}
       });
 
@@ -1170,16 +1196,8 @@ try{
         try{
           var nm = '';
           var p = card.querySelector('p');
-          if(p){
-            var clone = p.cloneNode(true);
-            var tags = clone.querySelectorAll('span');
-            tags.forEach(function(s){ s.remove(); });
-            nm = clone.textContent.trim().split('\n')[0].trim();
-          }
-          if(!nm){
-            var bb = card.querySelector('b');
-            if(bb) nm = bb.textContent.trim();
-          }
+          if(p){ var clone = p.cloneNode(true); var tags = clone.querySelectorAll('span'); tags.forEach(function(s){ s.remove(); }); nm = clone.textContent.trim().split('\n')[0].trim(); }
+          if(!nm){ var bb = card.querySelector('b'); if(bb) nm = bb.textContent.trim(); }
           if(!nm) return;
           nm = nm.replace('LEADER','').replace('MODERATOR','').replace('⚡','').replace('★','').trim();
           if(!getUsers()[nm]) return;
@@ -1192,55 +1210,42 @@ try{
         try{
           var txt = card.innerText || '';
           if(txt.indexOf('MODERATOR') < 0) return;
-          card.style.setProperty('border','2px solid #C4A6FF','important');
-          card.style.setProperty('box-shadow','0 0 4px #C4A6FF, 0 0 8px #C4A6FF','important');
+          card.style.setProperty('border','2px solid '+C_MOD,'important');
+          card.style.setProperty('box-shadow','0 0 4px '+C_MOD+', 0 0 8px '+C_MOD,'important');
           card.style.setProperty('animation','frameModGlow 2.5s infinite','important');
-          card.style.setProperty('--fc','#C4A6FF');
+          card.style.setProperty('--fc',C_MOD);
           if(card.classList.contains('uCircle')){
             var dp = card.querySelector(':scope > div');
-            if(dp){
-              dp.style.setProperty('border','2px solid #C4A6FF','important');
-              dp.style.setProperty('box-shadow','0 0 3px #C4A6FF, 0 0 6px #C4A6FF','important');
-              dp.style.setProperty('animation','frameModGlow 2.5s infinite','important');
-            }
+            if(dp){ dp.style.setProperty('border','2px solid '+C_MOD,'important'); dp.style.setProperty('box-shadow','0 0 3px '+C_MOD+', 0 0 6px '+C_MOD,'important'); dp.style.setProperty('animation','frameModGlow 2.5s infinite','important'); }
           }
-          card.querySelectorAll('.redStarTag').forEach(function(t){
-            t.style.setProperty('background','#C4A6FF','important');
-            t.style.setProperty('box-shadow','0 0 4px #C4A6FF','important');
-          });
-          card.querySelectorAll('.redStar, .redBolt').forEach(function(s){
-            s.style.setProperty('color','#C4A6FF','important');
-          });
+          card.querySelectorAll('.redStarTag').forEach(function(t){ t.style.setProperty('background',C_MOD,'important'); t.style.setProperty('box-shadow','0 0 4px '+C_MOD,'important'); });
+          card.querySelectorAll('.redStar, .redBolt').forEach(function(s){ s.style.setProperty('color',C_MOD,'important'); });
         }catch(e){}
       });
 
-      // LEADER BUTTON - AB LEADER PANEL ME, JO SIRF OWNER KO DIKHTA HAI
       try{
         document.querySelectorAll('.leaderPowerBtn').forEach(function(x){ x.remove(); });
-        // Puri page me LEADER PANEL dhundo - wahi owner ka proof hai
         var allDivs = document.querySelectorAll('div');
         for(var di=0; di<allDivs.length; di++){
           var d = allDivs[di];
           var t = d.innerText || '';
-          // Sirf wo div jo LEADER PANEL wala hai, aur chota hai (bara parent nahi)
           if(t.indexOf('LEADER PANEL - BAN BY ID')>=0 && t.length < 2000){
             if(d.querySelector('.leaderPowerBtnInProfile')) break;
             var b2 = document.createElement('button');
             b2.className = 'leaderPowerBtnInProfile';
-            b2.textContent = '👑 Leader Power - Frame Do';
+            b2.textContent = '👑 Leader Power - Frame Studio';
             b2.style.cssText = 'background:#FFE89A;color:#000;font-weight:bold;padding:10px 14px;border-radius:20px;border:none;margin:8px 0;width:100%;cursor:pointer;box-shadow:0 0 10px #FFE89A;';
             b2.onclick = function(){ openLeaderPanel(); };
             d.prepend(b2);
             break;
           }
         }
-        // Agar LEADER PANEL nahi mila to purani wali profile me bhi try karo
         if(!document.querySelector('.leaderPowerBtnInProfile')){
           var profileBoxes = document.querySelectorAll('.profileView, .userProfile, .modal, [class*="profile"]');
           profileBoxes.forEach(function(profileBox){
             try{
               var txt2 = profileBox.innerText || '';
-              if(txt2.indexOf('LEADER - Yaarii-PK Ka Owner')<0 && txt2.indexOf('LEADER')<0) return;
+              if(txt2.indexOf('LEADER')<0) return;
               if(profileBox.querySelector('.leaderPowerBtnInProfile')) return;
               var b3 = document.createElement('button');
               b3.className = 'leaderPowerBtnInProfile';
@@ -1262,15 +1267,23 @@ function openLeaderPanel(){
   var div = document.createElement('div');
   div.className = 'leaderPanel';
   div.innerHTML = `
-    <b>👑 Leader Power - Frame Do</b><br><br>
-    User ka naam:<input id="lpName" placeholder="jese: Zamil">
-    Color:<input id="lpColor" type="color" value="#FFE89A">
-    <select id="lpColorPreset"><option value="#FFE89A">Yellow - Leader</option><option value="#C4A6FF">Purple - Mod</option><option value="#FF6B6B">Red</option><option value="#39FF14">Green</option><option value="#00D5FF">Blue</option><option value="#FF9DE2">Pink</option><option value="#FF8C00">Orange</option><option value="#FFFFFF">White</option></select>
-    Animal:<select id="lpAnimal"><option value="">Koi Animal Nahi</option><option value="🦁">🦁 Sher</option><option value="🐅">🐅 Tiger</option><option value="🐍">🐍 Saanp</option><option value="🐘">🐘 Hathi</option><option value="🦅">🦅 Eagle</option><option value="🐺">🐺 Bheriya</option><option value="🦄">🦄 Unicorn</option><option value="🐉">🐉 Dragon</option></select>
-    Lightning / Shine:<select id="lpShine"><option value="1">Tez Lightning + Shine</option><option value="0">Simple Frame</option></select>
-    Star:<select id="lpStar"><option value="1">⭐ Permanent Star Do</option><option value="0">Star Nahi</option></select>
-    <button id="lpSave" style="background:#FFE89A;color:#000;">Save Karo</button>
-    <button id="lpRemove" style="background:#333;color:#fff;">Iska Frame Hatao</button>
+    <b>👑 Leader Power - Frame Studio</b><br><span style="font-size:11px;color:#aaa;">Sirf Owner ko dikhega</span><br><br>
+    <label>User ka naam</label><input id="lpName" placeholder="jese: Zamil">
+    <label>🖼️ Frame ka Color - Apni Marzi</label><input id="lpColor" type="color" value="#FFE89A">
+    <select id="lpColorPreset"><option value="#FFE89A">Yellow - Leader</option><option value="#C4A6FF">Purple</option><option value="#FF0000">Pure Red</option><option value="#FF1493">Deep Pink</option><option value="#00FF00">Neon Green</option><option value="#00D5FF">Sky Blue</option><option value="#FF8C00">Orange</option><option value="#FFD700">Gold</option><option value="#FF00FF">Magenta</option><option value="#00FFFF">Cyan</option><option value="#FFFFFF">White</option><option value="#000000">Black</option></select>
+    <label>✨ Shine / Lightning - Kitni Tez?</label><select id="lpShineLevel"><option value="1">1 - Halki Shine</option><option value="2" selected>2 - Normal</option><option value="3">3 - Tez Lightning</option><option value="4">4 - Extra Tez + Full Chamak</option><option value="0">0 - Koi Shine Nahi</option></select>
+    <label>⭐ Star - Color Apni Marzi</label><select id="lpStar"><option value="1">⭐ Star Do</option><option value="0">Star Nahi</option></select><input id="lpStarColor" type="color" value="#FFD700">
+    <label>🦋 Special Frame - Corner Par Kya Ho?</label><select id="lpSpecial"><option value="">Kuch Nahi - Simple</option><option value="butterfly">🦋 Butterfly Frame</option><option value="flower">🌸 Flower Frame</option><option value="heart">❤️ Dil Wala Frame</option><option value="crown">👑 Crown Frame</option><option value="fire">🔥 Aag Wala Frame</option><option value="snow">❄️ Baraf Wala Frame</option><option value="rose">🌹 Gulab Wala Frame</option><option value="star">⭐ Star Wala Frame</option></select>
+    <label>🐾 Animal - Bht Sare</label><select id="lpAnimal"><option value="">Koi Animal Nahi</option><option value="🦁">🦁 Sher</option><option value="🐅">🐅 Tiger</option><option value="🐍">🐍 Saanp</option><option value="🐘">🐘 Hathi</option><option value="🦅">🦅 Eagle</option><option value="🐺">🐺 Bheriya</option><option value="🦄">🦄 Unicorn</option><option value="🐉">🐉 Dragon</option><option value="🐱">🐱 Billi</option><option value="🐶">🐶 Kutta</option><option value="🦚">🦚 Mor</option><option value="🐴">🐴 Ghora</option><option value="🐰">🐰 Khargosh</option><option value="🐼">🐼 Panda</option><option value="🦋">🦋 Titli</option><option value="🦁">🦁 Sherni</option><option value="🐯">🐯 Cheeta</option><option value="🦊">🦊 Lomri</option><option value="🐻">🐻 Bhalu</option><option value="🐬">🐬 Dolphin</option></select>
+    <button id="lpSave" style="background:#FFE89A;color:#000;">✅ Save Karo - Frame Laga Do</button>
+    <button id="lpRemove" style="background:#333;color:#fff;">❌ Iska Frame Hatao</button>
+    <hr style="border:1px solid #333;">
+    <b style="color:#C4A6FF;">🎨 MODERATOR KA COLOR BADLO</b><br>
+    <label>Moderator Frame Color</label><input id="lpModColor" type="color" value="${getModColor()}">
+    <button id="lpModSave" style="background:#C4A6FF;color:#000;">Moderator Color Save Karo</button>
+    <b style="color:#FFE89A;">🎨 APNA / LEADER KA COLOR BADLO</b><br>
+    <label>Leader Frame Color</label><input id="lpLeaderColor" type="color" value="${getLeaderColor()}">
+    <button id="lpLeaderSave" style="background:#FFE89A;color:#000;">Leader Color Save Karo</button>
     <button id="lpClose" style="background:#444;color:#fff;">Band Karo</button>
   `;
   document.body.appendChild(div);
@@ -1279,9 +1292,9 @@ function openLeaderPanel(){
     var n = document.getElementById('lpName').value.trim();
     if(!n){ alert('Naam likho pehle'); return; }
     var all = getCustomFrames();
-    all[n] = {color: document.getElementById('lpColor').value, animal: document.getElementById('lpAnimal').value, shine: document.getElementById('lpShine').value==='1', star: document.getElementById('lpStar').value==='1'};
+    all[n] = {color: document.getElementById('lpColor').value, shineLevel: document.getElementById('lpShineLevel').value, shine: document.getElementById('lpShineLevel').value!=='0', star: document.getElementById('lpStar').value, starColor: document.getElementById('lpStarColor').value, special: document.getElementById('lpSpecial').value, animal: document.getElementById('lpAnimal').value};
     localStorage.setItem('yaarii_custom_frames', JSON.stringify(all));
-    alert(n + ' ko frame de diya!'); div.remove(); applyFrames();
+    alert(n + ' ko naya frame de diya! 🎉'); div.remove(); applyFrames();
   };
   document.getElementById('lpRemove').onclick = function(){
     var n = document.getElementById('lpName').value.trim();
@@ -1289,13 +1302,19 @@ function openLeaderPanel(){
     localStorage.setItem('yaarii_custom_frames', JSON.stringify(all));
     alert(n + ' ka frame hata diya'); div.remove(); applyFrames();
   };
+  document.getElementById('lpModSave').onclick = function(){
+    localStorage.setItem('yaarii_mod_color', document.getElementById('lpModColor').value);
+    alert('Moderator ka color badal gaya!'); applyFrames();
+  };
+  document.getElementById('lpLeaderSave').onclick = function(){
+    localStorage.setItem('yaarii_leader_color', document.getElementById('lpLeaderColor').value);
+    alert('Leader ka color badal gaya!'); applyFrames();
+  };
   document.getElementById('lpClose').onclick = function(){ div.remove(); };
 }
 applyFrames();
 setInterval(applyFrames, 500);
-// --- FRAMES FINAL V58 FIXED V7 END --- 
-
-      
+// --- FRAMES FINAL V58 V8 END --- 
     
     // POINT 37 - INBOX Reply - Inbox me Reply, wahin se reply jaye, uske inbox me bhi jaye
   function addInboxReply(){
