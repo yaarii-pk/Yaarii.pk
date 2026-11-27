@@ -1,0 +1,1630 @@
+<!DOCTYPE html><html lang="ur"><head><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><script>var APP_VERSION=58;if(location.search.indexOf('v='+APP_VERSION)<0){location.replace(location.pathname+'?v='+APP_VERSION);}</script><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Yaarii-PK 👑</title>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}body{background:#000;color:#fff;font-family:Arial;padding-bottom:80px;padding-top:56px}a{color:#FFD700}
+.top{position:fixed;top:0;left:0;right:0;z-index:99;background:#000;padding:10px 12px;display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #FFD700}
+.top b{color:#FFD700;font-size:21px}.top small{display:block;font-size:10px;color:#aaa}.topIcons{display:flex;gap:14px;font-size:20px}.topIcons span{cursor:pointer}
+.card{background:#0d0d0d;border:1px solid #333;border-radius:14px;padding:12px;margin:10px}.authBox{background:#0d0d0d;border:1px solid #FFD700;border-radius:18px;padding:18px;margin:14px;text-align:center}
+.authBox h1{color:#FFD700;font-size:30px}.authBox p{color:#aaa;font-size:13px;margin-bottom:10px}.inp{display:flex;align-items:center;background:#1a1a1a;border:1px solid #444;border-radius:10px;padding:12px;margin:8px 0}
+.inp input{background:none;border:none;outline:none;color:#fff;width:100%;font-size:15px}.eye{cursor:pointer;font-size:18px;margin-left:6px}
+.btnGold{background:#FFD700;color:#000;border:none;width:100%;padding:14px;border-radius:10px;font-size:18px;font-weight:bold;margin-top:8px;cursor:pointer}
+.btnBlack{background:#1a1a1a;color:#FFD700;border:1px solid #FFD700;padding:11px;width:100%;border-radius:10px;margin-top:6px;font-weight:bold;cursor:pointer}
+.onlineBar{display:flex;gap:14px;overflow-x:auto;padding:8px 2px}.uCircle{min-width:118px;max-width:118px;text-align:center;flex-shrink:0;padding:6px 2px}.uCircle div{width:54px;height:54px;border-radius:50%;background:#1a1a1a;display:flex;align-items:center;justify-content:center;font-size:22px;border:2px solid #333;margin:auto;position:relative;overflow:hidden}.uCircle div img{width:100%;height:100%;object-fit:cover}.uCircle .dot{position:absolute;bottom:2px;right:2px;width:12px;height:12px;background:#00ff00;border-radius:50%;border:2px solid #000}.uCircle p{font-size:10.5px!important;line-height:1.35;white-space:normal!important;overflow:visible!important;word-break:break-word;display:block;text-align:center;min-height:30px}.uCircle small{font-size:10px;color:#FFD700;font-weight:bold}
+.filter{display:flex;gap:6px;overflow-x:auto;padding:6px 10px}.filter button{white-space:nowrap;padding:8px 14px;border-radius:20px;background:#1a1a1a;border:1px solid #444;color:#fff;cursor:pointer}.filter button.on{background:#FFD700;color:#000;font-weight:bold}
+.storyRow{display:flex;gap:10px;overflow-x:auto;padding:6px 2px}.story{min-width:72px;text-align:center}.story div{width:58px;height:58px;border-radius:50%;background:#1a1a1a;display:flex;align-items:center;justify-content:center;font-size:22px;border:2px solid #FFD700;overflow:hidden}.story div img{width:100%;height:100%;object-fit:cover}
+.post{background:#111;border:1px solid #333;border-radius:12px;padding:11px;margin:10px}.post img{width:100%;border-radius:10px;margin-top:8px}.badge{background:#1a1a1a;border:1px solid #FFD700;color:#FFD700;border-radius:20px;padding:3px 8px;font-size:11px}
+.pBtns{display:flex;gap:5px;flex-wrap:wrap;margin-top:10px}.pBtns button{flex:1;min-width:52px;padding:8px 2px;border-radius:8px;border:1px solid #ff2d55;background:#ff2d55;color:#fff;font-size:11px;font-weight:bold;cursor:pointer}.pBtns button.gold{background:#ff2d55;color:#fff;font-weight:bold;border:1px solid #ff2d55}.pBtns button:disabled{opacity:.45}
+.bottom{position:fixed;bottom:0;left:0;right:0;background:#000;display:flex;z-index:99;border-top:2px solid #FFD700}.bottom button{flex:1;background:none;border:none;color:#ccc;padding:8px 1px;font-size:11px;cursor:pointer}
+.hidden{display:none}input,select,textarea{width:100%;padding:12px;margin:6px 0;background:#1a1a1a;border:1px solid #444;color:#fff;border-radius:10px}.small{font-size:12px;color:#aaa}.bigBtn{padding:13px;border-radius:12px;border:none;width:100%;margin:6px 0;font-weight:bold;color:#000;background:#FFD700;font-size:15px;cursor:pointer}.chip{display:inline-block;background:#1a1a1a;border:1px solid #FFD700;color:#FFD700;padding:6px 10px;border-radius:20px;font-size:12px;margin:3px;cursor:pointer}.lead{display:flex;justify-content:space-between;padding:12px;margin:8px 10px;border-radius:12px;background:#1a1a1a;border:1px solid #FFD700;font-weight:bold}.powerBox{display:none !important}.dpBig{width:90px;height:90px;border-radius:50%;background:#FFD700;display:flex;align-items:center;justify-content:center;font-size:40px;margin:10px auto;color:#000;overflow:hidden}.dpBig img{width:100%;height:100%;object-fit:cover}#msgBox{background:#1a1a1a;border:1px solid #FFD700;color:#FFD700;padding:10px;border-radius:10px;margin:10px;text-align:center;font-weight:bold}
+.mention{color:#FFD700;font-weight:bold;cursor:pointer}.replyBox{margin-left:14px;border-left:2px solid #FFD700;padding-left:8px}.ownBtns button{background:#FFD700;color:#000;border:none;padding:6px 10px;border-radius:8px;font-size:11px;font-weight:bold;cursor:pointer;margin-right:5px}
+.leaderName{color:#FFD700!important;font-weight:bold;font-size:10.5px!important;white-space:normal;word-break:break-word;text-shadow:0 0 8px #FFD700,0 0 16px #FFEA00;animation:leaderGlow 1.2s ease-in-out infinite}.leaderBolt{color:#FFEA00!important;text-shadow:0 0 8px #FFEA00,0 0 16px #FFD700;animation:leaderGlow 1.2s ease-in-out infinite}.leaderTag{display:inline-block;background:#FFD700;color:#000;font-size:8px!important;font-weight:bold;padding:1px 5px;border-radius:10px;margin-left:3px;white-space:nowrap;vertical-align:middle;box-shadow:0 0 8px #FFD700}@keyframes leaderGlow{0%,100%{text-shadow:0 0 6px #FFD700,0 0 14px #FFD700}50%{text-shadow:0 0 12px #fff,0 0 24px #FFEA00,0 0 32px #FFD700}}
+.modStar{color:#fff!important;font-weight:bold;font-size:10.5px!important;white-space:normal;word-break:break-word}.modStar .redStar{color:#B388FF!important;font-size:12px;text-shadow:0 0 8px #B388FF,0 0 16px #B388FF;animation:redStarGlow 0.9s ease-in-out infinite}.modStar .redBolt{color:#B388FF!important;font-size:11px;text-shadow:0 0 8px #B388FF,0 0 14px #B388FF;animation:redStarGlow 0.9s ease-in-out infinite}.redStarTag{display:block!important;background:#B388FF;color:#fff;font-size:7px!important;font-weight:bold;padding:1px 4px;border-radius:10px;margin:2px auto 0 auto;white-space:nowrap;width:fit-content;box-shadow:0 0 8px #B388FF}@keyframes redStarGlow{0%,100%{text-shadow:0 0 6px #B388FF,0 0 14px #B388FF}50%{text-shadow:0 0 12px #fff,0 0 24px #B388FF,0 0 32px #B388FF}}.privateTag{display:inline-block;background:#333;color:#FFD700;font-size:10px;padding:2px 7px;border-radius:20px;margin-left:4px;border:1px solid #FFD700}
+.trendBox{background:#007BFF;color:#fff;font-weight:bold;font-size:11px;padding:4px 8px;border-radius:8px;display:inline-block;margin:6px 0;box-shadow:0 0 10px #007BFF}.fireIcon{font-size:13px;vertical-align:middle}.likeLog{background:#000;border:1px solid #333;border-radius:8px;padding:6px 8px;font-size:12px;margin-top:6px;color:#FFB066}
+.orangeNote{color:#FFB066!important;font-size:12px}.customStar{font-weight:bold;text-shadow:0 0 6px currentColor}.pendingBox{background:#1a1a1a;border:1px solid #FFB066;color:#FFB066;padding:12px;border-radius:10px;margin:10px;text-align:center;font-weight:bold}
+</style></head><body>
+<div class="top"><div><b>YAARII-PK 👑</b><small>Apni Mehfil • Apni Yaari • Black & Golden</small></div><div class="topIcons"><span onclick="showPage('search')">🔍</span><span onclick="showPage('leader')">🏆</span><span onclick="goProfile()">👤</span></div></div>
+<div id="msgBox" class="hidden"></div>
+<div id="page-auth"><div id="auth-signup" class="authBox"><h1>اکاؤنٹ بنائیں</h1><p>Yaarii-PK Family me shamil hon</p>
+<div class="inp">👤&nbsp;<input id="sUser" placeholder="صارف نام"></div>
+<div class="inp">🔒&nbsp;<input id="sPass" type="password" placeholder="پاس ورڈ"><span class="eye" onclick="togglePass('sPass',this)">👁️</span></div>
+<label style="font-size:12px;display:flex;gap:6px;align-items:center;margin:8px 0"><input type="checkbox" id="agree" style="width:auto"> میں قواعد سے اتفاق کرتا ہوں</label>
+<button type="button" id="btnSignup" class="btnGold" onclick="signup()">شروع کریں - Signup Karo</button>
+<p style="margin-top:12px">پہلے سے اکاؤنٹ ہے؟ <a href="#" onclick="showAuth('login');return false">لاگ اِن کریں</a></p><p class="orangeNote">Nayi ID pehle Admin / Moderator se Approve hogi, phir enter hoga.</p></div>
+<div id="auth-login" class="authBox hidden"><h1>خوش آمدید</h1><p>Login karo</p>
+<div class="inp">👤&nbsp;<input id="lUser" placeholder="صارف نام"></div>
+<div class="inp">🔒&nbsp;<input id="lPass" type="password" placeholder="پاس ورڈ"><span class="eye" onclick="togglePass('lPass',this)">👁️</span></div>
+<button type="button" id="btnLogin" class="btnGold" onclick="login()">لاگ اِن</button>
+<p style="margin-top:12px">نئے ہیں؟ <a href="#" onclick="showAuth('signup');return false">اکاؤنٹ بنائیں</a></p></div></div>
+<div id="page-home" class="hidden">
+<div class="card"><div style="display:flex;justify-content:space-between"><b>🟢 <span id="onlineCount">0 / 0</span> ONLINE</b><input id="searchOnline" placeholder="Search online..." style="width:55%;margin:0;padding:8px" oninput="renderOnline()"></div><div class="onlineBar" id="onlineBar"></div><p class="small">Sab users - Online upar 🟢, Offline neeche Last seen ke sath. Naam dabao to profile khulegi. Ring dabao to bulawa jayega.</p></div>
+<div class="filter"><button class="on" onclick="setFilter('FORME',this)">FOR ME</button><button onclick="setFilter('ALL',this)">ALL</button><button onclick="setFilter('TEXT',this)">TEXT</button><button onclick="setFilter('PICS',this)">PICS</button><button onclick="setFilter('Shayari',this)">Shayari</button><button onclick="setFilter('Funny',this)">Funny</button><button onclick="setFilter('Gaming',this)">Gaming</button><button onclick="setFilter('Cricket',this)">Cricket</button></div>
+<div class="card"><div style="display:flex;justify-content:space-between"><b>Stories</b><span style="color:#FFD700;cursor:pointer" onclick="openStoryBox()">📷 Story +</span></div><div class="storyRow" id="storyRow"></div><div id="storyBox" class="hidden" style="margin-top:10px"><input id="storyText" placeholder="Story me kya likhna hai?"><input type="file" id="storyPic" accept="image/*,video/*,audio/*"><button type="button" class="btnGold" onclick="addStory()">Story Lagao ✅</button></div></div>
+<div class="powerBox">⚡ Power: <span id="myPower">0</span> | Points: <span id="myPoints">0</span> | <span id="myFireLine"></span><br><span style="font-size:12px">Post=+10 | Like=+5 | Chapair=-5 | Trending Like=+5000</span></div>
+<div class="card" style="display:flex;gap:8px"><input id="quickText" placeholder="Quick thought... @name likho to mention hoga"><button type="button" onclick="quickPost()" style="background:#FFD700;color:#000;border:none;padding:10px 16px;border-radius:10px;font-weight:bold;cursor:pointer">➤</button></div>
+<div id="feed"></div></div>
+<div id="page-share" class="hidden"><div class="card"><h3>📤 Post Share Karo</h3><textarea id="postText" rows="3" placeholder="Kuch likho... @name mention"></textarea><select id="postCat"><option>General</option></select><input type="file" id="postPic" accept="image/*,video/*,audio/*"><input id="postPicLink" placeholder="Ya Photo / Video ka LINK yahan paste karo"><button type="button" class="btnGold" onclick="addPost()">POST KARO +10 Points</button><p class="small" style="margin-top:8px">Photo / Video ab Cloudinary par jayegi - fast khulegi ✅</p></div></div>
+<div id="page-trending" class="hidden"><div class="card"><h3>🔥 Trending</h3><p class="small">3 Likes wali posts yahan aati hain. Trending Creator ka Like = +5000</p></div><div id="trendFeed"></div></div>
+<div id="page-inbox" class="hidden"><div class="card"><h3>🔔 Notifications</h3><div id="notifList"></div></div><div class="card"><h3>✉️ DM Bhejo</h3><input id="dmTo" placeholder="Kisko DM karna hai? Naam likho"><input id="dmText" placeholder="Message likho"><button type="button" class="btnGold" onclick="sendDM()">DM Bhejo</button><div id="dmList" style="margin-top:10px"></div></div></div>
+<div id="page-1on1" class="hidden"><div class="card" style="padding:0;overflow:hidden;background:#0A0A0A;border:1px solid #FFD700;border-radius:16px"><div style="background:#1A1A1A;padding:12px;text-align:center;border-bottom:1px solid #333"><h3 style="margin:0;color:#fff">💬 1 ON 1 Private Chat 🔒</h3><p style="margin:4px 0 0;color:#aaa;font-size:12px">Pehle Invite bhejo, Accept hoga tab hi chat khulegi</p></div><div style="padding:12px"><input id="pvtTo" placeholder="Kisko Invite karna hai? Naam likho" style="width:100%;padding:12px;border-radius:12px;background:#000;color:#fff;border:1px solid #FFD700;margin-bottom:8px"><button type="button" class="btnGold" onclick="sendPvtInvite()" style="width:100%;padding:12px;border-radius:12px;font-weight:900">📩 Private Invite Bhejo</button><div id="pvtInviteBox" style="margin-top:10px"></div><div id="pvtHead44" style="text-align:center;margin:12px 0;font-weight:900;color:#FFD700;display:none"></div><div id="pvtBox" style="display:flex;flex-direction:column;gap:8px;max-height:380px;overflow-y:auto;padding:8px;background:#0A0A0A;border-radius:12px;min-height:100px"></div><div id="pvtReplyBar" style="display:none;background:#1A1A1A;border-left:3px solid #FFD700;padding:8px 10px;border-radius:8px;margin-top:10px;font-size:12px;color:#fff">Reply to: <b id="pvtReplyText" style="color:#FFD700"></b> <span onclick="pvtCancelReply()" style="float:right;cursor:pointer;color:#ff5555;font-weight:900">✖</span></div><div id="pvtSendRow" style="display:none;gap:8px;margin-top:8px;align-items:center"><input id="pvtText" placeholder="Yahan message likho..." style="flex:1 1 auto;min-width:0;width:0;padding:13px 14px;border-radius:20px;border:1px solid #444;background:#1A1A1A;color:#fff;font-size:14px"><button type="button" onclick="sendPvtMsg()" style="flex:0 0 72px;width:72px;background:#FFD700;color:#000;border:none;border-radius:20px;padding:13px 0;font-weight:900;white-space:nowrap;cursor:pointer">Bhejo ➤</button></div></div></div></div>
+<div id="page-profile" class="hidden"><div class="card" style="text-align:center"><div class="dpBig" id="pDpBox">👤</div><h2 id="pName"></h2><p id="pMeta" class="small"></p><p id="pBio"></p><p id="pPowerLine"></p><p id="pLastSeen" class="small"></p><p id="privateStatus" class="small"></p><div id="adminPanel"></div><button type="button" class="btnGold" onclick="showPage('more')">⚙️ Edit Profile / Settings</button><button type="button" class="btnBlack" onclick="showPage('leaderpanel')">🏆 Leader Panel</button><button type="button" class="btnBlack" onclick="logout()">Logout</button></div><div class="card"><h3>Meri Posts</h3><div id="myPosts"></div></div><div class="card"><h3>🚫 Blocked Users</h3><div id="myBlockedList"></div></div></div>
+<div id="page-viewprofile" class="hidden"><div class="card" style="text-align:center"><div class="dpBig" id="vDpBox">👤</div><h2 id="vName"></h2><p id="vMeta" class="small"></p><p id="vBio"></p><p id="vPowerLine"></p><p id="vLastSeen" class="small"></p><div style="display:flex;gap:6px"><button type="button" class="btnGold" onclick="startChatWithViewing()">💬 1 ON 1 Chat</button><button type="button" class="btnBlack" id="vBlockBtn" onclick="toggleBlockViewing()">🚫 Block Karo</button></div></div><div class="card"><h3>Iski Posts</h3><div id="vPosts"></div></div></div>
+<div id="page-mehfil" class="hidden"><div class="card"><h3>💬 Mehefilen</h3><input id="newMehfil" placeholder="Nayi Mehfil ka naam"><button type="button" class="btnGold" onclick="createMehfil()">Mehfil Banao</button><div id="mehfilList" style="margin-top:10px"></div></div><div class="card"><h3 id="mehfilTitle">Sab Ki Mehfil</h3><div id="mehfilChatBox" style="max-height:300px;overflow-y:auto"></div><input id="mehfilChatText" placeholder="Mehfil me likho..."><button type="button" class="btnGold" onclick="sendMehfilChat()">Bhejo 💬</button></div></div>
+<div id="page-fun" class="hidden"><div class="card"><h3>🎲 Fun Zone</h3><button type="button" class="btnGold" onclick="clapPractice()">👏 Clap Practice +5</button><p id="clapMsg"></p><button type="button" class="btnBlack" onclick="newJoke()">😂 Naya Joke</button><p id="jokeText"></p><button type="button" class="btnBlack" onclick="rollDice()">🎲 Dice Roll</button><p id="diceText"></p></div></div>
+<div id="page-leader" class="hidden"><div class="card"><h3>🏆 Leaderboard</h3><button type="button" class="btnGold" onclick="showLeader('score')">⭐ Points Wale</button><button type="button" class="btnBlack" onclick="showLeader('star')">★ Star Wale</button><div id="leaderList" style="margin-top:10px"></div></div></div>
+<div id="page-leaderpanel" class="hidden"><div class="card"><h3>🏆 Leader Panel</h3><p class="small">Sirf Leader / Moderator ke liye</p><div id="leaderPanelBox"></div></div></div>
+<div id="page-more" class="hidden"><div class="card"><h3>⚙️ Edit Profile</h3><label>Bio</label><textarea id="eBio" rows="2"></textarea><label>Age</label><input id="eAge" placeholder="Age"><label>City</label><input id="eCity" placeholder="City"><label>Star</label><input id="eStar" placeholder="Star"><label>DP Link</label><input id="dpLink" placeholder="DP ka link"><input type="file" id="dpFile" accept="image/*"><button type="button" class="btnGold" onclick="changeDP()">DP Lagao</button><button type="button" class="btnGold" onclick="saveProfile()">Save Profile ✅</button></div><div class="card"><h3>🔔 Settings</h3><p id="myToggleStatus" class="small"></p><button type="button" class="btnBlack" id="likeToggleBtn" onclick="toggleLike()">👏 Like: ON</button><button type="button" class="btnBlack" id="chapairToggleBtn" onclick="toggleChapair()">👋 Chapair: ON</button><button type="button" class="btnBlack" onclick="togglePrivate()">🔒 Private / Public</button></div></div>
+<div id="page-search" class="hidden"><div class="card"><h3>🔍 Search</h3><input id="searchQ" placeholder="Naam ya ID se search karo" oninput="doSearch()"><div id="searchRes"></div></div></div>
+<div id="page-emojis" class="hidden"><div class="card"><h3>😎 Emojis</h3><p style="font-size:28px;line-height:1.8">😎 🔥 👑 ⭐ 🐯 🐆 🐺 🦅 🦈 ❤️ 👏 👋 💬 🎲 😂</p></div></div>
+<div id="page-rules" class="hidden"><div class="card"><h3>📜 Rules</h3><p>1. Izzat se baat karo<br>2. Gali nahi<br>3. Fake ID nahi<br>4. Leader ka faisla final hai 👑</p></div></div>
+<div id="page-about" class="hidden"><div class="card"><h3>ℹ️ About</h3><p>Yaarii-PK - Apni Mehfil, Apni Yaari 👑<br>Black & Golden Family</p></div></div>
+<div id="page-terms" class="hidden"><div class="card"><h3>📄 Terms</h3><p>App use karne se tum rules se agree karte ho.</p></div></div>
+<div id="page-privacy" class="hidden"><div class="card"><h3>🔒 Privacy</h3><p>Tumhara data sirf app chalane ke liye use hota hai.</p></div></div>
+<div class="bottom"><button type="button" onclick="showPage('home')">🏠<br>HOME</button><button type="button" onclick="showPage('share')">📤<br>SHARE</button><button type="button" onclick="showPage('trending')">🔥<br>TREND</button><button type="button" onclick="showPage('inbox')">🔔<br>INBOX <span id="notifyBadge" style="display:none;background:#ff2d55;color:#fff;border-radius:10px;padding:1px 6px;font-size:10px;font-weight:bold"></span></button><button type="button" onclick="showPage('1on1')">🔒<br>1 ON 1</button><button type="button" onclick="showPage('mehfil')">💬<br>MEHFIL</button><button type="button" onclick="if(window.openThemePicker)openThemePicker()">🎨<br>THEME</button><button type="button" onclick="showPage('more')">⚙️<br>MORE</button></div>
+<script>
+// ===== CLOUDINARY CONFIG - FIXED =====
+var CLOUD_NAME = 'enuracal';
+var UPLOAD_PRESET = 'yaarii.pk';
+
+function compressImage(file, cb){
+  var img = new Image();
+  var url = URL.createObjectURL(file);
+  img.onload = function(){
+    var maxW = 1080;
+    var scale = Math.min(1, maxW / img.width);
+    var w = img.width * scale;
+    var h = img.height * scale;
+    var c = document.createElement('canvas');
+    c.width = w; c.height = h;
+    c.getContext('2d').drawImage(img, 0, 0, w, h);
+    c.toBlob(function(blob){
+      cb(new File([blob], file.name, {type:'image/jpeg'}));
+    }, 'image/jpeg', 0.70);
+  };
+  img.src = url;
+}
+
+function uploadToCloudinary(file, cb){
+  if(!file){ cb(''); return; }
+
+  // VIDEO - 35 SEC MAX CHECK
+  if(file.type.indexOf('video') === 0){
+    var v = document.createElement('video');
+    v.preload = 'metadata';
+    v.onloadedmetadata = function(){
+      URL.revokeObjectURL(v.src);
+      if(v.duration > 35){
+        showMsg('❌ Video 35 sec se zyada hai! Choti video lagao');
+        cb(''); return;
+      }
+      if(file.size > 12*1024*1024){
+        showMsg('❌ Video 12MB se zyada hai!');
+        cb(''); return;
+      }
+      doUpload(file, cb);
+    };
+    v.src = URL.createObjectURL(file);
+    return;
+  }
+
+  // PHOTO - COMPRESS KARKE BHEJO
+  if(file.type.indexOf('image') === 0){
+    showMsg('⏳ Photo choti ki ja rahi hai...');
+    compressImage(file, function(smallFile){
+      doUpload(smallFile, cb);
+    });
+    return;
+  }
+  doUpload(file, cb);
+}
+
+function doUpload(file, cb){
+  showMsg('⏳ Photo / Video upload ho rahi hai...');
+  var fd = new FormData();
+  fd.append('file', file);
+  fd.append('upload_preset', UPLOAD_PRESET);
+  var isVideo = file.type.indexOf('video')===0;
+  var isAudio = file.type.indexOf('audio')===0;
+  var url = 'https://api.cloudinary.com/v1_1/'+CLOUD_NAME+'/'+(isVideo||isAudio ? 'video' : 'image')+'/upload';
+  fetch(url, {method:'POST', body:fd}).then(function(r){ return r.json(); }).then(function(d){
+    if(d.secure_url){
+      var finalUrl = d.secure_url.replace('/upload/', '/upload/f_auto,q_auto:low/');
+      cb(finalUrl);
+    }
+    else { showMsg('Upload fail - dobara try karo'); cb(''); }
+  }).catch(function(){ showMsg('Upload fail - net check karo'); cb(''); });
+  }
+
+var firebaseConfig={apiKey:"AIzaSyB4HgjBnvJUtDLgvGVMvQfuug2RMxEqRzs",authDomain:"yaarii-pk.firebaseapp.com",databaseURL:"https://yaarii-pk-default-rtdb.firebaseio.com",projectId:"yaarii-pk",storageBucket:"yaarii-pk.firebasestorage.app",messagingSenderId:"124612817211",appId:"1:124612817211:web:559f798ba2517c8087871e"};
+firebase.initializeApp(firebaseConfig);
+var db=firebase.database();
+var G={users:{},posts:{},postsArr:[],chat:[],stories:[],mehfils:[],inbox:[],pvt:[],blockedIPs:{},blockedDevices:{}};
+var cur=localStorage.getItem('y_cur')||'';
+var curFilter='FORME';
+var curMehfil='Sab Ki Mehfil';
+var viewingUser='';
+var unreadCount=0;
+var inboxLoaded=false;
+var myIP='';
+var myDevice=localStorage.getItem('y_dev')||('dev_'+Math.random().toString(36).slice(2)+Date.now());
+localStorage.setItem('y_dev',myDevice);
+var cats=['General','Shayari','Funny','Gaming','Cricket','Music','Love','News'];
+function showMsg(t){var m=document.getElementById('msgBox');if(!m)return;m.innerText=t;m.classList.remove('hidden');setTimeout(function(){m.classList.add('hidden')},3000)}
+function showAuth(which){document.getElementById('page-auth').classList.remove('hidden');['home','share','trending','inbox','1on1','profile','mehfil','fun','leader','leaderpanel','more','search','emojis','rules','about','terms','privacy','viewprofile'].forEach(function(x){var e=document.getElementById('page-'+x);if(e)e.classList.add('hidden')});document.getElementById('auth-signup').classList.toggle('hidden',which!=='signup');document.getElementById('auth-login').classList.toggle('hidden',which!=='login')}
+function togglePass(id,el){var i=document.getElementById(id);if(!i)return;i.type=i.type==='password'?'text':'password';el.innerText=i.type==='password'?'👁️':'🙈'}
+function goProfile(){if(!cur){showAuth('signup');return}showPage('profile')}
+function getUsers(){return G.users||{}}
+function getPosts(){return G.postsArr||[]}
+function getChat(){return G.chat||[]}
+function getStories(){return G.stories||[]}
+function getMehfils(){return G.mehfils||["Sab Ki Mehfil"]}
+function getBlockedList(){var me=G.users[cur];return(me&&me.blocked)?me.blocked:[]}
+function isBlocked(name){return getBlockedList().indexOf(name)>=0}
+function getSeenInbox(){try{return parseInt(localStorage.getItem('y_seen_'+cur)||'0')}catch(e){return 0}}
+function isLeaderName(n){return n==='Leader'||n==='05121472'}
+function isAdminUser(u){if(!u)return false;return u.role==='ADMIN'||isLeaderName(u.u)}
+function isModUser(u){if(!u)return false;return u.role==='MODERATOR'}
+function isLeaderNow(){var me=G.users[cur];return !!me&&(me.role==='ADMIN'||isLeaderName(cur))}
+function isModNow(){var me=G.users[cur];return !!me&&(me.role==='MODERATOR'||me.role==='ADMIN'||isLeaderName(cur))}
+function isFireUser(n){var u=G.users[n];if(!u)return false;return(u.points||0)>=5000||(u.power||0)>=5000}
+function getFireHtml(n){return isFireUser(n)?' 🔥':''}
+function isBannedUser(u){if(!u)return false;return(u.bannedUntil||0)>Date.now()}
+function banTxt(u){if(!u||!isBannedUser(u))return'';if(u.bannedUntil>4102444800000)return' <small style="color:#ff2d55">⛔ PERMANENT BAN</small>';return' <small style="color:#ff2d55">⛔ BAN '+timeAgo(u.bannedUntil)+' tak</small>'}
+function isTrendingPost(p){return(p.likes||0)>=3||!!p.trending}
+function hasDeletePower(me){return !!me&&(me.role==='ADMIN'||me.role==='MODERATOR')}
+function isReservedName(u){var l=u.toLowerCase();return l.indexOf('leader')>=0||l.indexOf('admin')>=0||l.indexOf('👑')>=0||l==='05121472'}
+function timeAgo(t){if(!t)return'';var d=Date.now()-t;if(d<0)return'Ban khatam';if(d<60000)return'Abhi';if(d<3600000)return Math.floor(d/60000)+' min pehle';if(d<86400000)return Math.floor(d/3600000)+' ghante pehle';return Math.floor(d/86400000)+' din pehle'}
+function lastSeenTxt(u){if(!u)return'';if((Date.now()-(u.lastSeen||0))<5*60*1000)return'🟢 Online hai';return'⚪ '+timeAgo(u.lastSeen)}
+function displayName(n){if(!n)return '';if(isLeaderName(n)){return '<span style="color:#FFD700;text-shadow:0 0 10px #FFD700,0 0 18px #FFE600,0 0 28px #FFD700">🦁👑 '+n+'</span>';}var users=getUsers();var u=users[n];var posts=getPosts();var likesBy={};posts.forEach(function(p){likesBy[p.u]=(likesBy[p.u]||0)+(p.likes||0)});var starTop=Object.values(users).filter(function(x){return !isLeaderName(x.u)}).sort(function(a,b){return(likesBy[b.u]||0)-(likesBy[a.u]||0)}).slice(0,5).map(function(x){return x.u});var scoreTop=Object.values(users).filter(function(x){return !isLeaderName(x.u)}).sort(function(a,b){return(b.points||0)-(a.points||0)}).slice(0,5).map(function(x){return x.u});var animals=['🐯','🐆','🐺','🦅','🦈'];var starColors=['#FFD700','#FFE93D','#7CFC00','#7ED6FF','#FFB6E6'];var badge='';var si=starTop.indexOf(n);var ci=scoreTop.indexOf(n);if(si>=0){badge+=' <span style="color:'+starColors[si]+';font-size:14px;font-weight:bold;text-shadow:0 0 8px '+starColors[si]+'">★</span>';}if(ci>=0){badge+=' <span style="font-size:13px">'+animals[ci]+'</span>';}if(isFireUser(n))badge+=' <span>🔥</span>';if(u&&u.role==='MODERATOR'){return '<span style="color:#fff;text-shadow:0 0 10px #FF0000,0 0 18px #FF2D55,0 0 28px #FF0000"><span style="color:#FF2D55;text-shadow:0 0 12px #FF0000,0 0 20px #FF2D55,0 0 30px #FF0000">★</span> '+n+' <span style="color:#FF2D55;text-shadow:0 0 12px #FF0000,0 0 20px #FF2D55,0 0 30px #FF0000">★</span></span>'+badge;}return n+badge;}
+function getTopBadge(n){var u=G.users[n];if(!u)return'';if(isAdminUser(u))return' 👑';if(isModUser(u))return' ⭐';return''}
+function mentionify(t){if(!t)return'';return String(t).replace(/@(\w+)/g,'<span class="mention" onclick="viewUser(\'$1\')">@$1</span>')}
+function sendRing(to){if(!to||to===cur)return;pushInbox(to,{from:cur,text:'🔔 '+cur+' ne tumhe RING kiya - Online aao! 👀',type:'ring'});showMsg(to+' ko RING kar diya 🔔')}
+function toggleLike(){var me=G.users[cur];if(!me)return;var nv=!(me.likeOn!==false);db.ref('users/'+cur+'/likeOn').set(nv);showMsg('Like '+(nv?'ON':'OFF')+' kar diya');setTimeout(loadProfile,300)}
+function toggleChapair(){var me=G.users[cur];if(!me)return;var nv=!(me.chapairOn!==false);db.ref('users/'+cur+'/chapairOn').set(nv);showMsg('Chapair '+(nv?'ON':'OFF')+' kar diya');setTimeout(loadProfile,300)}
+function togglePrivate(){var me=G.users[cur];if(!me)return;var nv=!me.isPrivate;db.ref('users/'+cur+'/isPrivate').set(nv);showMsg(nv?'Profile PRIVATE kar di 🔒':'Profile PUBLIC kar di 🔓');setTimeout(loadProfile,300)}
+function fetchMyIP(){try{fetch('https://api.ipify.org?format=json').then(function(r){return r.json()}).then(function(d){myIP=d.ip||''}).catch(function(){})}catch(e){}}
+function blockIPOf(name){var u=G.users[name];if(!u||!u.ip){showMsg('Is user ka IP nahi mila');return}var k=u.ip.replace(/\./g,'_');db.ref('blockedIPs/'+k).set({ip:u.ip,user:name,time:Date.now()});showMsg(name+' ka IP BLOCK kar diya ⛔')}
+function unblockIP(ip){var k=ip.replace(/\./g,'_');db.ref('blockedIPs/'+k).remove();showMsg('IP Unblock ho gaya ✅')}
+function blockDeviceOf(name){var u=G.users[name];if(!u||!u.device){showMsg('Device nahi mila');return}var k=btoa(u.device).substring(0,30);db.ref('blockedDevices/'+k).set({device:u.device,user:name,time:Date.now()});showMsg(name+' ka DEVICE BLOCK kar diya 📱⛔')}
+function makeModerator(name){if(!isLeaderNow()){showMsg('Sirf Leader Moderator bana sakta hai');return}db.ref('users/'+name+'/role').set('MODERATOR');showMsg(name+' ko MODERATOR bana diya ⭐');setTimeout(function(){loadProfile();showLeaderPanel()},300)}
+function removeModerator(name){if(!isLeaderNow())return;db.ref('users/'+name+'/role').set('USER');showMsg(name+' se Moderator hata diya');setTimeout(function(){loadProfile();showLeaderPanel()},300)}
+function banById(){var id=document.getElementById('banIdInput').value.trim();var days=parseInt(document.getElementById('banDaysSelect').value);if(!id){showMsg('ID likho');return}var found=null;Object.values(G.users).forEach(function(u){if(String(u.id)===String(id))found=u.u});if(!found){showMsg('Ye ID nahi mili');return}banUser(found,days)}
+function unbanById(){var id=document.getElementById('banIdInput').value.trim();if(!id){showMsg('ID likho');return}var found=null;Object.values(G.users).forEach(function(u){if(String(u.id)===String(id))found=u.u});if(!found){showMsg('Ye ID nahi mili');return}banUser(found,0)}
+function showLeaderPanel(){if(!isModNow()){showMsg('Sirf Leader / Moderator');showPage('profile');return}showPage('leaderpanel');var box=document.getElementById('leaderPanelBox');if(!box)return;var html='<p class="small">Total Users: '+Object.keys(G.users).length+' | Total Posts: '+getPosts().length+'</p>';if(isLeaderNow()){html+='<div class="card"><h4>👑 Leader Controls</h4><input id="banIdInput" placeholder="User ID likho"><select id="banDaysSelect"><option value="1">1 Din</option><option value="7" selected>7 Din</option><option value="30">30 Din</option><option value="-1">PERMANENT</option></select><div style="display:flex;gap:6px"><button type="button" class="btnGold" onclick="banById()">⛔ BAN</button><button type="button" class="btnBlack" onclick="unbanById()">✅ UNBAN</button></div></div>'}html+='<div class="card"><h4>Pending Approvals</h4>'+Object.values(G.users).filter(function(u){return u.status==='pending'}).map(function(u){return '<div style="display:flex;justify-content:space-between;padding:8px;background:#111;border-radius:8px;margin:4px 0"><b>'+u.u+'</b><span><button type="button" onclick="approveUser(\''+u.u+'\')" style="background:#00cc66;color:#fff;border:none;padding:6px 10px;border-radius:8px">Approve</button> <button type="button" onclick="rejectUser(\''+u.u+'\')" style="background:#ff2d55;color:#fff;border:none;padding:6px 10px;border-radius:8px">Reject</button></span></div>'}).join('')+'</div>';box.innerHTML=html||'Koi pending nahi'}
+function approveUser(n){db.ref('users/'+n+'/status').set('approved');showMsg(n+' Approve ho gaya ✅');setTimeout(showLeaderPanel,300)}
+function rejectUser(n){if(!confirm(n+' ko reject karna hai?'))return;db.ref('users/'+n).remove();showMsg(n+' Reject kar diya');setTimeout(showLeaderPanel,300)}
+function updateNotifyBadge(){var b=document.getElementById('notifyBadge');if(!b)return;var total=(G.inbox||[]).length;unreadCount=Math.max(0,total-getSeenInbox());if(unreadCount>0){b.innerText=unreadCount>99?'99+':unreadCount;b.style.display='inline-block';}else{b.style.display='none';}}
+function markAllRead(){localStorage.setItem('y_seen_'+cur,String((G.inbox||[]).length));unreadCount=0;updateNotifyBadge();}
+function syncFirebase(){
+db.ref('users/Leader').once('value',function(s){if(!s.val()){db.ref('users/Leader').set({u:'Leader',p:'05121472',age:'?',city:'Lahore',star:'Leo ♌',bio:'Yaarii-PK Ka Admin 👑',dp:'👑',points:10000,power:5000,lastSeen:Date.now(),id:1001,role:'ADMIN',status:'approved',following:[],blocked:[],bannedUntil:0,likeOn:true,chapairOn:true})}});
+db.ref('blockedIPs').on('value',function(s){G.blockedIPs=s.val()||{}});
+db.ref('blockedDevices').on('value',function(s){G.blockedDevices=s.val()||{}});
+db.ref('users').once('value',function(s){G.users=s.val()||{};window.__usersLoaded=true;if(cur){renderOnline();updatePowerBox();}if(cur&&!document.getElementById('page-profile').classList.contains('hidden')){loadProfile();}if(cur&&!document.getElementById('page-leaderpanel').classList.contains('hidden')){showLeaderPanel();}});
+db.ref('users').on('child_changed',function(s){G.users[s.key]=s.val();if(cur&&!document.getElementById('page-home').classList.contains('hidden')){renderOnline();updatePowerBox();}if(cur&&!document.getElementById('page-profile').classList.contains('hidden')){loadProfile();}if(cur&&!document.getElementById('page-leaderpanel').classList.contains('hidden')){showLeaderPanel();}});
+db.ref('users').on('child_added',function(s){if(!G.users[s.key]){G.users[s.key]=s.val();if(cur&&!document.getElementById('page-home').classList.contains('hidden')){renderOnline();}}});
+db.ref('posts').limitToLast(66).on('value',function(s){window.__dataLoaded=true;var o=s.val()||{};G.posts=o;G.postsArr=Object.keys(o).map(function(k){var v=o[k];v._key=k;return v});if(cur)loadFeed();if(!document.getElementById('page-trending').classList.contains('hidden'))loadTrend()});
+db.ref('chat').limitToLast(30).on('value',function(s){var o=s.val()||{};G.chat=Object.keys(o).map(function(k){return o[k]});if(!document.getElementById('page-mehfil').classList.contains('hidden'))loadMehfilChat()});
+db.ref('stories').on('value',function(s){var o=s.val()||{};G.stories=Object.keys(o).map(function(k){return o[k]});if(!document.getElementById('page-home').classList.contains('hidden'))renderStories()});
+db.ref('mehfils').on('value',function(s){var v=s.val();G.mehfils=Array.isArray(v)?v:(v?Object.keys(v).map(function(k){return v[k]}):["Sab Ki Mehfil"]);if(!document.getElementById('page-mehfil').classList.contains('hidden'))loadMehfil()});
+if(cur){db.ref('inbox/'+cur).on('value',function(s){var o=s.val()||{};G.inbox=Object.keys(o).map(function(k){var v=o[k];v._key=k;return v});inboxLoaded=true;updateNotifyBadge();if(!document.getElementById('page-inbox').classList.contains('hidden'))loadInbox()});db.ref('pvt/'+cur).on('value',function(s){var o=s.val()||{};G.pvt=Object.keys(o).map(function(k){return o[k]});if(!document.getElementById('page-1on1').classList.contains('hidden'))loadPrivate()})}}
+function pushInbox(to,msg){if(!to)return;if(isBlocked(to))return;var tu=G.users[to];if(tu&&isBannedUser(tu))return;if(!msg.time)msg.time=Date.now();if(!msg.type)msg.type='notify';db.ref('inbox/'+to).push(msg)}
+function isIPBlocked(ip){if(!ip)return false;return !!G.blockedIPs[ip.replace(/\./g,'_')]}
+function isDeviceBlocked(dev){if(!dev)return false;var k=btoa(dev).substring(0,30);return !!G.blockedDevices[k]}
+function signup(){var u=document.getElementById('sUser').value.trim().replace(/\s+/g,'_');var p=document.getElementById('sPass').value;if(!u||!p){showMsg('Naam + Password likho');return}if(u.length<3){showMsg('Naam bara rakho');return}if(isReservedName(u)){showMsg('⛔ Ye naam reserved hai - Admin / Leader / 👑 wali ID nahi bana sakte');return}if(!document.getElementById('agree').checked){showMsg('Pehle Rules se agree karo');return}if(isIPBlocked(myIP)){showMsg('⛔ Is Mobile ka IP BLOCKED hai - Admin se rabta karo');return}if(isDeviceBlocked(myDevice)){showMsg('⛔ Is Device ko BLOCK kiya gaya hai');return}showMsg('Signup ho raha hai...');db.ref('users/'+u).once('value',function(s){if(s.val()){showMsg('Ye naam pehle se hai - Login karo');showAuth('login');return}db.ref('users').once('value',function(all){var isFirst=!all.val()||Object.keys(all.val()).length===0;var newStatus=isFirst?'approved':'pending';db.ref('users/'+u).set({u:u,p:p,age:'?',city:'Lahore',star:'Leo ♌',bio:'Yaarii-PK Ka Yaar 😎',dp:'😎',points:50,power:0,lastSeen:Date.now(),id:Math.floor(1000+Math.random()*9000),role:isFirst?'ADMIN':'USER',status:newStatus,following:[],blocked:[],bannedUntil:0,likeOn:true,chapairOn:true,ip:myIP||'',device:myDevice||''},function(err){if(err){showMsg('Firebase Error: '+err.message);return}if(newStatus==='pending'){showMsg('⏳ ID ban gayi! Ab Admin / Moderator ke Approve ka intezar karo');showAuth('login');return}localStorage.setItem('y_cur',u);cur=u;syncFirebase();fetchMyIP();showMsg('SIGNUP HO GAYA '+u+'! +50 Points');setTimeout(showHomeNow,200)})})})}
+function login(){var u=document.getElementById('lUser').value.trim().replace(/\s+/g,'_');var p=document.getElementById('lPass').value;if(!u||!p){showMsg('Naam + Password likho');return}if(isReservedName(u)&&u!=='Leader'&&u!=='05121472'){showMsg('⛔ Ye naam reserved hai');return}if(isIPBlocked(myIP)){showMsg('⛔ Is Mobile ka IP BLOCKED hai');return}if(isDeviceBlocked(myDevice)){showMsg('⛔ Is Device ko BLOCK kiya gaya hai');return}showMsg('Login ho raha hai...');db.ref('users/'+u).once('value',function(s){var d=s.val();if(!d){showMsg('Account nahi mila - Signup karo');showAuth('signup');return}if(isBannedUser(d)){if(d.bannedUntil>4102444800000){showMsg('⛔ Ye ID PERMANENT BAN hai. Leader se rabta karo');}else{showMsg('⛔ Ye ID BAN hai - '+timeAgo(d.bannedUntil)+' tak. Leader se rabta karo');}return}if(String(d.p)!==String(p)){showMsg('Galat Password');return}if(d.status==='pending'){showMsg('⏳ Tumhari ID abhi Pending hai - Admin / Moderator ke Approve ka intezar karo');return}db.ref('users/'+u).update({lastSeen:Date.now(),online:true,ip:myIP||d.ip||'',device:myDevice||d.device||''});localStorage.setItem('y_cur',u);cur=u;db.ref('users/'+u+'/online').onDisconnect().set(false);db.ref('users/'+u+'/lastSeen').onDisconnect().set(Date.now());db.ref('users/'+u+'/forceLogout').on('value',function(s){if(s.val()){alert('⛔ Tumhe BAN kar diya gaya');logout();}});showMsg('LOGIN HO GAYA '+u);showHomeNow();syncFirebase();fetchMyIP();})}
+function logout(){if(cur)db.ref('users/'+cur+'/lastSeen').set(Date.now());localStorage.removeItem('y_cur');localStorage.removeItem('y_page');location.reload()}
+function markOnline(){if(!cur)return;db.ref('users/'+cur+'/lastSeen').set(Date.now())}
+function playPop(){try{var a=new(window.AudioContext||window.webkitAudioContext)();var o=a.createOscillator();var g=a.createGain();o.connect(g);g.connect(a.destination);o.frequency.setValueAtTime(500,a.currentTime);o.frequency.exponentialRampToValueAtTime(1400,a.currentTime+0.07);g.gain.setValueAtTime(0.4,a.currentTime);g.gain.exponentialRampToValueAtTime(0.001,a.currentTime+0.15);o.start();o.stop(a.currentTime+0.16)}catch(e){}}
+function playSlap(){try{var a=new(window.AudioContext||window.webkitAudioContext)();var len=a.sampleRate*0.18;var buf=a.createBuffer(1,len,a.sampleRate);var d=buf.getChannelData(0);for(var i=0;i<len;i++){d[i]=(Math.random()*2-1)*Math.pow(1-i/len,2)}var s=a.createBufferSource();s.buffer=buf;var g=a.createGain();g.gain.setValueAtTime(0.9,a.currentTime);g.gain.exponentialRampToValueAtTime(0.01,a.currentTime+0.18);s.connect(g);g.connect(a.destination);s.start();if(navigator.vibrate)navigator.vibrate(80)}catch(e){}}
+function playDing(){try{var a=new(window.AudioContext||window.webkitAudioContext)();var o=a.createOscillator();var g=a.createGain();o.connect(g);g.connect(a.destination);o.frequency.setValueAtTime(1200,a.currentTime);g.gain.setValueAtTime(0.4,a.currentTime);g.gain.exponentialRampToValueAtTime(0.001,a.currentTime+0.6);o.start();o.stop(a.currentTime+0.6)}catch(e){}}
+function renderOnline(){var users=getUsers();var now=Date.now();var q=(document.getElementById('searchOnline')?document.getElementById('searchOnline').value.toLowerCase():'');var posts=getPosts();var likesBy={};posts.forEach(function(p){likesBy[p.u]=(likesBy[p.u]||0)+(p.likes||0)});var allUsers=Object.values(users).filter(function(u){return u&&u.u&&u.u.toLowerCase().indexOf(q)>=0&&!isBannedUser(u)}).sort(function(a,b){var ao=(now-(a.lastSeen||0))<5*60*1000?1:0;var bo=(now-(b.lastSeen||0))<5*60*1000?1:0;if(bo!==ao)return bo-ao;return(b.points||0)-(a.points||0)});var on=allUsers.filter(function(u){return(now-(u.lastSeen||0))<5*60*1000});var bar=document.getElementById('onlineBar');if(!bar)return;bar.innerHTML='';if(!allUsers.length){bar.innerHTML='';return}var cEl=document.getElementById('onlineCount');if(cEl)cEl.innerText=on.length+' / '+allUsers.length;bar.innerHTML=allUsers.map(function(u){var dp=(u.dp&&u.dp.length>10)?'<img src="'+u.dp+'">':(u.dp||'👤');var isOnline=(now-(u.lastSeen||0))<5*60*1000;var ringBtn=u.u===cur?'':'<button onclick="event.stopPropagation();sendRing(\''+u.u+'\')" style="background:#FFD700;color:#000;border:none;padding:3px 8px;border-radius:10px;font-size:10px;font-weight:bold;cursor:pointer;margin-top:3px">🔔 RING</button>';var isMod=(u.role==='MODERATOR');var isLead=isLeaderName(u.u);var adminCls=isAdminUser(u)?' leaderCircle':'';var nameHtml=displayName(u.u);var tagHtml='';if(isLead){tagHtml='<span style="display:inline-block;font-size:9px;line-height:1.2;font-weight:bold;color:#000;background:#FFD700;border-radius:20px;padding:2px 8px;box-shadow:0 0 12px #FFD700,0 0 22px #FFE600;text-shadow:0 0 6px #fff;white-space:nowrap">LEADER</span>';}else if(isMod){tagHtml='<span style="display:inline-block;font-size:9px;line-height:1.2;font-weight:bold;color:#fff;background:#FF0000;border-radius:20px;padding:2px 8px;box-shadow:0 0 12px #FF0000,0 0 22px #FF2D55;text-shadow:0 0 6px #fff,0 0 12px #FF0000;white-space:nowrap">MODERATOR</span>';}var scoreLine=isLead?'<small style="color:#FFD700">👑 Owner</small>':'<small>⭐ '+(u.points||0)+' • 👏 '+(likesBy[u.u]||0)+'</small>';var cardStyle='cursor:pointer';if(isLead){cardStyle+=';border:1.5px solid #FFD700;box-shadow:0 0 12px #FFD700;border-radius:14px';}if(isMod){cardStyle+=';border:1.5px solid #FF0000;box-shadow:0 0 12px #FF0000;border-radius:14px';}return '<div class="uCircle" style="'+cardStyle+'" onclick="viewUser(\''+u.u+'\')"><div class="'+adminCls+'">'+dp+(isOnline?'<span class="dot"></span>':'')+'</div><p>'+nameHtml+'<br>'+tagHtml+'</p>'+scoreLine+'<br><small>'+(isOnline?'🟢 Online hai':lastSeenTxt(u))+'</small><br>'+ringBtn+'</div>'}).join('')}
+function setFilter(f,el){curFilter=f;document.querySelectorAll('.filter button').forEach(function(b){b.classList.remove('on')});if(el)el.classList.add('on');loadFeed()}
+function openStoryBox(){document.getElementById('storyBox').classList.toggle('hidden')}
+function fileToBase64(f,cb){var rd=new FileReader();rd.onload=function(){cb(rd.result)};rd.readAsDataURL(f)}
+  function addStory(){
+  var t=document.getElementById('storyText').value.trim();
+  var f=document.getElementById('storyPic').files[0];
+  if(!t&&!f){showMsg('Kuch likho');return}
+  if(f&&f.size>50000000){showMsg('Story bari hai - 50MB se chhoti lagao');return}
+  var doAdd=function(pic){
+    db.ref('stories').push({u:cur,text:t,pic:pic||'',time:Date.now()});
+    document.getElementById('storyText').value='';
+    document.getElementById('storyPic').value='';
+    document.getElementById('storyBox').classList.add('hidden');
+    showMsg('Story lag gayi! ✅')
+  };
+  if(f) uploadToCloudinary(f,function(url){ doAdd(url) });
+  else doAdd('');
+}
+function renderStories(){var arr=getStories();var now=Date.now();var blocked=getBlockedList();arr=arr.filter(function(s){return s&&s.u&&(now-s.time)<24*60*60*1000&&blocked.indexOf(s.u)<0});if(!arr.length){document.getElementById('storyRow').innerHTML='<p class="small">Koi story nahi</p>';return}document.getElementById('storyRow').innerHTML=arr.slice().reverse().map(function(s){var inner=s.pic?(s.pic.indexOf('data:video')===0||s.pic.indexOf('.mp4')>0||s.pic.indexOf('video/upload')>0?'<video src="'+s.pic+'" controls style="width:100%;height:100%;object-fit:cover"></video>':s.pic.indexOf('data:audio')===0||s.pic.indexOf('.mp3')>0||s.pic.indexOf('video/upload')>0&&s.pic.indexOf('.mp4')<0?'<audio src="'+s.pic+'" controls style="width:100%"></audio>':'<img src="'+s.pic+'">'):'😎';var cls=isAdminUser(G.users[s.u])?' leaderCircle':'';return '<div class="story" style="cursor:pointer" onclick="viewUser(\''+s.u+'\')"><div class="'+cls+'">'+inner+'</div><p style="font-size:11px">'+displayName(s.u)+'</p></div>'}).join('')}
+function getLikeScore(){if(isFireUser(cur))return 5000;return 5}
+function getChapairScore(){if(isFireUser(cur))return 5000;return 5}
+function updatePowerBox(){var me=getUsers()[cur];if(!me)return;document.getElementById('myPower').innerText=me.power||0;document.getElementById('myPoints').innerText=me.points||0;var fl=document.getElementById('myFireLine');if(fl)fl.innerText=isFireUser(cur)?'🔥 Fire Power ON (+5000)':' ';}
+function clapPractice(){var gain=5;db.ref('users/'+cur+'/points').once('value',function(s){var np=(s.val()||0)+gain;db.ref('users/'+cur+'/points').set(np);document.getElementById('clapMsg').innerText='👏 +'+gain+' points! Total: '+np;playPop()})}
+function newJoke(){var j=["Ustaad: 1 crore mil jaye to kya karoge? Shagird: Pehle neend poori karunga 😂","Biwi: Ghoomne nahi le jate. Shohar: To ab ghoom ke aa gayi na? 😂"];document.getElementById('jokeText').innerText=j[Math.floor(Math.random()*j.length)]}
+function rollDice(){document.getElementById('diceText').innerText='🎲 '+(Math.floor(Math.random()*6)+1)+' Aaya!';playDing()}
+function addPoints(n){db.ref('users/'+cur+'/points').once('value',function(s){db.ref('users/'+cur+'/points').set((s.val()||0)+n)})}
+function addPointsTo(user,n){db.ref('users/'+user+'/points').once('value',function(s){db.ref('users/'+user+'/points').set((s.val()||0)+n)})}
+function quickPost(){var el=document.getElementById('quickText');var t=el.value.trim();if(!t){showMsg('Pehle kuch likho');return}el.value='';var feed=document.getElementById('feed');if(feed){var d=document.createElement('div');d.className='post';d.innerHTML='<div style="display:flex;justify-content:space-between"><b>'+getDPHtml(cur)+displayName(cur)+getTopBadge(cur)+' 👀</b><span class="badge">General • Just now</span></div><p style="margin:10px 0;font-size:16px">'+mentionify(t)+'</p><p class="small" style="color:#FFD700">⏳ Sending...</p>';feed.prepend(d);}db.ref('posts').push({u:cur,text:t,cat:'General',likes:0,chapair:0,comments:[],likedBy:[],chapairBy:[],likeLog:[],time:Date.now(),t:'Just now',pic:'',type:'TEXT'});addPoints(10);var m=t.match(/@(\w+)/);if(m&&m[1]!==cur){pushInbox(m[1],{from:cur,text:'📣 '+cur+' ne tumhe @MENTION kiya: '+t,postText:t,type:'mention'})}showMsg('Post Ho Gaya! +10 Points ✅')}
+function addPost(){
+  var t=document.getElementById('postText').value.trim();
+  var f=document.getElementById('postPic').files[0];
+  var link=document.getElementById('postPicLink').value.trim();
+  var cat=document.getElementById('postCat').value||'General';
+  if(!t&&!f&&!link){showMsg('Kuch likho ya photo lagao');return}
+  if(f&&f.size>50000000){showMsg('Video bari hai - 50MB se chhoti lagao ya Link use karo');return}
+  showMsg('Post send ho rahi hai...');
+  var doPost=function(pic){
+    var typ='TEXT';
+    if(pic){if(pic.indexOf('data:video')===0||pic.indexOf('.mp4')>0||pic.indexOf('video/upload')>0)typ='VIDEO';else if(pic.indexOf('data:audio')===0||pic.indexOf('.mp3')>0)typ='AUDIO';else typ='PICS';}
+    db.ref('posts').push({u:cur,text:t,pic:pic||link||'',cat:cat,likes:0,chapair:0,comments:[],likedBy:[],chapairBy:[],likeLog:[],time:Date.now(),t:'Just now',type:typ});
+   if(cur) db.ref('users/'+cur+'/lastSeen').set(Date.now());
+    addPoints(10);
+    var m=t.match(/@(\w+)/);
+    if(m&&m[1]!==cur){pushInbox(m[1],{from:cur,text:'📣 '+cur+' ne tumhe @MENTION kiya: '+t,postText:t,type:'mention'})}
+    document.getElementById('postText').value='';
+    document.getElementById('postPic').value='';
+    document.getElementById('postPicLink').value='';
+    showMsg('Post ho gaya! +10 Points ✅');
+    showPage('home')
+  };
+  if(f) uploadToCloudinary(f,function(url){ doPost(url) });
+  else doPost(link);
+}
+function getDPHtml(name){var u=G.users[name]||{};if(u.dp&&u.dp.length>10){return '<img src="'+u.dp+'" style="width:32px;height:32px;border-radius:50%;object-fit:cover;display:inline-block;vertical-align:middle;margin-right:6px">'}else if(u.dp){return u.dp+' '}return '👤 '}
+function mediaHtml(p){if(!p.pic)return '';if(p.pic.indexOf('data:video')===0||p.pic.indexOf('.mp4')>0||p.pic.indexOf('video/upload')>0||p.type==='VIDEO')return '<video src="'+p.pic+'" controls preload="metadata" style="width:100%;border-radius:10px"></video>';if(p.pic.indexOf('data:audio')===0||p.type==='AUDIO')return '<audio src="'+p.pic+'" controls preload="metadata" style="width:100%;margin-top:8px"></audio>';return '<img src="'+p.pic+'" loading="lazy">';}
+var FEED_LIMIT=22;
+var __feedBusy=false;
+function isModOrAdmin(){
+var me=getUsers()[cur];
+if(!me) return false;
+var r=(me.role||me.rank||'').toLowerCase();
+return r=='admin'||r=='moderator'||me.isAdmin==true||me.isMod==true||cur=='Leader'||cur=='Admin';
+}
+function isTrendingCreator(u){
+var users=getUsers();
+var me=users[u];
+if(!me) return false;
+var r=(me.role||me.rank||me.badge||'').toLowerCase();
+if(r.indexOf('trending')>=0 || r.indexOf('creator')>=0) return true;
+if((me.score||0)>=5000) return true;
+if((me.trendingLikes||0)>=3) return true;
+return false;
+}
+function userBadgeLine(u){
+var users=getUsers();
+var me=users[u]||{};
+var s=me.score||me.points||0;
+var line='';
+  if(me.role && me.role.toLowerCase().indexOf('moderator')>=0) line+='<div style="background:#FF0000;color:#fff;font-size:10px;font-weight:bold;padding:1px 8px;border-radius:10px;display:inline-block">MODERATOR</div> ';
+if(me.role && me.role.toLowerCase().indexOf('admin')>=0) line+='<div style="background:#FFD700;color:#000;font-size:10px;font-weight:bold;padding:1px 8px;border-radius:10px;display:inline-block">ADMIN</div> ';
+var starTxt=me.star||me.stars||me.starEmoji||me.levelStar||'';
+var animalTxt=me.animal||me.pet||me.petEmoji||me.animalEmoji||me.emoji||'';
+var fireTxt=me.fire||me.firePower||'';
+var badgeTxt=me.badge||me.badges||me.title||'';
+if(!starTxt && !animalTxt && !fireTxt && !badgeTxt){
+if(s>=100000){ starTxt='⭐'; animalTxt='🐅'; fireTxt='🔥'; }
+else if(s>=5000){ starTxt='⭐'; animalTxt='🐆'; fireTxt='🔥'; }
+else if(s>=1000){ starTxt='⭐'; animalTxt='🐅'; }
+else { starTxt='⭐'; }
+}
+var icons='';
+if(starTxt) icons+='<span>'+starTxt+'</span> ';
+if(animalTxt) icons+='<span>'+animalTxt+'</span> ';
+if(fireTxt) icons+='<span>'+fireTxt+'</span> ';
+if(!fireTxt && s>=5000) icons+='<span>🔥</span> ';
+if(badgeTxt && typeof badgeTxt==='string') icons+=' <span>'+badgeTxt+'</span>';
+line+='<div style="font-size:13px;line-height:1.4;margin-top:2px">'+icons+'</div>';
+if(s>=5000) line+='<div style="font-size:11px;color:#FFD700">🔥 Fire Power</div>';
+line+='<div style="font-size:11px;color:#FFD700">⭐ '+(me.score||0)+' • 👏 '+(me.points||me.likes||0)+'</div>';
+if(me.lastSeen) line+='<div style="font-size:10px;color:#aaa">Last seen '+timeAgo(me.lastSeen)+'</div>';
+return line;
+}
+function loadFeed(){
+if(!window.__dataLoaded && !getPosts().length) return;
+var feedEl=document.getElementById('feed');
+if(!feedEl) return;
+var all=getPosts();
+var blocked=getBlockedList();
+var isMod=isModOrAdmin();
+all=all.filter(function(p){return blocked.indexOf(p.u)<0});
+if(curFilter && curFilter!=='ALL' && curFilter!=='FORME'){
+  all=all.filter(function(p){ if(curFilter==='TEXT') return !p.pic||p.type==='TEXT'; if(curFilter==='PICS') return p.type==='PICS'||p.type==='VIDEO'; return p.cat===curFilter; });
+}
+var keys=all.map(function(_,i){return i}).reverse();
+keys=keys.slice(0,FEED_LIMIT);
+if(!keys.length){
+if(!window.__dataLoaded) return;
+if(feedEl.innerHTML.length > 100) return;
+feedEl.innerHTML='<p style="text-align:center;padding:20px;color:#aaa">Koi post nahi</p>';
+return;
+}
+feedEl.innerHTML=keys.map(function(i){
+var p=all[i];
+if(p.hidden && p.u!=cur && !isMod) return '';
+var timeTxt=p.time?timeAgo(p.time):(p.t||'');
+var isMine=p.u==cur;
+var canEdit=isMine||isMod;
+var canHideDel=isMine||isMod;
+var followBtn=p.u==cur?'':'<button onclick="doFollow(\''+p.u+'\')">Follow</button>';
+var repostBtn='<button onclick="doRepost(\''+p._key+'\')">REPOST</button>';
+var editBtn=canEdit?'<button onclick="editPost(\''+p._key+'\')" style="background:#FFD700;color:#000">✏️ EDIT</button>':'';
+var delBtn=canHideDel?'<button onclick="deletePost(\''+p._key+'\')" style="background:#FFD700;color:#000">🗑️ DELETE</button>':'';
+var hideBtn=canHideDel?'<button onclick="hidePost(\''+p._key+'\')">👁️ HIDE</button>':'';
+var fireTxt=(p.likes||0)>=3?' 🔥 Fire Power ON (+5000)':'';
+var likersTxt='';
+if(p.likedBy && p.likedBy.length){
+var lastLiker=p.likedBy[p.likedBy.length-1];
+if(isTrendingCreator(lastLiker)){
+likersTxt='<div style="font-size:13px;color:#FFD700;margin-top:6px">🔥 '+displayName(lastLiker)+' ne apki post like ki Trending Creator (+5000)</div>';
+} else {
+likersTxt='<div style="font-size:13px;color:#fff;margin-top:6px">❤️ '+displayName(lastLiker)+' ne apki post like ki (+5)</div>';
+}
+} else if((p.likes||0)>0){
+likersTxt='<div style="font-size:13px;color:#fff;margin-top:6px">❤️ '+(p.likes||0)+' users ne apki post like ki (+5)</div>';
+}
+if(p.trendingCreatorLike){
+likersTxt+='<div style="font-size:13px;color:#FFD700;margin-top:2px">🔥 Trending Creator Like - '+p.cat+' Category</div>';
+}
+return '<div class="post"><div style="display:flex;justify-content:space-between"><div><b style="cursor:pointer" onclick="viewUser(\''+p.u+'\')">'+getDPHtml(p.u)+displayName(p.u)+' 👀</b><div style="text-align:left">'+userBadgeLine(p.u)+'</div></div><span class="badge">'+p.cat+' • '+timeTxt+'</span></div><p style="margin:10px 0;font-size:16px">'+mentionify(p.text||'')+'</p>'+mediaHtml(p)+'<div style="margin:6px 0">'+editBtn+delBtn+hideBtn+'</div><div class="pBtns"><button class="gold" onclick="doLike(\''+p._key+'\');new Audio(\'https://res.cloudinary.com/phxyfr29/video/upload/v1795095447/Fahh__-_meme_sound_effect_128k.mp3\').play()">👏 LIKE '+(p.likes||0)+'</button><button onclick="doChapair(\''+p._key+'\')">👋 CHAPAIR '+(p.chapair||0)+'</button>'+followBtn+repostBtn+'<button onclick="doShare(\''+p._key+'\')">SHARE</button><button onclick="let n=(parseInt(this.textContent.replace(/[^0-9]/g,\'\')||0)+1);this.innerHTML=\'😂 FUNNY \'+n;new Audio(\'https://res.cloudinary.com/phxyfr29/video/upload/v1795096116/128k.mp3\').play()">😂 FUNNY 0</button></div>'+likersTxt+'<div style="font-size:12px;color:#FFD700;margin-top:4px">Post=+10 | Like=+5 | Chapair=-5 | Trending Creator Like=+5000'+fireTxt+'</div><div style="display:flex;gap:6px;margin-top:8px"><input id="cmt-'+p._key+'" placeholder="Comment..."><button onclick="doComment(\''+p._key+'\')" style="width:70px;background:#FFD700;color:#000;border:none;border-radius:8px;font-weight:bold">Bhejo</button></div></div>';
+}).join('')+'<button onclick="FEED_LIMIT+=15;loadFeed()" style="width:100%;padding:12px;background:#222;color:#FFD700;border:1px solid #FFD700;border-radius:10px;margin-top:10px;font-weight:bold">⬇️ AUR POSTS DEKHO</button>';
+try{localStorage.setItem('y_feed_cache',feedEl.innerHTML)}catch(e){}
+  }
+function hidePost(key){ var p=G.posts[key]; if(!p) return; db.ref('posts/'+key).update({hidden:!p.hidden}); showMsg(p.hidden?'Post SHOW kar di ✅':'Post HIDE kar di 👁️'); }
+function doLike(key){
+  var p=G.posts[key];
+  if(!p) return;
+  if((p.likedBy||[]).indexOf(cur)>=0){ showMsg('Pehle se like kiya hua hai'); return; }
+  var newLikedBy=(p.likedBy||[]).slice(); newLikedBy.push(cur);
+  var newLikes=(p.likes||0)+1;
+  var isTrend = isTrendingCreator(cur);
+  var give = isTrend ? 5000 : 5;
+  var upd={ likedBy:newLikedBy, likes:newLikes };
+  if(isTrend){ upd.trendingCreatorLike=true; upd.trending=true; }
+  else if(newLikes>=3){ upd.trending=true; }
+  db.ref('posts/'+key).update(upd);
+  addPointsTo(p.u, give);
+  if(newLikes>=3 && !isTrend) addPointsTo(p.u, 5000);
+  if(p.u!==cur) pushInbox(p.u,{from:cur,text:(isTrend?'🔥 ':'❤️ ')+cur+' ne apki post like ki (+'+give+')',type:'like'});
+  playPop();
+  showMsg('Like Ho Gaya! ✅');
+  }
+  function doChapair(key){
+  var p=G.posts[key];
+  if(!p) return;
+  if(p.u===cur){ showMsg('Apni post ko Chapair nahi maar sakte'); return; }
+  if((p.chapairBy||[]).indexOf(cur)>=0){ showMsg('Pehle se Chapair mara hua hai'); return; }
+  var newArr=(p.chapairBy||[]).slice(); newArr.push(cur);
+  db.ref('posts/'+key).update({chapairBy:newArr, chapair:(p.chapair||0)+1});
+  addPointsTo(p.u, -5);
+  if(p.u!==cur) pushInbox(p.u,{from:cur,text:'👋 '+cur+' ne tumhe CHAPAIR mara (-5)',type:'chapair'});
+  playSlap();
+  showMsg('Chapair Maar Diya 👋 -5');
+}
+function doFollow(name){if(!name||name===cur)return;var me=G.users[cur];if(!me)return;var arr=me.following||[];if(arr.indexOf(name)<0){arr.push(name);db.ref('users/'+cur+'/following').set(arr);}pushInbox(name,{from:cur,text:'👥 '+cur+' ne tumhe FOLLOW kiya!',type:'follow'});showMsg(name+' ko Follow kar liya ✅')}
+function doRepost(key){var p=G.posts[key];if(!p)return;db.ref('posts').push({u:cur,text:'🔁 Repost: '+(p.text||''),cat:p.cat||'General',likes:0,chapair:0,comments:[],likedBy:[],chapairBy:[],likeLog:[],time:Date.now(),t:'Just now',pic:p.pic||'',type:p.type||'TEXT'});addPoints(10);if(p.u!==cur)pushInbox(p.u,{from:cur,text:'🔁 '+cur+' ne tumhari post REPOST ki',type:'repost'});showMsg('Repost ho gaya ✅')}
+function doShare(key){var p=G.posts[key];if(!p)return;var txt='Yaarii-PK me '+p.u+' ki post dekho: '+(p.text||'').slice(0,80);if(navigator.share){navigator.share({title:'Yaarii-PK',text:txt}).catch(function(){})}else{showMsg(txt)}}
+function doComment(key){var inp=document.getElementById('cmt-'+key);if(!inp)return;var txt=inp.value.trim();if(!txt)return;var p=G.posts[key];if(!p)return;var arr=p.comments||[];arr.push({u:cur,text:txt,time:Date.now()});db.ref('posts/'+key+'/comments').set(arr);inp.value='';if(p.u!==cur)pushInbox(p.u,{from:cur,text:'💬 '+cur+' ne comment kiya: '+txt,type:'comment'});playDing();showMsg('Comment ho gaya ✅')}
+function editPost(key){var p=G.posts[key];if(!p)return;var nt=prompt('Post edit karo:',p.text||'');if(nt===null)return;db.ref('posts/'+key+'/text').set(nt);showMsg('Post edit ho gayi ✅')}
+function deletePost(key){if(!confirm('Post delete karni hai?'))return;db.ref('posts/'+key).remove();showMsg('Post delete ho gayi 🗑️')}
+function loadTrend(){var arr=getPosts().filter(function(p){return isTrendingPost(p)});var el=document.getElementById('trendFeed');if(!el)return;if(!arr.length){el.innerHTML='<p style="text-align:center;padding:20px;color:#aaa">Abhi koi Trending post nahi</p>';return}el.innerHTML=arr.map(function(p){return '<div class="post"><b style="cursor:pointer" onclick="viewUser(\''+p.u+'\')">'+getDPHtml(p.u)+displayName(p.u)+getTopBadge(p.u)+' 👀</b><div class="trendBox">🔥 TRENDING 🔥</div><p>'+mentionify(p.text||'')+'</p>'+mediaHtml(p)+'<div class="pBtns"><button class="gold" onclick="doLike(\''+p._key+'\')">👏 LIKE '+(p.likes||0)+'</button><button onclick="doChapair(\''+p._key+'\')">👋 CHAPAIR '+(p.chapair||0)+'</button></div></div>'}).join('')}
+function loadInbox(){var el=document.getElementById('notifList');if(!el)return;var arr=(G.inbox||[]).slice().reverse();if(!arr.length){el.innerHTML='<p class="small">Koi notification nahi</p>'}else{el.innerHTML=arr.map(function(n){var txt=n.text||'';return '<div style="background:#111;padding:10px;border-radius:10px;margin:6px 0"><b>'+(n.from||'System')+'</b><p>'+txt+'</p><small class="small">'+timeAgo(n.time)+'</small></div>'}).join('')}loadDMList()}
+function sendDM(){var to=document.getElementById('dmTo').value.trim().replace(/\s+/g,'_');var txt=document.getElementById('dmText').value.trim();if(!to||!txt){showMsg('Naam + Message likho');return}pushInbox(to,{from:cur,text:'✉️ DM: '+txt,type:'dm'});document.getElementById('dmText').value='';showMsg('DM bhej diya ✅')}
+function loadDMList(){var el=document.getElementById('dmList');if(!el)return;var arr=(G.inbox||[]).filter(function(n){return n.type==='dm'}).slice().reverse().slice(0,20);el.innerHTML=arr.map(function(n){return '<div style="background:#111;padding:8px;border-radius:8px;margin:4px 0"><b>'+n.from+'</b>: '+n.text+'</div>'}).join('')||'<p class="small">Koi DM nahi</p>'}
+function viewUser(name){if(!name)return;if(name===cur){showPage('profile');return}viewingUser=name;var u=G.users[name];if(!u){showMsg('User nahi mila');return}showPage('viewprofile');var dp=document.getElementById('vDpBox');if(u.dp&&u.dp.length>10)dp.innerHTML='<img src="'+u.dp+'">';else dp.innerText=u.dp||'👤';document.getElementById('vName').innerHTML=displayName(name)+getTopBadge(name)+' 👀';document.getElementById('vMeta').innerText=(getPosts().filter(function(x){return x.u===name}).length)+' posts • ⭐ '+(u.points||0)+' • '+(u.age||'?')+' Years • '+(u.city||'')+' • '+(u.star||'');document.getElementById('vBio').innerText=u.bio||'';document.getElementById('vPowerLine').innerText='⚡ Power: '+(u.power||0)+' | ⭐ Points: '+(u.points||0)+(isFireUser(name)?' | 🔥 Fire Power +5000':'');document.getElementById('vLastSeen').innerText=lastSeenTxt(u);document.getElementById('vBlockBtn').innerText=isBlocked(name)?'✅ Unblock Karo':'🚫 Block Karo';document.getElementById('vPosts').innerHTML=getPosts().filter(function(x){return x.u===name}).map(function(p){return '<div class="post"><b>'+displayName(p.u)+getTopBadge(p.u)+'</b><p>'+mentionify(p.text||'')+'</p>'+mediaHtml(p)+'</div>'}).join('')||'Koi post nahi'}
+function startChatWithViewing(){if(!viewingUser)return;document.getElementById('pvtTo').value=viewingUser;showPage('1on1')}
+function toggleBlockViewing(){if(!viewingUser)return;var me=G.users[cur];if(!me)return;var arr=me.blocked||[];var i=arr.indexOf(viewingUser);if(i>=0){arr.splice(i,1);showMsg(viewingUser+' ko Unblock kar diya ✅')}else{arr.push(viewingUser);showMsg(viewingUser+' ko Block kar diya 🚫')}db.ref('users/'+cur+'/blocked').set(arr);setTimeout(function(){viewUser(viewingUser)},300)}
+function unblockUser(n){var me=G.users[cur];if(!me)return;var arr=me.blocked||[];var i=arr.indexOf(n);if(i>=0)arr.splice(i,1);db.ref('users/'+cur+'/blocked').set(arr);showMsg(n+' ko Unblock kar diya ✅');setTimeout(loadProfile,300)}
+function createMehfil(){var n=document.getElementById('newMehfil').value.trim();if(!n)return;var arr=getMehfils();if(arr.indexOf(n)<0){arr.push(n);db.ref('mehfils').set(arr)}document.getElementById('newMehfil').value='';curMehfil=n;loadMehfil();showMsg('Mehfil ban gayi ✅')}
+function loadMehfil(){var el=document.getElementById('mehfilList');if(!el)return;el.innerHTML=getMehfils().map(function(m){return '<button type="button" class="chip" onclick="curMehfil=\''+m+'\';loadMehfil()">'+m+'</button>'}).join('');document.getElementById('mehfilTitle').innerText=curMehfil;loadMehfilChat()}
+function loadMehfilChat(){var el=document.getElementById('mehfilChatBox');if(!el)return;var arr=getChat().filter(function(c){return !c.mehfil||c.mehfil===curMehfil});el.innerHTML=arr.slice(-50).map(function(c){return '<div style="background:#111;padding:8px;border-radius:8px;margin:4px 0"><b>'+displayName(c.u)+getTopBadge(c.u)+'</b>: '+mentionify(c.text||'')+'<br><small class="small">'+timeAgo(c.time)+'</small></div>'}).join('')||'<p class="small">Koi baat nahi - pehli baat karo!</p>';el.scrollTop=el.scrollHeight}
+function sendMehfilChat(){var t=document.getElementById('mehfilChatText').value.trim();if(!t)return;db.ref('chat').push({u:cur,text:t,mehfil:curMehfil,time:Date.now()});document.getElementById('mehfilChatText').value=''}
+function showLeader(type){var el=document.getElementById('leaderList');if(!el)return;var users=Object.values(getUsers());if(type==='star'){var likesBy={};getPosts().forEach(function(p){likesBy[p.u]=(likesBy[p.u]||0)+(p.likes||0)});users.sort(function(a,b){return(likesBy[b.u]||0)-(likesBy[a.u]||0)});el.innerHTML=users.slice(0,20).map(function(u,i){return '<div class="lead"><span>'+(i+1)+'. '+displayName(u.u)+getTopBadge(u.u)+' 👀</span><span>★ '+(likesBy[u.u]||0)+' Likes</span></div>'}).join('')}else{users.sort(function(a,b){return(b.points||0)-(a.points||0)});el.innerHTML=users.slice(0,20).map(function(u,i){return '<div class="lead"><span>'+(i+1)+'. '+displayName(u.u)+getTopBadge(u.u)+' 👀</span><span>⭐ '+(u.points||0)+'</span></div>'}).join('')}}
+function banUser(name,days){var me=G.users[cur];if(!me||(me.role!=='ADMIN'&&me.role!=='MODERATOR'&&!isLeaderNow())){showMsg('Sirf Leader / Moderator Ban kar sakta hai');return}if(name===cur){showMsg('Khud ko Ban nahi kar sakte');return}if(!days){db.ref('users/'+name+'/bannedUntil').set(0);showMsg(name+' ko UNBAN kar diya ✅');setTimeout(function(){loadProfile();showLeaderPanel();},300);return}var until=0;var label='';if(days===-1){until=9999999999999;label='PERMANENT';}else{until=Date.now()+days*24*60*60*1000;label=days+' din';}db.ref('users/'+name+'/bannedUntil').set(until);if(label==='PERMANENT'){pushInbox(name,{from:cur,text:'⛔ Leader 👑 ne tumhe PERMANENT BAN kar diya hai',type:'ban'});}else{pushInbox(name,{from:cur,text:'⛔ Leader 👑 ne tumhe '+label+' ke liye BAN kar diya hai - '+timeAgo(until)+' tak',type:'ban'});}showMsg(name+' ko '+label+' ke liye BAN kar diya ⛔');setTimeout(function(){loadProfile();showLeaderPanel();},300)}
+function loadProfile(){var d=getUsers()[cur];if(!d){if(cur=='Leader'||cur=='05121472'){d={u:cur,points:10000,power:5000,age:'?',city:'Lahore',star:'Leo ♌',bio:'Yaarii-PK Ka Admin 👑',dp:'👑',role:'ADMIN',id:1001,blocked:[],bannedUntil:0,likeOn:true,chapairOn:true,status:'approved'};G.users[cur]=d;}else{return;}}if((cur=='Leader'||cur=='05121472')&&d.role!=='ADMIN'){db.ref('users/'+cur+'/role').set('ADMIN');d.role='ADMIN';}var pNameEl=document.getElementById('pName');if(isAdminUser(d)){pNameEl.innerHTML='<span class="leaderName">🦁 Leader <span class="leaderBolt">⚡</span> 👑</span><br><span class="leaderTag">👑 LEADER - Yaarii-PK Ka Owner</span>'}else if(isModUser(d)){pNameEl.innerHTML='<span class="modStar"><span class="redStar">★</span> <span class="redBolt">⚡</span> '+d.u+' <span class="redBolt">⚡</span> <span class="redStar">★</span></span><br><span class="redStarTag">MODERATOR</span>'}else{pNameEl.innerHTML=d.u+' ('+(d.id||'')+') '+getFireHtml(d.u)+' '+getTopBadge(d.u)}document.getElementById('pMeta').innerText=(getPosts().filter(function(x){return x.u===cur}).length)+' posts • ⭐ '+(d.points||0)+' • '+(d.age||'?')+' Years • '+(d.city||'')+' • '+(d.star||'');document.getElementById('pBio').innerText=d.bio||'';document.getElementById('pPowerLine').innerText='⚡ Power: '+(d.power||0)+' | ⭐ Points: '+(d.points||0)+(isFireUser(cur)?' | 🔥 Fire Power +5000':'');document.getElementById('pLastSeen').innerText=lastSeenTxt(d);var pDp=document.getElementById('pDpBox');if(d.dp&&d.dp.length>10)pDp.innerHTML='<img src="'+d.dp+'">';else pDp.innerText=d.dp||'👤';if(isAdminUser(d)){pDp.classList.add('leaderCircle');pDp.style.boxShadow='0 0 14px #FFD700,0 0 26px #FFD700'}else{pDp.classList.remove('leaderCircle');pDp.style.boxShadow=''}document.getElementById('eBio').value=d.bio||'';document.getElementById('eAge').value=d.age||'';var ps=document.getElementById('privateStatus');if(ps)ps.innerText=d.isPrivate?'Status: 🔒 PRIVATE hai':'Status: 🔓 PUBLIC hai';var lt=document.getElementById('likeToggleBtn');if(lt)lt.innerText='👏 Like: '+(d.likeOn===false?'OFF':'ON');var ct=document.getElementById('chapairToggleBtn');if(ct)ct.innerText='👋 Chapair: '+(d.chapairOn===false?'OFF':'ON');var ts=document.getElementById('myToggleStatus');if(ts)ts.innerText='Like: '+(d.likeOn===false?'OFF - koi Like nahi maar sakega':'ON')+' | Chapair: '+(d.chapairOn===false?'OFF - koi Chapair nahi maar sakega':'ON');var bl=getBlockedList();document.getElementById('myBlockedList').innerHTML=bl.length?bl.map(function(n){return '<div style="background:#111;padding:8px;border-radius:8px;margin:4px 0;display:flex;justify-content:space-between"><b>'+n+' 🚫</b><button onclick="unblockUser(\''+n+'\')" style="background:#FFD700;border:none;padding:4px 10px;border-radius:8px;font-weight:bold">Unblock</button></div>'}).join(''):'<p class="small">Koi Block nahi hai</p>';document.getElementById('myPosts').innerHTML=getPosts().filter(function(x){return x.u===cur}).map(function(p){return '<div class="post"><b>'+displayName(p.u)+getTopBadge(p.u)+'</b><p>'+mentionify(p.text||'')+'</p>'+(isTrendingPost(p)?'<div class="trendBox">🔥 TRENDING 🔥</div>':'')+mediaHtml(p)+'</div>'}).join('')||'Koi post nahi';if(isLeaderNow()){var html='<div class="card" style="border:2px solid #FFD700;box-shadow:0 0 16px #FFD700"><h3 style="color:#FFD700">👑 LEADER PANEL - BAN BY ID + MODERATOR + IP / DEVICE</h3><p class="small orangeNote">Moderator ko ye full panel nazar nahi aayega - usko sirf Ban / Unban wala panel milega.</p><div style="background:#111;padding:10px;border-radius:10px;margin:8px 0"><p class="small">ID se Ban / Unban - ID likho, din select karo</p><input id="banIdInput" placeholder="User ID likho - jaise 1234"><select id="banDaysSelect"><option value="1">1 Din</option><option value="7" selected>7 Din</option><option value="30">30 Din</option><option value="-1">PERMANENT</option></select><div style="display:flex;gap:6px"><button onclick="banById()" style="flex:1;background:#ff2d55;color:#fff;border:none;padding:10px;border-radius:8px;font-weight:bold">⛔ ID se BAN</button><button onclick="unbanById()" style="flex:1;background:#00cc66;color:#fff;border:none;padding:10px;border-radius:8px;font-weight:bold">✅ ID se UNBAN</button></div></div><div style="background:#111;padding:10px;border-radius:10px;margin:8px 0"><h4 style="color:#ff2d55">⛔ BLOCKED IPs / DEVICES</h4>'+Object.values(G.blockedIPs||{}).map(function(b){return '<div style="padding:6px;background:#000;border-radius:6px;margin:4px 0">IP: '+(b.ip||'')+' - User: '+(b.user||'')+' <button onclick="unblockIP(\''+(b.ip||'')+'\')" style="background:#00cc66;color:#fff;border:none;padding:4px 8px;border-radius:6px">Unblock IP</button></div>'}).join('')||'<p class="small">Koi IP Block nahi</p>'+'</div>';Object.values(getUsers()).forEach(function(u){var banned=isBannedUser(u);var isFake='';var sameIP=Object.values(getUsers()).filter(function(x){return x.ip&&u.ip&&x.ip===u.ip&&x.u!==u.u}).map(function(x){return x.u});if(sameIP.length)isFake=' <span style="color:#ff2d55;font-size:11px">⚠️ FAKE? Same IP: '+sameIP.join(', ')+'</span>';html+='<div style="background:#111;padding:8px;border-radius:8px;margin:4px 0"><b style="cursor:pointer" onclick="viewUser(\''+u.u+'\')">'+displayName(u.u)+getTopBadge(u.u)+' 👀</b> - ID: '+(u.id||'')+' - '+(u.points||0)+' - '+lastSeenTxt(u)+isFake+(banned?banTxt(u):'')+'<br><small style="color:#FFD700">🌐 IP: '+(u.ip||'Nahi mila')+' | 📱 Device: '+(u.device?u.device.substring(0,80):'Nahi mila')+'</small><br><div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:4px"><button onclick="banUser(\''+u.u+'\',1)" style="background:#ff2d55;color:#fff;border:none;padding:4px 8px;border-radius:8px;font-size:11px">1 Din Ban</button><button onclick="banUser(\''+u.u+'\',7)" style="background:#ff2d55;color:#fff;border:none;padding:4px 8px;border-radius:8px;font-size:11px">7 Din Ban</button><button onclick="banUser(\''+u.u+'\',30)" style="background:#ff2d55;color:#fff;border:none;padding:4px 8px;border-radius:8px;font-size:11px">30 Din Ban</button><button onclick="banUser(\''+u.u+'\',-1)" style="background:#000;color:#ff2d55;border:1px solid #ff2d55;padding:4px 8px;border-radius:8px;font-size:11px;font-weight:bold">⛔ PERMANENT</button><button onclick="banUser(\''+u.u+'\',0)" style="background:#00cc66;color:#fff;border:none;padding:4px 8px;border-radius:8px;font-size:11px">✅ Unban</button><button onclick="makeModerator(\''+u.u+'\')" style="background:#FF0000;color:#fff;border:none;padding:4px 8px;border-radius:8px;font-size:11px">⭐ Moderator Banao</button><button onclick="removeModerator(\''+u.u+'\')" style="background:#333;color:#fff;border:1px solid #FF0000;padding:4px 8px;border-radius:8px;font-size:11px">Moderator Hatayo</button><button onclick="blockIPOf(\''+u.u+'\')" style="background:#000;color:#ff2d55;border:1px solid #ff2d55;padding:4px 8px;border-radius:8px;font-size:11px;font-weight:bold">⛔ IP BLOCK</button><button onclick="blockDeviceOf(\''+u.u+'\')" style="background:#000;color:#ff2d55;border:1px solid #ff2d55;padding:4px 8px;border-radius:8px;font-size:11px;font-weight:bold">📱 DEVICE BLOCK</button></div></div>'});html+='</div>';document.getElementById('adminPanel').innerHTML=html}else if(d.role==='MODERATOR'){var html2='<div class="card" style="border:2px solid #FF0000"><h3 style="color:#FF0000">⭐ MODERATOR PANEL - Sirf BAN / UNBAN</h3><p class="small orangeNote">Moderator ko IP / Device / Moderator banane wale buttons nazar nahi aayenge.</p>';Object.values(getUsers()).forEach(function(u){html2+='<div style="background:#111;padding:8px;border-radius:8px;margin:4px 0"><b>'+displayName(u.u)+getTopBadge(u.u)+'</b> - ID: '+(u.id||'')+'<br><button onclick="banUser(\''+u.u+'\',1)" style="background:#ff2d55;color:#fff;border:none;padding:4px 8px;border-radius:8px;font-size:11px">1 Din Ban</button><button onclick="banUser(\''+u.u+'\',7)" style="background:#ff2d55;color:#fff;border:none;padding:4px 8px;border-radius:8px;font-size:11px">7 Din Ban</button><button onclick="banUser(\''+u.u+'\',0)" style="background:#00cc66;color:#fff;border:none;padding:4px 8px;border-radius:8px;font-size:11px">✅ Unban</button></div>'});html2+='</div>';document.getElementById('adminPanel').innerHTML=html2}else{document.getElementById('adminPanel').innerHTML=''}}
+function saveProfile(){var upd={bio:document.getElementById('eBio').value,age:document.getElementById('eAge').value,city:document.getElementById('eCity').value,star:document.getElementById('eStar').value};var link=document.getElementById('dpLink').value.trim();if(link)upd.dp=link;db.ref('users/'+cur).update(upd);showMsg('Profile Save Ho Gaya! ✅');setTimeout(loadProfile,400)}
+function changeDP(){
+  var f=document.getElementById('dpFile').files[0];
+  if(!f)return;
+  if(f.size>10000000){showMsg('DP bari hai, chhoti photo lagao ya Link use karo');return}
+  uploadToCloudinary(f,function(url){
+    if(!url) return;
+    db.ref('users/'+cur).update({dp:url});
+    showMsg('DP Lag Gayi! ✅');
+    setTimeout(loadProfile,400)
+  })
+}
+function doSearch(){var q=document.getElementById('searchQ').value.toLowerCase();if(!q){document.getElementById('searchRes').innerHTML='';return}var users=getUsers();var res=Object.keys(users).filter(function(u){return u.toLowerCase().indexOf(q)>=0||String(users[u].id||'').indexOf(q)>=0});document.getElementById('searchRes').innerHTML=res.map(function(u){return '<div class="card" style="cursor:pointer" onclick="viewUser(\''+u+'\')">'+getDPHtml(u)+displayName(u)+getTopBadge(u)+' 👀 ('+(users[u].id||'')+') - ⭐ '+(users[u].points||0)+' - '+lastSeenTxt(users[u])+' <button type="button" class="btnBlack" onclick="event.stopPropagation();doFollow(\''+u+'\')">Follow</button> <button type="button" class="btnBlack" onclick="event.stopPropagation();sendRing(\''+u+'\')">🔔 RING</button></div>'}).join('')||'Kuch nahi mila'}
+document.getElementById('postCat').innerHTML=cats.map(function(c){return '<option>'+c+'</option>'}).join('');
+fetchMyIP();
+if(cur){document.getElementById('page-auth').classList.add('hidden');var _sp=localStorage.getItem('y_page')||'home';var allowPages=['home','share','trending','inbox','1on1','profile','viewprofile','mehfil','fun','leader','leaderpanel','more','search','emojis','rules','about','terms','privacy'];if(allowPages.indexOf(_sp)<0)_sp='home';var _c='';try{_c=localStorage.getItem('y_feed_cache')||''}catch(e){}if(_c&&_sp==='home'){document.getElementById('page-home').classList.remove('hidden');document.getElementById('feed').innerHTML=_c;}syncFirebase();if(_sp==='leaderpanel'){showLeaderPanel();}else{showPage(_sp);}markOnline();setInterval(function(){markOnline()},60000);}else{showAuth('signup')}
+function showHomeNow(){
+  document.querySelectorAll('[id^="page-"]').forEach(function(el){el.classList.add('hidden')});
+  var h=document.getElementById('page-home');
+  if(h) h.classList.remove('hidden');
+  var lb=document.getElementById('homeLeader');
+  if(lb) lb.style.display='none';
+  var lb2=document.getElementById('homeLeaderboard');
+  if(lb2) lb2.style.display='none';
+  window.scrollTo(0,0);
+  setTimeout(function(){try{loadFeed()}catch(e){}},10);
+  setTimeout(function(){try{renderOnline()}catch(e){}},100);
+  setTimeout(function(){try{renderStories()}catch(e){}},200);
+  setTimeout(function(){try{updatePowerBox()}catch(e){}},300);
+}
+function showPage(p){
+  if(!cur && ['home','share','trending','inbox','1on1','profile','mehfil','fun','leader','leaderpanel'].indexOf(p)>=0){showMsg('Pehle Signup karo');showAuth('signup');return}
+  try{localStorage.setItem('y_page',p)}catch(e){}
+  ['home','share','trending','inbox','1on1','profile','viewprofile','mehfil','fun','leader','leaderpanel','more','search','emojis','rules','about','terms','privacy'].forEach(function(x){var e=document.getElementById('page-'+x);if(e)e.classList.add('hidden')});
+  document.getElementById('page-auth').classList.add('hidden');
+  var t=document.getElementById('page-'+p);
+  if(t)t.classList.remove('hidden');
+  if(p==='home'){showHomeNow();return}
+  if(p==='trending')loadTrend();
+  if(p==='profile')loadProfile();
+  if(p==='mehfil')loadMehfil();
+  if(p==='leader')showLeader('score');
+  if(p==='leaderpanel')showLeaderPanel();
+  if(p==='1on1')loadPrivate();
+  if(p==='inbox'){loadInbox();markAllRead();}
+  window.scrollTo(0,0);
+    }
+
+try{
+// Purana upar wala dabba hamesha ke liye khatam
+try{ var old=document.getElementById("myApproveDiv"); if(old) old.remove(); }catch(e){}
+function getRT(){
+try{ if(typeof firebase!=="undefined" && firebase.database) return firebase.database(); }catch(e){}
+if(typeof db!=="undefined" && db && db.ref) return db;
+return null;
+}
+function amIAdmin(){
+try{
+var cur=(localStorage.getItem("y_cur")||"").replace(/"/g,"");
+if(cur=="Leader" || cur=="Admin" || cur=="Owner") return true;
+if(typeof G!=="undefined" && G.users && G.users[cur] && ["MODERATOR","ADMIN","OWNER","LEADER"].includes((G.users[cur].role||"").toUpperCase())) return true;
+if(window.myRole && ["MODERATOR","OWNER","ADMIN","LEADER"].includes(window.myRole)) return true;
+return false;
+}catch(e){ return false; }
+}
+function findLeaderPanel(){
+var b=document.getElementById("leaderPanelBox");
+if(b) return b;
+var all=document.querySelectorAll("div");
+for(var i=0;i<all.length;i++){
+if(((all[i].innerText||"").toUpperCase()).includes("LEADER PANEL")) return all[i];
+}
+return null;
+}
+function addInPanel(){
+try{
+if(!amIAdmin()) return;
+// Apni role bhi check karo
+try{
+var cur=(localStorage.getItem("y_cur")||"").replace(/"/g,"");
+if(cur){
+getRT().ref("users/"+cur).once("value").then(function(s){
+var u=s.val()||{}; if(u.role) window.myRole=(u.role||"").toUpperCase();
+});
+}
+}catch(e){}
+var panel=findLeaderPanel();
+if(!panel) return;
+if(document.getElementById("pendingInPanel")){ refreshPending(); return; }
+var box=document.createElement("div");
+box.id="pendingInPanel";
+box.style="margin-top:15px;border:2px solid gold;border-radius:10px;padding:10px;background:#111;color:white;text-align:left";
+box.innerHTML="<h3 style='color:gold;text-align:center;margin:0'>👑 ID Requests - Pending</h3><div id='pendingCount' style='text-align:center;color:yellow'>Loading...</div><div id='pendingList' style='margin-top:10px'>Loading...</div>";
+panel.appendChild(box);
+refreshPending();
+}catch(e){}
+}
+function refreshPending(){
+var list=document.getElementById("pendingList"); if(!list) return;
+var rt=getRT();
+rt.ref("users").once("value").then(function(snap){
+var val=snap.val()||{};
+var h=""; var count=0;
+Object.keys(val).forEach(function(id){
+var u=val[id]||{};
+var st=(u.status||"").toString().toLowerCase();
+if(st=="pending"){
+count++;
+var disp=u.u||u.name||u.username||id;
+var city=u.city||"-"; var age=u.age||"-";
+h+="<div style='border-bottom:1px solid #333;padding:8px'><b>"+disp+"</b><br><span style='color:#ccc;font-size:13px'>City: "+city+" | Age: "+age+"</span><br><button onclick=\"doApp('"+id+"')\" style='background:green;color:white;padding:6px 12px;margin:3px;border:none;border-radius:5px'>Approve</button> <button onclick=\"doRej('"+id+"')\" style='background:red;color:white;padding:6px 12px;margin:3px;border:none;border-radius:5px'>Reject</button></div>";
+}
+});
+document.getElementById("pendingCount").innerHTML="Pending Total: "+count;
+list.innerHTML=h||"Koi Pending Nahi Hai - Sab Approved Hain";
+});
+}
+function doApp(id){
+var rt=getRT();
+rt.ref("users/"+id).update({status:"approved",approved:true}).then(function(){ refreshPending(); });
+}
+function doRej(id){
+var rt=getRT();
+rt.ref("users/"+id).remove().then(function(){ refreshPending(); });
+}
+setInterval(addInPanel,3000);
+}catch(e){}
+</script>
+<script>
+
+<style>
+.sonu-pill{
+  background:#111!important; border:1px solid #FFD700!important; border-radius:999px!important;
+  padding:4px 9px!important; margin:0!important; width:max-content!important;
+  display:inline-flex!important; align-items:center!important; white-space:nowrap!important; gap:2px!important;
+  font-size:11px!important; line-height:1!important;
+  position:absolute!important; top:10px!important; right:10px!important; z-index:99!important;
+}
+.sonu-pill b,.sonu-pill i{font-weight:800!important;font-size:11px!important;color:#FFD700!important}
+.sonu-pill em{font-style:normal!important;color:#FFD700!important}
+</style>
+<script>
+function lastFinal(){
+  document.querySelectorAll('div').forEach(function(card){
+    if(!card.innerText || !card.innerText.includes('LIKE')) return;
+    if(card.offsetHeight < 150) return;
+    var m = card.innerText.match(/(General|Shayari|Funny|Mehfil|Poetry)\s*•\s*([^\n]+)/);
+    if(!m) return;
+    var cat = m[1], time = m[2].trim().split('\n')[0];
+    if(!card.querySelector('.sonu-pill')){
+      var pill = document.createElement('div');
+      pill.className = 'sonu-pill';
+      pill.innerHTML = '<b>'+cat+'</b><em>•</em><i>'+time+'</i>';
+      card.style.position = 'relative';
+      card.appendChild(pill);
+    }
+    card.querySelectorAll('div').forEach(function(d){
+      if(d.classList.contains('sonu-pill')) return;
+      if(d.innerText && d.innerText.includes('LIKE')) return;
+      var t = (d.innerText||'').trim();
+      if(t.match(/^(General|Shayari|Funny|Mehfil|Poetry)\s*•\s*.+$/) && t.length < 35){
+        d.style.setProperty('display','none','important');
+      }
+    });
+  });
+}
+setInterval(lastFinal, 400);
+lastFinal();
+</script>
+<style>
+/* 2. General wala bara dabba - chota pill banao */
+.post>div:first-child{display:flex!important;justify-content:space-between!important;align-items:flex-start!important;gap:8px!important}
+.badge{display:inline-block!important;width:max-content!important;max-width:45%!important;background:#111!important;border:1px solid #FFD700!important;color:#FFD700!important;border-radius:999px!important;padding:4px 9px!important;font-size:11px!important;font-weight:800!important;line-height:1!important;white-space:nowrap!important;flex-shrink:0!important}
+
+</style>
+<script>
+(function(){
+try{
+function isBannedNow(){
+  try{
+    var u = localStorage.getItem('y_cur')||'';
+    if(!u) return false;
+    var d = (window.G && window.G.users && window.G.users[u]) ? window.G.users[u] : null;
+    if(!d) return false;
+    return (d.bannedUntil||0) > Date.now();
+  }catch(e){ return false; }
+}
+function kickBanned(){
+  if(!isBannedNow()) return;
+  try{ localStorage.removeItem('y_cur'); }catch(e){}
+  try{ localStorage.removeItem('y_page'); }catch(e){}
+  alert('⛔ Ye ID BAN hai - Leader se rabta karo');
+  location.replace(location.pathname+'?v=8&banned=1');
+}
+// Har 3 second me check - login ho ya na ho, ban hote hi bahar
+setInterval(kickBanned, 3000);
+// Koi bhi kaam karne se pehle ban check - Post, Comment, Msg, Ring sab band
+var _acts = ['addPost','quickPost','addStory','sendRing','sendPvt','doFollow','loadMehfilChat','addComment'];
+_acts.forEach(function(fn){
+  if(window[fn] && !window[fn]._banGuard){
+    var _old = window[fn];
+    var _nw = function(){
+      if(isBannedNow()){ kickBanned(); return; }
+      return _old.apply(this, arguments);
+    }; _nw._banGuard=true; window[fn]=_nw;
+  }
+});
+// Chat / Mehfil ka input bhi ban pe lock
+setInterval(function(){
+  try{
+    if(isBannedNow()){
+      var ins = document.querySelectorAll('input, textarea, button');
+      for(var i=0;i<ins.length;i++){ if(ins[i].id!=='lUser' && ins[i].id!=='lPass'){ ins[i].disabled=true; } }
+    }
+  }catch(e){}
+}, 3000);
+}catch(e){}
+})();
+        </script>
+</script>
+<script>
+// ===== FINAL FIX v7 - ALL 5 IN ONE - Koi Purana Fix Kharab Nahi Hoga =====
+(function(){
+
+
+  // ---------- 4. BAN FIX: Admin ho ya Moderator - Ban hote hi Foran Bahar ----------
+  function forceKick(msg){
+    try{ localStorage.removeItem('y_cur'); }catch(e){}
+    try{ localStorage.removeItem('y_feed_cache'); }catch(e){}
+    alert(msg || '⛔ Ye ID BAN hai - Leader se rabta karo');
+    location.replace(location.pathname + '?v=7&banned=1');
+  }
+  setInterval(function(){
+    try{
+      var u = localStorage.getItem('y_cur') || '';
+      if(!u || !window.db) return;
+      window.db.ref('users/' + u + '/bannedUntil').once('value', function(s){
+        var v = s.val() || 0;
+        if(v > Date.now()){ forceKick(v > 4102444800000 ? '⛔ Ye ID PERMANENT BAN hai' : '⛔ Ye ID BAN hai - Leader se rabta karo'); }
+      });
+    }catch(e){}
+  }, 2000);
+
+  // ---------- 5. ADMIN LOGIN FIX: Reserved se Signup Band, Old Admin Login ON ----------
+  window.login = function(){
+    var uEl = document.getElementById('lUser');
+    var pEl = document.getElementById('lPass');
+    var u = uEl ? uEl.value.trim().replace(/\s+/g,'_') : '';
+    var p = pEl ? pEl.value : '';
+    if(!u || !p){ try{ showMsg('Naam + Password likho'); }catch(e){ alert('Naam + Password likho'); } return; }
+    try{ showMsg('Login ho raha hai...'); }catch(e){}
+    if(!window.db){ alert('Firebase nahi chala'); return; }
+    window.db.ref('users/' + u).once('value', function(s){
+      var d = s.val();
+      if(!d){ try{ showMsg('Account nahi mila - Signup karo'); showAuth('signup'); }catch(e){} return; }
+      if(d.bannedUntil && d.bannedUntil > Date.now()){
+        try{ showMsg(d.bannedUntil > 4102444800000 ? '⛔ Ye ID PERMANENT BAN hai' : '⛔ Ye ID BAN hai'); }catch(e){}
+        return;
+      }
+      if(String(d.p) !== String(p)){ try{ showMsg('Galat Password'); }catch(e){} return; }
+      if(d.status === 'pending'){ try{ showMsg('⏳ Tumhari ID abhi Pending hai'); }catch(e){} return; }
+      try{ window.db.ref('users/' + u).update({lastSeen: Date.now()}); }catch(e){}
+      try{ localStorage.setItem('y_cur', u); }catch(e){}
+      try{ window.cur = u; }catch(e){}
+      try{ showMsg('LOGIN HO GAYA ' + u); }catch(e){}
+      try{ if(window.showHomeNow) showHomeNow(); }catch(e){}
+      try{ if(window.syncFirebase) syncFirebase(); }catch(e){}
+    
+   });
+  };
+})();
+</script>
+<script>
+// FINAL INSTANT v14 - Online + Post dono foran
+(function(){
+  // 1. پرانا ڈیٹا فوراً G میں ڈال دو
+  try{
+    var _u = JSON.parse(localStorage.getItem('y_users_cache') || '{}');
+    var _p = JSON.parse(localStorage.getItem('y_posts_cache') || '{}');
+    if(window.G){
+      if(_u && Object.keys(_u).length > 0) window.G.users = _u;
+      if(_p && Object.keys(_p).length > 0){
+        window.G.posts = _p;
+        window.G.postsArr = Object.keys(_p).map(function(k){ var v=_p[k]; v._key=k; return v; });
+      }
+    }
+  }catch(e){}
+  // 2. لاگ ان / ریفریش پر فوراً دکھا دو، Firebase کا انتظار مت کرو
+  function showNow(){
+    try{ if(window.cur && window.renderOnline) window.renderOnline(); }catch(e){}
+    try{ if(window.cur && window.loadFeed) window.loadFeed(); }catch(e){}
+    try{ if(window.cur && window.updatePowerBox) window.updatePowerBox(); }catch(e){}
+  }
+  setTimeout(showNow, 50);
+  setTimeout(showNow, 500);
+  // 3. جب بھی نیا ڈیٹا آئے، اس کو کیش میں سیو کر لو
+  setInterval(function(){
+    try{
+      if(window.G && window.G.users && Object.keys(window.G.users).length > 0){
+        localStorage.setItem('y_users_cache', JSON.stringify(window.G.users));
+      }
+      if(window.G && window.G.posts && Object.keys(window.G.posts).length > 0){
+        localStorage.setItem('y_posts_cache', JSON.stringify(window.G.posts));
+      }
+    }catch(e){}
+  }, 2000);
+})();
+        </script>
+</script>
+<script>
+// FINAL THEMES v15 - 6 Themes + Profile Picker
+(function(){
+  var THEMES = {
+    black:  {bg:'#000000', card:'#0d0d0d', card2:'#1a1a1a', txt:'#ffffff', mut:'#aaaaaa', inp:'#1a1a1a', bord:'#333333', acc:'#FFD700'},
+    white:  {bg:'#ffffff', card:'#ffffff', card2:'#f2f2f2', txt:'#111111', mut:'#666666', inp:'#eeeeee', bord:'#dddddd', acc:'#FFB800'},
+    ocean:  {bg:'#001f3f', card:'#003366', card2:'#004080', txt:'#ffffff', mut:'#b3d9ff', inp:'#00264d', bord:'#0059b3', acc:'#00ccff'},
+    forest: {bg:'#0a2a12', card:'#123d1f', card2:'#1a4d2a', txt:'#ffffff', mut:'#b8e6c3', inp:'#0f331b', bord:'#2e7d32', acc:'#4dff88'},
+    rose:   {bg:'#2b0012', card:'#4a0020', card2:'#5c0028', txt:'#ffffff', mut:'#ffb3c8', inp:'#3d0018', bord:'#ff2d55', acc:'#ff4d6d'},
+    golden: {bg:'#1a1200', card:'#2a1e00', card2:'#3d2c00', txt:'#fff8dc', mut:'#ffdf80', inp:'#241a00', bord:'#FFD700', acc:'#FFD700'}
+  };
+  var css = '';
+  Object.keys(THEMES).forEach(function(k){
+    var t = THEMES[k];
+    css += "body[data-theme='"+k+"']{background:"+t.bg+"!important;color:"+t.txt+"!important}"+
+    "body[data-theme='"+k+"'] .top,body[data-theme='"+k+"'] .bottom{background:"+t.bg+"!important;border-color:"+t.bord+"!important;color:"+t.txt+"!important}"+
+    "body[data-theme='"+k+"'] .card,body[data-theme='"+k+"'] .post,body[data-theme='"+k+"'] .authBox{background:"+t.card+"!important;border-color:"+t.bord+"!important;color:"+t.txt+"!important}"+
+    "body[data-theme='"+k+"'] .inp,body[data-theme='"+k+"'] input,body[data-theme='"+k+"'] select,body[data-theme='"+k+"'] textarea{background:"+t.inp+"!important;color:"+t.txt+"!important;border-color:"+t.bord+"!important}"+
+    "body[data-theme='"+k+"'] .small,body[data-theme='"+k+"'] .top small{color:"+t.mut+"!important}"+
+    "body[data-theme='"+k+"'] .bottom button{color:"+t.txt+"!important}"+
+    "body[data-theme='"+k+"'] .filter button{background:"+t.card2+"!important;color:"+t.txt+"!important}"+
+    "body[data-theme='"+k+"'] .uCircle div,body[data-theme='"+k+"'] .story div{background:"+t.card2+"!important}";
+  });
+  var st = document.createElement('style'); st.id = 'finalThemesV15'; st.innerHTML = css;
+  document.head.appendChild(st);
+  function applyTheme(){
+    var t = localStorage.getItem('y_theme') || 'black';
+    if(!THEMES[t]) t = 'black';
+    document.body.setAttribute('data-theme', t);
+    document.documentElement.setAttribute('data-theme', t);
+    document.body.style.background = THEMES[t].bg;
+    var cur = document.getElementById('themeCurName');
+    if(cur) cur.innerText = t;
+  }
+  window.setTheme = function(name){
+    localStorage.setItem('y_theme', name);
+    applyTheme();
+    try{ showMsg('Theme lag gaya: ' + name); }catch(e){}
+  };
+  window.toggleTheme = function(){ window.setTheme(localStorage.getItem('y_theme')==='white' ? 'black' : 'white'); };
+  applyTheme();
+  // Profile me picker lagao
+  setInterval(function(){
+    if(document.getElementById('themePickerBox')) return;
+    var prof = document.querySelector('#page-profile .card');
+    if(!prof) return;
+    var box = document.createElement('div');
+    box.id = 'themePickerBox';
+    box.style = 'margin-top:10px;padding:12px;border-radius:12px;border:1px solid #FFD700;text-align:center';
+    box.innerHTML = '<h3>🎨 Theme Badlo</h3><p class="small">Abhi: <b id="themeCurName">black</b></p>' +
+    '<div style="display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:8px">' +
+    '<button onclick="setTheme(\'black\')" style="flex:1;min-width:80px;background:#000;color:#fff;border:1px solid #FFD700;padding:10px;border-radius:10px;font-weight:bold">⬛ Black</button>' +
+    '<button onclick="setTheme(\'white\')" style="flex:1;min-width:80px;background:#fff;color:#000;border:1px solid #ccc;padding:10px;border-radius:10px;font-weight:bold">⬜ White</button>' +
+    '<button onclick="setTheme(\'ocean\')" style="flex:1;min-width:80px;background:#003366;color:#fff;border:1px solid #00ccff;padding:10px;border-radius:10px;font-weight:bold">🌊 Ocean</button>' +
+    '<button onclick="setTheme(\'forest\')" style="flex:1;min-width:80px;background:#123d1f;color:#fff;border:1px solid #4dff88;padding:10px;border-radius:10px;font-weight:bold">🌲 Forest</button>' +
+    '<button onclick="setTheme(\'rose\')" style="flex:1;min-width:80px;background:#4a0020;color:#fff;border:1px solid #ff4d6d;padding:10px;border-radius:10px;font-weight:bold">🌹 Red Rose</button>' +
+    '<button onclick="setTheme(\'golden\')" style="flex:1;min-width:80px;background:#2a1e00;color:#FFD700;border:1px solid #FFD700;padding:10px;border-radius:10px;font-weight:bold">👑 Golden</button>' +
+    '</div>';
+    prof.appendChild(box);
+    applyTheme();
+  }, 1000);
+})();
+
+</script> 
+<script>
+// FINAL v44 - PART 1/4 - POINT 1 se 30 tak ka hisab
+(function(){
+  function safe(fn){ try{ fn(); }catch(e){} }
+  // POINT 32 - Animal 5
+  var ANIMALS = ['🐯','🐆','🐺','🦅','🦈'];
+  // POINT 34 - Star colors - 1 Yellow, 2 Green, 3 Blue, 4 Light Purple, 5 Light Pink
+var STAR_COLORS = ['#FFE600','#39FF14','#00D5FF','#E8E8E8','#FF9DE2'];
+var ANIMAL_FRAME_COLORS = {tiger:'#FF8C00',cheetah:'#FFFF00',wolf:'#00BFFF',eagle:'#D9D9D9',shark:'#FFB6E6'};
+  // POINT 12 + 13 - Trending = Image + 3 Likes, zyada Trending Images = Top 1
+  function getData(){
+    var trendMap = {}, likesBy = {}, pts = {};
+    try{
+      getPosts().forEach(function(p){
+        if(!p.u) return;
+        likesBy[p.u] = (likesBy[p.u]||0) + (p.likes||0);
+        var hasPic = !!(p.pic || p.img || p.media || p.image);
+        if(hasPic && Number(p.likes||0) >= 3) trendMap[p.u] = (trendMap[p.u]||0) + 1;
+      });
+      Object.values(getUsers()).forEach(function(u){
+        if(u && u.u) pts[u.u] = Number(u.points||0);
+      });
+    }catch(e){}
+    return {trendMap:trendMap, likesBy:likesBy, pts:pts};
+  }
+
+  // POINT 18 + 19 - Leader gayab, khali / undefined / Ban na aaye
+  function cleanUsers(){
+    try{
+      return Object.keys(getUsers()).filter(function(n){
+        if(!n) return false;
+        if(isLeaderName(n)) return false;
+        if(n === 'undefined' || n === 'null' || n.trim() === '') return false;
+        return true;
+      });
+    }catch(e){ return []; }
+  }
+
+  // POINT 11 + 13 + 16 - Fire Top 5 Trending, Top 1 gayab na ho
+  function topTrending(){
+    try{
+      var d = getData(); var all = cleanUsers();
+      all.sort(function(a,b){
+        var x = (d.trendMap[b]||0) - (d.trendMap[a]||0);
+        if(x !== 0) return x;
+        return (d.likesBy[b]||0) - (d.likesBy[a]||0);
+      });
+      return all.filter(function(n){ return (d.trendMap[n]||0) > 0; }).slice(0,5);
+    }catch(e){ return []; }
+  }
+
+  // POINT 14 - Star sirf Top 5
+  function topStar(){
+    try{
+      var d = getData(); var all = cleanUsers();
+      all.sort(function(a,b){ return (d.likesBy[b]||0) - (d.likesBy[a]||0); });
+      return all.slice(0,5);
+    }catch(e){ return []; }
+  }
+
+  // POINT 15 - Animal sirf Top 5 Scorer
+  function topScorer(){
+    try{
+      var d = getData(); var all = cleanUsers();
+      all.sort(function(a,b){ return (d.pts[b]||0) - (d.pts[a]||0); });
+      return all.slice(0,5);
+    }catch(e){ return []; }
+  }
+
+  window.topTrending = function(){ return topTrending(); };
+
+  // POINT 10 + 11 - Fire sirf Trending, sirf Top 5 Trending
+  window.isFireUser = function(n){ try{ return topTrending().indexOf(n) >= 0; }catch(e){ return false; } };
+  window.getFireHtml = function(n){ return window.isFireUser(n) ? ' 🔥' : ''; };
+  window.isTrendingCreator = function(u){ if(!u) return false; try{ return topTrending().indexOf(u) >= 0; }catch(e){ return false; } };
+
+  // POINT 25 + 26 + 30 - Moderator Red Star, Leader Gold, Badge har jagah
+  window.displayName = function(n){
+    try{
+      if(!n) return '';
+      if(isLeaderName(n)) return '<span style="color:#FFD700;text-shadow:0 0 10px #FFD700">🦁👑 '+n+'</span>';
+      var u = getUsers()[n];
+      var trend = topTrending(); var star = topStar(); var scorer = topScorer();
+      var badge = '';
+      var MY_STAR_COLORS = ['#FFE600','#39FF14','#00D5FF','#E8E8E8','#FF9DE2'];
+      var si = star.indexOf(n);
+      if(si >= 0) badge += ' <span style="color:'+MY_STAR_COLORS[si]+';font-size:14px;font-weight:bold">★</span>';
+      var ti = trend.indexOf(n);
+      if(ti >= 0) badge += ' <span>🔥</span>';
+      var ai = scorer.indexOf(n);
+      if(ai >= 0) badge += ' <span style="font-size:13px">'+ANIMALS[ai]+'</span>';
+      if(u && u.role === 'MODERATOR'){
+        return '<span style="color:#fff;text-shadow:0 0 10px #FF0000"><span style="color:#FF2D55">★</span> '+n+' <span style="color:#FF2D55">★</span></span>' + badge;
+      }
+      return n + badge;
+    }catch(e){ return n || ''; }
+  };
+
+  // POINT 29 - Fire Power line sirf Trending ko
+  window.userBadgeLine = function(u){
+    try{
+      var me = (getUsers()[u] || {});
+      var line = '';
+      if(me.role && me.role.toLowerCase().indexOf('moderator') >= 0) line += '<span style="background:#FF0000;color:#fff;font-size:10px;font-weight:bold;padding:1px 8px;border-radius:10px">MODERATOR</span> ';
+      if(me.role && me.role.toLowerCase().indexOf('admin') >= 0) line += '<span style="background:#FFD700;color:#000;font-size:10px;font-weight:bold;padding:1px 8px;border-radius:10px">ADMIN</span> ';
+      if(window.isFireUser(u)) line += '<div style="font-size:11px;color:#FFD700">🔥 Fire Power</div>';
+      line += '<div style="font-size:11px;color:#FFD700">⭐ '+(me.points||0)+'</div>';
+      return line;
+    }catch(e){ return ''; }
+  };
+
+  // POINT 4 + 5 - DP ho, na ho to naam wala circle, 👤 na ho
+  window.getDPHtml = function(name){
+    try{
+      var u = (window.G && window.G.users && window.G.users[name]) || {};
+      if(u.dp && u.dp.length > 10) return '<img src="'+u.dp+'" style="width:32px;height:32px;border-radius:50%;object-fit:cover;display:inline-block;vertical-align:middle;margin-right:6px">';
+      var ch = (name || '?').charAt(0).toUpperCase();
+      return '<span style="width:32px;height:32px;border-radius:50%;background:#FFD700;color:#000;display:inline-flex;align-items:center;justify-content:center;font-weight:900;vertical-align:middle;margin-right:6px">'+ch+'</span>';
+    }catch(e){ return ''; }
+  };
+
+  // POINT 17 + 18 + 19 + 20 + 21 - Leaderboard
+  // 17: Top 1 se 20, 18: Leader gayab, 19: khali / undefined / Ban na aaye, 20: Star me Likes, 21: Points me Points
+  window.showLeader = function(type){
+    try{
+      var el = document.getElementById('leaderList'); if(!el) return;
+      var d = getData();
+      var users = Object.values(getUsers()).filter(function(u){
+        if(!u || !u.u) return false;
+        if(isLeaderName(u.u)) return false;
+        if(u.u === 'undefined' || u.u === 'null' || u.u.trim() === '') return false;
+        if(u.bannedUntil && u.bannedUntil > Date.now()) return false;
+        return true;
+      });
+      if(type === 'star'){
+        users.sort(function(a,b){ return (d.likesBy[b.u]||0) - (d.likesBy[a.u]||0); });
+        el.innerHTML = users.slice(0,20).map(function(u,i){
+          return '<div class="lead"><span>'+(i+1)+'. '+displayName(u.u)+getTopBadge(u.u)+'</span><span>★ '+(d.likesBy[u.u]||0)+' Likes</span></div>';
+        }).join('');
+      } else {
+        users.sort(function(a,b){ return (b.points||0) - (a.points||0); });
+        el.innerHTML = users.slice(0,20).map(function(u,i){
+          return '<div class="lead"><span>'+(i+1)+'. '+displayName(u.u)+getTopBadge(u.u)+'</span><span>⭐ '+(u.points||0)+' Points</span></div>';
+        }).join('');
+      }
+    }catch(e){}
+  };
+    // POINT 22 - Like = Trending +5000, Normal +5, double na ho
+  window.doLike = function(key){
+    try{
+      var p = G.posts[key]; if(!p) return;
+      if((p.likedBy||[]).indexOf(cur) >= 0){ showMsg('Pehle se like kiya hua hai'); return; }
+      var isTrend = window.isTrendingCreator(cur);
+      var give = isTrend ? 5000 : 5;
+      var newLiked = (p.likedBy||[]).slice(); newLiked.push(cur);
+      var newLikes = (p.likes||0) + 1;
+      var upd = {likedBy:newLiked, likes:newLikes};
+      if(newLikes >= 3) upd.trending = true;
+      if(isTrend) upd.trendingCreatorLike = true;
+      db.ref('posts/'+key).update(upd);
+      addPointsTo(p.u, give);
+      if(p.u !== cur) pushInbox(p.u,{from:cur,text:(isTrend?'🔥 ':'❤️ ')+cur+' ne apki post like ki (+'+give+')',type:'like'});
+      playPop(); showMsg('Like Ho Gaya! ✅');
+    }catch(e){}
+  };
+
+  // POINT 23 - Chapair = Trending -5000, Normal -5, double na ho
+  window.doChapair = function(key){
+    try{
+      var p = G.posts[key]; if(!p) return;
+      if(p.u === cur){ showMsg('Apni post ko Chapair nahi maar sakte'); return; }
+      if((p.chapairBy||[]).indexOf(cur) >= 0){ showMsg('Pehle se Chapair mara hua hai'); return; }
+      var isTrend = window.isTrendingCreator(cur);
+      var minus = isTrend ? 5000 : 5;
+      var newArr = (p.chapairBy||[]).slice(); newArr.push(cur);
+      db.ref('posts/'+key).update({chapairBy:newArr, chapair:(p.chapair||0)+1});
+      addPointsTo(p.u, -minus);
+      if(p.u !== cur) pushInbox(p.u,{from:cur,text:'👋 '+cur+(isTrend?' (Top Trending)':'')+' ne tumhe CHAPAIR mara (-'+minus+')',type:'chapair'});
+      playSlap(); showMsg('Chapair Maar Diya 👋 -'+minus);
+    }catch(e){}
+  };
+
+  // POINT 3 - BLOCK wala kaam
+  window.doBlockV44 = function(name){
+    try{
+      if(!name || name === cur){ showMsg('Khud ko Block nahi kar sakte'); return; }
+      if(!confirm(name+' ko Block karna hai?')) return;
+      var me = getUsers()[cur] || {}; var arr = (me.blocked||[]).slice();
+      if(arr.indexOf(name) < 0) arr.push(name);
+      db.ref('users/'+cur+'/blocked').set(arr);
+      showMsg(name+' ko Block kar diya 🚫');
+      setTimeout(function(){ try{ if(window.loadFeed) loadFeed(); }catch(e){} },500);
+    }catch(e){ showMsg('Block kar diya 🚫'); }
+  };
+
+  window.sendRing = function(to){
+    try{
+      if(!to || to === cur) return;
+      pushInbox(to,{from:cur,text:'🔔 '+cur+' ne tumhe RING kiya - Online aao!',type:'ring'});
+      showMsg(to+' ko RING kar diya 🔔');
+    }catch(e){}
+  };
+
+  // POINT 33 + 34 + 35 + 36 - Frame
+  // 33: Top 5 ko frame 4 taraf, 34: Star colors, 35: Top 5 frame simple no shining, 36: Admin Yellow shining, Moderator Red shining
+     
+    // --- FRAMES FINAL V58 FIXED V5 : LEADER BUTTON SIRF PROFILE ME, SIRF OWNER KO ---
+(function(){
+  var css=document.createElement('style');
+  css.innerHTML=`
+  @keyframes frameSoft{0%,100%{box-shadow:0 0 2px var(--fc),0 0 4px var(--fc); filter:brightness(1);}50%{box-shadow:0 0 4px var(--fc),0 0 8px var(--fc); filter:brightness(1.08);}}
+  @keyframes frameLeaderGlow{0%,100%{box-shadow:0 0 4px #FFE89A, 0 0 8px #FFE89A; border-color:#FFE89A; filter:brightness(1);}50%{box-shadow:0 0 12px #FFE89A, 0 0 24px #FFE89A, 0 0 32px #FFE89A; border-color:#FFFACD; filter:brightness(1.4);}}
+  @keyframes frameModGlow{0%,100%{box-shadow:0 0 3px #C4A6FF, 0 0 6px #C4A6FF; border-color:#C4A6FF; filter:brightness(1);}50%{box-shadow:0 0 8px #C4A6FF, 0 0 16px #C4A6FF; border-color:#E6D8FF; filter:brightness(1.2);}}
+  .leaderPanel{position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); z-index:100000; background:#111; border:2px solid #FFE89A; border-radius:14px; padding:14px; width:300px; color:#fff;}
+  .leaderPanel input, .leaderPanel select{width:100%; margin:5px 0; padding:7px; border-radius:8px; border:none; background:#222; color:#fff;}
+  .leaderPanel button{width:100%; margin-top:6px; padding:8px; border-radius:8px; border:none; font-weight:bold; cursor:pointer;}
+  `;
+  document.head.appendChild(css);
+})();
+
+function getMyName(){
+  try{
+    if(window.myName) return window.myName;
+    if(window.currentUser) return typeof window.currentUser==='string' ? window.currentUser : (window.currentUser.name||window.currentUser.username||'');
+    if(window.myUser) return window.myUser;
+    var users = Object.keys(getUsers()||{});
+    for(var i=0;i<localStorage.length;i++){
+      var v = localStorage.getItem(localStorage.key(i))||'';
+      for(var j=0;j<users.length;j++){ if(v.indexOf(users[j])>=0 && isLeaderName(users[j])) return users[j]; }
+    }
+    for(var k=0;k<sessionStorage.length;k++){
+      var v2 = sessionStorage.getItem(sessionStorage.key(k))||'';
+      for(var j2=0;j2<users.length;j2++){ if(v2.indexOf(users[j2])>=0 && isLeaderName(users[j2])) return users[j2]; }
+    }
+  }catch(e){}
+  return '';
+}
+function getCustomFrames(){ try{ return JSON.parse(localStorage.getItem('yaarii_custom_frames')||'{}'); }catch(e){ return {}; } }
+
+function applyFrames(){
+try{
+      var starRaw = topScorer(); var trendRaw = topScorer();
+      function norm(s){ return String(s || '').toLowerCase().replace(/[^a-z0-9]/gi, ''); }
+      function toNames(arr){
+        if(!arr) return [];
+        return arr.map(function(x){
+          if(typeof x === 'string') return x;
+          if(x && x.name) return x.name;
+          if(x && x.username) return x.username;
+          if(x && x.user) return x.user;
+          return String(x);
+        });
+      }
+      var star = toNames(starRaw);
+      var trend = toNames(trendRaw);
+      var starNorm = star.map(norm);
+      var trendNorm = trend.map(norm);
+      var FRAME_COLORS = ['#C4A6FF','#A8E6A1','#A8D8FF','#C0C0C0','#FFC2E0'];
+      var C_ADMIN = '#FFE89A';
+      var C_MOD = '#C4A6FF';
+
+      function paint(el, nm){
+        if(!nm || !el) return '';
+        var u = getUsers()[nm] || {};
+        var isAdmin = (u.role === 'ADMIN' || isLeaderName(nm));
+        var isMod = (u.role === 'MODERATOR');
+        var nn = norm(nm);
+        var idx = starNorm.indexOf(nn);
+        if(idx < 0) idx = trendNorm.indexOf(nn);
+        el.classList.remove('frame-admin','frame-mod','frame-corner');
+        var custom = getCustomFrames()[nm] || null;
+        if(custom){
+          el.style.setProperty('border','2px solid '+(custom.color||'#FFE89A'),'important');
+          el.style.setProperty('box-shadow','0 0 6px '+(custom.color||'#FFE89A')+', 0 0 12px '+(custom.color||'#FFE89A'),'important');
+          el.style.setProperty('animation', custom.shine ? 'frameModGlow 2.5s infinite' : 'none','important');
+          el.style.setProperty('--fc', custom.color||'#FFE89A');
+          el.style.borderRadius = '12px';
+          return 'custom';
+        }
+        if(isAdmin){
+          el.classList.add('frame-admin');
+          el.style.setProperty('border','2px solid '+C_ADMIN,'important');
+          el.style.setProperty('box-shadow','0 0 6px '+C_ADMIN+', 0 0 12px '+C_ADMIN,'important');
+          el.style.setProperty('animation','frameLeaderGlow 2s infinite','important');
+          el.style.setProperty('--fc',C_ADMIN);
+          el.style.borderRadius = '12px';
+          return 'admin';
+        }
+        if(isMod){
+          el.classList.add('frame-mod');
+          el.style.setProperty('border','2px solid '+C_MOD,'important');
+          el.style.setProperty('box-shadow','0 0 4px '+C_MOD+', 0 0 8px '+C_MOD,'important');
+          el.style.setProperty('animation','frameModGlow 2.5s infinite','important');
+          el.style.setProperty('--fc',C_MOD);
+          el.style.borderRadius = '12px';
+          return 'mod';
+        }
+        if(idx >= 0 && idx < 5){
+          el.style.setProperty('border','2px solid ' + FRAME_COLORS[idx],'important');
+          el.style.setProperty('box-shadow','0 0 3px ' + FRAME_COLORS[idx] + ', 0 0 6px ' + FRAME_COLORS[idx],'important');
+          el.style.setProperty('animation','frameSoft 4s infinite','important');
+          el.style.setProperty('--fc', FRAME_COLORS[idx]);
+          el.style.borderRadius = '10px';
+          return 'top'+idx;
+        }
+        return '';
+      }
+
+      function paintDp(card, nm){
+        try{
+          if(!card.classList.contains('uCircle')) return;
+          var dpDiv = card.querySelector(':scope > div');
+          if(!dpDiv) dpDiv = card.querySelector('div');
+          if(!dpDiv) return;
+          var u = getUsers()[nm] || {};
+          var isA = (u.role==='ADMIN' || isLeaderName(nm));
+          var isM = (u.role==='MODERATOR');
+          var nn = norm(nm);
+          var ii = starNorm.indexOf(nn); if(ii<0) ii = trendNorm.indexOf(nn);
+          var custom = getCustomFrames()[nm] || null;
+          if(custom){
+            dpDiv.style.setProperty('border','2px solid '+(custom.color||'#FFE89A'),'important');
+            dpDiv.style.setProperty('box-shadow','0 0 4px '+(custom.color||'#FFE89A'),'important');
+            return;
+          }
+          if(isA){
+            dpDiv.style.setProperty('border','2px solid '+C_ADMIN,'important');
+            dpDiv.style.setProperty('box-shadow','0 0 6px '+C_ADMIN+', 0 0 12px '+C_ADMIN,'important');
+            dpDiv.style.setProperty('animation','frameLeaderGlow 2s infinite','important');
+          } else if(isM){
+            dpDiv.style.setProperty('border','2px solid '+C_MOD,'important');
+            dpDiv.style.setProperty('box-shadow','0 0 3px '+C_MOD+', 0 0 6px '+C_MOD,'important');
+            dpDiv.style.setProperty('animation','frameModGlow 2.5s infinite','important');
+          } else if(ii>=0 && ii<5){
+            dpDiv.style.setProperty('border','2px solid '+FRAME_COLORS[ii],'important');
+            dpDiv.style.setProperty('box-shadow','0 0 3px '+FRAME_COLORS[ii],'important');
+            dpDiv.style.setProperty('animation','frameSoft 4s infinite','important');
+          }
+        }catch(e){}
+      }
+
+      document.querySelectorAll('.post').forEach(function(post){
+        try{
+          var nm = '';
+          var b = post.querySelector('b');
+          if(b){
+            var oc = b.getAttribute('onclick') || '';
+            var m = oc.match(/viewUser\('([^']+)'\)/);
+            if(m) nm = m[1];
+            if(!nm && b.textContent) nm = b.textContent.trim();
+          }
+          if(!nm){
+            var allB = post.querySelectorAll('b');
+            for(var bi=0; bi<allB.length; bi++){
+              var oc2 = allB[bi].getAttribute('onclick') || '';
+              var m2 = oc2.match(/viewUser\('([^']+)'\)/);
+              if(m2){ nm = m2[1]; break; }
+            }
+          }
+          if(!nm) return;
+          var r = paint(post, nm);
+          if(!r){ post.style.border=''; post.style.boxShadow=''; post.style.animation=''; }
+          var innerDivs = post.querySelectorAll('div');
+          innerDivs.forEach(function(d){
+            if(d.style.border && d.style.border.indexOf('C4A6FF')>=0){
+              d.style.border=''; d.style.boxShadow=''; d.style.animation='';
+            }
+          });
+        }catch(e){}
+      });
+
+      document.querySelectorAll('.onlineBar .uCircle').forEach(function(card){
+        try{
+          var nm = '';
+          var p = card.querySelector('p');
+          if(p){
+            var clone = p.cloneNode(true);
+            var tags = clone.querySelectorAll('span');
+            tags.forEach(function(s){ s.remove(); });
+            nm = clone.textContent.trim().split('\n')[0].trim();
+          }
+          if(!nm){
+            var bb = card.querySelector('b');
+            if(bb) nm = bb.textContent.trim();
+          }
+          if(!nm) return;
+          nm = nm.replace('LEADER','').replace('MODERATOR','').replace('⚡','').replace('★','').trim();
+          if(!getUsers()[nm]) return;
+          paint(card, nm);
+          paintDp(card, nm);
+        }catch(e){}
+      });
+
+      document.querySelectorAll('.uCircle, .post').forEach(function(card){
+        try{
+          var txt = card.innerText || '';
+          if(txt.indexOf('MODERATOR') < 0) return;
+          card.style.setProperty('border','2px solid #C4A6FF','important');
+          card.style.setProperty('box-shadow','0 0 4px #C4A6FF, 0 0 8px #C4A6FF','important');
+          card.style.setProperty('animation','frameModGlow 2.5s infinite','important');
+          card.style.setProperty('--fc','#C4A6FF');
+          if(card.classList.contains('uCircle')){
+            var dp = card.querySelector(':scope > div');
+            if(dp){
+              dp.style.setProperty('border','2px solid #C4A6FF','important');
+              dp.style.setProperty('box-shadow','0 0 3px #C4A6FF, 0 0 6px #C4A6FF','important');
+              dp.style.setProperty('animation','frameModGlow 2.5s infinite','important');
+            }
+          }
+          card.querySelectorAll('.redStarTag').forEach(function(t){
+            t.style.setProperty('background','#C4A6FF','important');
+            t.style.setProperty('box-shadow','0 0 4px #C4A6FF','important');
+          });
+          card.querySelectorAll('.redStar, .redBolt').forEach(function(s){
+            s.style.setProperty('color','#C4A6FF','important');
+          });
+        }catch(e){}
+      });
+
+      // LEADER BUTTON - SIRF PROFILE ME, SIRF OWNER KO - NICHE WALA KHATAM
+      try{
+        // Purana neeche wala button ho to hata do
+        document.querySelectorAll('.leaderPowerBtn').forEach(function(x){ x.remove(); });
+        var me = getMyName();
+        // Agar me leader/owner nahi hai to kuch nahi dikhana
+        if(!me || !isLeaderName(me)) return;
+        var profileBox = document.querySelector('.profileView, .userProfile, .modal, [class*="profile"]');
+        if(!profileBox) return;
+        var txt2 = profileBox.innerText || '';
+        // Profile meri apni ho tab hi dikhao, kisi aur ki profile me nahi
+        if(txt2.indexOf(me) < 0) return;
+        if(!profileBox.querySelector('.leaderPowerBtnInProfile')){
+          var b2 = document.createElement('button');
+          b2.className = 'leaderPowerBtnInProfile';
+          b2.textContent = '👑 Leader Power';
+          b2.style.cssText = 'background:#FFE89A;color:#000;font-weight:bold;padding:8px 12px;border-radius:20px;border:none;margin:8px;cursor:pointer;';
+          b2.onclick = function(){ openLeaderPanel(); };
+          profileBox.prepend(b2);
+        }
+      }catch(e){}
+
+    }catch(e){}
+}
+
+function openLeaderPanel(){
+  var old = document.querySelector('.leaderPanel');
+  if(old) old.remove();
+  var div = document.createElement('div');
+  div.className = 'leaderPanel';
+  div.innerHTML = `
+    <b>👑 Leader Power - Frame Do</b><br><br>
+    User ka naam:<input id="lpName" placeholder="jese: Zamil">
+    Color:<input id="lpColor" type="color" value="#FFE89A">
+    <select id="lpColorPreset"><option value="#FFE89A">Yellow - Leader</option><option value="#C4A6FF">Purple - Mod</option><option value="#FF6B6B">Red</option><option value="#39FF14">Green</option><option value="#00D5FF">Blue</option><option value="#FF9DE2">Pink</option><option value="#FF8C00">Orange</option><option value="#FFFFFF">White</option></select>
+    Animal:<select id="lpAnimal"><option value="">Koi Animal Nahi</option><option value="🦁">🦁 Sher</option><option value="🐅">🐅 Tiger</option><option value="🐍">🐍 Saanp</option><option value="🐘">🐘 Hathi</option><option value="🦅">🦅 Eagle</option><option value="🐺">🐺 Bheriya</option><option value="🦄">🦄 Unicorn</option><option value="🐉">🐉 Dragon</option></select>
+    Lightning / Shine:<select id="lpShine"><option value="1">Tez Lightning + Shine</option><option value="0">Simple Frame</option></select>
+    Star:<select id="lpStar"><option value="1">⭐ Permanent Star Do</option><option value="0">Star Nahi</option></select>
+    <button id="lpSave" style="background:#FFE89A;color:#000;">Save Karo</button>
+    <button id="lpRemove" style="background:#333;color:#fff;">Iska Frame Hatao</button>
+    <button id="lpClose" style="background:#444;color:#fff;">Band Karo</button>
+  `;
+  document.body.appendChild(div);
+  document.getElementById('lpColorPreset').onchange = function(){ document.getElementById('lpColor').value = this.value; };
+  document.getElementById('lpSave').onclick = function(){
+    var n = document.getElementById('lpName').value.trim();
+    if(!n){ alert('Naam likho pehle'); return; }
+    var all = getCustomFrames();
+    all[n] = {color: document.getElementById('lpColor').value, animal: document.getElementById('lpAnimal').value, shine: document.getElementById('lpShine').value==='1', star: document.getElementById('lpStar').value==='1'};
+    localStorage.setItem('yaarii_custom_frames', JSON.stringify(all));
+    alert(n + ' ko frame de diya!'); div.remove(); applyFrames();
+  };
+  document.getElementById('lpRemove').onclick = function(){
+    var n = document.getElementById('lpName').value.trim();
+    var all = getCustomFrames(); delete all[n];
+    localStorage.setItem('yaarii_custom_frames', JSON.stringify(all));
+    alert(n + ' ka frame hata diya'); div.remove(); applyFrames();
+  };
+  document.getElementById('lpClose').onclick = function(){ div.remove(); };
+}
+applyFrames();
+setInterval(applyFrames, 500);
+// --- FRAMES FINAL V58 FIXED V5 END ---
+      
+
+
+      
+    
+    // POINT 37 - INBOX Reply - Inbox me Reply, wahin se reply jaye, uske inbox me bhi jaye
+  function addInboxReply(){
+    try{
+      document.querySelectorAll('#notifList > div, #inboxList > div, #notifList .card, #inboxList .card').forEach(function(card){
+        try{
+          if(card.dataset.replyDone === '1') return;
+          var txt = card.innerText||'';
+          var sender = (txt.split('\n')[0]||'').trim().split(' ')[0];
+          if(!sender || sender.length < 2) return;
+          card.dataset.replyDone = '1';
+          var wrap = document.createElement('div');
+          wrap.style = 'display:flex;gap:6px;margin-top:6px';
+          wrap.innerHTML = '<input placeholder="Reply '+sender+' ko..." style="flex:1;padding:8px;border-radius:10px;border:1px solid #FFD700;background:#111;color:#fff">'
+            + '<button type="button" style="background:#FFD700;color:#000;border:none;border-radius:10px;padding:8px 12px;font-weight:800">↩️ Reply</button>';
+          card.appendChild(wrap);
+          var btn = wrap.querySelector('button');
+          btn.onclick = function(){
+            try{
+              var inp = wrap.querySelector('input');
+              var msg = inp.value.trim(); if(!msg) return;
+              if(window.pushInbox) pushInbox(sender,{from:cur,text:'↩️ '+cur+' ne reply kiya: '+msg,type:'reply'});
+              showMsg(sender+' ko Reply bhej diya ✅'); inp.value='';
+            }catch(e){}
+          };
+        }catch(e){}
+      });
+    }catch(e){}
+  }
+
+  // POINT 39 - FUN hatao, uski jagah Theme Badlo
+  function openTheme44(){
+    try{
+      if(document.getElementById('th44')) return;
+      var ov = document.createElement('div'); ov.id = 'th44';
+      ov.style = 'position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:99999;display:flex;align-items:center;justify-content:center';
+      ov.innerHTML = '<div style="background:#111;border:2px solid #FFD700;border-radius:16px;padding:16px;width:90%;max-width:360px;text-align:center"><h3>🎨 Theme Badlo</h3><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px"><button data-th="black" style="padding:12px;background:#000;color:#fff;border:1px solid #FFD700;border-radius:10px">⬛ Black</button><button data-th="white" style="padding:12px;background:#fff;color:#000;border-radius:10px">⬜ White</button><button data-th="ocean" style="padding:12px;background:#0A3D62;color:#fff;border-radius:10px">🌊 Ocean</button><button data-th="forest" style="padding:12px;background:#1B5E20;color:#fff;border-radius:10px">🌲 Forest</button><button data-th="rose" style="padding:12px;background:#880E4F;color:#fff;border-radius:10px">🌹 Rose</button><button data-th="golden" style="padding:12px;background:#FFD700;color:#000;border-radius:10px">👑 Golden</button></div><button id="thClose44" style="margin-top:12px;padding:10px 20px;background:#222;color:#fff;border:1px solid #FFD700;border-radius:10px">Band Karo</button></div>';
+      document.body.appendChild(ov);
+      ov.querySelectorAll('[data-th]').forEach(function(b){
+        b.onclick = function(){
+          try{
+            var th = b.getAttribute('data-th');
+            localStorage.setItem('y_theme', th);
+            if(window.setTheme) setTheme(th);
+          }catch(e){}
+          ov.remove();
+        };
+      });
+      document.getElementById('thClose44').onclick = function(){ ov.remove(); };
+    }catch(e){}
+  }
+  window.openThemePicker = openTheme44;
+  function fixFun(){
+    try{
+      document.querySelectorAll('.bottom button').forEach(function(el){
+        try{
+          if(el.dataset.done44) return;
+          var t = (el.innerText||'').toUpperCase();
+          if(t.indexOf('FUN') >= 0 && t.indexOf('FUNNY') < 0){
+            el.dataset.done44 = '1';
+            el.innerHTML = '🎨<br>Theme';
+            el.style.background = ''; el.style.color = ''; el.style.fontWeight = '';
+           el.onclick = function(e){ e.preventDefault(); openTheme44(); return false; };
+          }
+        }catch(e){}
+      });
+    }catch(e){}
+  }
+  function fixMore(){
+    try{
+      if(document.getElementById('themeBtnMore44')) return;
+      var more = document.querySelector('#page-more .card'); if(!more) return;
+      var b = document.createElement('button'); b.id = 'themeBtnMore44'; b.type = 'button';
+      b.innerText = '🎨 Theme Badlo';
+      b.style = 'width:100%;padding:14px;border-radius:10px;background:#FFD700;color:#000;font-weight:900;margin-top:8px;border:none';
+      b.onclick = openTheme44; more.appendChild(b);
+    }catch(e){}
+  }
+
+  // POINT 1 + 2 + 3 + 31 - Button - 1: Double na hon, 2: Chote hon, 3: 7 hon, 31: Dostana jese chote, 7 ek line me, pink border
+  function fixButtons(){
+    try{
+      document.querySelectorAll('.post').forEach(function(post){
+        try{
+          var wrap = post.querySelector('.pBtns'); if(!wrap) return;
+          var has = false;
+          wrap.querySelectorAll('button').forEach(function(b){ if((b.innerText||'').indexOf('BLOCK') >= 0) has = true; });
+          if(!has){
+            var bEl = post.querySelector('b'); var nm = bEl ? bEl.innerText.replace(/[^A-Za-z0-9_]/g,'') : '';
+            var blk = document.createElement('button'); blk.innerText = '🚫 BLOCK';
+            blk.onclick = (function(n){ return function(){ window.doBlockV44(n); }; })(nm);
+            wrap.appendChild(blk);
+          }
+        }catch(e){}
+      });
+      document.querySelectorAll('.pBtns button').forEach(function(b){
+        try{
+          var t = b.innerText||'';
+          var cleaned = t.replace(/([👏👋➕🔁↗️😂🚫])\s*\1/g,'$1').replace(/\s+/g,' ').trim();
+          if(cleaned !== t) b.innerText = cleaned;
+        }catch(e){}
+      });
+    }catch(e){}
+  }
+
+  // POINT 6 - 👀 Eyes kahin bhi na hon
+  function fixEyes(){
+    try{
+      document.querySelectorAll('.post b').forEach(function(el){
+        try{
+          if(el.innerText && el.innerText.indexOf('👀') >= 0){
+            el.childNodes.forEach(function(n){
+              if(n.nodeType === 3 && n.textContent.indexOf('👀') >= 0) n.textContent = n.textContent.split('👀').join('');
+            });
+          }
+        }catch(e){}
+      });
+    }catch(e){}
+  }
+    // POINT 40 - City + Star ki poori list
+  var CITIES = ['Lahore','Karachi','Islamabad','Rawalpindi','Faisalabad','Multan','Hyderabad','Peshawar','Quetta','Sialkot','Gujranwala','Bahawalpur','Sargodha','Abbottabad','Jhelum','Gujrat','Sahiwal','Okara','Chakwal','Mandi Bahauddin','Sheikhupura','Kasur','Mianwali','Attock','Dera Ghazi Khan','Rahim Yar Khan','Bannu','Kohat','Swat','Mardan','Charsadda','Nowshera','Dera Ismail Khan','Zhob','Gwadar','Turbat','Khuzdar','Sukkur','Larkana','Nawabshah','Mirpur Khas','Jacobabad','Khairpur','Muzaffarabad','Mirpur','Kotli','Gilgit','Skardu','Hunza','Chitral','Other'];
+  var STARS = ['Aries ♈','Taurus ♉','Gemini ♊','Cancer ♋','Leo ♌','Virgo ♍','Libra ♎','Scorpio ♏','Sagittarius ♐','Capricorn ♑','Aquarius ♒','Pisces ♓'];
+  function makeDropdowns(){
+    try{
+      document.querySelectorAll('input').forEach(function(inp){
+        try{
+          var ph = (inp.placeholder||'').toLowerCase();
+          var isCity = ph.indexOf('city') >= 0;
+          var isStar = ph.indexOf('star') >= 0;
+          if(!isCity && !isStar) return;
+          if(inp.dataset.dropDone === '1') return;
+          inp.dataset.dropDone = '1';
+          var sel = document.createElement('select');
+          sel.style = 'width:100%;padding:10px;border-radius:10px;background:#000;color:#fff;border:1px solid #FFD700;margin-top:6px';
+          var list = isCity ? CITIES : STARS;
+          var title = isCity ? '-- City Select Karo --' : '-- Star Select Karo --';
+          sel.innerHTML = '<option value="">'+title+'</option>' + list.map(function(x){ return '<option value="'+x+'">'+x+'</option>'; }).join('');
+          sel.onchange = function(){ inp.value = sel.value; };
+          if(inp.value) sel.value = inp.value;
+          inp.parentNode.insertBefore(sel, inp.nextSibling);
+          inp.onclick = function(){ sel.focus(); };
+        }catch(e){}
+      });
+    }catch(e){}
+  }
+
+  // POINT 41 - Category ki poori list - General se Learning Urdu tak
+  var ALL_CATS = ['General','Shayari','Funny','Gaming','Cricket','Music','Love','News','Aseel','Motovlog','Sports','Football','Automotive','Politics','Religion','History','Psychology','Motivation','Quotes','Weather','Jobs','Local Community','Questions','DP Competition','Entertainment','Memes','Movies','Art','Drama','Anime','Bollywood','Hollywood','K-Pop','Comedy','Poetry & Literature','Sad Poetry','Love Poetry','Urdu Ghazal','Sufi Poetry','Deep Lines','Attitude Poetry','Funny Poetry','Punjabi Poetry','Islamic Poetry','Literature','Books','Parveen Shakir','Jaun Elia','Allama Iqbal','Mirza Ghalib','Pashto Poetry','Sindhi Poetry','Lifestyle','Photography','Travel','Home Decor','Food','Health','Self Care','Beauty','Relationships','Parenting','DIY & Crafts','Cooking','Vlog','Pets','Gardening','Tech','AI','Coding','Education','Business','Freelancing','Crypto','Science','Space','Gadgets','Learning Urdu'];
+  function expandCategories(){
+    try{
+      document.querySelectorAll('select').forEach(function(sel){
+        try{
+          var txt = sel.innerText||''; if(txt.indexOf('General') < 0) return;
+          if(sel.dataset.catsDone === '1') return;
+          if(sel.options.length > 20) return;
+          sel.dataset.catsDone = '1';
+          var curVal = sel.value;
+          sel.innerHTML = ALL_CATS.map(function(c){ return '<option value="'+c+'">'+c+'</option>'; }).join('');
+          if(curVal) sel.value = curVal;
+        }catch(e){}
+      });
+    }catch(e){}
+  }
+
+  // POINT 24 - Trending Images HOME par na hon, sirf TREND tab me hon
+  document.addEventListener('click', function(e){
+    try{
+      var btn = e.target.closest('button, a, div'); if(!btn) return;
+      if((btn.innerText||'').toUpperCase().indexOf('TREND') < 0) return;
+      setTimeout(function(){
+        try{
+          var page = document.getElementById('page-trending') || document.getElementById('page-trend');
+          if(!page) return;
+          if(document.getElementById('trendInTrendPage')) return;
+          var posts = getPosts().filter(function(p){ return !!(p.pic||p.img||p.media||p.image) && Number(p.likes||0) >= 3; })
+            .sort(function(a,b){ return (b.likes||0) - (a.likes||0); });
+          var box = document.createElement('div'); box.id = 'trendInTrendPage';
+          box.innerHTML = '<h2 style="padding:10px;text-align:center">🔥 Trending Images 🔥</h2><div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:0 10px 10px">'
+            + (posts.length ? posts.map(function(p){ return '<div style="background:#1a1a1a;border:2px solid #FFD700;border-radius:12px;overflow:hidden;text-align:center"><img src="'+(p.pic||p.img||p.media||p.image)+'" style="width:100%;height:150px;object-fit:cover"><p style="margin:5px">🔥 '+(p.u||'')+'</p><p style="margin:0 0 8px">❤️ '+(p.likes||0)+' Likes</p></div>'; }).join('')
+            : '<p class="small" style="grid-column:span 2;text-align:center">Abhi koi Trending Image nahi</p>')
+            + '</div>';
+          page.insertBefore(box, page.firstChild);
+        }catch(e){}
+      }, 500);
+    }catch(e){}
+  });
+
+  // POINT 27 + 28 - Theme + Ban mehfooz rahen - v15 aur v7 ko hath hi nahi lagaya
+
+  // STYLE - POINT 2 + 31 + 35 + 36
+  try{
+    var st = document.createElement('style'); st.id = 'fixV44';
+    st.innerHTML =
+      ".pBtns{display:flex!important;flex-wrap:nowrap!important;gap:4px!important;overflow-x:auto!important;padding:4px 0!important;scrollbar-width:none!important}"
+      + ".pBtns::-webkit-scrollbar{display:none!important}"
+      + ".pBtns button{flex:0 0 auto!important;padding:6px 9px!important;font-size:10px!important;font-weight:700!important;white-space:nowrap!important;border-radius:999px!important;border:1px solid #FF69B4!important;background:#1a1a1a!important;color:#fff!important;line-height:1!important}"
+      + ".pBtns button::before,.pBtns button::after{content:none!important;display:none!important}"
+      + ".post{border-radius:14px!important}"
+      + ".frame-admin{border:3px solid #FFD700!important;box-shadow:0 0 12px #FFD700,0 0 22px #FFE600,0 0 32px #FFD700!important}"
+      + ".frame-mod{border:3px solid #FF0000!important;box-shadow:0 0 12px #FF0000,0 0 22px #FF2D55,0 0 32px #FF0000!important}"
+      + ".v44cmt{display:flex!important;gap:7px!important;align-items:flex-start!important;margin-top:6px!important}"
+      + ".v44cmtDp{width:26px!important;height:26px!important;border-radius:50%!important;background:#FFD700!important;color:#000!important;display:flex!important;align-items:center!important;justify-content:center!important;font-weight:900!important;font-size:12px!important;flex-shrink:0!important;object-fit:cover!important}";
+    document.head.appendChild(st);
+  }catch(e){}
+
+  // POINT 42 - Sab ek hi interval me, har kaam alag safe me - koi purani cheez kharab na ho
+  setInterval(function(){
+    safe(fixButtons);
+    safe(fixEyes);
+    safe(function(){
+      document.querySelectorAll('.post').forEach(function(post){
+        try{
+          var inp = post.querySelector('input[id^="cmt-"]'); if(!inp) return;
+          var key = inp.id.replace('cmt-','');
+          renderOneCmtList(post, key);
+        }catch(e){}
+      });
+    });
+    safe(applyFrames);
+    safe(addInboxReply);
+    safe(buildPrivateChat);
+    safe(fixFun);
+    safe(fixMore);
+    safe(makeDropdowns);
+    safe(expandCategories);
+  }, 1200);
+
+  setTimeout(function(){ try{ if(window.loadFeed) loadFeed(); }catch(e){} }, 2000);
+})();
+// --- NEW 1ON1 : Invite + Chat - Single Box - FINAL ---
+function pvtPair(a,b){ return [a,b].sort().join('__'); }
+function pvtTime(t){ try{var d=new Date(t||Date.now());var h=d.getHours();var ap=h>=12?'PM':'AM';h=h%12||12;return h+':'+('0'+d.getMinutes()).slice(-2)+' '+ap}catch(e){return ''} }
+function sendPvtInvite(){
+  var to=document.getElementById('pvtTo').value.trim().replace(/\s+/g,'_');
+  if(!to||to===cur){showMsg('Sahi naam likho');return}
+  db.ref('pvt_invite/'+to).push({from:cur,to:to,time:Date.now(),status:'pending'});
+  pushInbox(to,{from:cur,text:'📩 Private Chat Invite - Accept karo?',type:'pvt_invite'});
+  showMsg(to+' ko Invite bhej diya 📩');
+}
+function loadPvtInvites(){
+  var box=document.getElementById('pvtInviteBox'); if(!box||!window.db) return;
+  db.ref('pvt_invite/'+cur).on('value',function(snap){
+    var val=snap.val()||{}; var html='';
+    Object.keys(val).forEach(function(k){ var inv=val[k]; if(inv.status!=='pending') return;
+      html+='<div style="background:#1A1A1A;border:1px solid #FFD700;border-radius:12px;padding:10px;margin-bottom:8px;text-align:center"><b>'+inv.from+'</b> ne Private Chat Invite bheja hai<br><button onclick="pvtInviteAction(\''+k+'\',\'accept\')" style="background:#FFD700;color:#000;border:none;padding:8px 14px;border-radius:10px;font-weight:900;margin:8px 4px 0;cursor:pointer">✅ Accept</button><button onclick="pvtInviteAction(\''+k+'\',\'reject\')" style="background:#333;color:#fff;border:none;padding:8px 14px;border-radius:10px;font-weight:900;margin:8px 4px 0;cursor:pointer">❌ Reject</button></div>';
+    });
+    box.innerHTML=html;
+  });
+}
+function pvtInviteAction(key,act){
+  db.ref('pvt_invite/'+cur+'/'+key).once('value',function(snap){
+    var inv=snap.val(); if(!inv) return;
+    if(act==='accept'){
+      db.ref('pvt_invite/'+cur+'/'+key).update({status:'accepted'});
+      db.ref('pvt_accept/'+inv.from).push({from:cur,to:inv.from,time:Date.now(),status:'accepted'});
+      openPvtChat(inv.from); showMsg(inv.from+' ki chat khul gayi 🔓');
+    } else {
+      db.ref('pvt_invite/'+cur+'/'+key).update({status:'rejected'});
+      showMsg('Invite Reject kar diya');
+    }
+  });
+}
+var _pvtWith=null;
+var _pvtReply=null;
+var _pvtPairOld=null;
+function pvtReplyTo(txt,from){ _pvtReply={text:txt,from:from}; document.getElementById('pvtReplyBar').style.display='block'; document.getElementById('pvtReplyText').innerText=from+': '+txt; document.getElementById('pvtText').focus(); }
+function pvtCancelReply(){ _pvtReply=null; document.getElementById('pvtReplyBar').style.display='none'; }
+function openPvtChat(withUser){
+  _pvtWith=withUser;
+  try{ localStorage.setItem('lastPvtChat', withUser); }catch(e){}
+  document.getElementById('pvtHead44').style.display='block';
+  document.getElementById('pvtHead44').innerHTML='💬 '+withUser+' - Private Chat 🔒 <button onclick="leavePvtChat()" style="background:#ff2d55;color:#fff;border:none;padding:6px 12px;border-radius:10px;font-weight:900;margin-left:8px;cursor:pointer">🚪 Leave</button>';
+  document.getElementById('pvtSendRow').style.display='flex';
+  document.getElementById('pvtTo').value=withUser;
+  var pair=pvtPair(cur,withUser);
+  if(_pvtPairOld && _pvtPairOld!==pair){ try{ db.ref('pvt_chat/'+_pvtPairOld).off(); }catch(e){} }
+  _pvtPairOld=pair;
+  db.ref('pvt_chat/'+pair).off();
+  db.ref('pvt_chat/'+pair).on('value',function(snap){
+    var val=snap.val()||{}; var arr=Object.values(val).sort(function(a,b){return (a.time||0)-(b.time||0)});
+    var el=document.getElementById('pvtBox');
+    if(!arr.length){ el.innerHTML='<p style="text-align:center;color:#888;padding:20px">Chat shuru ho gayi - pehla message bhejo! 🔒<br><span style="font-size:11px">Kisi bhi msg pe tap karo to Reply kar sakte ho</span></p>'; return; }
+    el.innerHTML=arr.map(function(m){
+      var mine=m.from===cur;
+      var safe=(m.text||'').replace(/'/g,"\\'");
+      var replyHtml=m.reply?'<div style="background:rgba(0,0,0,0.25);border-left:3px solid #FFD700;padding:6px 8px;border-radius:6px;font-size:11px;margin-bottom:6px;color:#FFD700"><b>'+m.reply.from+':</b> '+m.reply.text+'</div>':'';
+      if(mine) return '<div style="display:flex;justify-content:flex-end"><div onclick="pvtReplyTo(\''+safe+'\',\''+(m.from||'')+'\')" style="max-width:82%;background:#6B4226;color:#fff;padding:10px 12px;border-radius:16px 16px 4px 16px;cursor:pointer"><b style="font-size:11px;display:block;text-align:right;color:#FFD700">You</b>'+replyHtml+'<span style="font-size:14px;line-height:1.4;display:block;color:#fff">'+(m.text||'')+'</span><span style="font-size:10px;color:#FFD700;display:block;text-align:right;margin-top:4px">'+pvtTime(m.time)+' ✓✓</span><span style="font-size:9px;color:#ddd;display:block;text-align:center;margin-top:2px">Tap to Reply ↩️</span></div></div>';
+      else return '<div style="display:flex;justify-content:flex-start"><div onclick="pvtReplyTo(\''+safe+'\',\''+(m.from||'')+'\')" style="max-width:82%;background:#2A2F33;color:#fff;padding:10px 12px;border-radius:16px 16px 16px 4px;cursor:pointer"><b style="font-size:11px;display:block;color:#FFD700">'+(m.from||'')+'</b>'+replyHtml+'<span style="font-size:14px;line-height:1.4;display:block">'+(m.text||'')+'</span><span style="font-size:10px;opacity:.6;display:block;text-align:right;margin-top:4px">'+pvtTime(m.time)+'</span><span style="font-size:9px;color:#aaa;display:block;text-align:center;margin-top:2px">Tap to Reply ↩️</span></div></div>';
+    }).join('');
+    el.scrollTop=el.scrollHeight;
+  });
+}
+function restorePvtChat(){
+  try{
+    var last=localStorage.getItem('lastPvtChat');
+    if(last && last!==cur){ openPvtChat(last); }
+  }catch(e){}
+}
+function leavePvtChat(){
+  if(!_pvtWith) return;
+  if(!confirm(_pvtWith+' ki chat Leave karni hai? Dono taraf se sari chat delete ho jayegi!')) return;
+  var other=_pvtWith;
+  var pair=pvtPair(cur,other);
+  try{ db.ref('pvt_chat/'+pair).off(); }catch(e){}
+  try{ db.ref('pvt_chat/'+pair).remove(); }catch(e){}
+  try{ db.ref('pvt_leave/'+other).push({from:cur,time:Date.now()}); }catch(e){}
+  try{ db.ref('pvt_invite/'+cur).once('value',function(snap){ var val=snap.val()||{}; Object.keys(val).forEach(function(k){ if(val[k].from===other) db.ref('pvt_invite/'+cur+'/'+k).remove(); }); }); }catch(e){}
+  try{ db.ref('pvt_invite/'+other).once('value',function(snap){ var val=snap.val()||{}; Object.keys(val).forEach(function(k){ if(val[k].from===cur) db.ref('pvt_invite/'+other+'/'+k).remove(); }); }); }catch(e){}
+  try{ localStorage.removeItem('lastPvtChat'); }catch(e){}
+  _pvtWith=null; _pvtPairOld=null; _pvtReply=null;
+  document.getElementById('pvtHead44').style.display='none';
+  document.getElementById('pvtSendRow').style.display='none';
+  document.getElementById('pvtBox').innerHTML='<p style="text-align:center;color:#888;padding:20px">Tumne chat Leave kar di 🚪<br>Sari chat dono taraf se delete ho gayi<br>Dobara chat ke liye dobara Invite bhejna hoga</p>';
+  document.getElementById('pvtTo').value='';
+  try{ pushInbox(other,{from:cur,text:'🚪 '+cur+' ne Private Chat Leave kar di - Sari chat delete ho gayi',type:'leave'}); }catch(e){}
+  showMsg('Chat Leave kar di - Dono taraf se delete ✅');
+}
+function clearPvtOnLeave(byUser){
+  if(_pvtWith!==byUser) return;
+  try{ if(_pvtPairOld) db.ref('pvt_chat/'+_pvtPairOld).off(); }catch(e){}
+  try{ localStorage.removeItem('lastPvtChat'); }catch(e){}
+  _pvtWith=null; _pvtPairOld=null; _pvtReply=null;
+  document.getElementById('pvtHead44').style.display='none';
+  document.getElementById('pvtSendRow').style.display='none';
+  document.getElementById('pvtBox').innerHTML='<p style="text-align:center;color:#888;padding:20px">'+byUser+' ne chat Leave kar di 🚪<br>Sari chat delete ho gayi</p>';
+  document.getElementById('pvtTo').value='';
+}
+function sendPvtMsg(){
+  if(!_pvtWith){ showMsg('Pehle kisi ko Invite bhejo ya Accept karo'); return; }
+  var txt=document.getElementById('pvtText').value.trim(); if(!txt) return;
+  var pair=pvtPair(cur,_pvtWith);
+  var data={from:cur,to:_pvtWith,text:txt,time:Date.now()};
+  if(_pvtReply) data.reply=_pvtReply;
+  db.ref('pvt_chat/'+pair).push(data);
+  pushInbox(_pvtWith,{from:cur,text:'🔒 Private: '+txt,type:'pvt'});
+  document.getElementById('pvtText').value=''; pvtCancelReply();
+}
+// Auto-start invites + accepted check + leave check
+setTimeout(function(){ try{ loadPvtInvites(); restorePvtChat(); db.ref('pvt_accept/'+cur).on('child_added',function(snap){ var v=snap.val(); if(v&&v.status==='accepted'){ openPvtChat(v.from); showMsg(v.from+' ne Invite Accept kar liya ✅'); } }); db.ref('pvt_leave/'+cur).on('child_added',function(snap){ var v=snap.val(); if(v&&v.from){ clearPvtOnLeave(v.from); showMsg(v.from+' ne chat Leave kar di 🚪'); db.ref('pvt_leave/'+cur+'/'+snap.key).remove(); } }); }catch(e){} },1500);
+</script>
+<script>
+<script>
+
+</script>
+</body>
+</html>
+
