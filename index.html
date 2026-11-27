@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="ur"><head><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><script>var APP_VERSION=44;if(location.search.indexOf('v='+APP_VERSION)<0){location.replace(location.pathname+'?v='+APP_VERSION);}</script><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Yaarii-PK 👑</title>
+<!DOCTYPE html><html lang="ur"><head><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><script>var APP_VERSION=45;if(location.search.indexOf('v='+APP_VERSION)<0){location.replace(location.pathname+'?v='+APP_VERSION);}</script><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Yaarii-PK 👑</title>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 <style>
@@ -46,7 +46,7 @@
 <div id="page-share" class="hidden"><div class="card"><h3>📤 Post Share Karo</h3><textarea id="postText" rows="3" placeholder="Kuch likho... @name mention"></textarea><select id="postCat"><option>General</option></select><input type="file" id="postPic" accept="image/*,video/*,audio/*"><input id="postPicLink" placeholder="Ya Photo / Video ka LINK yahan paste karo"><button type="button" class="btnGold" onclick="addPost()">POST KARO +10 Points</button><p class="small" style="margin-top:8px">Photo / Video ab Cloudinary par jayegi - fast khulegi ✅</p></div></div>
 <div id="page-trending" class="hidden"><div class="card"><h3>🔥 Trending</h3><p class="small">3 Likes wali posts yahan aati hain. Trending Creator ka Like = +5000</p></div><div id="trendFeed"></div></div>
 <div id="page-inbox" class="hidden"><div class="card"><h3>🔔 Notifications</h3><div id="notifList"></div></div><div class="card"><h3>✉️ DM Bhejo</h3><input id="dmTo" placeholder="Kisko DM karna hai? Naam likho"><input id="dmText" placeholder="Message likho"><button type="button" class="btnGold" onclick="sendDM()">DM Bhejo</button><div id="dmList" style="margin-top:10px"></div></div></div>
-<div id="page-1on1" class="hidden"><div class="card"><h3>🔒 1 ON 1 Private Chat</h3><input id="pvtTo" placeholder="Kisko message karna hai?"><input id="pvtText" placeholder="Private message likho"><button type="button" class="btnGold" onclick="sendPrivate()">Private Bhejo 🔒</button><div id="pvtBox" style="margin-top:10px;background:#0A0A0A;border-radius:12px;padding:8px;max-height:350px;overflow-y:auto;display:flex;flex-direction:column;gap:2px"></div></div></div>
+<div id="page-1on1" class="hidden"><div class="card" style="padding:0;overflow:hidden;background:#0A0A0A;border:1px solid #FFD700;border-radius:16px"><div style="background:#1A1A1A;padding:12px;text-align:center;border-bottom:1px solid #333"><h3 style="margin:0;color:#fff">💬 1 ON 1 Private Chat 🔒</h3><p style="margin:4px 0 0;color:#aaa;font-size:12px">Pehle Invite bhejo, Accept hoga tab hi chat khulegi</p></div><div style="padding:12px"><input id="pvtTo" placeholder="Kisko Invite karna hai? Naam likho" style="width:100%;padding:12px;border-radius:12px;background:#000;color:#fff;border:1px solid #FFD700;margin-bottom:8px"><button type="button" class="btnGold" onclick="sendPvtInvite()" style="width:100%;padding:12px;border-radius:12px;font-weight:900">📩 Private Invite Bhejo</button><div id="pvtInviteBox" style="margin-top:10px"></div><div id="pvtHead44" style="text-align:center;margin:12px 0;font-weight:900;color:#FFD700;display:none"></div><div id="pvtBox" style="display:flex;flex-direction:column;gap:8px;max-height:380px;overflow-y:auto;padding:8px;background:#0A0A0A;border-radius:12px;min-height:100px"></div><div id="pvtSendRow" style="display:none;gap:6px;margin-top:10px"><input id="pvtText" placeholder="Private message likho..." style="flex:1;padding:12px;border-radius:20px;border:1px solid #444;background:#1A1A1A;color:#fff"><button type="button" class="btnGold" onclick="sendPvtMsg()" style="border-radius:20px;padding:12px 18px;font-weight:900">Bhejo ➤</button></div></div></div></div>
 <div id="page-profile" class="hidden"><div class="card" style="text-align:center"><div class="dpBig" id="pDpBox">👤</div><h2 id="pName"></h2><p id="pMeta" class="small"></p><p id="pBio"></p><p id="pPowerLine"></p><p id="pLastSeen" class="small"></p><p id="privateStatus" class="small"></p><div id="adminPanel"></div><button type="button" class="btnGold" onclick="showPage('more')">⚙️ Edit Profile / Settings</button><button type="button" class="btnBlack" onclick="showPage('leaderpanel')">🏆 Leader Panel</button><button type="button" class="btnBlack" onclick="logout()">Logout</button></div><div class="card"><h3>Meri Posts</h3><div id="myPosts"></div></div><div class="card"><h3>🚫 Blocked Users</h3><div id="myBlockedList"></div></div></div>
 <div id="page-viewprofile" class="hidden"><div class="card" style="text-align:center"><div class="dpBig" id="vDpBox">👤</div><h2 id="vName"></h2><p id="vMeta" class="small"></p><p id="vBio"></p><p id="vPowerLine"></p><p id="vLastSeen" class="small"></p><div style="display:flex;gap:6px"><button type="button" class="btnGold" onclick="startChatWithViewing()">💬 1 ON 1 Chat</button><button type="button" class="btnBlack" id="vBlockBtn" onclick="toggleBlockViewing()">🚫 Block Karo</button></div></div><div class="card"><h3>Iski Posts</h3><div id="vPosts"></div></div></div>
 <div id="page-mehfil" class="hidden"><div class="card"><h3>💬 Mehefilen</h3><input id="newMehfil" placeholder="Nayi Mehfil ka naam"><button type="button" class="btnGold" onclick="createMehfil()">Mehfil Banao</button><div id="mehfilList" style="margin-top:10px"></div></div><div class="card"><h3 id="mehfilTitle">Sab Ki Mehfil</h3><div id="mehfilChatBox" style="max-height:300px;overflow-y:auto"></div><input id="mehfilChatText" placeholder="Mehfil me likho..."><button type="button" class="btnGold" onclick="sendMehfilChat()">Bhejo 💬</button></div></div>
@@ -202,7 +202,7 @@ db.ref('blockedDevices').on('value',function(s){G.blockedDevices=s.val()||{}});
 db.ref('users').once('value',function(s){G.users=s.val()||{};window.__usersLoaded=true;if(cur){renderOnline();updatePowerBox();}if(cur&&!document.getElementById('page-profile').classList.contains('hidden')){loadProfile();}if(cur&&!document.getElementById('page-leaderpanel').classList.contains('hidden')){showLeaderPanel();}});
 db.ref('users').on('child_changed',function(s){G.users[s.key]=s.val();if(cur&&!document.getElementById('page-home').classList.contains('hidden')){renderOnline();updatePowerBox();}if(cur&&!document.getElementById('page-profile').classList.contains('hidden')){loadProfile();}if(cur&&!document.getElementById('page-leaderpanel').classList.contains('hidden')){showLeaderPanel();}});
 db.ref('users').on('child_added',function(s){if(!G.users[s.key]){G.users[s.key]=s.val();if(cur&&!document.getElementById('page-home').classList.contains('hidden')){renderOnline();}}});
-db.ref('posts').limitToLast(75).on('value',function(s){window.__dataLoaded=true;var o=s.val()||{};G.posts=o;G.postsArr=Object.keys(o).map(function(k){var v=o[k];v._key=k;return v});if(cur)loadFeed();if(!document.getElementById('page-trending').classList.contains('hidden'))loadTrend()});
+db.ref('posts').limitToLast(66).on('value',function(s){window.__dataLoaded=true;var o=s.val()||{};G.posts=o;G.postsArr=Object.keys(o).map(function(k){var v=o[k];v._key=k;return v});if(cur)loadFeed();if(!document.getElementById('page-trending').classList.contains('hidden'))loadTrend()});
 db.ref('chat').limitToLast(30).on('value',function(s){var o=s.val()||{};G.chat=Object.keys(o).map(function(k){return o[k]});if(!document.getElementById('page-mehfil').classList.contains('hidden'))loadMehfilChat()});
 db.ref('stories').on('value',function(s){var o=s.val()||{};G.stories=Object.keys(o).map(function(k){return o[k]});if(!document.getElementById('page-home').classList.contains('hidden'))renderStories()});
 db.ref('mehfils').on('value',function(s){var v=s.val();G.mehfils=Array.isArray(v)?v:(v?Object.keys(v).map(function(k){return v[k]}):["Sab Ki Mehfil"]);if(!document.getElementById('page-mehfil').classList.contains('hidden'))loadMehfil()});
@@ -273,7 +273,7 @@ function addPost(){
 }
 function getDPHtml(name){var u=G.users[name]||{};if(u.dp&&u.dp.length>10){return '<img src="'+u.dp+'" style="width:32px;height:32px;border-radius:50%;object-fit:cover;display:inline-block;vertical-align:middle;margin-right:6px">'}else if(u.dp){return u.dp+' '}return '👤 '}
 function mediaHtml(p){if(!p.pic)return '';if(p.pic.indexOf('data:video')===0||p.pic.indexOf('.mp4')>0||p.pic.indexOf('video/upload')>0||p.type==='VIDEO')return '<video src="'+p.pic+'" controls preload="metadata" style="width:100%;border-radius:10px"></video>';if(p.pic.indexOf('data:audio')===0||p.type==='AUDIO')return '<audio src="'+p.pic+'" controls preload="metadata" style="width:100%;margin-top:8px"></audio>';return '<img src="'+p.pic+'" loading="lazy">';}
-var FEED_LIMIT=15;
+var FEED_LIMIT=22;
 var __feedBusy=false;
 function isModOrAdmin(){
 var me=getUsers()[cur];
@@ -411,8 +411,6 @@ function loadTrend(){var arr=getPosts().filter(function(p){return isTrendingPost
 function loadInbox(){var el=document.getElementById('notifList');if(!el)return;var arr=(G.inbox||[]).slice().reverse();if(!arr.length){el.innerHTML='<p class="small">Koi notification nahi</p>'}else{el.innerHTML=arr.map(function(n){var txt=n.text||'';return '<div style="background:#111;padding:10px;border-radius:10px;margin:6px 0"><b>'+(n.from||'System')+'</b><p>'+txt+'</p><small class="small">'+timeAgo(n.time)+'</small></div>'}).join('')}loadDMList()}
 function sendDM(){var to=document.getElementById('dmTo').value.trim().replace(/\s+/g,'_');var txt=document.getElementById('dmText').value.trim();if(!to||!txt){showMsg('Naam + Message likho');return}pushInbox(to,{from:cur,text:'✉️ DM: '+txt,type:'dm'});document.getElementById('dmText').value='';showMsg('DM bhej diya ✅')}
 function loadDMList(){var el=document.getElementById('dmList');if(!el)return;var arr=(G.inbox||[]).filter(function(n){return n.type==='dm'}).slice().reverse().slice(0,20);el.innerHTML=arr.map(function(n){return '<div style="background:#111;padding:8px;border-radius:8px;margin:4px 0"><b>'+n.from+'</b>: '+n.text+'</div>'}).join('')||'<p class="small">Koi DM nahi</p>'}
-function loadPrivate(){var el=document.getElementById('pvtBox');if(!el)return;var arr=(G.pvt||[]).slice(-30);el.innerHTML=arr.map(function(m){var mine=(m.from||'')===cur;var nm=mine?'You':(m.from||'');var tm='';try{var d=new Date(m.time||Date.now());var h=d.getHours();var ap=h>=12?'PM':'AM';h=h%12||12;tm=h+':'+('0'+d.getMinutes()).slice(-2)+' '+ap}catch(e){tm=timeAgo(m.time)};if(mine){return '<div style="display:flex;justify-content:flex-end;margin:6px 0"><div style="max-width:82%;background:#FFD700;color:#000;padding:10px 12px;border-radius:16px 16px 4px 16px;box-shadow:0 2px 8px rgba(0,0,0,.4)"><b style="font-size:11px;display:block;text-align:right;opacity:.7">You</b><span style="font-size:14px;line-height:1.4;display:block">'+(m.text||'')+'</span><span style="font-size:10px;opacity:.6;display:block;text-align:right;margin-top:4px">To: '+(m.to||'')+' • '+tm+' ✓✓</span></div></div>'}else{return '<div style="display:flex;justify-content:flex-start;margin:6px 0"><div style="max-width:82%;background:#2A2F33;color:#fff;padding:10px 12px;border-radius:16px 16px 16px 4px;box-shadow:0 2px 8px rgba(0,0,0,.4)"><b style="font-size:11px;display:block;color:#FFD700">'+nm+'</b><span style="font-size:14px;line-height:1.4;display:block">'+(m.text||'')+'</span><span style="font-size:10px;opacity:.6;display:block;text-align:right;margin-top:4px">'+tm+'</span></div></div>'}}).join('')||'<p class="small" style="text-align:center;padding:20px">Koi private chat nahi - pehla message bhejo! 🔒</p>';el.scrollTop=el.scrollHeight}
-function sendPrivate(){var to=document.getElementById('pvtTo').value.trim().replace(/\s+/g,'_');var txt=document.getElementById('pvtText').value.trim();if(!to||!txt){showMsg('Naam + Message likho');return}db.ref('pvt/'+to).push({from:cur,to:to,text:txt,time:Date.now()});db.ref('pvt/'+cur).push({from:cur,to:to,text:txt,time:Date.now()});pushInbox(to,{from:cur,text:'🔒 1 ON 1: '+txt,type:'pvt'});document.getElementById('pvtText').value='';showMsg('Private bhej diya 🔒')}
 function viewUser(name){if(!name)return;if(name===cur){showPage('profile');return}viewingUser=name;var u=G.users[name];if(!u){showMsg('User nahi mila');return}showPage('viewprofile');var dp=document.getElementById('vDpBox');if(u.dp&&u.dp.length>10)dp.innerHTML='<img src="'+u.dp+'">';else dp.innerText=u.dp||'👤';document.getElementById('vName').innerHTML=displayName(name)+getTopBadge(name)+' 👀';document.getElementById('vMeta').innerText=(getPosts().filter(function(x){return x.u===name}).length)+' posts • ⭐ '+(u.points||0)+' • '+(u.age||'?')+' Years • '+(u.city||'')+' • '+(u.star||'');document.getElementById('vBio').innerText=u.bio||'';document.getElementById('vPowerLine').innerText='⚡ Power: '+(u.power||0)+' | ⭐ Points: '+(u.points||0)+(isFireUser(name)?' | 🔥 Fire Power +5000':'');document.getElementById('vLastSeen').innerText=lastSeenTxt(u);document.getElementById('vBlockBtn').innerText=isBlocked(name)?'✅ Unblock Karo':'🚫 Block Karo';document.getElementById('vPosts').innerHTML=getPosts().filter(function(x){return x.u===name}).map(function(p){return '<div class="post"><b>'+displayName(p.u)+getTopBadge(p.u)+'</b><p>'+mentionify(p.text||'')+'</p>'+mediaHtml(p)+'</div>'}).join('')||'Koi post nahi'}
 function startChatWithViewing(){if(!viewingUser)return;document.getElementById('pvtTo').value=viewingUser;showPage('1on1')}
 function toggleBlockViewing(){if(!viewingUser)return;var me=G.users[cur];if(!me)return;var arr=me.blocked||[];var i=arr.indexOf(viewingUser);if(i>=0){arr.splice(i,1);showMsg(viewingUser+' ko Unblock kar diya ✅')}else{arr.push(viewingUser);showMsg(viewingUser+' ko Block kar diya 🚫')}db.ref('users/'+cur+'/blocked').set(arr);setTimeout(function(){viewUser(viewingUser)},300)}
@@ -1148,61 +1146,6 @@ setInterval(applyFrames, 2000);
     }catch(e){}
   }
 
-  // POINT 38 - Private Chat proper - 1 ON 1 me upar naam, neeche baat
-  function buildPrivateChat(){
-    try{
-      var page = document.getElementById('page-1on1') || document.querySelector('[id*="1on1"]');
-      if(!page) return;
-      if(document.getElementById('pvtProBox44')) return;
-      var box = document.createElement('div'); box.id = 'pvtProBox44';
-      box.style = 'background:#0F0F0F;border:2px solid #FFD700;border-radius:16px;padding:0;margin:10px 0;overflow:hidden';
-      var users = Object.keys(getUsers()||{}).filter(function(n){ return n && n!==cur && !isLeaderName(n); }).slice(0,100);
-      var opts = users.map(function(u){ return '<option value="'+u+'">'+u+'</option>'; }).join('');
-      box.innerHTML = '<div style="background:#1A1A1A;padding:12px;text-align:center;border-bottom:1px solid #333"><h3 style="margin:0;color:#fff">💬 1 ON 1 Private Chat 🔒</h3><p class="small" style="margin:4px 0 0;color:#aaa">Kisko message karna hai, select karo</p></div>'
-        + '<div style="padding:10px"><select id="pvtSelect44" style="width:100%;padding:12px;border-radius:12px;background:#000;color:#fff;border:1px solid #FFD700;font-size:14px"><option value="">-- User Select Karo --</option>'+opts+'</select>'
-        + '<div id="pvtHead44" style="text-align:center;margin:12px 0;font-weight:900;font-size:16px;color:#FFD700">Koi user select karo</div>'
-        + '<div id="pvtMsgs44" style="max-height:350px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;padding:8px;background:#0A0A0A;border-radius:12px;min-height:120px"></div>'
-        + '<div style="display:flex;gap:6px;margin-top:10px"><input id="pvtInput44" placeholder="Private message likho..." style="flex:1;padding:12px;border-radius:20px;border:1px solid #444;background:#1A1A1A;color:#fff"><button type="button" id="pvtSend44" style="background:#FFD700;color:#000;border:none;border-radius:20px;padding:12px 18px;font-weight:900;cursor:pointer">Bhejo ➤</button></div></div>';
-      page.insertBefore(box, page.firstChild);
-      var sel = document.getElementById('pvtSelect44');
-      var head = document.getElementById('pvtHead44');
-      var msgs = document.getElementById('pvtMsgs44');
-      function timeTxt(t){ try{ var d=new Date(t||Date.now()); var h=d.getHours(); var ampm=h>=12?'PM':'AM'; h=h%12||12; var m=('0'+d.getMinutes()).slice(-2); return h+':'+m+' '+ampm; }catch(e){ return ''; } }
-      function loadMsgs(){
-        try{
-          var to = sel.value; if(!to) return;
-          head.innerText = '💬 '+to+' - Private Chat 🔒';
-          var key = 'y_pvt_'+[cur,to].sort().join('_');
-          var arr = []; try{ arr = JSON.parse(localStorage.getItem(key)||'[]'); }catch(e){}
-          msgs.innerHTML = arr.length ? arr.map(function(m){
-            var mine = m.u === cur;
-            var nm = mine ? 'You' : (m.u||'');
-            var tm = timeTxt(m.time||m.t2||Date.now());
-            if(mine){
-              return '<div style="align-self:flex-end;max-width:82%;background:#FFD700;color:#000;padding:10px 12px;border-radius:16px 16px 4px 16px;box-shadow:0 2px 8px rgba(0,0,0,.4)"><b style="font-size:11px;display:block;text-align:right;opacity:.7">'+nm+'</b><span style="font-size:14px;line-height:1.4;display:block">'+(m.t||m.text||'')+'</span><span style="font-size:10px;opacity:.6;display:block;text-align:right;margin-top:4px">'+tm+' ✓✓</span></div>';
-            } else {
-              return '<div style="align-self:flex-start;max-width:82%;background:#2A2F33;color:#fff;padding:10px 12px;border-radius:16px 16px 16px 4px;box-shadow:0 2px 8px rgba(0,0,0,.4)"><b style="font-size:11px;display:block;color:#FFD700;opacity:.9">'+nm+'</b><span style="font-size:14px;line-height:1.4;display:block">'+(m.t||m.text||'')+'</span><span style="font-size:10px;opacity:.6;display:block;text-align:right;margin-top:4px">'+tm+'</span></div>';
-            }
-          }).join('') : '<p class="small" style="text-align:center;color:#888;margin:20px 0">Abhi koi private baat nahi - pehla message bhejo! 🔒</p>';
-          msgs.scrollTop = msgs.scrollHeight;
-        }catch(e){}
-      }
-      sel.onchange = loadMsgs;
-      document.getElementById('pvtSend44').onclick = function(){
-        try{
-          var to = sel.value; if(!to){ showMsg('Pehle user select karo'); return; }
-          var inp = document.getElementById('pvtInput44');
-          var txt = inp.value.trim(); if(!txt) return;
-          var key = 'y_pvt_'+[cur,to].sort().join('_');
-          var arr = []; try{ arr = JSON.parse(localStorage.getItem(key)||'[]'); }catch(e){}
-          arr.push({u:cur, t:txt, time:Date.now()});
-          try{ localStorage.setItem(key, JSON.stringify(arr)); }catch(e){}
-          try{ if(window.pushInbox) pushInbox(to,{from:cur,text:'🔒 Private: '+txt,type:'private'}); }catch(e){}
-          inp.value=''; loadMsgs(); showMsg(to+' ko Private bhej diya 🔒');
-        }catch(e){}
-      };
-    }catch(e){}
-  }
   // POINT 39 - FUN hatao, uski jagah Theme Badlo
   function openTheme44(){
     try{
@@ -1402,6 +1345,69 @@ setInterval(applyFrames, 2000);
 
   setTimeout(function(){ try{ if(window.loadFeed) loadFeed(); }catch(e){} }, 2000);
 })();
+// --- NEW 1ON1 : Invite + Chat - Single Box ---
+function pvtPair(a,b){ return [a,b].sort().join('__'); }
+function pvtTime(t){ try{var d=new Date(t||Date.now());var h=d.getHours();var ap=h>=12?'PM':'AM';h=h%12||12;return h+':'+('0'+d.getMinutes()).slice(-2)+' '+ap}catch(e){return ''} }
+function sendPvtInvite(){
+  var to=document.getElementById('pvtTo').value.trim().replace(/\s+/g,'_');
+  if(!to||to===cur){showMsg('Sahi naam likho');return}
+  db.ref('pvt_invite/'+to).push({from:cur,to:to,time:Date.now(),status:'pending'});
+  pushInbox(to,{from:cur,text:'📩 Private Chat Invite - Accept karo?',type:'pvt_invite'});
+  showMsg(to+' ko Invite bhej diya 📩');
+}
+function loadPvtInvites(){
+  var box=document.getElementById('pvtInviteBox'); if(!box||!window.db) return;
+  db.ref('pvt_invite/'+cur).on('value',function(snap){
+    var val=snap.val()||{}; var html='';
+    Object.keys(val).forEach(function(k){ var inv=val[k]; if(inv.status!=='pending') return;
+      html+='<div style="background:#1A1A1A;border:1px solid #FFD700;border-radius:12px;padding:10px;margin-bottom:8px;text-align:center"><b>'+inv.from+'</b> ne Private Chat Invite bheja hai<br><button onclick="pvtInviteAction(\''+k+'\',\'accept\')" style="background:#FFD700;color:#000;border:none;padding:8px 14px;border-radius:10px;font-weight:900;margin:8px 4px 0;cursor:pointer">✅ Accept</button><button onclick="pvtInviteAction(\''+k+'\',\'reject\')" style="background:#333;color:#fff;border:none;padding:8px 14px;border-radius:10px;font-weight:900;margin:8px 4px 0;cursor:pointer">❌ Reject</button></div>';
+    });
+    box.innerHTML=html;
+  });
+}
+function pvtInviteAction(key,act){
+  db.ref('pvt_invite/'+cur+'/'+key).once('value',function(snap){
+    var inv=snap.val(); if(!inv) return;
+    if(act==='accept'){
+      db.ref('pvt_invite/'+cur+'/'+key).update({status:'accepted'});
+      db.ref('pvt_accept/'+inv.from).push({from:cur,to:inv.from,time:Date.now(),status:'accepted'});
+      openPvtChat(inv.from); showMsg(inv.from+' ki chat khul gayi 🔓');
+    } else {
+      db.ref('pvt_invite/'+cur+'/'+key).update({status:'rejected'});
+      showMsg('Invite Reject kar diya');
+    }
+  });
+}
+var _pvtWith=null;
+function openPvtChat(withUser){
+  _pvtWith=withUser;
+  document.getElementById('pvtHead44').style.display='block';
+  document.getElementById('pvtHead44').innerText='💬 '+withUser+' - Private Chat 🔒';
+  document.getElementById('pvtSendRow').style.display='flex';
+  document.getElementById('pvtTo').value=withUser;
+  var pair=pvtPair(cur,withUser);
+  db.ref('pvt_chat/'+pair).on('value',function(snap){
+    var val=snap.val()||{}; var arr=Object.values(val).sort(function(a,b){return (a.time||0)-(b.time||0)});
+    var el=document.getElementById('pvtBox');
+    if(!arr.length){ el.innerHTML='<p style="text-align:center;color:#888;padding:20px">Chat shuru ho gayi - pehla message bhejo! 🔒</p>'; return; }
+    el.innerHTML=arr.map(function(m){
+      var mine=m.from===cur;
+      if(mine) return '<div style="display:flex;justify-content:flex-end"><div style="max-width:82%;background:#FFD700;color:#000;padding:10px 12px;border-radius:16px 16px 4px 16px"><b style="font-size:11px;display:block;text-align:right;opacity:.7">You</b><span style="font-size:14px;line-height:1.4;display:block">'+(m.text||'')+'</span><span style="font-size:10px;opacity:.6;display:block;text-align:right;margin-top:4px">'+pvtTime(m.time)+' ✓✓</span></div></div>';
+      else return '<div style="display:flex;justify-content:flex-start"><div style="max-width:82%;background:#2A2F33;color:#fff;padding:10px 12px;border-radius:16px 16px 16px 4px"><b style="font-size:11px;display:block;color:#FFD700">'+(m.from||'')+'</b><span style="font-size:14px;line-height:1.4;display:block">'+(m.text||'')+'</span><span style="font-size:10px;opacity:.6;display:block;text-align:right;margin-top:4px">'+pvtTime(m.time)+'</span></div></div>';
+    }).join('');
+    el.scrollTop=el.scrollHeight;
+  });
+}
+function sendPvtMsg(){
+  if(!_pvtWith){ showMsg('Pehle kisi ko Invite bhejo ya Accept karo'); return; }
+  var txt=document.getElementById('pvtText').value.trim(); if(!txt) return;
+  var pair=pvtPair(cur,_pvtWith);
+  db.ref('pvt_chat/'+pair).push({from:cur,to:_pvtWith,text:txt,time:Date.now()});
+  pushInbox(_pvtWith,{from:cur,text:'🔒 Private: '+txt,type:'pvt'});
+  document.getElementById('pvtText').value='';
+}
+// Auto-start invites + accepted check
+setTimeout(function(){ try{ loadPvtInvites(); db.ref('pvt_accept/'+cur).on('child_added',function(snap){ var v=snap.val(); if(v&&v.status==='accepted'){ openPvtChat(v.from); showMsg(v.from+' ne Invite Accept kar liya ✅'); } }); }catch(e){} },1500);
 </script>
 </body>
 </html>
