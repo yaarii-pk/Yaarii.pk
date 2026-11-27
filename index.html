@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="ur"><head><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><script>var APP_VERSION=55;if(location.search.indexOf('v='+APP_VERSION)<0){location.replace(location.pathname+'?v='+APP_VERSION);}</script><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Yaarii-PK 👑</title>
+<!DOCTYPE html><html lang="ur"><head><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><script>var APP_VERSION=56;if(location.search.indexOf('v='+APP_VERSION)<0){location.replace(location.pathname+'?v='+APP_VERSION);}</script><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Yaarii-PK 👑</title>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 <style>
@@ -22,16 +22,6 @@
 .modStar{color:#fff!important;font-weight:bold;font-size:10.5px!important;white-space:normal;word-break:break-word}.modStar .redStar{color:#B388FF!important;font-size:12px;text-shadow:0 0 8px #B388FF,0 0 16px #B388FF;animation:redStarGlow 0.9s ease-in-out infinite}.modStar .redBolt{color:#B388FF!important;font-size:11px;text-shadow:0 0 8px #B388FF,0 0 14px #B388FF;animation:redStarGlow 0.9s ease-in-out infinite}.redStarTag{display:block!important;background:#B388FF;color:#fff;font-size:7px!important;font-weight:bold;padding:1px 4px;border-radius:10px;margin:2px auto 0 auto;white-space:nowrap;width:fit-content;box-shadow:0 0 8px #B388FF}@keyframes redStarGlow{0%,100%{text-shadow:0 0 6px #B388FF,0 0 14px #B388FF}50%{text-shadow:0 0 12px #fff,0 0 24px #B388FF,0 0 32px #B388FF}}.privateTag{display:inline-block;background:#333;color:#FFD700;font-size:10px;padding:2px 7px;border-radius:20px;margin-left:4px;border:1px solid #FFD700}
 .trendBox{background:#007BFF;color:#fff;font-weight:bold;font-size:11px;padding:4px 8px;border-radius:8px;display:inline-block;margin:6px 0;box-shadow:0 0 10px #007BFF}.fireIcon{font-size:13px;vertical-align:middle}.likeLog{background:#000;border:1px solid #333;border-radius:8px;padding:6px 8px;font-size:12px;margin-top:6px;color:#FFB066}
 .orangeNote{color:#FFB066!important;font-size:12px}.customStar{font-weight:bold;text-shadow:0 0 6px currentColor}.pendingBox{background:#1a1a1a;border:1px solid #FFB066;color:#FFB066;padding:12px;border-radius:10px;margin:10px;text-align:center;font-weight:bold}
-/* --- ONLINE LEADER + MOD ONLY --- */
-@keyframes onlineBolt{0%,100%{box-shadow:0 0 6px var(--ofc),0 0 12px var(--ofc);}50%{box-shadow:0 0 16px var(--ofc),0 0 30px var(--ofc),0 0 40px #fff;}}
-@keyframes onlineShine{0%{filter:brightness(1);}50%{filter:brightness(1.7);}100%{filter:brightness(1);}}
-.onlineBar .uCircle:has(.leaderName){--ofc:#FFD700 !important;border:3px solid #FFD700 !important;border-radius:14px !important;background:#0d0d0d !important;box-shadow:0 0 14px #FFD700, 0 0 28px #FFD700 !important;animation:onlineBolt .7s infinite, onlineShine .7s infinite !important;}
-.onlineBar .uCircle:has(.leaderName) div{border-color:#FFD700 !important;box-shadow:0 0 12px #FFD700 !important;}
-.onlineBar .uCircle:has(.modStar){--ofc:#B388FF !important;border:3px solid #B388FF !important;border-radius:14px !important;background:#0d0d0d !important;box-shadow:0 0 14px #B388FF, 0 0 28px #B388FF !important;animation:onlineBolt .8s infinite, onlineShine .8s infinite !important;}
-.onlineBar .uCircle:has(.modStar) div{border-color:#B388FF !important;box-shadow:0 0 12px #B388FF !important;}
-.onlineBar .uCircle:has(.modStar) .redStarTag{background:#B388FF !important;box-shadow:0 0 8px #B388FF !important;}
-/* --- ONLINE LEADER + MOD END --- */
-/* --- ONLINE LEADER + MOD END --- */
 </style></head><body>
 <div class="top"><div><b>YAARII-PK 👑</b><small>Apni Mehfil • Apni Yaari • Black & Golden</small></div><div class="topIcons"><span onclick="showPage('search')">🔍</span><span onclick="showPage('leader')">🏆</span><span onclick="goProfile()">👤</span></div></div>
 <div id="msgBox" class="hidden"></div>
@@ -1010,13 +1000,12 @@ var ANIMAL_FRAME_COLORS = {tiger:'#FF8C00',cheetah:'#FFFF00',wolf:'#00BFFF',eagl
 
   // POINT 33 + 34 + 35 + 36 - Frame
   // 33: Top 5 ko frame 4 taraf, 34: Star colors, 35: Top 5 frame simple no shining, 36: Admin Yellow shining, Moderator Red shining
-  // --- FRAMES FINAL V51 : ONLINE FIX + TOP5 LIGHT SHINE ---
+
+    // --- FRAMES FINAL V56 : LIGHT + ONLINE FIX ---
 (function(){
   var css=document.createElement('style');
   css.innerHTML=`
-  @keyframes frameBolt{0%,100%{box-shadow:0 0 6px var(--fc),0 0 12px var(--fc);}50%{box-shadow:0 0 16px var(--fc),0 0 30px var(--fc),0 0 40px #fff;}}
-  @keyframes frameShine{0%{filter:brightness(1);}50%{filter:brightness(1.7);}100%{filter:brightness(1);}}
-  @keyframes frameShineLight{0%{filter:brightness(1);}50%{filter:brightness(1.25);}100%{filter:brightness(1);}}
+  @keyframes frameSoft{0%,100%{box-shadow:0 0 3px var(--fc),0 0 6px var(--fc); filter:brightness(1);}50%{box-shadow:0 0 5px var(--fc),0 0 10px var(--fc); filter:brightness(1.08);}}
   `;
   document.head.appendChild(css);
 })();
@@ -1038,9 +1027,12 @@ try{
       var trend = toNames(trendRaw);
       var starNorm = star.map(norm);
       var trendNorm = trend.map(norm);
-      var FRAME_COLORS = ['#FF8C00','#39FF14','#00D5FF','#E8E8E8','#FF9DE2'];
+      // LIGHT PASTEL COLORS - aankh ko nahi lagenge
+      var FRAME_COLORS = ['#FFC98A','#A8E6A1','#A8D8FF','#C0C0C0','#FFC2E0'];
+      var C_ADMIN = '#FFE89A';
+      var C_MOD = '#C4A6FF';
 
-      function paint(el, nm, force){
+      function paint(el, nm){
         if(!nm || !el) return '';
         var u = getUsers()[nm] || {};
         var isAdmin = (u.role === 'ADMIN' || isLeaderName(nm));
@@ -1049,31 +1041,28 @@ try{
         var idx = starNorm.indexOf(nn);
         if(idx < 0) idx = trendNorm.indexOf(nn);
         el.classList.remove('frame-admin','frame-mod','frame-corner');
-        // ADMIN : Yellow - Lightning + FULL Shining
         if(isAdmin){
           el.classList.add('frame-admin');
-          el.style.setProperty('border','3px solid #FFD700','important');
-          el.style.setProperty('box-shadow','0 0 14px #FFD700, 0 0 28px #FFD700','important');
-          el.style.setProperty('animation','frameBolt .7s infinite, frameShine .7s infinite','important');
-          el.style.setProperty('--fc','#FFD700');
+          el.style.setProperty('border','2px solid '+C_ADMIN,'important');
+          el.style.setProperty('box-shadow','0 0 4px '+C_ADMIN+', 0 0 9px '+C_ADMIN,'important');
+          el.style.setProperty('animation','frameSoft 3.5s infinite','important');
+          el.style.setProperty('--fc',C_ADMIN);
           el.style.borderRadius = '12px';
           return 'admin';
         }
-        // MOD : Purple #B388FF - Lightning + FULL Shining - Purana RED khatam
         if(isMod){
           el.classList.add('frame-mod');
-          el.style.setProperty('border','3px solid #B388FF','important');
-          el.style.setProperty('box-shadow','0 0 14px #B388FF, 0 0 28px #B388FF','important');
-          el.style.setProperty('animation','frameBolt .8s infinite, frameShine .8s infinite','important');
-          el.style.setProperty('--fc','#B388FF');
+          el.style.setProperty('border','2px solid '+C_MOD,'important');
+          el.style.setProperty('box-shadow','0 0 4px '+C_MOD+', 0 0 9px '+C_MOD,'important');
+          el.style.setProperty('animation','frameSoft 3.5s infinite','important');
+          el.style.setProperty('--fc',C_MOD);
           el.style.borderRadius = '12px';
           return 'mod';
         }
-        // TOP 5 : Lightning + HALKI Shining - Admin/Mod jitni zyada NAHI
         if(idx >= 0 && idx < 5){
-          el.style.setProperty('border','3px solid ' + FRAME_COLORS[idx],'important');
-          el.style.setProperty('box-shadow','0 0 12px ' + FRAME_COLORS[idx] + ', 0 0 22px ' + FRAME_COLORS[idx],'important');
-          el.style.setProperty('animation','frameBolt ' + (1.0 + idx*0.15) + 's infinite, frameShineLight ' + (1.0 + idx*0.15) + 's infinite','important');
+          el.style.setProperty('border','2px solid ' + FRAME_COLORS[idx],'important');
+          el.style.setProperty('box-shadow','0 0 4px ' + FRAME_COLORS[idx] + ', 0 0 8px ' + FRAME_COLORS[idx],'important');
+          el.style.setProperty('animation','frameSoft 3.5s infinite','important');
           el.style.setProperty('--fc', FRAME_COLORS[idx]);
           el.style.borderRadius = '10px';
           return 'top'+idx;
@@ -1081,7 +1070,33 @@ try{
         return '';
       }
 
-      // 1. POSTS - waisa hi jaisa pehle tha
+      function paintDp(card, nm){
+        try{
+          var dpDiv = card.querySelector(':scope > div');
+          if(!dpDiv) dpDiv = card.querySelector('div');
+          if(!dpDiv) return;
+          var u = getUsers()[nm] || {};
+          var isA = (u.role==='ADMIN' || isLeaderName(nm));
+          var isM = (u.role==='MODERATOR');
+          var nn = norm(nm);
+          var ii = starNorm.indexOf(nn); if(ii<0) ii = trendNorm.indexOf(nn);
+          if(isA){
+            dpDiv.style.setProperty('border','2px solid '+C_ADMIN,'important');
+            dpDiv.style.setProperty('box-shadow','0 0 4px '+C_ADMIN+', 0 0 8px '+C_ADMIN,'important');
+            dpDiv.style.setProperty('animation','frameSoft 3.5s infinite','important');
+          } else if(isM){
+            dpDiv.style.setProperty('border','2px solid '+C_MOD,'important');
+            dpDiv.style.setProperty('box-shadow','0 0 4px '+C_MOD+', 0 0 8px '+C_MOD,'important');
+            dpDiv.style.setProperty('animation','frameSoft 3.5s infinite','important');
+          } else if(ii>=0 && ii<5){
+            dpDiv.style.setProperty('border','2px solid '+FRAME_COLORS[ii],'important');
+            dpDiv.style.setProperty('box-shadow','0 0 4px '+FRAME_COLORS[ii],'important');
+            dpDiv.style.setProperty('animation','frameSoft 3.5s infinite','important');
+          }
+        }catch(e){}
+      }
+
+      // 1. POSTS
       document.querySelectorAll('.post').forEach(function(post){
         try{
           var nm = '';
@@ -1106,69 +1121,28 @@ try{
         }catch(e){}
       });
 
-      // 2. ONLINE LIST - NAYA FIX - LEADER / MODERATOR badge se card pakro
-      document.querySelectorAll('*').forEach(function(el){
+      // 2. ONLINE LIST - NAYA SAHI TAREEKA - .uCircle se seedha pakro
+      document.querySelectorAll('.onlineBar .uCircle').forEach(function(card){
         try{
-          var t = el.innerText || '';
-          if(t !== 'LEADER' && t !== 'MODERATOR' && t !== 'Owner') return;
-          // badge se upar 4 level tak card dhoondo
-          var card = el;
-          for(var k=0;k<4;k++){ if(card.parentElement) card = card.parentElement; }
-          if(!card || card.classList.contains('post')) return;
-          // card ke andar naam dhoondo
           var nm = '';
-          var all = card.querySelectorAll('div, span, b');
-          for(var i=0;i<all.length;i++){
-            var tt = (all[i].innerText||'').trim();
-            if(getUsers()[tt]){ nm = tt; break; }
+          var p = card.querySelector('p');
+          if(p){
+            // p ke andar naam hota hai, LEADER / MODERATOR tag alag hota hai
+            var clone = p.cloneNode(true);
+            var tags = clone.querySelectorAll('span');
+            tags.forEach(function(s){ s.remove(); });
+            nm = clone.textContent.trim().split('\n')[0].trim();
+          }
+          if(!nm){
+            var bb = card.querySelector('b');
+            if(bb) nm = bb.textContent.trim();
           }
           if(!nm) return;
-          // sirf us card ko paint karo jisme DP bhi ho - taake poori list na paint ho
-          if(!card.querySelector('img')) return;
-          paint(card, nm, true);
-          // DP pe bhi frame
-          var dp = card.querySelector('img');
-          if(dp){
-            var u2 = getUsers()[nm] || {};
-            if(u2.role==='ADMIN' || isLeaderName(nm)){
-              dp.style.setProperty('border','3px solid #FFD700','important');
-              dp.style.setProperty('box-shadow','0 0 12px #FFD700','important');
-              dp.style.setProperty('animation','frameBolt .7s infinite, frameShine .7s infinite','important');
-            } else if(u2.role==='MODERATOR'){
-              dp.style.setProperty('border','3px solid #B388FF','important');
-              dp.style.setProperty('box-shadow','0 0 12px #B388FF','important');
-              dp.style.setProperty('animation','frameBolt .8s infinite, frameShine .8s infinite','important');
-            }
-          }
-        }catch(e){}
-      });
-
-      // 3. ONLINE TOP 5 - naam se pakro, badge na ho tab bhi
-      document.querySelectorAll('div').forEach(function(el){
-        try{
-          if(el.classList.contains('post')) return;
-          if(!el.querySelector('img')) return;
-          if(el.querySelectorAll('img').length > 1) return;
-          var txt = el.innerText || '';
-          if(txt.length > 150) return;
-          var nm = '';
-          var all2 = el.querySelectorAll('div, span, b');
-          for(var j=0;j<all2.length;j++){
-            var tt2 = (all2[j].innerText||'').trim();
-            if(getUsers()[tt2]){ nm = tt2; break; }
-          }
-          if(!nm) return;
-          var nn = norm(nm);
-          var ii = starNorm.indexOf(nn); if(ii<0) ii = trendNorm.indexOf(nn);
-          if(ii>=0 && ii<5){
-            paint(el, nm, true);
-            var dp2 = el.querySelector('img');
-            if(dp2){
-              dp2.style.setProperty('border','3px solid '+FRAME_COLORS[ii],'important');
-              dp2.style.setProperty('box-shadow','0 0 10px '+FRAME_COLORS[ii],'important');
-              dp2.style.setProperty('animation','frameBolt 1s infinite, frameShineLight 1s infinite','important');
-            }
-          }
+          // naam ke aage peeche ke fazool lafz saaf karo
+          nm = nm.replace('LEADER','').replace('MODERATOR','').replace('⚡','').replace('★','').trim();
+          if(!getUsers()[nm]) return;
+          paint(card, nm);
+          paintDp(card, nm);
         }catch(e){}
       });
 
@@ -1176,7 +1150,7 @@ try{
 }
 applyFrames();
 setInterval(applyFrames, 1000);
-// --- FRAMES FINAL V51 END ---
+// --- FRAMES FINAL V56 END ---  
       
     
     // POINT 37 - INBOX Reply - Inbox me Reply, wahin se reply jaye, uske inbox me bhi jaye
@@ -1520,42 +1494,7 @@ setTimeout(function(){ try{ loadPvtInvites(); restorePvtChat(); db.ref('pvt_acce
 </script>
 <script>
 <script>
-// --- ONLINE DISC FIX V54 ---
-function fixOnlineDisc(){
-  document.querySelectorAll('.onlineBar .uCircle').forEach(function(c){
-    var dp = c.querySelector(':scope > div');
-    if(!dp) dp = c.querySelector('div');
-    if(!dp) return;
 
-    // LEADER - Yellow Disc
-    if(c.querySelector('.leaderName')){
-      c.style.setProperty('border','3px solid #FFD700','important');
-      c.style.setProperty('box-shadow','0 0 14px #FFD700, 0 0 28px #FFD700','important');
-      dp.style.setProperty('border','3px solid #FFD700','important');
-      dp.style.setProperty('box-shadow','0 0 0 3px #FFD700, 0 0 16px #FFD700','important');
-    }
-
-    // MOD - Purple Disc
-    if(c.querySelector('.modStar')){
-      c.style.setProperty('border','3px solid #B388FF','important');
-      c.style.setProperty('box-shadow','0 0 14px #B388FF, 0 0 28px #B388FF','important');
-      dp.style.setProperty('border','3px solid #B388FF','important');
-      dp.style.setProperty('box-shadow','0 0 0 3px #B388FF, 0 0 16px #B388FF','important');
-      var tag = c.querySelector('.redStarTag');
-      if(tag){ tag.style.setProperty('background','#B388FF','important'); tag.style.setProperty('box-shadow','0 0 8px #B388FF','important'); }
-      var st = c.querySelector('.redStar');
-      if(st){ st.style.setProperty('color','#B388FF','important'); }
-      var bl = c.querySelector('.redBolt');
-      if(bl){ bl.style.setProperty('color','#B388FF','important'); }
-    }
-  });
-}
-setInterval(fixOnlineDisc, 300);
-setTimeout(fixOnlineDisc, 100);
-setTimeout(fixOnlineDisc, 500);
-setTimeout(fixOnlineDisc, 1500);
-// --- ONLINE DISC FIX END ---
-</script>
 </script>
 </body>
 </html>
