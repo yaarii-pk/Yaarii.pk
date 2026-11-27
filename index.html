@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="ur"><head><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><script>var APP_VERSION=60;if(location.search.indexOf('v='+APP_VERSION)<0){location.replace(location.pathname+'?v='+APP_VERSION);}</script><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Yaarii-PK 👑</title>
+<!DOCTYPE html><html lang="ur"><head><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><script>var APP_VERSION=58;if(location.search.indexOf('v='+APP_VERSION)<0){location.replace(location.pathname+'?v='+APP_VERSION);}</script><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Yaarii-PK 👑</title>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 <style>
@@ -1000,32 +1000,17 @@ var ANIMAL_FRAME_COLORS = {tiger:'#FF8C00',cheetah:'#FFFF00',wolf:'#00BFFF',eagl
 
   // POINT 33 + 34 + 35 + 36 - Frame
   // 33: Top 5 ko frame 4 taraf, 34: Star colors, 35: Top 5 frame simple no shining, 36: Admin Yellow shining, Moderator Red shining
-// --- FRAMES FINAL V60 : CORNER ONLY + LEADER POWER ---
+     // --- FRAMES FINAL V58 : LEADER YELLOW + MOD PURPLE + RED KILLER ---
 (function(){
   var css=document.createElement('style');
   css.innerHTML=`
-  @keyframes frameSoft{0%,100%{filter:brightness(1);}50%{filter:brightness(1.08);}}
-  @keyframes frameSoftStrong{0%,100%{filter:brightness(1);}50%{filter:brightness(1.18);}}
-  .frame-corner{border:2px solid transparent !important; box-shadow:none !important; background:linear-gradient(var(--fc),var(--fc)) left top/30px 3px, linear-gradient(var(--fc),var(--fc)) left top/3px 30px, linear-gradient(var(--fc),var(--fc)) right top/30px 3px, linear-gradient(var(--fc),var(--fc)) right top/3px 30px, linear-gradient(var(--fc),var(--fc)) left bottom/30px 3px, linear-gradient(var(--fc),var(--fc)) left bottom/3px 30px, linear-gradient(var(--fc),var(--fc)) right bottom/30px 3px, linear-gradient(var(--fc),var(--fc)) right bottom/3px 30px !important; background-repeat:no-repeat !important;}
-  .leaderPowerBtn{position:fixed; bottom:70px; right:12px; z-index:99999; background:#FFE89A; color:#000; font-weight:bold; padding:8px 12px; border-radius:20px; border:none; box-shadow:0 0 10px #FFE89A; cursor:pointer;}
-  .leaderPanel{position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); z-index:100000; background:#111; border:2px solid #FFE89A; border-radius:14px; padding:14px; width:300px; color:#fff;}
-  .leaderPanel input, .leaderPanel select{width:100%; margin:5px 0; padding:7px; border-radius:8px; border:none; background:#222; color:#fff;}
-  .leaderPanel button{width:100%; margin-top:6px; padding:8px; border-radius:8px; border:none; font-weight:bold; cursor:pointer;}
+  @keyframes frameSoft{0%,100%{box-shadow:0 0 2px var(--fc),0 0 4px var(--fc); filter:brightness(1);}50%{box-shadow:0 0 3px var(--fc),0 0 6px var(--fc); filter:brightness(1.05);}}
+  @keyframes frameSoftStrong{0%,100%{box-shadow:0 0 4px var(--fc),0 0 8px var(--fc); filter:brightness(1);}50%{box-shadow:0 0 6px var(--fc),0 0 12px var(--fc); filter:brightness(1.12);}}
+  /* RED KILLER - MODERATOR KABHI RED NAHI HOGA */
+  .uCircle:has(.modStar), .post:has(.modStar){border-color:#C4A6FF !important; box-shadow:0 0 6px #C4A6FF, 0 0 12px #C4A6FF !important;}
   `;
   document.head.appendChild(css);
 })();
-
-// CUSTOM FRAMES - LEADER NE JISKO DIYA
-function getCustomFrames(){ try{ return JSON.parse(localStorage.getItem('yaarii_custom_frames')||'{}'); }catch(e){ return {}; } }
-function saveCustomFrame(name, data){
-  var all = getCustomFrames(); all[name] = data;
-  localStorage.setItem('yaarii_custom_frames', JSON.stringify(all));
-}
-function getCustomFrame(nm){
-  var all = getCustomFrames();
-  return all[nm] || null;
-}
-
 function applyFrames(){
 try{
       var starRaw = topScorer(); var trendRaw = topScorer();
@@ -1044,9 +1029,10 @@ try{
       var trend = toNames(trendRaw);
       var starNorm = star.map(norm);
       var trendNorm = trend.map(norm);
+      // TOP1 = PURPLE - KYUNKE MOD HI TOP1 HAI
       var FRAME_COLORS = ['#C4A6FF','#A8E6A1','#A8D8FF','#C0C0C0','#FFC2E0'];
-      var C_ADMIN = '#FFE89A';
-      var C_MOD = '#C4A6FF';
+      var C_ADMIN = '#FFE89A'; // LEADER - YELLOW
+      var C_MOD = '#C4A6FF'; // MODERATOR - PURPLE
 
       function paint(el, nm){
         if(!nm || !el) return '';
@@ -1057,37 +1043,32 @@ try{
         var idx = starNorm.indexOf(nn);
         if(idx < 0) idx = trendNorm.indexOf(nn);
         el.classList.remove('frame-admin','frame-mod','frame-corner');
-        function setCorner(color, strong){
-          el.classList.add('frame-corner');
-          el.style.setProperty('--fc',color);
-          el.style.setProperty('border','2px solid transparent','important');
-          el.style.setProperty('box-shadow','none','important');
-          el.style.setProperty('animation', strong ? 'frameSoftStrong 2.5s infinite' : 'frameSoft 3.5s infinite','important');
+        if(isAdmin){
+          el.classList.add('frame-admin');
+          el.style.setProperty('border','2px solid '+C_ADMIN,'important');
+          el.style.setProperty('box-shadow','0 0 6px '+C_ADMIN+', 0 0 12px '+C_ADMIN,'important');
+          el.style.setProperty('animation','frameSoftStrong 3s infinite','important');
+          el.style.setProperty('--fc',C_ADMIN);
           el.style.borderRadius = '12px';
+          return 'admin';
         }
-        // 0. CUSTOM - LEADER NE DIYA HUA - SAB SE PEHLE
-        var custom = getCustomFrame(nm);
-        if(custom){
-          setCorner(custom.color || '#FFE89A', custom.shine ? true : false);
-          if(custom.animal){
-            var old = el.querySelector('.customAnimalTag');
-            if(!old){
-              var tag = document.createElement('span');
-              tag.className = 'customAnimalTag';
-              tag.textContent = ' ' + custom.animal;
-              tag.style.fontSize = '14px';
-              var b = el.querySelector('b');
-              if(b) b.appendChild(tag);
-            }
-          }
-          if(custom.star){
-            el.style.setProperty('--fc', custom.color || '#FFE89A');
-          }
-          return 'custom';
+        if(isMod){
+          el.classList.add('frame-mod');
+          el.style.setProperty('border','2px solid '+C_MOD,'important');
+          el.style.setProperty('box-shadow','0 0 6px '+C_MOD+', 0 0 12px '+C_MOD,'important');
+          el.style.setProperty('animation','frameSoftStrong 3s infinite','important');
+          el.style.setProperty('--fc',C_MOD);
+          el.style.borderRadius = '12px';
+          return 'mod';
         }
-        if(isAdmin){ el.classList.add('frame-admin'); setCorner(C_ADMIN, true); return 'admin'; }
-        if(isMod){ el.classList.add('frame-mod'); setCorner(C_MOD, true); return 'mod'; }
-        if(idx >= 0 && idx < 5){ setCorner(FRAME_COLORS[idx], false); return 'top'+idx; }
+        if(idx >= 0 && idx < 5){
+          el.style.setProperty('border','2px solid ' + FRAME_COLORS[idx],'important');
+          el.style.setProperty('box-shadow','0 0 3px ' + FRAME_COLORS[idx] + ', 0 0 6px ' + FRAME_COLORS[idx],'important');
+          el.style.setProperty('animation','frameSoft 4s infinite','important');
+          el.style.setProperty('--fc', FRAME_COLORS[idx]);
+          el.style.borderRadius = '10px';
+          return 'top'+idx;
+        }
         return '';
       }
 
@@ -1101,25 +1082,23 @@ try{
           var isM = (u.role==='MODERATOR');
           var nn = norm(nm);
           var ii = starNorm.indexOf(nn); if(ii<0) ii = trendNorm.indexOf(nn);
-          var custom = getCustomFrame(nm);
-          if(custom){
-            dpDiv.style.setProperty('border','2px solid '+(custom.color||'#FFE89A'),'important');
-            dpDiv.style.setProperty('box-shadow','0 0 6px '+(custom.color||'#FFE89A'),'important');
-            return;
-          }
           if(isA){
             dpDiv.style.setProperty('border','2px solid '+C_ADMIN,'important');
-            dpDiv.style.setProperty('box-shadow','0 0 5px '+C_ADMIN,'important');
+            dpDiv.style.setProperty('box-shadow','0 0 4px '+C_ADMIN+', 0 0 8px '+C_ADMIN,'important');
+            dpDiv.style.setProperty('animation','frameSoftStrong 3s infinite','important');
           } else if(isM){
             dpDiv.style.setProperty('border','2px solid '+C_MOD,'important');
-            dpDiv.style.setProperty('box-shadow','0 0 5px '+C_MOD,'important');
+            dpDiv.style.setProperty('box-shadow','0 0 4px '+C_MOD+', 0 0 8px '+C_MOD,'important');
+            dpDiv.style.setProperty('animation','frameSoftStrong 3s infinite','important');
           } else if(ii>=0 && ii<5){
             dpDiv.style.setProperty('border','2px solid '+FRAME_COLORS[ii],'important');
-            dpDiv.style.setProperty('box-shadow','0 0 4px '+FRAME_COLORS[ii],'important');
+            dpDiv.style.setProperty('box-shadow','0 0 3px '+FRAME_COLORS[ii],'important');
+            dpDiv.style.setProperty('animation','frameSoft 4s infinite','important');
           }
         }catch(e){}
       }
 
+      // 1. POSTS
       document.querySelectorAll('.post').forEach(function(post){
         try{
           var nm = '';
@@ -1140,10 +1119,11 @@ try{
           }
           if(!nm) return;
           var r = paint(post, nm);
-          if(!r){ post.style.border=''; post.style.boxShadow=''; post.style.animation=''; post.classList.remove('frame-corner'); }
+          if(!r){ post.style.border=''; post.style.boxShadow=''; post.style.animation=''; }
         }catch(e){}
       });
 
+      // 2. ONLINE LIST
       document.querySelectorAll('.onlineBar .uCircle').forEach(function(card){
         try{
           var nm = '';
@@ -1166,18 +1146,25 @@ try{
         }catch(e){}
       });
 
-      // RED KILLER - SIRF CORNER
+      // 3. RED KILLER - MODERATOR JAHAN BHI HO, RED KO PURPLE KAR DO
       document.querySelectorAll('.uCircle, .post').forEach(function(card){
         try{
           var txt = card.innerText || '';
           if(txt.indexOf('MODERATOR') < 0) return;
-          // Agar custom hai to usko mat chedo
-          card.classList.add('frame-corner');
+          // Agar is card ka naam MOD hai, to force purple
+          card.style.setProperty('border','2px solid #C4A6FF','important');
+          card.style.setProperty('box-shadow','0 0 6px #C4A6FF, 0 0 12px #C4A6FF','important');
+          card.style.setProperty('animation','frameSoftStrong 3s infinite','important');
           card.style.setProperty('--fc','#C4A6FF');
-          card.style.setProperty('border','2px solid transparent','important');
-          card.style.setProperty('box-shadow','none','important');
+          var dp = card.querySelector(':scope > div');
+          if(dp){
+            dp.style.setProperty('border','2px solid #C4A6FF','important');
+            dp.style.setProperty('box-shadow','0 0 4px #C4A6FF, 0 0 8px #C4A6FF','important');
+          }
+          // andar wala RED tag bhi purple
           card.querySelectorAll('.redStarTag').forEach(function(t){
             t.style.setProperty('background','#C4A6FF','important');
+            t.style.setProperty('box-shadow','0 0 4px #C4A6FF','important');
           });
           card.querySelectorAll('.redStar, .redBolt').forEach(function(s){
             s.style.setProperty('color','#C4A6FF','important');
@@ -1185,92 +1172,11 @@ try{
         }catch(e){}
       });
 
-      // LEADER POWER BUTTON - SIRF LEADER KO DIKHEGA
-      try{
-        var me = (typeof currentUser !== 'undefined' ? currentUser : (localStorage.getItem('yaarii_user')||''));
-        if(isLeaderName(me) && !document.querySelector('.leaderPowerBtn')){
-          var btn = document.createElement('button');
-          btn.className = 'leaderPowerBtn';
-          btn.textContent = '👑 Leader Power';
-          btn.onclick = function(){ openLeaderPanel(); };
-          document.body.appendChild(btn);
-        }
-      }catch(e){}
-
     }catch(e){}
 }
-
-// LEADER PANEL - FRAME / COLOR / ANIMAL / STAR DENe WALA
-function openLeaderPanel(){
-  var old = document.querySelector('.leaderPanel');
-  if(old) old.remove();
-  var div = document.createElement('div');
-  div.className = 'leaderPanel';
-  div.innerHTML = `
-    <b>👑 Leader Power - Frame Do</b><br><br>
-    User ka naam:<input id="lpName" placeholder="jese: Zamil">
-    Color:<input id="lpColor" type="color" value="#FFE89A">
-    <select id="lpColorPreset">
-      <option value="#FFE89A">Yellow - Leader</option>
-      <option value="#C4A6FF">Purple - Mod</option>
-      <option value="#FF6B6B">Red</option>
-      <option value="#39FF14">Green</option>
-      <option value="#00D5FF">Blue</option>
-      <option value="#FF9DE2">Pink</option>
-      <option value="#FF8C00">Orange</option>
-      <option value="#FFFFFF">White</option>
-    </select>
-    Animal:<select id="lpAnimal">
-      <option value="">Koi Animal Nahi</option>
-      <option value="🦁">🦁 Sher</option>
-      <option value="🐅">🐅 Tiger</option>
-      <option value="🐍">🐍 Saanp</option>
-      <option value="🐘">🐘 Hathi</option>
-      <option value="🦅">🦅 Eagle</option>
-      <option value="🐺">🐺 Bheriya</option>
-      <option value="🦄">🦄 Unicorn</option>
-      <option value="🐉">🐉 Dragon</option>
-    </select>
-    Lightning / Shine:<select id="lpShine">
-      <option value="1">Tez Lightning + Shine</option>
-      <option value="0">Simple Frame - No Shine</option>
-    </select>
-    Star:<select id="lpStar">
-      <option value="1">⭐ Permanent Star Do</option>
-      <option value="0">Star Nahi</option>
-    </select>
-    <button id="lpSave" style="background:#FFE89A;color:#000;">Save Karo</button>
-    <button id="lpRemove" style="background:#333;color:#fff;">Iska Frame Hatao</button>
-    <button id="lpClose" style="background:#444;color:#fff;">Band Karo</button>
-  `;
-  document.body.appendChild(div);
-  document.getElementById('lpColorPreset').onchange = function(){ document.getElementById('lpColor').value = this.value; };
-  document.getElementById('lpSave').onclick = function(){
-    var n = document.getElementById('lpName').value.trim();
-    if(!n){ alert('Naam likho pehle'); return; }
-    saveCustomFrame(n, {
-      color: document.getElementById('lpColor').value,
-      animal: document.getElementById('lpAnimal').value,
-      shine: document.getElementById('lpShine').value === '1',
-      star: document.getElementById('lpStar').value === '1'
-    });
-    alert(n + ' ko frame de diya!');
-    div.remove();
-    applyFrames();
-  };
-  document.getElementById('lpRemove').onclick = function(){
-    var n = document.getElementById('lpName').value.trim();
-    var all = getCustomFrames(); delete all[n];
-    localStorage.setItem('yaarii_custom_frames', JSON.stringify(all));
-    alert(n + ' ka frame hata diya');
-    div.remove(); applyFrames();
-  };
-  document.getElementById('lpClose').onclick = function(){ div.remove(); };
-}
 applyFrames();
-setInterval(applyFrames, 1000);
-// --- FRAMES FINAL V60 END ---
-            
+setInterval(applyFrames, 500);
+// --- FRAMES FINAL V58 END ---       
 
 
       
