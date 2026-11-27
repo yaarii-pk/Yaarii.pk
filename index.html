@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="ur"><head><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><script>var APP_VERSION=59;if(location.search.indexOf('v='+APP_VERSION)<0){location.replace(location.pathname+'?v='+APP_VERSION);}</script><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Yaarii-PK 👑</title>
+<!DOCTYPE html><html lang="ur"><head><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><script>var APP_VERSION=58;if(location.search.indexOf('v='+APP_VERSION)<0){location.replace(location.pathname+'?v='+APP_VERSION);}</script><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Yaarii-PK 👑</title>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 <style>
@@ -1000,14 +1000,14 @@ var ANIMAL_FRAME_COLORS = {tiger:'#FF8C00',cheetah:'#FFFF00',wolf:'#00BFFF',eagl
 
   // POINT 33 + 34 + 35 + 36 - Frame
   // 33: Top 5 ko frame 4 taraf, 34: Star colors, 35: Top 5 frame simple no shining, 36: Admin Yellow shining, Moderator Red shining
-     // --- FRAMES FINAL V59 : LEADER YELLOW STRONG + MOD CORNER ONLY + LEADER POWER ---
+     
+    // --- FRAMES FINAL V58 FIXED : SAME V58 + LEADER BUTTON FIX ---
 (function(){
   var css=document.createElement('style');
   css.innerHTML=`
-  @keyframes frameSoft{0%,100%{filter:brightness(1);}50%{filter:brightness(1.08);}}
-  @keyframes frameSoftStrong{0%,100%{filter:brightness(1);}50%{filter:brightness(1.12);}}
-  @keyframes frameLeaderGlow{0%,100%{filter:brightness(1);}50%{filter:brightness(1.25);}}
-  .frame-corner{border:2px solid transparent !important; box-shadow:none !important; background-color:#0d0d0d !important; background-image:linear-gradient(var(--fc),var(--fc)), linear-gradient(var(--fc),var(--fc)), linear-gradient(var(--fc),var(--fc)), linear-gradient(var(--fc),var(--fc)), linear-gradient(var(--fc),var(--fc)), linear-gradient(var(--fc),var(--fc)), linear-gradient(var(--fc),var(--fc)), linear-gradient(var(--fc),var(--fc)) !important; background-size:26px 3px, 3px 26px, 26px 3px, 3px 26px, 26px 3px, 3px 26px, 26px 3px, 3px 26px !important; background-position:left top, left top, right top, right top, left bottom, left bottom, right bottom, right bottom !important; background-repeat:no-repeat !important;}
+  @keyframes frameSoft{0%,100%{box-shadow:0 0 2px var(--fc),0 0 4px var(--fc); filter:brightness(1);}50%{box-shadow:0 0 3px var(--fc),0 0 6px var(--fc); filter:brightness(1.05);}}
+  @keyframes frameSoftStrong{0%,100%{box-shadow:0 0 4px var(--fc),0 0 8px var(--fc); filter:brightness(1);}50%{box-shadow:0 0 6px var(--fc),0 0 12px var(--fc); filter:brightness(1.12);}}
+  .uCircle:has(.modStar), .post:has(.modStar){border-color:#C4A6FF !important; box-shadow:0 0 6px #C4A6FF, 0 0 12px #C4A6FF !important;}
   .leaderPowerBtn{position:fixed; bottom:70px; right:12px; z-index:99999; background:#FFE89A; color:#000; font-weight:bold; padding:9px 13px; border-radius:20px; border:none; box-shadow:0 0 10px #FFE89A; cursor:pointer;}
   .leaderPanel{position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); z-index:100000; background:#111; border:2px solid #FFE89A; border-radius:14px; padding:14px; width:300px; color:#fff;}
   .leaderPanel input, .leaderPanel select{width:100%; margin:5px 0; padding:7px; border-radius:8px; border:none; background:#222; color:#fff;}
@@ -1016,18 +1016,24 @@ var ANIMAL_FRAME_COLORS = {tiger:'#FF8C00',cheetah:'#FFFF00',wolf:'#00BFFF',eagl
   document.head.appendChild(css);
 })();
 
+// MERA NAAM DHUNDO - localStorage SE
 function getMyName(){
   try{
     if(window.myName) return window.myName;
     if(window.currentUser) return typeof window.currentUser==='string' ? window.currentUser : (window.currentUser.name||window.currentUser.username||'');
+    if(window.myUser) return window.myUser;
     var users = Object.keys(getUsers()||{});
     for(var i=0;i<localStorage.length;i++){
       var v = localStorage.getItem(localStorage.key(i))||'';
-      for(var j=0;j<users.length;j++){ if(v.indexOf(users[j])>=0 && isLeaderName(users[j])) return users[j]; }
+      for(var j=0;j<users.length;j++){
+        if(v.indexOf(users[j])>=0 && isLeaderName(users[j])) return users[j];
+      }
     }
     for(var k=0;k<sessionStorage.length;k++){
       var v2 = sessionStorage.getItem(sessionStorage.key(k))||'';
-      for(var j2=0;j2<users.length;j2++){ if(v2.indexOf(users[j2])>=0 && isLeaderName(users[j2])) return users[j2]; }
+      for(var j2=0;j2<users.length;j2++){
+        if(v2.indexOf(users[j2])>=0 && isLeaderName(users[j2])) return users[j2];
+      }
     }
   }catch(e){}
   return '';
@@ -1056,15 +1062,6 @@ try{
       var C_ADMIN = '#FFE89A';
       var C_MOD = '#C4A6FF';
 
-      function setCorner(el, color, anim){
-        el.classList.add('frame-corner');
-        el.style.setProperty('--fc',color);
-        el.style.setProperty('border','2px solid transparent','important');
-        el.style.setProperty('box-shadow','none','important');
-        el.style.setProperty('animation',anim,'important');
-        el.style.borderRadius = '12px';
-      }
-
       function paint(el, nm){
         if(!nm || !el) return '';
         var u = getUsers()[nm] || {};
@@ -1074,26 +1071,40 @@ try{
         var idx = starNorm.indexOf(nn);
         if(idx < 0) idx = trendNorm.indexOf(nn);
         el.classList.remove('frame-admin','frame-mod','frame-corner');
+        // CUSTOM - LEADER NE DIYA
         var custom = getCustomFrames()[nm] || null;
         if(custom){
-          setCorner(el, custom.color||'#FFE89A', custom.shine ? 'frameSoftStrong 3s infinite' : 'none');
+          el.style.setProperty('border','2px solid '+(custom.color||'#FFE89A'),'important');
+          el.style.setProperty('box-shadow','0 0 6px '+(custom.color||'#FFE89A')+', 0 0 12px '+(custom.color||'#FFE89A'),'important');
+          el.style.setProperty('animation', custom.shine ? 'frameSoftStrong 3s infinite' : 'none','important');
+          el.style.setProperty('--fc', custom.color||'#FFE89A');
+          el.style.borderRadius = '12px';
           return 'custom';
         }
-        // LEADER - YELLOW + ZYADA SHINE
         if(isAdmin){
           el.classList.add('frame-admin');
-          setCorner(el, C_ADMIN, 'frameLeaderGlow 2.5s infinite');
+          el.style.setProperty('border','2px solid '+C_ADMIN,'important');
+          el.style.setProperty('box-shadow','0 0 6px '+C_ADMIN+', 0 0 12px '+C_ADMIN,'important');
+          el.style.setProperty('animation','frameSoftStrong 3s infinite','important');
+          el.style.setProperty('--fc',C_ADMIN);
+          el.style.borderRadius = '12px';
           return 'admin';
         }
-        // MOD - SIRF CORNER PURPLE, CENTER BOX KHATAM
         if(isMod){
           el.classList.add('frame-mod');
-          setCorner(el, C_MOD, 'frameSoftStrong 3s infinite');
+          el.style.setProperty('border','2px solid '+C_MOD,'important');
+          el.style.setProperty('box-shadow','0 0 6px '+C_MOD+', 0 0 12px '+C_MOD,'important');
+          el.style.setProperty('animation','frameSoftStrong 3s infinite','important');
+          el.style.setProperty('--fc',C_MOD);
+          el.style.borderRadius = '12px';
           return 'mod';
         }
-        // TOP 5 - SIRF CORNER
         if(idx >= 0 && idx < 5){
-          setCorner(el, FRAME_COLORS[idx], 'frameSoft 4s infinite');
+          el.style.setProperty('border','2px solid ' + FRAME_COLORS[idx],'important');
+          el.style.setProperty('box-shadow','0 0 3px ' + FRAME_COLORS[idx] + ', 0 0 6px ' + FRAME_COLORS[idx],'important');
+          el.style.setProperty('animation','frameSoft 4s infinite','important');
+          el.style.setProperty('--fc', FRAME_COLORS[idx]);
+          el.style.borderRadius = '10px';
           return 'top'+idx;
         }
         return '';
@@ -1117,11 +1128,11 @@ try{
           }
           if(isA){
             dpDiv.style.setProperty('border','2px solid '+C_ADMIN,'important');
-            dpDiv.style.setProperty('box-shadow','0 0 5px '+C_ADMIN,'important');
-            dpDiv.style.setProperty('animation','frameLeaderGlow 2.5s infinite','important');
+            dpDiv.style.setProperty('box-shadow','0 0 4px '+C_ADMIN+', 0 0 8px '+C_ADMIN,'important');
+            dpDiv.style.setProperty('animation','frameSoftStrong 3s infinite','important');
           } else if(isM){
             dpDiv.style.setProperty('border','2px solid '+C_MOD,'important');
-            dpDiv.style.setProperty('box-shadow','0 0 4px '+C_MOD,'important');
+            dpDiv.style.setProperty('box-shadow','0 0 4px '+C_MOD+', 0 0 8px '+C_MOD,'important');
             dpDiv.style.setProperty('animation','frameSoftStrong 3s infinite','important');
           } else if(ii>=0 && ii<5){
             dpDiv.style.setProperty('border','2px solid '+FRAME_COLORS[ii],'important');
@@ -1151,7 +1162,7 @@ try{
           }
           if(!nm) return;
           var r = paint(post, nm);
-          if(!r){ post.style.border=''; post.style.boxShadow=''; post.style.animation=''; post.classList.remove('frame-corner'); }
+          if(!r){ post.style.border=''; post.style.boxShadow=''; post.style.animation=''; }
         }catch(e){}
       });
 
@@ -1177,22 +1188,30 @@ try{
         }catch(e){}
       });
 
-      // RED KILLER - MOD KO BHI SIRF CORNER
       document.querySelectorAll('.uCircle, .post').forEach(function(card){
         try{
           var txt = card.innerText || '';
           if(txt.indexOf('MODERATOR') < 0) return;
-          card.classList.add('frame-corner');
-          card.style.setProperty('--fc','#C4A6FF');
-          card.style.setProperty('border','2px solid transparent','important');
-          card.style.setProperty('box-shadow','none','important');
+          card.style.setProperty('border','2px solid #C4A6FF','important');
+          card.style.setProperty('box-shadow','0 0 6px #C4A6FF, 0 0 12px #C4A6FF','important');
           card.style.setProperty('animation','frameSoftStrong 3s infinite','important');
-          card.querySelectorAll('.redStarTag').forEach(function(t){ t.style.setProperty('background','#C4A6FF','important'); });
-          card.querySelectorAll('.redStar, .redBolt').forEach(function(s){ s.style.setProperty('color','#C4A6FF','important'); });
+          card.style.setProperty('--fc','#C4A6FF');
+          var dp = card.querySelector(':scope > div');
+          if(dp){
+            dp.style.setProperty('border','2px solid #C4A6FF','important');
+            dp.style.setProperty('box-shadow','0 0 4px #C4A6FF, 0 0 8px #C4A6FF','important');
+          }
+          card.querySelectorAll('.redStarTag').forEach(function(t){
+            t.style.setProperty('background','#C4A6FF','important');
+            t.style.setProperty('box-shadow','0 0 4px #C4A6FF','important');
+          });
+          card.querySelectorAll('.redStar, .redBolt').forEach(function(s){
+            s.style.setProperty('color','#C4A6FF','important');
+          });
         }catch(e){}
       });
 
-      // LEADER BUTTON
+      // LEADER BUTTON - FIXED - AB PAKA AAYEGA
       try{
         var me = getMyName();
         if(me && isLeaderName(me) && !document.querySelector('.leaderPowerBtn')){
@@ -1202,6 +1221,7 @@ try{
           btn.onclick = function(){ openLeaderPanel(); };
           document.body.appendChild(btn);
         }
+        // PROFILE ME BHI - AGAR APNI PROFILE KHOLI HO
         var profileBox = document.querySelector('.profileView, .userProfile, .modal, [class*="profile"]');
         if(profileBox && me && isLeaderName(me)){
           var txt2 = profileBox.innerText || '';
@@ -1256,7 +1276,7 @@ function openLeaderPanel(){
 }
 applyFrames();
 setInterval(applyFrames, 500);
-// --- FRAMES FINAL V59 END ---       
+// --- FRAMES FINAL V58 FIXED END ---   
 
 
       
