@@ -1000,101 +1000,101 @@ var ANIMAL_FRAME_COLORS = {tiger:'#FF8C00',cheetah:'#FFFF00',wolf:'#00BFFF',eagl
 
   // POINT 33 + 34 + 35 + 36 - Frame
   // 33: Top 5 ko frame 4 taraf, 34: Star colors, 35: Top 5 frame simple no shining, 36: Admin Yellow shining, Moderator Red shining
-    // --- FRAMES FINAL V58 V8 : FULL LEADER STUDIO - COLOR + STAR + SPECIAL + ANIMAL ---
+    // --- FRAMES FINAL V58 V10 : NAME KE SATH STAR+ANIMAL + 4 CORNER SPECIAL + SINGLE SELECT ---
 (function(){
   var css=document.createElement('style');
   css.innerHTML=`
   @keyframes frameSoft{0%,100%{box-shadow:0 0 2px var(--fc),0 0 4px var(--fc); filter:brightness(1);}50%{box-shadow:0 0 4px var(--fc),0 0 8px var(--fc); filter:brightness(1.08);}}
-  @keyframes frameLeaderGlow{0%,100%{box-shadow:0 0 4px #FFE89A, 0 0 8px #FFE89A; border-color:#FFE89A; filter:brightness(1);}50%{box-shadow:0 0 12px #FFE89A, 0 0 24px #FFE89A, 0 0 32px #FFE89A; border-color:#FFFACD; filter:brightness(1.4);}}
+  @keyframes frameLeaderGlow{0%,100%{box-shadow:0 0 4px var(--fc), 0 0 8px var(--fc); border-color:var(--fc); filter:brightness(1);}50%{box-shadow:0 0 12px var(--fc), 0 0 24px var(--fc), 0 0 32px var(--fc); border-color:#fff; filter:brightness(1.4);}}
   @keyframes frameModGlow{0%,100%{box-shadow:0 0 3px var(--fc), 0 0 6px var(--fc); border-color:var(--fc); filter:brightness(1);}50%{box-shadow:0 0 8px var(--fc), 0 0 16px var(--fc); border-color:var(--fc); filter:brightness(1.2);}}
   @keyframes frameExtraGlow{0%,100%{box-shadow:0 0 6px var(--fc), 0 0 12px var(--fc); border-color:var(--fc); filter:brightness(1);}50%{box-shadow:0 0 18px var(--fc), 0 0 36px var(--fc), 0 0 50px var(--fc); border-color:#fff; filter:brightness(1.6);}}
   @keyframes frameLightGlow{0%,100%{box-shadow:0 0 1px var(--fc); filter:brightness(1);}50%{box-shadow:0 0 4px var(--fc), 0 0 6px var(--fc); filter:brightness(1.05);}}
-  .leaderPanel{position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); z-index:100000; background:#111; border:2px solid #FFE89A; border-radius:14px; padding:14px; width:320px; color:#fff; max-height:90vh; overflow-y:auto;}
+  .leaderPanel{position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); z-index:100000; background:#111; border:2px solid #FFE89A; border-radius:14px; padding:14px; width:330px; color:#fff; max-height:92vh; overflow-y:auto;}
   .leaderPanel input, .leaderPanel select{width:100%; margin:4px 0; padding:7px; border-radius:8px; border:none; background:#222; color:#fff;}
   .leaderPanel button{width:100%; margin-top:6px; padding:8px; border-radius:8px; border:none; font-weight:bold; cursor:pointer;}
-  .leaderPanel label{font-size:12px; color:#FFE89A; font-weight:bold;}
-  .frameDecor{position:absolute; top:-10px; left:8px; right:8px; display:flex; justify-content:space-between; pointer-events:none; font-size:16px; z-index:10;}
+  .leaderPanel label{font-size:12px; color:#FFE89A; font-weight:bold; display:block; margin-top:8px;}
+  .lpCheck{display:flex; gap:6px; align-items:center; background:#222; padding:6px; border-radius:8px; margin:4px 0; font-size:13px;}
+  .lpCheck input{width:auto !important; margin:0 !important;}
+  .nameBadge{display:inline-flex; gap:2px; align-items:center; margin-left:4px; font-size:12px; line-height:1; vertical-align:middle;}
+  .nameBadge .nStar{font-size:13px; line-height:1;}
+  .nameBadge .nAnimal{font-size:13px; line-height:1;}
+  .cornerDeco{position:absolute; pointer-events:none; font-size:10px; line-height:1; z-index:5; letter-spacing:1px; opacity:0.95;}
+  .cornerTL{top:3px; left:6px;} .cornerTR{top:3px; right:6px;} .cornerBL{bottom:3px; left:6px;} .cornerBR{bottom:3px; right:6px;}
   .post, .uCircle{position:relative;}
   `;
   document.head.appendChild(css);
 })();
 
-function getMyName(){
-  try{
-    if(window.myName) return window.myName;
-    if(window.currentUser) return typeof window.currentUser==='string' ? window.currentUser : (window.currentUser.name||window.currentUser.username||'');
-    if(window.myUser) return window.myUser;
-    var users = Object.keys(getUsers()||{});
-    for(var i=0;i<localStorage.length;i++){ var v = localStorage.getItem(localStorage.key(i))||''; for(var j=0;j<users.length;j++){ if(v.indexOf(users[j])>=0 && isLeaderName(users[j])) return users[j]; } }
-    for(var k=0;k<sessionStorage.length;k++){ var v2 = sessionStorage.getItem(sessionStorage.key(k))||''; for(var j2=0;j2<users.length;j2++){ if(v2.indexOf(users[j2])>=0 && isLeaderName(users[j2])) return users[j2]; } }
-  }catch(e){}
-  return '';
-}
+function getMyName(){ try{ if(window.myName) return window.myName; if(window.currentUser) return typeof window.currentUser==='string' ? window.currentUser : (window.currentUser.name||window.currentUser.username||''); if(window.myUser) return window.myUser; var users = Object.keys(getUsers()||{}); for(var i=0;i<localStorage.length;i++){ var v = localStorage.getItem(localStorage.key(i))||''; for(var j=0;j<users.length;j++){ if(v.indexOf(users[j])>=0 && isLeaderName(users[j])) return users[j]; } } for(var k=0;k<sessionStorage.length;k++){ var v2 = sessionStorage.getItem(sessionStorage.key(k))||''; for(var j2=0;j2<users.length;j2++){ if(v2.indexOf(users[j2])>=0 && isLeaderName(users[j2])) return users[j2]; } } }catch(e){} return ''; }
 function getCustomFrames(){ try{ return JSON.parse(localStorage.getItem('yaarii_custom_frames')||'{}'); }catch(e){ return {}; } }
-function getModColor(){ return localStorage.getItem('yaarii_mod_color') || '#C4A6FF'; }
-function getLeaderColor(){ return localStorage.getItem('yaarii_leader_color') || '#FFE89A'; }
-function getShineAnim(level, color){
-  if(level==='0') return 'none';
-  if(level==='1') return 'frameLightGlow 3s infinite';
-  if(level==='2') return 'frameModGlow 2.5s infinite';
-  if(level==='3') return 'frameLeaderGlow 2s infinite';
-  if(level==='4') return 'frameExtraGlow 1.5s infinite';
-  return 'frameModGlow 2.5s infinite';
-}
-function getSpecialEmojis(special){
-  if(special==='butterfly') return '🦋 🦋 🦋 🦋';
-  if(special==='flower') return '🌸 🌺 🌸 🌺';
-  if(special==='heart') return '❤️ 💖 ❤️ 💖';
-  if(special==='crown') return '👑 ✨ 👑 ✨';
-  if(special==='fire') return '🔥 🔥 🔥 🔥';
-  if(special==='snow') return '❄️ ✨ ❄️ ✨';
-  if(special==='rose') return '🌹 🌹 🌹 🌹';
-  if(special==='star') return '⭐ 🌟 ⭐ 🌟';
-  return '';
+function getStyleFor(role){ try{ return JSON.parse(localStorage.getItem(role==='MOD'?'yaarii_mod_style':'yaarii_leader_style')||'{}'); }catch(e){ return {}; } }
+function getShineAnim(level){ if(level==='0') return 'none'; if(level==='1') return 'frameLightGlow 3s infinite'; if(level==='2') return 'frameModGlow 2.5s infinite'; if(level==='3') return 'frameLeaderGlow 2s infinite'; if(level==='4') return 'frameExtraGlow 1.5s infinite'; return 'frameModGlow 2.5s infinite'; }
+// SPECIAL - 4 CORNER PAR 3-3 CHOTE CHOTE PYARE SE - JAISE PIC ME HAI
+function getCornerSet(special){
+  if(special==='butterfly') return ['🦋✨🦋','🦋🌸🦋','🦋✨🦋','🦋🌸🦋'];
+  if(special==='flower') return ['🌸🌺🌷','🌷🌸🌺','🌺🌷🌸','🌸🌷🌺'];
+  if(special==='heart') return ['❤️💖❤️','💖❤️💖','❤️💕❤️','💖❤️💕'];
+  if(special==='balloon') return ['🎈🎈🎈','🎈✨🎈','🎈🎈🎈','🎈✨🎈'];
+  if(special==='star') return ['⭐🌟⭐','🌟⭐🌟','⭐✨⭐','🌟⭐✨'];
+  if(special==='mix') return ['🦋🌸🎈','❤️⭐🌸','🎈🦋❤️','🌸⭐🦋'];
+  if(special==='crown') return ['👑✨👑','✨👑✨','👑✨👑','✨👑✨'];
+  if(special==='fire') return ['🔥✨🔥','🔥🔥✨','✨🔥🔥','🔥✨🔥'];
+  if(special==='snow') return ['❄️✨❄️','✨❄️✨','❄️✨❄️','✨❄️✨'];
+  return ['','','',''];
 }
 
 function applyFrames(){
 try{
       var starRaw = topScorer(); var trendRaw = topScorer();
       function norm(s){ return String(s || '').toLowerCase().replace(/[^a-z0-9]/gi, ''); }
-      function toNames(arr){
-        if(!arr) return [];
-        return arr.map(function(x){
-          if(typeof x === 'string') return x;
-          if(x && x.name) return x.name;
-          if(x && x.username) return x.username;
-          if(x && x.user) return x.user;
-          return String(x);
-        });
-      }
+      function toNames(arr){ if(!arr) return []; return arr.map(function(x){ if(typeof x === 'string') return x; if(x && x.name) return x.name; if(x && x.username) return x.username; if(x && x.user) return x.user; return String(x); }); }
       var star = toNames(starRaw); var trend = toNames(trendRaw);
       var starNorm = star.map(norm); var trendNorm = trend.map(norm);
       var FRAME_COLORS = ['#C4A6FF','#A8E6A1','#A8D8FF','#C0C0C0','#FFC2E0'];
-      var C_ADMIN = getLeaderColor();
-      var C_MOD = getModColor();
+      var modStyle = getStyleFor('MOD'); var leaderStyle = getStyleFor('LEADER');
+      var C_ADMIN = leaderStyle.color || '#FFE89A';
+      var C_MOD = modStyle.color || '#C4A6FF';
 
-      function addDecor(el, custom){
+      // NAME KE SATH CHOTA SA - ANIMAL + STAR - COLOR WALA STAR ★
+      function addNameBadge(card, nm, styleObj){
         try{
-          var old = el.querySelector('.frameDecor');
-          if(old) old.remove();
-          var txt = '';
-          if(custom){
-            if(custom.special) txt += getSpecialEmojis(custom.special) + ' ';
-            if(custom.animal) txt += custom.animal + ' ';
-            if(custom.star && custom.star!=='0'){
-              var sc = custom.starColor || '#FFD700';
-              txt += '<span style="color:'+sc+';">⭐</span> ';
-            }
-          }
-          if(!txt) return;
-          var d = document.createElement('div');
-          d.className = 'frameDecor';
-          d.innerHTML = txt;
-          el.prepend(d);
+          card.querySelectorAll('.nameBadge').forEach(function(x){ x.remove(); });
+          if(!styleObj) return;
+          var animal = styleObj.animal || '';
+          var hasStar = styleObj.star && styleObj.star!=='0' && styleObj.star!==false;
+          if(!animal && !hasStar) return;
+          var starColor = styleObj.starColor || '#FFD700';
+          var badge = document.createElement('span');
+          badge.className = 'nameBadge';
+          var html = '';
+          if(animal) html += '<span class="nAnimal">'+animal+'</span>';
+          if(hasStar) html += '<span class="nStar" style="color:'+starColor+'; text-shadow:0 0 4px '+starColor+';">★</span>';
+          badge.innerHTML = html;
+          // POST me <b> ke baad, ONLINE me <p> ke andar
+          var b = card.querySelector('b');
+          if(b && b.parentNode){ b.parentNode.insertBefore(badge, b.nextSibling); return; }
+          var p = card.querySelector('p');
+          if(p) p.appendChild(badge);
         }catch(e){}
       }
 
-      function paint(el, nm){
+      // 4 CORNER PAR 3-3 CHOTE
+      function addCorners(el, special){
+        try{
+          el.querySelectorAll('.cornerDeco').forEach(function(x){ x.remove(); });
+          if(!special) return;
+          var sets = getCornerSet(special);
+          var classes = ['cornerTL','cornerTR','cornerBL','cornerBR'];
+          for(var i=0;i<4;i++){
+            var d = document.createElement('div');
+            d.className = 'cornerDeco '+classes[i];
+            d.textContent = sets[i];
+            el.appendChild(d);
+          }
+        }catch(e){}
+      }
+
+      function paint(el, nm, isPostOrOnline){
         if(!nm || !el) return '';
         var u = getUsers()[nm] || {};
         var isAdmin = (u.role === 'ADMIN' || isLeaderName(nm));
@@ -1105,31 +1105,40 @@ try{
         el.classList.remove('frame-admin','frame-mod','frame-corner');
         var custom = getCustomFrames()[nm] || null;
         if(custom){
-          var col = custom.color || '#FFE89A';
-          el.style.setProperty('border','2px solid '+col,'important');
-          el.style.setProperty('box-shadow','0 0 6px '+col+', 0 0 12px '+col,'important');
-          el.style.setProperty('animation', getShineAnim(custom.shineLevel||custom.shine||'2', col),'important');
-          el.style.setProperty('--fc', col);
-          el.style.borderRadius = '12px';
-          addDecor(el, custom);
+          // Agar sirf star/animal diya hai to frame mat lagao - SINGLE SELECT
+          if(custom.hasFrame){
+            var col = custom.color || '#FFE89A';
+            el.style.setProperty('border','2px solid '+col,'important');
+            el.style.setProperty('box-shadow','0 0 6px '+col+', 0 0 12px '+col,'important');
+            el.style.setProperty('animation', getShineAnim(custom.shineLevel||'2'),'important');
+            el.style.setProperty('--fc', col);
+            el.style.borderRadius = '12px';
+          } else {
+            el.style.border=''; el.style.boxShadow=''; el.style.animation='';
+          }
+          addCorners(el, custom.special || '');
           return 'custom';
         }
         if(isAdmin){
           el.classList.add('frame-admin');
-          el.style.setProperty('border','2px solid '+C_ADMIN,'important');
-          el.style.setProperty('box-shadow','0 0 6px '+C_ADMIN+', 0 0 12px '+C_ADMIN,'important');
-          el.style.setProperty('animation','frameLeaderGlow 2s infinite','important');
-          el.style.setProperty('--fc',C_ADMIN);
+          var lc = leaderStyle.color || C_ADMIN;
+          el.style.setProperty('border','2px solid '+lc,'important');
+          el.style.setProperty('box-shadow','0 0 6px '+lc+', 0 0 12px '+lc,'important');
+          el.style.setProperty('animation', getShineAnim(leaderStyle.shineLevel||'3'),'important');
+          el.style.setProperty('--fc',lc);
           el.style.borderRadius = '12px';
+          addCorners(el, leaderStyle.special || '');
           return 'admin';
         }
         if(isMod){
           el.classList.add('frame-mod');
-          el.style.setProperty('border','2px solid '+C_MOD,'important');
-          el.style.setProperty('box-shadow','0 0 4px '+C_MOD+', 0 0 8px '+C_MOD,'important');
-          el.style.setProperty('animation','frameModGlow 2.5s infinite','important');
-          el.style.setProperty('--fc',C_MOD);
+          var mc = modStyle.color || C_MOD;
+          el.style.setProperty('border','2px solid '+mc,'important');
+          el.style.setProperty('box-shadow','0 0 4px '+mc+', 0 0 8px '+mc,'important');
+          el.style.setProperty('animation', getShineAnim(modStyle.shineLevel||'2'),'important');
+          el.style.setProperty('--fc',mc);
           el.style.borderRadius = '12px';
+          addCorners(el, modStyle.special || '');
           return 'mod';
         }
         if(idx >= 0 && idx < 5){
@@ -1156,28 +1165,37 @@ try{
           var ii = starNorm.indexOf(nn); if(ii<0) ii = trendNorm.indexOf(nn);
           var custom = getCustomFrames()[nm] || null;
           if(custom){
-            var col2 = custom.color || '#FFE89A';
-            dpDiv.style.setProperty('border','2px solid '+col2,'important');
-            dpDiv.style.setProperty('box-shadow','0 0 4px '+col2,'important');
-            dpDiv.style.setProperty('animation', getShineAnim(custom.shineLevel||'2', col2),'important');
+            if(custom.hasFrame){
+              var col2 = custom.color || '#FFE89A';
+              dpDiv.style.setProperty('border','2px solid '+col2,'important');
+              dpDiv.style.setProperty('box-shadow','0 0 4px '+col2+', 0 0 12px '+col2,'important');
+              dpDiv.style.setProperty('animation', getShineAnim(custom.shineLevel||'2'),'important');
+              dpDiv.style.setProperty('--fc', col2);
+            } else { dpDiv.style.border=''; dpDiv.style.boxShadow=''; dpDiv.style.animation=''; }
             return;
           }
           if(isA){
-            dpDiv.style.setProperty('border','2px solid '+C_ADMIN,'important');
-            dpDiv.style.setProperty('box-shadow','0 0 6px '+C_ADMIN+', 0 0 12px '+C_ADMIN,'important');
-            dpDiv.style.setProperty('animation','frameLeaderGlow 2s infinite','important');
+            var lc2 = leaderStyle.color || C_ADMIN;
+            dpDiv.style.setProperty('border','2px solid '+lc2,'important');
+            dpDiv.style.setProperty('box-shadow','0 0 6px '+lc2+', 0 0 12px '+lc2,'important');
+            dpDiv.style.setProperty('animation', getShineAnim(leaderStyle.shineLevel||'3'),'important');
+            dpDiv.style.setProperty('--fc', lc2);
           } else if(isM){
-            dpDiv.style.setProperty('border','2px solid '+C_MOD,'important');
-            dpDiv.style.setProperty('box-shadow','0 0 3px '+C_MOD+', 0 0 6px '+C_MOD,'important');
-            dpDiv.style.setProperty('animation','frameModGlow 2.5s infinite','important');
+            var mc2 = modStyle.color || C_MOD;
+            dpDiv.style.setProperty('border','2px solid '+mc2,'important');
+            dpDiv.style.setProperty('box-shadow','0 0 3px '+mc2+', 0 0 6px '+mc2,'important');
+            dpDiv.style.setProperty('animation', getShineAnim(modStyle.shineLevel||'2'),'important');
+            dpDiv.style.setProperty('--fc', mc2);
           } else if(ii>=0 && ii<5){
             dpDiv.style.setProperty('border','2px solid '+FRAME_COLORS[ii],'important');
             dpDiv.style.setProperty('box-shadow','0 0 3px '+FRAME_COLORS[ii],'important');
             dpDiv.style.setProperty('animation','frameSoft 4s infinite','important');
+            dpDiv.style.setProperty('--fc', FRAME_COLORS[ii]);
           }
         }catch(e){}
       }
 
+      // POST
       document.querySelectorAll('.post').forEach(function(post){
         try{
           var nm = '';
@@ -1185,13 +1203,18 @@ try{
           if(b){ var oc = b.getAttribute('onclick') || ''; var m = oc.match(/viewUser\('([^']+)'\)/); if(m) nm = m[1]; if(!nm && b.textContent) nm = b.textContent.trim(); }
           if(!nm){ var allB = post.querySelectorAll('b'); for(var bi=0; bi<allB.length; bi++){ var oc2 = allB[bi].getAttribute('onclick') || ''; var m2 = oc2.match(/viewUser\('([^']+)'\)/); if(m2){ nm = m2[1]; break; } } }
           if(!nm) return;
+          var customKeys = Object.keys(getCustomFrames()||{}); for(var ck=0; ck<customKeys.length; ck++){ if(norm(nm)===norm(customKeys[ck])){ nm = customKeys[ck]; break; } }
           var r = paint(post, nm);
-          if(!r){ post.style.border=''; post.style.boxShadow=''; post.style.animation=''; }
+          if(!r){ post.style.border=''; post.style.boxShadow=''; post.style.animation=''; post.querySelectorAll('.cornerDeco').forEach(function(x){ x.remove(); }); }
+          var u2 = getUsers()[nm]||{};
+          var styleForBadge = getCustomFrames()[nm] || (u2.role==='MODERATOR' ? modStyle : (isLeaderName(nm)||u2.role==='ADMIN' ? leaderStyle : null));
+          addNameBadge(post, nm, styleForBadge);
           var innerDivs = post.querySelectorAll('div');
-          innerDivs.forEach(function(d){ if(d.classList.contains('frameDecor')) return; if(d.style.border && d.style.border.indexOf('C4A6FF')>=0){ d.style.border=''; d.style.boxShadow=''; d.style.animation=''; } });
+          innerDivs.forEach(function(d){ if(d.classList.contains('cornerDeco')||d.classList.contains('nameBadge')) return; if(d.style.border && d.style.border.indexOf('C4A6FF')>=0){ d.style.border=''; d.style.boxShadow=''; d.style.animation=''; } });
         }catch(e){}
       });
 
+      // ONLINE
       document.querySelectorAll('.onlineBar .uCircle').forEach(function(card){
         try{
           var nm = '';
@@ -1199,10 +1222,14 @@ try{
           if(p){ var clone = p.cloneNode(true); var tags = clone.querySelectorAll('span'); tags.forEach(function(s){ s.remove(); }); nm = clone.textContent.trim().split('\n')[0].trim(); }
           if(!nm){ var bb = card.querySelector('b'); if(bb) nm = bb.textContent.trim(); }
           if(!nm) return;
-          nm = nm.replace('LEADER','').replace('MODERATOR','').replace('⚡','').replace('★','').trim();
-          if(!getUsers()[nm]) return;
+          nm = nm.replace('LEADER','').replace('MODERATOR','').replace('⚡','').replace('★','').replace('⭐','').trim();
+          var customKeys2 = Object.keys(getCustomFrames()||{}); for(var ci=0; ci<customKeys2.length; ci++){ if(norm(nm)===norm(customKeys2[ci])){ nm = customKeys2[ci]; break; } }
+          if(!getUsers()[nm] && !getCustomFrames()[nm]) return;
           paint(card, nm);
           paintDp(card, nm);
+          var u3 = getUsers()[nm]||{};
+          var styleForBadge2 = getCustomFrames()[nm] || (u3.role==='MODERATOR' ? modStyle : (isLeaderName(nm)||u3.role==='ADMIN' ? leaderStyle : null));
+          addNameBadge(card, nm, styleForBadge2);
         }catch(e){}
       });
 
@@ -1210,16 +1237,17 @@ try{
         try{
           var txt = card.innerText || '';
           if(txt.indexOf('MODERATOR') < 0) return;
-          card.style.setProperty('border','2px solid '+C_MOD,'important');
-          card.style.setProperty('box-shadow','0 0 4px '+C_MOD+', 0 0 8px '+C_MOD,'important');
-          card.style.setProperty('animation','frameModGlow 2.5s infinite','important');
-          card.style.setProperty('--fc',C_MOD);
+          var nm2 = ''; var bb2 = card.querySelector('b'); if(bb2) nm2 = bb2.textContent.trim();
+          if(nm2 && getCustomFrames()[nm2]) return;
+          var mc3 = modStyle.color || C_MOD;
+          card.style.setProperty('border','2px solid '+mc3,'important');
+          card.style.setProperty('box-shadow','0 0 4px '+mc3+', 0 0 8px '+mc3,'important');
+          card.style.setProperty('animation', getShineAnim(modStyle.shineLevel||'2'),'important');
+          card.style.setProperty('--fc',mc3);
           if(card.classList.contains('uCircle')){
             var dp = card.querySelector(':scope > div');
-            if(dp){ dp.style.setProperty('border','2px solid '+C_MOD,'important'); dp.style.setProperty('box-shadow','0 0 3px '+C_MOD+', 0 0 6px '+C_MOD,'important'); dp.style.setProperty('animation','frameModGlow 2.5s infinite','important'); }
+            if(dp){ dp.style.setProperty('border','2px solid '+mc3,'important'); dp.style.setProperty('box-shadow','0 0 3px '+mc3+', 0 0 6px '+mc3,'important'); dp.style.setProperty('animation', getShineAnim(modStyle.shineLevel||'2'),'important'); }
           }
-          card.querySelectorAll('.redStarTag').forEach(function(t){ t.style.setProperty('background',C_MOD,'important'); t.style.setProperty('box-shadow','0 0 4px '+C_MOD,'important'); });
-          card.querySelectorAll('.redStar, .redBolt').forEach(function(s){ s.style.setProperty('color',C_MOD,'important'); });
         }catch(e){}
       });
 
@@ -1227,8 +1255,7 @@ try{
         document.querySelectorAll('.leaderPowerBtn').forEach(function(x){ x.remove(); });
         var allDivs = document.querySelectorAll('div');
         for(var di=0; di<allDivs.length; di++){
-          var d = allDivs[di];
-          var t = d.innerText || '';
+          var d = allDivs[di]; var t = d.innerText || '';
           if(t.indexOf('LEADER PANEL - BAN BY ID')>=0 && t.length < 2000){
             if(d.querySelector('.leaderPowerBtnInProfile')) break;
             var b2 = document.createElement('button');
@@ -1236,24 +1263,13 @@ try{
             b2.textContent = '👑 Leader Power - Frame Studio';
             b2.style.cssText = 'background:#FFE89A;color:#000;font-weight:bold;padding:10px 14px;border-radius:20px;border:none;margin:8px 0;width:100%;cursor:pointer;box-shadow:0 0 10px #FFE89A;';
             b2.onclick = function(){ openLeaderPanel(); };
-            d.prepend(b2);
-            break;
+            d.prepend(b2); break;
           }
         }
         if(!document.querySelector('.leaderPowerBtnInProfile')){
           var profileBoxes = document.querySelectorAll('.profileView, .userProfile, .modal, [class*="profile"]');
           profileBoxes.forEach(function(profileBox){
-            try{
-              var txt2 = profileBox.innerText || '';
-              if(txt2.indexOf('LEADER')<0) return;
-              if(profileBox.querySelector('.leaderPowerBtnInProfile')) return;
-              var b3 = document.createElement('button');
-              b3.className = 'leaderPowerBtnInProfile';
-              b3.textContent = '👑 Leader Power';
-              b3.style.cssText = 'background:#FFE89A;color:#000;font-weight:bold;padding:8px 12px;border-radius:20px;border:none;margin:8px;cursor:pointer;';
-              b3.onclick = function(){ openLeaderPanel(); };
-              profileBox.prepend(b3);
-            }catch(e){}
+            try{ var txt2 = profileBox.innerText || ''; if(txt2.indexOf('LEADER')<0) return; if(profileBox.querySelector('.leaderPowerBtnInProfile')) return; var b3 = document.createElement('button'); b3.className = 'leaderPowerBtnInProfile'; b3.textContent = '👑 Leader Power'; b3.style.cssText = 'background:#FFE89A;color:#000;font-weight:bold;padding:8px 12px;border-radius:20px;border:none;margin:8px;cursor:pointer;'; b3.onclick = function(){ openLeaderPanel(); }; profileBox.prepend(b3); }catch(e){}
           });
         }
       }catch(e){}
@@ -1267,23 +1283,36 @@ function openLeaderPanel(){
   var div = document.createElement('div');
   div.className = 'leaderPanel';
   div.innerHTML = `
-    <b>👑 Leader Power - Frame Studio</b><br><span style="font-size:11px;color:#aaa;">Sirf Owner ko dikhega</span><br><br>
-    <label>User ka naam</label><input id="lpName" placeholder="jese: Zamil">
-    <label>🖼️ Frame ka Color - Apni Marzi</label><input id="lpColor" type="color" value="#FFE89A">
-    <select id="lpColorPreset"><option value="#FFE89A">Yellow - Leader</option><option value="#C4A6FF">Purple</option><option value="#FF0000">Pure Red</option><option value="#FF1493">Deep Pink</option><option value="#00FF00">Neon Green</option><option value="#00D5FF">Sky Blue</option><option value="#FF8C00">Orange</option><option value="#FFD700">Gold</option><option value="#FF00FF">Magenta</option><option value="#00FFFF">Cyan</option><option value="#FFFFFF">White</option><option value="#000000">Black</option></select>
-    <label>✨ Shine / Lightning - Kitni Tez?</label><select id="lpShineLevel"><option value="1">1 - Halki Shine</option><option value="2" selected>2 - Normal</option><option value="3">3 - Tez Lightning</option><option value="4">4 - Extra Tez + Full Chamak</option><option value="0">0 - Koi Shine Nahi</option></select>
-    <label>⭐ Star - Color Apni Marzi</label><select id="lpStar"><option value="1">⭐ Star Do</option><option value="0">Star Nahi</option></select><input id="lpStarColor" type="color" value="#FFD700">
-    <label>🦋 Special Frame - Corner Par Kya Ho?</label><select id="lpSpecial"><option value="">Kuch Nahi - Simple</option><option value="butterfly">🦋 Butterfly Frame</option><option value="flower">🌸 Flower Frame</option><option value="heart">❤️ Dil Wala Frame</option><option value="crown">👑 Crown Frame</option><option value="fire">🔥 Aag Wala Frame</option><option value="snow">❄️ Baraf Wala Frame</option><option value="rose">🌹 Gulab Wala Frame</option><option value="star">⭐ Star Wala Frame</option></select>
-    <label>🐾 Animal - Bht Sare</label><select id="lpAnimal"><option value="">Koi Animal Nahi</option><option value="🦁">🦁 Sher</option><option value="🐅">🐅 Tiger</option><option value="🐍">🐍 Saanp</option><option value="🐘">🐘 Hathi</option><option value="🦅">🦅 Eagle</option><option value="🐺">🐺 Bheriya</option><option value="🦄">🦄 Unicorn</option><option value="🐉">🐉 Dragon</option><option value="🐱">🐱 Billi</option><option value="🐶">🐶 Kutta</option><option value="🦚">🦚 Mor</option><option value="🐴">🐴 Ghora</option><option value="🐰">🐰 Khargosh</option><option value="🐼">🐼 Panda</option><option value="🦋">🦋 Titli</option><option value="🦁">🦁 Sherni</option><option value="🐯">🐯 Cheeta</option><option value="🦊">🦊 Lomri</option><option value="🐻">🐻 Bhalu</option><option value="🐬">🐬 Dolphin</option></select>
-    <button id="lpSave" style="background:#FFE89A;color:#000;">✅ Save Karo - Frame Laga Do</button>
-    <button id="lpRemove" style="background:#333;color:#fff;">❌ Iska Frame Hatao</button>
+    <b>👑 Leader Power - Frame Studio</b><br><span style="font-size:11px;color:#aaa;">Sirf Owner ko dikhega - Post + Online dono me same</span><br><br>
+    <label>User ka naam</label><input id="lpName" placeholder="jese: Ali">
+    <div class="lpCheck"><input type="checkbox" id="chkFrame" checked> 🖼️ Frame dena hai?</div>
+    <label>Frame ka Color - Apni Marzi</label><input id="lpColor" type="color" value="#FFE89A">
+    <select id="lpColorPreset"><option value="#FFE89A">Yellow</option><option value="#FF0000">Pure Red</option><option value="#FF1493">Deep Pink</option><option value="#00FF00">Neon Green</option><option value="#00D5FF">Sky Blue</option><option value="#FF8C00">Orange</option><option value="#FFD700">Gold</option><option value="#FF00FF">Magenta</option><option value="#00FFFF">Cyan</option><option value="#FFFFFF">White</option></select>
+    <label>✨ Shine / Lightning</label><select id="lpShineLevel"><option value="1">1 - Halki</option><option value="2" selected>2 - Normal</option><option value="3">3 - Tez Lightning</option><option value="4">4 - Extra Tez Chamak</option><option value="0">0 - Koi Shine Nahi</option></select>
+    <div class="lpCheck"><input type="checkbox" id="chkStar" checked> ⭐ Star dena hai?</div>
+    <label>Star ka Color - Yahi Wala Aayega ★</label><input id="lpStarColor" type="color" value="#FFD700">
+    <select id="lpStar"><option value="1">★ Star Do</option><option value="0">Star Nahi</option></select>
+    <div class="lpCheck"><input type="checkbox" id="chkAnimal" checked> 🐾 Animal dena hai?</div>
+    <label>Animal - Naam ke Sath Chota Sa</label><select id="lpAnimal"><option value="">Koi Animal Nahi</option><option value="🦁">🦁 Sher</option><option value="🐅">🐅 Tiger</option><option value="🐍">🐍 Saanp</option><option value="🐘">🐘 Hathi</option><option value="🦅">🦅 Eagle</option><option value="🐺">🐺 Bheriya</option><option value="🦄">🦄 Unicorn</option><option value="🐉">🐉 Dragon</option><option value="🐱">🐱 Billi</option><option value="🐶">🐶 Kutta</option><option value="🦚">🦚 Mor</option><option value="🐴">🐴 Ghora</option><option value="🐰">🐰 Khargosh</option><option value="🐼">🐼 Panda</option><option value="🦋">🦋 Titli</option><option value="🐯">🐯 Cheeta</option><option value="🦊">🦊 Lomri</option><option value="🐻">🐻 Bhalu</option><option value="🐬">🐬 Dolphin</option></select>
+    <div class="lpCheck"><input type="checkbox" id="chkSpecial" checked> 🦋 Special Frame dena hai?</div>
+    <label>Special Frame - 4 Corner Par 3-3 Chote</label><select id="lpSpecial"><option value="">Kuch Nahi</option><option value="butterfly">🦋 Butterfly - Pyaari Si</option><option value="flower">🌸 Flower - Phool</option><option value="heart">❤️ Dil Wala</option><option value="balloon">🎈 Balloon Wala</option><option value="star">⭐ Star Wala</option><option value="mix">🦋🌸❤️ Mix - Sab Kuch</option><option value="crown">👑 Crown Wala</option><option value="fire">🔥 Aag Wala</option><option value="snow">❄️ Baraf Wala</option></select>
+    <button id="lpSave" style="background:#FFE89A;color:#000;">✅ Save Karo - Jo Check Kiya Wahi Lagega</button>
+    <button id="lpRemove" style="background:#333;color:#fff;">❌ Iska Sab Hatao</button>
     <hr style="border:1px solid #333;">
-    <b style="color:#C4A6FF;">🎨 MODERATOR KA COLOR BADLO</b><br>
-    <label>Moderator Frame Color</label><input id="lpModColor" type="color" value="${getModColor()}">
-    <button id="lpModSave" style="background:#C4A6FF;color:#000;">Moderator Color Save Karo</button>
-    <b style="color:#FFE89A;">🎨 APNA / LEADER KA COLOR BADLO</b><br>
-    <label>Leader Frame Color</label><input id="lpLeaderColor" type="color" value="${getLeaderColor()}">
-    <button id="lpLeaderSave" style="background:#FFE89A;color:#000;">Leader Color Save Karo</button>
+    <b style="color:#C4A6FF;">🎨 MODERATOR KA FULL STYLE</b><br>
+    <label>Mod - Frame Color</label><input id="lpModColor" type="color" value="${(getStyleFor('MOD').color||'#C4A6FF')}">
+    <label>Mod - Shine</label><select id="lpModShine"><option value="1">1 Halki</option><option value="2" selected>2 Normal</option><option value="3">3 Tez</option><option value="4">4 Extra Tez</option><option value="0">0 Koi Nahi</option></select>
+    <label>Mod - Star Color</label><input id="lpModStarColor" type="color" value="${(getStyleFor('MOD').starColor||'#FFD700')}">
+    <label>Mod - Animal + Star</label><select id="lpModAnimal"><option value="">Koi Animal Nahi</option><option value="🦁">🦁 Sher</option><option value="🐅">🐅 Tiger</option><option value="🦋">🦋 Titli</option><option value="👑">👑 Crown</option><option value="⭐">⭐ Star</option></select>
+    <label>Mod - Special</label><select id="lpModSpecial"><option value="">Kuch Nahi</option><option value="butterfly">🦋 Butterfly</option><option value="flower">🌸 Flower</option><option value="heart">❤️ Dil</option><option value="balloon">🎈 Balloon</option><option value="star">⭐ Star</option><option value="mix">Mix</option></select>
+    <button id="lpModSave" style="background:#C4A6FF;color:#000;">Moderator Style Save Karo</button>
+    <b style="color:#FFE89A;">🎨 LEADER / APNA FULL STYLE</b><br>
+    <label>Leader - Frame Color</label><input id="lpLeaderColor" type="color" value="${(getStyleFor('LEADER').color||'#FFE89A')}">
+    <label>Leader - Shine</label><select id="lpLeaderShine"><option value="1">1 Halki</option><option value="2">2 Normal</option><option value="3" selected>3 Tez</option><option value="4">4 Extra Tez</option><option value="0">0 Koi Nahi</option></select>
+    <label>Leader - Star Color</label><input id="lpLeaderStarColor" type="color" value="${(getStyleFor('LEADER').starColor||'#FFD700')}">
+    <label>Leader - Animal + Star</label><select id="lpLeaderAnimal"><option value="">Koi Animal Nahi</option><option value="🦁">🦁 Sher</option><option value="👑">👑 Crown</option><option value="🦅">🦅 Eagle</option><option value="🐉">🐉 Dragon</option><option value="🦋">🦋 Titli</option></select>
+    <label>Leader - Special</label><select id="lpLeaderSpecial"><option value="">Kuch Nahi</option><option value="butterfly">🦋 Butterfly</option><option value="flower">🌸 Flower</option><option value="heart">❤️ Dil</option><option value="balloon">🎈 Balloon</option><option value="star">⭐ Star</option><option value="mix">Mix</option></select>
+    <button id="lpLeaderSave" style="background:#FFE89A;color:#000;">Leader Style Save Karo</button>
     <button id="lpClose" style="background:#444;color:#fff;">Band Karo</button>
   `;
   document.body.appendChild(div);
@@ -1292,59 +1321,43 @@ function openLeaderPanel(){
     var n = document.getElementById('lpName').value.trim();
     if(!n){ alert('Naam likho pehle'); return; }
     var all = getCustomFrames();
-    all[n] = {color: document.getElementById('lpColor').value, shineLevel: document.getElementById('lpShineLevel').value, shine: document.getElementById('lpShineLevel').value!=='0', star: document.getElementById('lpStar').value, starColor: document.getElementById('lpStarColor').value, special: document.getElementById('lpSpecial').value, animal: document.getElementById('lpAnimal').value};
+    var old = all[n] || {};
+    var nw = {};
+    // Sirf jo check hai wahi save hoga, baaki purana waisa hi rahega - SINGLE SELECT
+    if(document.getElementById('chkFrame').checked){ nw.hasFrame = true; nw.color = document.getElementById('lpColor').value; nw.shineLevel = document.getElementById('lpShineLevel').value; nw.shine = document.getElementById('lpShineLevel').value!=='0'; }
+    else { nw.hasFrame = old.hasFrame || false; nw.color = old.color; nw.shineLevel = old.shineLevel; }
+    if(document.getElementById('chkStar').checked){ nw.star = document.getElementById('lpStar').value; nw.starColor = document.getElementById('lpStarColor').value; }
+    else { nw.star = old.star; nw.starColor = old.starColor; }
+    if(document.getElementById('chkAnimal').checked){ nw.animal = document.getElementById('lpAnimal').value; }
+    else { nw.animal = old.animal; }
+    if(document.getElementById('chkSpecial').checked){ nw.special = document.getElementById('lpSpecial').value; }
+    else { nw.special = old.special; }
+    all[n] = nw;
     localStorage.setItem('yaarii_custom_frames', JSON.stringify(all));
-    alert(n + ' ko naya frame de diya! 🎉'); div.remove(); applyFrames();
+    alert(n + ' ko de diya! Jo check kiya tha wahi lagega 🎉'); div.remove(); applyFrames();
   };
   document.getElementById('lpRemove').onclick = function(){
     var n = document.getElementById('lpName').value.trim();
     var all = getCustomFrames(); delete all[n];
     localStorage.setItem('yaarii_custom_frames', JSON.stringify(all));
-    alert(n + ' ka frame hata diya'); div.remove(); applyFrames();
+    alert(n + ' ka sab hata diya'); div.remove(); applyFrames();
   };
   document.getElementById('lpModSave').onclick = function(){
-    localStorage.setItem('yaarii_mod_color', document.getElementById('lpModColor').value);
-    alert('Moderator ka color badal gaya!'); applyFrames();
+    var s = {color: document.getElementById('lpModColor').value, shineLevel: document.getElementById('lpModShine').value, star: '1', starColor: document.getElementById('lpModStarColor').value, animal: document.getElementById('lpModAnimal').value, special: document.getElementById('lpModSpecial').value, hasFrame: true};
+    localStorage.setItem('yaarii_mod_style', JSON.stringify(s));
+    alert('Moderator ka full style badal gaya!'); applyFrames();
   };
   document.getElementById('lpLeaderSave').onclick = function(){
-    localStorage.setItem('yaarii_leader_color', document.getElementById('lpLeaderColor').value);
-    alert('Leader ka color badal gaya!'); applyFrames();
+    var s2 = {color: document.getElementById('lpLeaderColor').value, shineLevel: document.getElementById('lpLeaderShine').value, star: '1', starColor: document.getElementById('lpLeaderStarColor').value, animal: document.getElementById('lpLeaderAnimal').value, special: document.getElementById('lpLeaderSpecial').value, hasFrame: true};
+    localStorage.setItem('yaarii_leader_style', JSON.stringify(s2));
+    alert('Leader ka full style badal gaya!'); applyFrames();
   };
   document.getElementById('lpClose').onclick = function(){ div.remove(); };
 }
 applyFrames();
 setInterval(applyFrames, 500);
-// --- FRAMES FINAL V58 V8 END --- 
-    
-    // POINT 37 - INBOX Reply - Inbox me Reply, wahin se reply jaye, uske inbox me bhi jaye
-  function addInboxReply(){
-    try{
-      document.querySelectorAll('#notifList > div, #inboxList > div, #notifList .card, #inboxList .card').forEach(function(card){
-        try{
-          if(card.dataset.replyDone === '1') return;
-          var txt = card.innerText||'';
-          var sender = (txt.split('\n')[0]||'').trim().split(' ')[0];
-          if(!sender || sender.length < 2) return;
-          card.dataset.replyDone = '1';
-          var wrap = document.createElement('div');
-          wrap.style = 'display:flex;gap:6px;margin-top:6px';
-          wrap.innerHTML = '<input placeholder="Reply '+sender+' ko..." style="flex:1;padding:8px;border-radius:10px;border:1px solid #FFD700;background:#111;color:#fff">'
-            + '<button type="button" style="background:#FFD700;color:#000;border:none;border-radius:10px;padding:8px 12px;font-weight:800">↩️ Reply</button>';
-          card.appendChild(wrap);
-          var btn = wrap.querySelector('button');
-          btn.onclick = function(){
-            try{
-              var inp = wrap.querySelector('input');
-              var msg = inp.value.trim(); if(!msg) return;
-              if(window.pushInbox) pushInbox(sender,{from:cur,text:'↩️ '+cur+' ne reply kiya: '+msg,type:'reply'});
-              showMsg(sender+' ko Reply bhej diya ✅'); inp.value='';
-            }catch(e){}
-          };
-        }catch(e){}
-      });
-    }catch(e){}
-  }
-
+// --- FRAMES FINAL V58 V10 END ---
+                    
   // POINT 39 - FUN hatao, uski jagah Theme Badlo
   function openTheme44(){
     try{
