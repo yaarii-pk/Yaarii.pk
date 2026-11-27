@@ -60,7 +60,7 @@
 <div id="page-about" class="hidden"><div class="card"><h3>ℹ️ About</h3><p>Yaarii-PK - Apni Mehfil, Apni Yaari 👑<br>Black & Golden Family</p></div></div>
 <div id="page-terms" class="hidden"><div class="card"><h3>📄 Terms</h3><p>App use karne se tum rules se agree karte ho.</p></div></div>
 <div id="page-privacy" class="hidden"><div class="card"><h3>🔒 Privacy</h3><p>Tumhara data sirf app chalane ke liye use hota hai.</p></div></div>
-<div class="bottom"><button type="button" onclick="showPage('home')">🏠<br>HOME</button><button type="button" onclick="showPage('share')">📤<br>SHARE</button><button type="button" onclick="showPage('trending')">🔥<br>TREND</button><button type="button" onclick="showPage('inbox')">🔔<br>INBOX <span id="notifyBadge" style="display:none;background:#ff2d55;color:#fff;border-radius:10px;padding:1px 6px;font-size:10px;font-weight:bold"></span></button><button type="button" onclick="showPage('1on1')">🔒<br>1 ON 1</button><button type="button" onclick="showPage('mehfil')">💬<br>MEHFIL</button><button type="button" onclick="showPage('fun')">🎲<br>FUN</button><button type="button" onclick="showPage('more')">⚙️<br>MORE</button></div>
+<div class="bottom"><button type="button" onclick="showPage('home')">🏠<br>HOME</button><button type="button" onclick="showPage('share')">📤<br>SHARE</button><button type="button" onclick="showPage('trending')">🔥<br>TREND</button><button type="button" onclick="showPage('inbox')">🔔<br>INBOX <span id="notifyBadge" style="display:none;background:#ff2d55;color:#fff;border-radius:10px;padding:1px 6px;font-size:10px;font-weight:bold"></span></button><button type="button" onclick="showPage('1on1')">🔒<br>1 ON 1</button><button type="button" onclick="showPage('mehfil')">💬<br>MEHFIL</button><button type="button" onclick="if(window.openThemePicker)openThemePicker()">🎨<br>THEME</button><button type="button" onclick="showPage('more')">⚙️<br>MORE</button></div>
 <script>
 // ===== CLOUDINARY CONFIG - FIXED =====
 var CLOUD_NAME = 'enuracal';
@@ -1380,15 +1380,20 @@ function pvtInviteAction(key,act){
 }
 var _pvtWith=null;
 var _pvtReply=null;
+var _pvtPairOld=null;
 function pvtReplyTo(txt,from){ _pvtReply={text:txt,from:from}; document.getElementById('pvtReplyBar').style.display='block'; document.getElementById('pvtReplyText').innerText=from+': '+txt; document.getElementById('pvtText').focus(); }
 function pvtCancelReply(){ _pvtReply=null; document.getElementById('pvtReplyBar').style.display='none'; }
 function openPvtChat(withUser){
   _pvtWith=withUser;
+  try{ localStorage.setItem('lastPvtChat', withUser); }catch(e){}
   document.getElementById('pvtHead44').style.display='block';
   document.getElementById('pvtHead44').innerText='💬 '+withUser+' - Private Chat 🔒';
   document.getElementById('pvtSendRow').style.display='flex';
   document.getElementById('pvtTo').value=withUser;
   var pair=pvtPair(cur,withUser);
+  if(_pvtPairOld && _pvtPairOld!==pair){ try{ db.ref('pvt_chat/'+_pvtPairOld).off(); }catch(e){} }
+  _pvtPairOld=pair;
+  db.ref('pvt_chat/'+pair).off();
   db.ref('pvt_chat/'+pair).on('value',function(snap){
     var val=snap.val()||{}; var arr=Object.values(val).sort(function(a,b){return (a.time||0)-(b.time||0)});
     var el=document.getElementById('pvtBox');
@@ -1403,6 +1408,12 @@ function openPvtChat(withUser){
     el.scrollTop=el.scrollHeight;
   });
 }
+function restorePvtChat(){
+  try{
+    var last=localStorage.getItem('lastPvtChat');
+    if(last && last!==cur){ openPvtChat(last); }
+  }catch(e){}
+}
 function sendPvtMsg(){
   if(!_pvtWith){ showMsg('Pehle kisi ko Invite bhejo ya Accept karo'); return; }
   var txt=document.getElementById('pvtText').value.trim(); if(!txt) return;
@@ -1414,7 +1425,7 @@ function sendPvtMsg(){
   document.getElementById('pvtText').value=''; pvtCancelReply();
 }
 // Auto-start invites + accepted check
-setTimeout(function(){ try{ loadPvtInvites(); db.ref('pvt_accept/'+cur).on('child_added',function(snap){ var v=snap.val(); if(v&&v.status==='accepted'){ openPvtChat(v.from); showMsg(v.from+' ne Invite Accept kar liya ✅'); } }); }catch(e){} },1500);
+setTimeout(function(){ try{ loadPvtInvites(); restorePvtChat(); db.ref('pvt_accept/'+cur).on('child_added',function(snap){ var v=snap.val(); if(v&&v.status==='accepted'){ openPvtChat(v.from); showMsg(v.from+' ne Invite Accept kar liya ✅'); } }); }catch(e){} },1500);
 </script>
 </body>
 </html>
