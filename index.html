@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="ur"><head><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><script>var APP_VERSION=47;if(location.search.indexOf('v='+APP_VERSION)<0){location.replace(location.pathname+'?v='+APP_VERSION);}</script><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Yaarii-PK 👑</title>
+<!DOCTYPE html><html lang="ur"><head><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><script>var APP_VERSION=50;if(location.search.indexOf('v='+APP_VERSION)<0){location.replace(location.pathname+'?v='+APP_VERSION);}</script><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Yaarii-PK 👑</title>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 <style>
@@ -1000,16 +1000,12 @@ var ANIMAL_FRAME_COLORS = {tiger:'#FF8C00',cheetah:'#FFFF00',wolf:'#00BFFF',eagl
 
   // POINT 33 + 34 + 35 + 36 - Frame
   // 33: Top 5 ko frame 4 taraf, 34: Star colors, 35: Top 5 frame simple no shining, 36: Admin Yellow shining, Moderator Red shining
-  // --- FRAMES FINAL : ADMIN + MOD + TOP5 - START ---
+  // --- FRAMES FINAL V50 : FULL CODE - COPY PASTE ---
 (function(){
   var css=document.createElement('style');
   css.innerHTML=`
-  @keyframes frameBolt{0%,100%{box-shadow:0 0 6px var(--fc),0 0 12px var(--fc);}50%{box-shadow:0 0 14px var(--fc),0 0 26px var(--fc),0 0 36px #fff;}}
-  @keyframes frameShine{0%{filter:brightness(1);}50%{filter:brightness(1.6);}100%{filter:brightness(1);}}
-  @keyframes frameRun{0%{background-position:0% 0%;}100%{background-position:200% 0%;}}
-  .frame-admin{ --fc:#FFD700; position:relative; }
-  .frame-mod{ --fc:#B388FF; position:relative; }
-  .frame-admin.frame-corner::after, .frame-mod.frame-corner::after{ content:''; position:absolute; inset:-3px; border-radius:12px; pointer-events:none; background:linear-gradient(110deg,transparent 30%,var(--fc) 45%,#fff 50%,var(--fc) 55%,transparent 70%); background-size:200% 100%; animation:frameRun 1.4s linear infinite; opacity:.95; }
+  @keyframes frameBolt{0%,100%{box-shadow:0 0 6px var(--fc),0 0 12px var(--fc);}50%{box-shadow:0 0 16px var(--fc),0 0 30px var(--fc),0 0 40px #fff;}}
+  @keyframes frameShine{0%{filter:brightness(1);}50%{filter:brightness(1.7);}100%{filter:brightness(1);}}
   .frame-dp{ border-radius:50% !important; padding:2px !important; }
   `;
   document.head.appendChild(css);
@@ -1017,10 +1013,7 @@ var ANIMAL_FRAME_COLORS = {tiger:'#FF8C00',cheetah:'#FFFF00',wolf:'#00BFFF',eagl
 function applyFrames(){
 try{
       var starRaw = topScorer(); var trendRaw = topScorer();
-
-      function norm(s){
-        return String(s || '').toLowerCase().replace(/[^a-z0-9]/gi, '');
-      }
+      function norm(s){ return String(s || '').toLowerCase().replace(/[^a-z0-9]/gi, ''); }
       function toNames(arr){
         if(!arr) return [];
         return arr.map(function(x){
@@ -1035,9 +1028,51 @@ try{
       var trend = toNames(trendRaw);
       var starNorm = star.map(norm);
       var trendNorm = trend.map(norm);
-
-      // TOP 5 FINAL : 1 Orange, 2 Parrot Green, 3 Sky Blue, 4 Silver, 5 Pink
       var FRAME_COLORS = ['#FF8C00','#39FF14','#00D5FF','#E8E8E8','#FF9DE2'];
+
+      function paint(el, nm){
+        if(!nm || !el) return '';
+        var u = getUsers()[nm] || {};
+        var isAdmin = (u.role === 'ADMIN' || isLeaderName(nm));
+        var isMod = (u.role === 'MODERATOR');
+        var nn = norm(nm);
+        var idx = starNorm.indexOf(nn);
+        if(idx < 0) idx = trendNorm.indexOf(nn);
+        el.classList.remove('frame-admin','frame-mod','frame-corner');
+        el.style.setProperty('--fc','');
+        // ADMIN / LEADER : Yellow - Lightning + Shining - Center line NAHI
+        if(isAdmin){
+          el.classList.add('frame-admin');
+          el.style.setProperty('border','3px solid #FFD700','important');
+          el.style.setProperty('box-shadow','0 0 14px #FFD700, 0 0 28px #FFD700','important');
+          el.style.setProperty('animation','frameBolt .7s infinite, frameShine .7s infinite','important');
+          el.style.setProperty('--fc','#FFD700');
+          el.style.borderRadius = '12px';
+          return 'admin';
+        }
+        // MODERATOR : Purple - LIKE / Chupair / Share wale box wala - Lightning + Shining - Center line NAHI
+        if(isMod){
+          el.classList.add('frame-mod');
+          el.style.setProperty('border','3px solid #B388FF','important');
+          el.style.setProperty('box-shadow','0 0 14px #B388FF, 0 0 28px #B388FF','important');
+          el.style.setProperty('animation','frameBolt .8s infinite, frameShine .8s infinite','important');
+          el.style.setProperty('--fc','#B388FF');
+          el.style.borderRadius = '12px';
+          return 'mod';
+        }
+        // TOP 5 : Sirf Lightning - Shining NAHI - taake Admin/Mod se match na ho
+        if(idx >= 0 && idx < 5){
+          el.style.setProperty('border','3px solid ' + FRAME_COLORS[idx],'important');
+          el.style.setProperty('box-shadow','0 0 12px ' + FRAME_COLORS[idx] + ', 0 0 22px ' + FRAME_COLORS[idx],'important');
+          el.style.setProperty('animation','frameBolt ' + (1.0 + idx*0.15) + 's infinite','important');
+          el.style.setProperty('--fc', FRAME_COLORS[idx]);
+          el.style.borderRadius = '10px';
+          return 'top'+idx;
+        }
+        return '';
+      }
+
+      // 1. POSTS
       document.querySelectorAll('.post').forEach(function(post){
         try{
           var nm = '';
@@ -1057,99 +1092,68 @@ try{
             }
           }
           if(!nm) return;
-          var u = getUsers()[nm] || {};
-          var isAdmin = (u.role === 'ADMIN' || isLeaderName(nm));
-          var isMod = (u.role === 'MODERATOR');
-
-          // ADMIN / LEADER : Yellow Lightning + Shining + Corner Lines
-          if(isAdmin){
-            post.classList.add('frame-admin','frame-corner');
-            post.classList.remove('frame-mod');
-            post.style.setProperty('border','3px solid #FFD700','important');
-            post.style.setProperty('box-shadow','0 0 14px #FFD700, 0 0 28px #FFD700','important');
-            post.style.setProperty('animation','frameBolt .7s infinite, frameShine .7s infinite','important');
-            post.style.setProperty('--fc','#FFD700');
-            post.style.borderRadius = '12px';
-            return;
-          }
-          // MODERATOR : Purple - LIKE / Chupair / Share wale box wala color - Lightning + Shining + Corner Lines
-          if(isMod){
-            post.classList.add('frame-mod','frame-corner');
-            post.classList.remove('frame-admin');
-            post.style.setProperty('border','3px solid #B388FF','important');
-            post.style.setProperty('box-shadow','0 0 14px #B388FF, 0 0 28px #B388FF','important');
-            post.style.setProperty('animation','frameBolt .8s infinite, frameShine .8s infinite','important');
-            post.style.setProperty('--fc','#B388FF');
-            post.style.borderRadius = '12px';
-            return;
-          }
-
-          var nmNorm = norm(nm);
-          var idx = starNorm.indexOf(nmNorm);
-          if(idx < 0) idx = trendNorm.indexOf(nmNorm);
-
-          // TOP 5 : Sirf Lightning, Shining NAHI - taake Admin/Mod se alag lage
-          if(idx >= 0 && idx < 5){
-            post.classList.remove('frame-admin','frame-mod','frame-corner');
-            post.style.setProperty('border','3px solid ' + FRAME_COLORS[idx],'important');
-            post.style.setProperty('box-shadow','0 0 10px ' + FRAME_COLORS[idx],'important');
-            post.style.setProperty('animation','frameBolt ' + (1.1 + idx*0.2) + 's infinite','important');
-            post.style.setProperty('--fc', FRAME_COLORS[idx]);
-            post.style.borderRadius = '10px';
-          } else {
-            post.classList.remove('frame-admin','frame-mod','frame-corner');
-            post.style.border = '';
-            post.style.boxShadow = '';
-            post.style.animation = '';
-          }
+          var r = paint(post, nm);
+          if(!r){ post.style.border=''; post.style.boxShadow=''; post.style.animation=''; }
         }catch(e){}
       });
 
-      // ONLINE LIST + DP : Admin/Mod full, Top5 sirf DP ke 4 side
-      try{
-        document.querySelectorAll('[data-user], .online-user, .user-card').forEach(function(el){
-          var n = el.getAttribute('data-user') || el.getAttribute('data-name') || '';
-          if(!n){
-            var bb = el.querySelector('b');
-            if(bb) n = bb.textContent.trim();
+      // 2. ONLINE LIST - Jaisa Post me hai waisa hi yahan - poori card pe frame
+      document.querySelectorAll('div').forEach(function(el){
+        try{
+          if(el.classList.contains('post')) return;
+          if(el.children.length > 6) return;
+          var txt = el.innerText || '';
+          if(txt.length < 3 || txt.length > 200) return;
+          if(txt.indexOf('Online')===-1 && txt.indexOf('1 ghante')===-1 && txt.indexOf('Online hai')===-1 && txt.indexOf('RING')===-1) return;
+          var nm = '';
+          var bb = el.querySelector('b');
+          if(bb) nm = bb.textContent.trim();
+          if(!nm){
+            var m = txt.match(/([A-Za-z0-9_]{3,20})/);
+            if(m) nm = m[1];
           }
-          if(!n) return;
-          var uu = getUsers()[n] || {};
-          var isA = (uu.role === 'ADMIN' || isLeaderName(n));
-          var isM = (uu.role === 'MODERATOR');
-          var nn = norm(n);
-          var ii = starNorm.indexOf(nn); if(ii<0) ii = trendNorm.indexOf(nn);
+          if(!nm) return;
+          if(!getUsers()[nm]) return;
+          paint(el, nm);
+        }catch(e){}
+      });
+
+      // 3. DP pe bhi frame - Online + Post dono me
+      document.querySelectorAll('img').forEach(function(img){
+        try{
+          var card = img.closest('div');
+          if(!card) return;
+          var b2 = card.querySelector('b');
+          var nm2 = b2 ? b2.textContent.trim() : '';
+          if(!nm2) return;
+          var u2 = getUsers()[nm2] || {};
+          var isA = (u2.role==='ADMIN' || isLeaderName(nm2));
+          var isM = (u2.role==='MODERATOR');
+          var nn2 = norm(nm2);
+          var ii = starNorm.indexOf(nn2); if(ii<0) ii = trendNorm.indexOf(nn2);
           if(isA){
-            el.classList.add('frame-admin','frame-corner');
-            el.style.setProperty('border','3px solid #FFD700','important');
-            el.style.setProperty('box-shadow','0 0 14px #FFD700','important');
-            el.style.setProperty('animation','frameBolt .7s infinite, frameShine .7s infinite','important');
-            el.style.setProperty('--fc','#FFD700');
+            img.style.setProperty('border','3px solid #FFD700','important');
+            img.style.setProperty('box-shadow','0 0 12px #FFD700','important');
+            img.style.setProperty('animation','frameBolt .7s infinite, frameShine .7s infinite','important');
           } else if(isM){
-            el.classList.add('frame-mod','frame-corner');
-            el.style.setProperty('border','3px solid #B388FF','important');
-            el.style.setProperty('box-shadow','0 0 14px #B388FF','important');
-            el.style.setProperty('animation','frameBolt .8s infinite, frameShine .8s infinite','important');
-            el.style.setProperty('--fc','#B388FF');
+            img.style.setProperty('border','3px solid #B388FF','important');
+            img.style.setProperty('box-shadow','0 0 12px #B388FF','important');
+            img.style.setProperty('animation','frameBolt .8s infinite, frameShine .8s infinite','important');
           } else if(ii>=0 && ii<5){
-            var dp = el.querySelector('img');
-            if(dp){
-              dp.classList.add('frame-dp');
-              dp.style.setProperty('border','3px solid '+FRAME_COLORS[ii],'important');
-              dp.style.setProperty('box-shadow','0 0 10px '+FRAME_COLORS[ii],'important');
-              dp.style.setProperty('animation','frameBolt '+(1.1+ii*0.2)+'s infinite','important');
-              dp.style.setProperty('--fc',FRAME_COLORS[ii]);
-            }
+            img.style.setProperty('border','3px solid '+FRAME_COLORS[ii],'important');
+            img.style.setProperty('box-shadow','0 0 10px '+FRAME_COLORS[ii],'important');
+            img.style.setProperty('animation','frameBolt 1s infinite','important');
           }
-        });
-      }catch(e){}
+        }catch(e){}
+      });
 
     }catch(e){}
 }
 applyFrames();
 setInterval(applyFrames, 2000);
-// --- FRAMES FINAL : END ---
-  
+// --- FRAMES FINAL V50 END ---
+
+      
     
     // POINT 37 - INBOX Reply - Inbox me Reply, wahin se reply jaye, uske inbox me bhi jaye
   function addInboxReply(){
