@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="ur"><head><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><script>var APP_VERSION=54;if(location.search.indexOf('v='+APP_VERSION)<0){location.replace(location.pathname+'?v='+APP_VERSION);}</script><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Yaarii-PK 👑</title>
+<!DOCTYPE html><html lang="ur"><head><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><script>var APP_VERSION=55;if(location.search.indexOf('v='+APP_VERSION)<0){location.replace(location.pathname+'?v='+APP_VERSION);}</script><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Yaarii-PK 👑</title>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 <style>
@@ -1519,26 +1519,43 @@ function sendPvtMsg(){
 setTimeout(function(){ try{ loadPvtInvites(); restorePvtChat(); db.ref('pvt_accept/'+cur).on('child_added',function(snap){ var v=snap.val(); if(v&&v.status==='accepted'){ openPvtChat(v.from); showMsg(v.from+' ne Invite Accept kar liya ✅'); } }); db.ref('pvt_leave/'+cur).on('child_added',function(snap){ var v=snap.val(); if(v&&v.from){ clearPvtOnLeave(v.from); showMsg(v.from+' ne chat Leave kar di 🚪'); db.ref('pvt_leave/'+cur+'/'+snap.key).remove(); } }); }catch(e){} },1500);
 </script>
 <script>
-// --- ONLINE LEADER + MOD FIX - JS ---
-setInterval(function(){
-  document.querySelectorAll('.uCircle').forEach(function(c){
+<script>
+// --- ONLINE DISC FIX V54 ---
+function fixOnlineDisc(){
+  document.querySelectorAll('.onlineBar .uCircle').forEach(function(c){
+    var dp = c.querySelector(':scope > div');
+    if(!dp) dp = c.querySelector('div');
+    if(!dp) return;
+
+    // LEADER - Yellow Disc
     if(c.querySelector('.leaderName')){
       c.style.setProperty('border','3px solid #FFD700','important');
       c.style.setProperty('box-shadow','0 0 14px #FFD700, 0 0 28px #FFD700','important');
-      var d = c.querySelector('div');
-      if(d){ d.style.setProperty('border-color','#FFD700','important'); d.style.setProperty('box-shadow','0 0 12px #FFD700','important'); }
+      dp.style.setProperty('border','3px solid #FFD700','important');
+      dp.style.setProperty('box-shadow','0 0 0 3px #FFD700, 0 0 16px #FFD700','important');
     }
+
+    // MOD - Purple Disc
     if(c.querySelector('.modStar')){
       c.style.setProperty('border','3px solid #B388FF','important');
       c.style.setProperty('box-shadow','0 0 14px #B388FF, 0 0 28px #B388FF','important');
-      var d2 = c.querySelector('div');
-      if(d2){ d2.style.setProperty('border-color','#B388FF','important'); d2.style.setProperty('box-shadow','0 0 12px #B388FF','important'); }
+      dp.style.setProperty('border','3px solid #B388FF','important');
+      dp.style.setProperty('box-shadow','0 0 0 3px #B388FF, 0 0 16px #B388FF','important');
       var tag = c.querySelector('.redStarTag');
       if(tag){ tag.style.setProperty('background','#B388FF','important'); tag.style.setProperty('box-shadow','0 0 8px #B388FF','important'); }
+      var st = c.querySelector('.redStar');
+      if(st){ st.style.setProperty('color','#B388FF','important'); }
+      var bl = c.querySelector('.redBolt');
+      if(bl){ bl.style.setProperty('color','#B388FF','important'); }
     }
   });
-},1000);
-// --- ONLINE FIX END ---
+}
+setInterval(fixOnlineDisc, 300);
+setTimeout(fixOnlineDisc, 100);
+setTimeout(fixOnlineDisc, 500);
+setTimeout(fixOnlineDisc, 1500);
+// --- ONLINE DISC FIX END ---
+</script>
 </script>
 </body>
 </html>
