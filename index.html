@@ -1001,7 +1001,7 @@ var ANIMAL_FRAME_COLORS = {tiger:'#FF8C00',cheetah:'#FFFF00',wolf:'#00BFFF',eagl
   // POINT 33 + 34 + 35 + 36 - Frame
   // 33: Top 5 ko frame 4 taraf, 34: Star colors, 35: Top 5 frame simple no shining, 36: Admin Yellow shining, Moderator Red shining
      
-    // --- FRAMES FINAL V58 FIXED V5 : LEADER BUTTON SIRF PROFILE ME, SIRF OWNER KO ---
+   // --- FRAMES FINAL V58 FIXED V7 : BUTTON LEADER PANEL ME - OWNER ONLY ---
 (function(){
   var css=document.createElement('style');
   css.innerHTML=`
@@ -1214,25 +1214,42 @@ try{
         }catch(e){}
       });
 
-      // LEADER BUTTON - SIRF PROFILE ME, SIRF OWNER KO - NICHE WALA KHATAM
+      // LEADER BUTTON - AB LEADER PANEL ME, JO SIRF OWNER KO DIKHTA HAI
       try{
-        // Purana neeche wala button ho to hata do
         document.querySelectorAll('.leaderPowerBtn').forEach(function(x){ x.remove(); });
-        var me = getMyName();
-        // Agar me leader/owner nahi hai to kuch nahi dikhana
-        if(!me || !isLeaderName(me)) return;
-        var profileBox = document.querySelector('.profileView, .userProfile, .modal, [class*="profile"]');
-        if(!profileBox) return;
-        var txt2 = profileBox.innerText || '';
-        // Profile meri apni ho tab hi dikhao, kisi aur ki profile me nahi
-        if(txt2.indexOf(me) < 0) return;
-        if(!profileBox.querySelector('.leaderPowerBtnInProfile')){
-          var b2 = document.createElement('button');
-          b2.className = 'leaderPowerBtnInProfile';
-          b2.textContent = '👑 Leader Power';
-          b2.style.cssText = 'background:#FFE89A;color:#000;font-weight:bold;padding:8px 12px;border-radius:20px;border:none;margin:8px;cursor:pointer;';
-          b2.onclick = function(){ openLeaderPanel(); };
-          profileBox.prepend(b2);
+        // Puri page me LEADER PANEL dhundo - wahi owner ka proof hai
+        var allDivs = document.querySelectorAll('div');
+        for(var di=0; di<allDivs.length; di++){
+          var d = allDivs[di];
+          var t = d.innerText || '';
+          // Sirf wo div jo LEADER PANEL wala hai, aur chota hai (bara parent nahi)
+          if(t.indexOf('LEADER PANEL - BAN BY ID')>=0 && t.length < 2000){
+            if(d.querySelector('.leaderPowerBtnInProfile')) break;
+            var b2 = document.createElement('button');
+            b2.className = 'leaderPowerBtnInProfile';
+            b2.textContent = '👑 Leader Power - Frame Do';
+            b2.style.cssText = 'background:#FFE89A;color:#000;font-weight:bold;padding:10px 14px;border-radius:20px;border:none;margin:8px 0;width:100%;cursor:pointer;box-shadow:0 0 10px #FFE89A;';
+            b2.onclick = function(){ openLeaderPanel(); };
+            d.prepend(b2);
+            break;
+          }
+        }
+        // Agar LEADER PANEL nahi mila to purani wali profile me bhi try karo
+        if(!document.querySelector('.leaderPowerBtnInProfile')){
+          var profileBoxes = document.querySelectorAll('.profileView, .userProfile, .modal, [class*="profile"]');
+          profileBoxes.forEach(function(profileBox){
+            try{
+              var txt2 = profileBox.innerText || '';
+              if(txt2.indexOf('LEADER - Yaarii-PK Ka Owner')<0 && txt2.indexOf('LEADER')<0) return;
+              if(profileBox.querySelector('.leaderPowerBtnInProfile')) return;
+              var b3 = document.createElement('button');
+              b3.className = 'leaderPowerBtnInProfile';
+              b3.textContent = '👑 Leader Power';
+              b3.style.cssText = 'background:#FFE89A;color:#000;font-weight:bold;padding:8px 12px;border-radius:20px;border:none;margin:8px;cursor:pointer;';
+              b3.onclick = function(){ openLeaderPanel(); };
+              profileBox.prepend(b3);
+            }catch(e){}
+          });
         }
       }catch(e){}
 
@@ -1276,9 +1293,7 @@ function openLeaderPanel(){
 }
 applyFrames();
 setInterval(applyFrames, 500);
-// --- FRAMES FINAL V58 FIXED V5 END ---
-      
-
+// --- FRAMES FINAL V58 FIXED V7 END --- 
 
       
     
