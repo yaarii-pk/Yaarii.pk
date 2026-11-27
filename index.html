@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="ur"><head><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><script>var APP_VERSION=51;if(location.search.indexOf('v='+APP_VERSION)<0){location.replace(location.pathname+'?v='+APP_VERSION);}</script><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Yaarii-PK 👑</title>
+<!DOCTYPE html><html lang="ur"><head><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><script>var APP_VERSION=52;if(location.search.indexOf('v='+APP_VERSION)<0){location.replace(location.pathname+'?v='+APP_VERSION);}</script><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Yaarii-PK 👑</title>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 <style>
@@ -22,6 +22,40 @@
 .modStar{color:#fff!important;font-weight:bold;font-size:10.5px!important;white-space:normal;word-break:break-word}.modStar .redStar{color:#FF0000!important;font-size:12px;text-shadow:0 0 8px #FF0000,0 0 16px #FF3333;animation:redStarGlow 0.9s ease-in-out infinite}.modStar .redBolt{color:#FF0000!important;font-size:11px;text-shadow:0 0 8px #FF0000,0 0 14px #FF3333;animation:redStarGlow 0.9s ease-in-out infinite}.redStarTag{display:block!important;background:#FF0000;color:#fff;font-size:7px!important;font-weight:bold;padding:1px 4px;border-radius:10px;margin:2px auto 0 auto;white-space:nowrap;width:fit-content;box-shadow:0 0 8px #FF0000}@keyframes redStarGlow{0%,100%{text-shadow:0 0 6px #FF0000,0 0 14px #FF3333}50%{text-shadow:0 0 12px #fff,0 0 24px #FF0000,0 0 32px #FF3333}}.privateTag{display:inline-block;background:#333;color:#FFD700;font-size:10px;padding:2px 7px;border-radius:20px;margin-left:4px;border:1px solid #FFD700}
 .trendBox{background:#007BFF;color:#fff;font-weight:bold;font-size:11px;padding:4px 8px;border-radius:8px;display:inline-block;margin:6px 0;box-shadow:0 0 10px #007BFF}.fireIcon{font-size:13px;vertical-align:middle}.likeLog{background:#000;border:1px solid #333;border-radius:8px;padding:6px 8px;font-size:12px;margin-top:6px;color:#FFB066}
 .orangeNote{color:#FFB066!important;font-size:12px}.customStar{font-weight:bold;text-shadow:0 0 6px currentColor}.pendingBox{background:#1a1a1a;border:1px solid #FFB066;color:#FFB066;padding:12px;border-radius:10px;margin:10px;text-align:center;font-weight:bold}
+/* --- ONLINE LEADER + MOD ONLY --- */
+@keyframes onlineBolt{0%,100%{box-shadow:0 0 6px var(--ofc),0 0 12px var(--ofc);}50%{box-shadow:0 0 16px var(--ofc),0 0 30px var(--ofc),0 0 40px #fff;}}
+@keyframes onlineShine{0%{filter:brightness(1);}50%{filter:brightness(1.7);}100%{filter:brightness(1);}}
+
+.onlineBar .uCircle:has(.leaderName){
+  --ofc:#FFD700 !important;
+  border:3px solid #FFD700 !important;
+  border-radius:14px !important;
+  background:#0d0d0d !important;
+  box-shadow:0 0 14px #FFD700, 0 0 28px #FFD700 !important;
+  animation:onlineBolt .7s infinite, onlineShine .7s infinite !important;
+}
+.onlineBar .uCircle:has(.leaderName) div{
+  border-color:#FFD700 !important;
+  box-shadow:0 0 12px #FFD700 !important;
+}
+
+.onlineBar .uCircle:has(.modStar){
+  --ofc:#B388FF !important;
+  border:3px solid #B388FF !important;
+  border-radius:14px !important;
+  background:#0d0d0d !important;
+  box-shadow:0 0 14px #B388FF, 0 0 28px #B388FF !important;
+  animation:onlineBolt .8s infinite, onlineShine .8s infinite !important;
+}
+.onlineBar .uCircle:has(.modStar) div{
+  border-color:#B388FF !important;
+  box-shadow:0 0 12px #B388FF !important;
+}
+.onlineBar .uCircle:has(.modStar) .redStarTag{
+  background:#B388FF !important;
+  box-shadow:0 0 8px #B388FF !important;
+}
+/* --- ONLINE LEADER + MOD END --- */
 </style></head><body>
 <div class="top"><div><b>YAARII-PK 👑</b><small>Apni Mehfil • Apni Yaari • Black & Golden</small></div><div class="topIcons"><span onclick="showPage('search')">🔍</span><span onclick="showPage('leader')">🏆</span><span onclick="goProfile()">👤</span></div></div>
 <div id="msgBox" class="hidden"></div>
