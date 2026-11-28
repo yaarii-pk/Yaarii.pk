@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="ur"><head><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><script>var APP_VERSION=61;if(location.search.indexOf('v='+APP_VERSION)<0){location.replace(location.pathname+'?v='+APP_VERSION);}</script><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Yaarii-PK 👑</title>
+<!DOCTYPE html><html lang="ur"><head><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><script>var APP_VERSION=65;if(location.search.indexOf('v='+APP_VERSION)<0){location.replace(location.pathname+'?v='+APP_VERSION);}</script><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Yaarii-PK 👑</title>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 <style>
@@ -1679,11 +1679,8 @@ function saveStyleToFirebase(role, obj){ localStorage.setItem(role==='MOD'?'yaar
 // 4. Moderator wapis PURPLE - red wala override khatam
 try{
   var st2=document.createElement('style'); st2.innerHTML=".frame-mod{border:3px solid #C4A6FF !important; box-shadow:0 0 12px #C4A6FF, 0 0 22px #B388FF !important}"; document.head.appendChild(st2);
-  // Firebase me bhi mod ko purple set kar do - ek baar
-  if(!localStorage.getItem('yaarii_mod_fixed')){
-    localStorage.setItem('yaarii_mod_fixed','1');
-    saveStyleToFirebase('MOD', {color:'#C4A6FF', shineLevel:'2', star:'1', starColor:'#FFD700', animal:'', special:'', hasFrame:true});
-  }
+  // Firebase me bhi mod ko purple set kar do - ek baar  
+
 }catch(e){}
 
 // 5. Pic/Video khaali post BAN - agar upload fail to post hi mat banao
