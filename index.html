@@ -1658,7 +1658,7 @@ function sendPvtMsg(){
 }
 // Auto-start invites + accepted check + leave check
 setTimeout(function(){ try{ loadPvtInvites(); restorePvtChat(); db.ref('pvt_accept/'+cur).on('child_added',function(snap){ var v=snap.val(); if(v&&v.status==='accepted'){ openPvtChat(v.from); showMsg(v.from+' ne Invite Accept kar liya ✅'); } }); db.ref('pvt_leave/'+cur).on('child_added',function(snap){ var v=snap.val(); if(v&&v.from){ clearPvtOnLeave(v.from); showMsg(v.from+' ne chat Leave kar di 🚪'); db.ref('pvt_leave/'+cur+'/'+snap.key).remove(); } }); }catch(e){} },1500);
-</script>
+
 // --- FIX V14 - SIRF YE LAGAO, PURANA V13 MAT CHHERO ---
 // 1. Firebase - wahi wala db use karo jo Line 140 pe bana hai
 function getFB(){ return window.db || null; }
