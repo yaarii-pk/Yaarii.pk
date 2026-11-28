@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="ur"><head><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><script>var APP_VERSION=58;if(location.search.indexOf('v='+APP_VERSION)<0){location.replace(location.pathname+'?v='+APP_VERSION);}</script><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Yaarii-PK 👑</title>
+<!DOCTYPE html><html lang="ur"><head><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0"><script>var APP_VERSION=61;if(location.search.indexOf('v='+APP_VERSION)<0){location.replace(location.pathname+'?v='+APP_VERSION);}</script><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Yaarii-PK 👑</title>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 <style>
@@ -1028,14 +1028,6 @@ var ANIMAL_FRAME_COLORS = {tiger:'#FF8C00',cheetah:'#FFFF00',wolf:'#00BFFF',eagl
   document.head.appendChild(css);
 })();
 
-function getFB(){
-  try{
-    if(window.firebase && window.firebase.database) return window.firebase.database();
-    if(window.db && window.db.ref) return window.db;
-    if(typeof firebase !== 'undefined' && firebase.database) return firebase.database();
-  }catch(e){}
-  return null;
-}
 function getCustomFrames(){ try{ return JSON.parse(localStorage.getItem('yaarii_custom_frames')||'{}'); }catch(e){ return {}; } }
 function getStyleFor(role){ try{ return JSON.parse(localStorage.getItem(role==='MOD'?'yaarii_mod_style':'yaarii_leader_style')||'{}'); }catch(e){ return {}; } }
 
@@ -1355,8 +1347,7 @@ function openLeaderPanel(){
   };
   document.getElementById('lpClose').onclick = function(){ div.remove(); };
 }
-applyFrames();
-setInterval(applyFrames, 500);
+
 // --- PART 2 END ---
   // POINT 39 - FUN hatao, uski jagah Theme Badlo
   function openTheme44(){
@@ -1527,7 +1518,7 @@ setInterval(applyFrames, 500);
       + ".pBtns button::before,.pBtns button::after{content:none!important;display:none!important}"
       + ".post{border-radius:14px!important}"
       + ".frame-admin{border:3px solid #FFD700!important;box-shadow:0 0 12px #FFD700,0 0 22px #FFE600,0 0 32px #FFD700!important}"
-      + ".frame-mod{border:3px solid #FF0000!important;box-shadow:0 0 12px #FF0000,0 0 22px #FF2D55,0 0 32px #FF0000!important}"
+      + ".frame-mod{border:3px solid #C4A6FF !important; box-shadow:0 0 12px #C4A6FF !important}"
       + ".v44cmt{display:flex!important;gap:7px!important;align-items:flex-start!important;margin-top:6px!important}"
       + ".v44cmtDp{width:26px!important;height:26px!important;border-radius:50%!important;background:#FFD700!important;color:#000!important;display:flex!important;align-items:center!important;justify-content:center!important;font-weight:900!important;font-size:12px!important;flex-shrink:0!important;object-fit:cover!important}";
     document.head.appendChild(st);
@@ -1668,9 +1659,49 @@ function sendPvtMsg(){
 // Auto-start invites + accepted check + leave check
 setTimeout(function(){ try{ loadPvtInvites(); restorePvtChat(); db.ref('pvt_accept/'+cur).on('child_added',function(snap){ var v=snap.val(); if(v&&v.status==='accepted'){ openPvtChat(v.from); showMsg(v.from+' ne Invite Accept kar liya ✅'); } }); db.ref('pvt_leave/'+cur).on('child_added',function(snap){ var v=snap.val(); if(v&&v.from){ clearPvtOnLeave(v.from); showMsg(v.from+' ne chat Leave kar di 🚪'); db.ref('pvt_leave/'+cur+'/'+snap.key).remove(); } }); }catch(e){} },1500);
 </script>
-<script>
-<script>
+// --- FIX V14 - SIRF YE LAGAO, PURANA V13 MAT CHHERO ---
+// 1. Firebase - wahi wala db use karo jo Line 140 pe bana hai
+function getFB(){ return window.db || null; }
+function getCustomFrames(){ try{ return window.__framesCache || JSON.parse(localStorage.getItem('yaarii_custom_frames')||'{}'); }catch(e){ return {}; } }
+function getStyleFor(role){ try{ if(role==='MOD') return window.__modStyle || JSON.parse(localStorage.getItem('yaarii_mod_style')||'{}'); return window.__leaderStyle || JSON.parse(localStorage.getItem('yaarii_leader_style')||'{}'); }catch(e){ return {}; } }
 
+// 2. Firebase se live suno - sahi db se
+try{
+  db.ref('yaarii_custom_frames').on('value', function(s){ window.__framesCache = s.val()||{}; localStorage.setItem('yaarii_custom_frames', JSON.stringify(window.__framesCache)); });
+  db.ref('yaarii_mod_style').on('value', function(s){ window.__modStyle = s.val()||{}; localStorage.setItem('yaarii_mod_style', JSON.stringify(window.__modStyle)); });
+  db.ref('yaarii_leader_style').on('value', function(s){ window.__leaderStyle = s.val()||{}; localStorage.setItem('yaarii_leader_style', JSON.stringify(window.__leaderStyle)); });
+}catch(e){}
+
+// 3. Save - sahi db me
+function saveFramesToFirebase(all){ localStorage.setItem('yaarii_custom_frames', JSON.stringify(all)); window.__framesCache=all; try{ db.ref('yaarii_custom_frames').set(all); }catch(e){} }
+function saveStyleToFirebase(role, obj){ localStorage.setItem(role==='MOD'?'yaarii_mod_style':'yaarii_leader_style', JSON.stringify(obj)); if(role==='MOD') window.__modStyle=obj; else window.__leaderStyle=obj; try{ db.ref(role==='MOD'?'yaarii_mod_style':'yaarii_leader_style').set(obj); }catch(e){} }
+
+// 4. Moderator wapis PURPLE - red wala override khatam
+try{
+  var st2=document.createElement('style'); st2.innerHTML=".frame-mod{border:3px solid #C4A6FF !important; box-shadow:0 0 12px #C4A6FF, 0 0 22px #B388FF !important}"; document.head.appendChild(st2);
+  // Firebase me bhi mod ko purple set kar do - ek baar
+  if(!localStorage.getItem('yaarii_mod_fixed')){
+    localStorage.setItem('yaarii_mod_fixed','1');
+    saveStyleToFirebase('MOD', {color:'#C4A6FF', shineLevel:'2', star:'1', starColor:'#FFD700', animal:'', special:'', hasFrame:true});
+  }
+}catch(e){}
+
+// 5. Pic/Video khaali post BAN - agar upload fail to post hi mat banao
+var _oldAddPost = addPost;
+addPost = function(){
+  var f=document.getElementById('postPic').files[0];
+  if(f && f.size > 50*1024*1024){ showMsg('Video 50MB se bara hai!'); return; }
+  // upload wale function ko patch: agar url khaali aaye to post mat banao
+  var _oldUpload = uploadToCloudinary;
+  uploadToCloudinary = function(file, cb){
+    _oldUpload(file, function(url){
+      if(!url && file){ showMsg('Upload fail - post nahi bana, dobara try karo'); document.getElementById('postPic').value=''; return; }
+      cb(url);
+    });
+    uploadToCloudinary = _oldUpload;
+  };
+  _oldAddPost();
+};
 </script>
 </body>
 </html>
